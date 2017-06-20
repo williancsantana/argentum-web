@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b5642709-938e-4098-ad46-c9771e571ffe">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="75"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Java\\sinan_relatorios\\src\\com\\org\\relatorios\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="TITULO" class="java.lang.String"/>
+	<parameter name="CABECALHO1" class="java.lang.String"/>
+	<parameter name="CABECALHO2" class="java.lang.String"/>
+	<parameter name="RODAPE1" class="java.lang.String"/>
+	<parameter name="TOTAL1" class="java.lang.String"/>
+	<parameter name="TOTAL2" class="java.lang.String"/>
+	<parameter name="TOTAL3" class="java.lang.String"/>
+	<parameter name="parDesagregacao" class="java.lang.String"/>
+	<parameter name="parDataAvaliacao" class="java.lang.String"/>
+	<parameter name="parAgravo" class="java.lang.String"/>
+	<parameter name="parAno" class="java.lang.String"/>
+	<parameter name="parSgUf" class="java.lang.String"/>
+	<parameter name="parRegiaoSaude" class="java.lang.String"/>
+	<parameter name="parAnoPeriodoAvaliacao" class="java.lang.String"/>
+	<parameter name="parMunic" class="java.lang.String"/>
+	<parameter name="TITULO_COLUNA" class="java.lang.String"/>
+	<parameter name="QTDE_REG_MUNIC_AGR" class="java.lang.String"/>
+	<parameter name="parPeriodo" class="java.lang.String"/>
+	<parameter name="parPeriodo60" class="java.lang.String"/>
+	<field name="lista" class="java.util.ArrayList"/>
+	<field name="nmAgravo" class="java.lang.String"/>
+	<field name="qtdOportuno" class="java.lang.Integer"/>
+	<field name="total" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="160" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="580bf583-a0a2-4ea2-b848-33ef9f21a561" x="2" y="50" width="552" height="109"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="95a84f7c-1dc7-45ba-91c2-0dd20b435324" x="1" y="0" width="306" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CABECALHO1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="b5c7a637-5076-4daa-88a2-8f333ca5f0a3" x="347" y="0" width="207" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CABECALHO2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="8974f992-788e-4f09-bedf-79b94a7dbc11" x="2" y="19" width="529" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TITULO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="764020bd-03cc-4704-a163-dda3a6a119a0" x="5" y="52" width="99" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Nível de desagregação:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="df9a52a8-125b-4b9c-8cc7-0734d370a7a3" x="5" y="70" width="100" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[UF de residência:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="384fe289-9a42-4f3b-bfbd-8d12947bbf6b" x="5" y="88" width="100" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Região de Saúde:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e0dfc924-c52f-4146-bfab-1cd53fbd3ec6" x="5" y="104" width="100" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Município de residência:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="016733cd-6b93-4fdf-9d40-906b1aef421d" x="316" y="50" width="1" height="71"/>
+			</line>
+			<staticText>
+				<reportElement uuid="983e18b5-881c-4a06-8618-148f139dc01c" x="321" y="67" width="118" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Data da avaliação:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="fcb7344d-12c5-4e41-aff6-1af67b15a26b" x="2" y="121" width="552" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="ec2b7f83-2afe-46c7-9437-1f923a03791c" x="3" y="34" width="550" height="14" forecolor="#666666" backcolor="#666666"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Proporção de casos de doenças de notificação compulsória imediata (DNCI) encerradas em até 60 dias após notificação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e0dfc924-c52f-4146-bfab-1cd53fbd3ec6" x="321" y="52" width="100" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Agravo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="983e18b5-881c-4a06-8618-148f139dc01c" x="321" y="83" width="118" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Ano/Período de avaliação:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e2c6e663-1b4f-45c2-8e85-bff52ad1e680" x="3" y="124" width="550" height="35" forecolor="#666666"/>
+				<textElement>
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Para monitoramento foram elencadas as 14 doenças com maior magnitude e/ou relevância do grupo de notificação imediata, sendo: Botulismo, Cólera, Coqueluche, Dengue (somente os casos que evoluíram com complicações, Síndrome do Choque ou Febre Hemorrágica), Difteria, Febre Amarela, Febre Maculosa, Hantavirose, Leptospirose, Meningite, Paralisia Flácida Aguda, Raiva, Rubéola e Sarampo.]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="b4ec2358-80c9-408d-acb9-8f120752ca34" x="106" y="53" width="209" height="15"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parDesagregacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7cd29c4c-2923-4078-ab0e-a8bbbb61cb94" x="76" y="71" width="100" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parSgUf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d36c2290-657f-444f-8a24-b89864522ceb" x="76" y="88" width="136" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parRegiaoSaude}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bb5fc8ef-210e-4e3c-92db-bd3acdaeccd6" x="354" y="52" width="192" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parAgravo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="51cae6f6-2c09-4ad8-8709-a645d8625cc8" x="400" y="68" width="100" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parDataAvaliacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="14e44891-9249-40e4-b5d1-51be1c1d321f" x="432" y="84" width="110" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parAnoPeriodoAvaliacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b4df636c-205a-4d39-8eeb-d3dbc3fd5359" x="100" y="104" width="203" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parMunic}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="983e18b5-881c-4a06-8618-148f139dc01c" x="321" y="100" width="100" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Período de notificação:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="4cdc2f15-fa35-4f83-b0e1-67cc7e24fa81" x="418" y="101" width="100" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parPeriodo60}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="89" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement uuid="4ca9aa2c-eccf-4114-a05a-7097c9ed4cd8" x="0" y="0" width="554" height="38"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="1c6ca310-1ee3-41b5-9933-228dd692b5e1" x="380" y="2" width="77" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Oportuno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d15533ac-a2b8-4d9d-b00a-07f3fc0b2f25" x="393" y="14" width="16" height="14"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[(n)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6489e213-2f0c-447d-9050-5e38cf6235ef" x="433" y="14" width="18" height="14"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<subreport>
+				<reportElement uuid="497d8541-b244-4e76-8a94-7afab77fe7f6" x="0" y="39" width="554" height="50"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{lista})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "oportunidadeCOAP_sub.jasper"]]></subreportExpression>
+			</subreport>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="6ece45d1-0abd-43b9-859b-b2fe26107f5b" x="16" y="23" width="188" height="15">
+					<printWhenExpression><![CDATA[!$F{nmAgravo}.equals("null       null")]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nmAgravo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="86ac4e3b-2fe9-4099-b33b-95e307f845ed" x="268" y="26" width="57" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lista}.size()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1c6ca310-1ee3-41b5-9933-228dd692b5e1" x="480" y="12" width="77" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Notificações]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="4ebbabb6-c23a-410d-837b-d53254a7f0da" x="396" y="26" width="34" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qtdOportuno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="eb6b22aa-2b3a-44b1-b8d6-de8ffb28ad0c" x="519" y="26" width="44" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0;-###0.0">
+				<reportElement uuid="3b2ed843-7a8f-460d-847d-656f2123e151" x="427" y="28" width="40" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qtdOportuno} > 0 ? new Float(($F{qtdOportuno}.floatValue()/$F{total}.floatValue())*100) :0]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4fdd6b2f-9341-4939-8ddb-0482f735aaf3" x="14" y="6" width="229" height="20"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TITULO_COLUNA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e577d051-b7df-4440-9cb8-71568e402907" x="254" y="6" width="126" height="20"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{QTDE_REG_MUNIC_AGR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="39" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="06f4c1cb-aa0f-4f96-af8a-655d25ac3104" x="419" y="20" width="134" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RODAPE1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f686f147-5d50-4cd0-a011-6f922b494a36" x="195" y="21" width="80" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pág. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="69b281f7-62d3-4c99-80ea-b5571a42fa11" x="275" y="21" width="40" height="12"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="6889bb47-2413-4182-9eed-353b777eea53" x="78" y="20" width="82" height="14"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="56b62106-860c-4b66-b3a1-79d85a044498" x="2" y="20" width="76" height="14"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Relatório emitido em:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="53">
+			<printWhenExpression><![CDATA[!$P{QTDE_REG_MUNIC_AGR}.equals("Agravos")]]></printWhenExpression>
+			<rectangle radius="10">
+				<reportElement uuid="8678d3f8-4233-41b8-a0a1-941e54009c60" x="0" y="6" width="554" height="37"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="7ce8dc50-aba5-4dbb-b619-9df076eda81a" x="11" y="20" width="41" height="16"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fc7c7bb4-69f5-46aa-88b7-722152251f1c" x="284" y="6" width="178" height="14"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Oportuno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="14a071d0-0a0f-4b57-b127-32266ac788bc" x="400" y="19" width="18" height="14"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4d43e39d-ee3f-41a2-8fa3-c8ca5f12c17f" x="340" y="16" width="31" height="14"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[(n)]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="84a307c3-77c4-4d77-9113-8f212b6d45be" x="92" y="25" width="100" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{TOTAL1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="fc7c7bb4-69f5-46aa-88b7-722152251f1c" x="467" y="8" width="64" height="14"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Notificações]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="7e3d8f79-cf14-4ab8-97a8-46ee27d0fb4d" x="341" y="28" width="72" height="14"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TOTAL2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="039d7a7a-a6c7-44d6-bbd8-72f3bebd9b9a" x="493" y="25" width="64" height="16"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TOTAL3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0;-###0.0">
+				<reportElement uuid="efe4369b-3039-4d18-91af-61d36fc970a6" x="393" y="28" width="100" height="20"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Double(Double.parseDouble($P{TOTAL2})) > 0 ? (new Double(Double.parseDouble($P{TOTAL2}))/new Double(Double.parseDouble($P{TOTAL3})))*100 : 0]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5fe0f2b1-08de-4365-ac6c-441b03b1c03d" x="81" y="9" width="144" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{QTDE_REG_MUNIC_AGR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

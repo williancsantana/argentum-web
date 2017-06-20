@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc
+END
+rpc$policy_handle.class
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/rpc$policy_handle.class
+END
+UUID.class
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/UUID.class
+END
+DcerpcBind.class
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/DcerpcBind.class
+END
+rpc$sid_t.class
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/rpc$sid_t.class
+END
+rpc.class
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/rpc.class
+END
+DcerpcBinding.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/DcerpcBinding.class
+END
+DcerpcHandle.class
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/DcerpcHandle.class
+END
+DcerpcMessage.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/DcerpcMessage.class
+END
+DcerpcError.class
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/DcerpcError.class
+END
+UnicodeString.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/UnicodeString.class
+END
+rpc$uuid_t.class
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/rpc$uuid_t.class
+END
+DcerpcException.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/DcerpcException.class
+END
+DcerpcConstants.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/DcerpcConstants.class
+END
+DcerpcSecurityProvider.class
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/DcerpcSecurityProvider.class
+END
+rpc$unicode_string.class
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/rpc$unicode_string.class
+END
+DcerpcPipeHandle.class
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/DcerpcPipeHandle.class
+END

@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/upgrade
+END
+DbUpgrade.class
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/upgrade/DbUpgrade.class
+END
+DbUpgradeFromVersion1.class
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/upgrade/DbUpgradeFromVersion1.class
+END

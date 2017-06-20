@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/tdn_svn/!svn/ver/73/trunk/src/com/org/dao
+END
+TesteDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/tdn_svn/!svn/ver/58/trunk/src/com/org/dao/TesteDAO.java
+END
+GenericDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/tdn_svn/!svn/ver/2/trunk/src/com/org/dao/GenericDAO.java
+END
+ConectionODBC.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tdn_svn/!svn/ver/57/trunk/src/com/org/dao/ConectionODBC.java
+END
+ConexaoHSQL.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tdn_svn/!svn/ver/57/trunk/src/com/org/dao/ConexaoHSQL.java
+END
+ConexaoODBC.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tdn_svn/!svn/ver/73/trunk/src/com/org/dao/ConexaoODBC.java
+END
+HSQL.java
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/tdn_svn/!svn/ver/57/trunk/src/com/org/dao/HSQL.java
+END
+DuplicidadeDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/tdn_svn/!svn/ver/73/trunk/src/com/org/dao/DuplicidadeDAO.java
+END

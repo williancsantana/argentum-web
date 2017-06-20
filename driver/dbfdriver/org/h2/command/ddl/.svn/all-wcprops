@@ -1,0 +1,275 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl
+END
+CreateLinkedTable.class
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/CreateLinkedTable.class
+END
+DropUser.class
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/DropUser.class
+END
+AlterView.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/AlterView.class
+END
+CreateTrigger.class
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/CreateTrigger.class
+END
+SetComment.class
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/SetComment.class
+END
+CreateSequence.class
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/CreateSequence.class
+END
+DropTable.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/DropTable.class
+END
+DropIndex.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/DropIndex.class
+END
+CreateAggregate.class
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/CreateAggregate.class
+END
+AlterTableDropConstraint.class
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/AlterTableDropConstraint.class
+END
+AlterTableAddConstraint.class
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/AlterTableAddConstraint.class
+END
+CreateUser.class
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/CreateUser.class
+END
+DropFunctionAlias.class
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/DropFunctionAlias.class
+END
+SchemaCommand.class
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/SchemaCommand.class
+END
+AlterTableRenameColumn.class
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/AlterTableRenameColumn.class
+END
+DropSchema.class
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/DropSchema.class
+END
+CreateTable.class
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/CreateTable.class
+END
+DropConstant.class
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/DropConstant.class
+END
+DropView.class
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/DropView.class
+END
+AlterSchemaRename.class
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/AlterSchemaRename.class
+END
+DeallocateProcedure.class
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/DeallocateProcedure.class
+END
+CreateIndex.class
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/CreateIndex.class
+END
+AlterTableRename.class
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/AlterTableRename.class
+END
+AlterIndexRename.class
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/AlterIndexRename.class
+END
+CreateFunctionAlias.class
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/CreateFunctionAlias.class
+END
+CreateTableData.class
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/CreateTableData.class
+END
+CreateSchema.class
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/CreateSchema.class
+END
+DropUserDataType.class
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/DropUserDataType.class
+END
+CreateConstant.class
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/CreateConstant.class
+END
+AlterUser.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/AlterUser.class
+END
+CreateView$DependentView.class
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/CreateView$DependentView.class
+END
+CreateView.class
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/CreateView.class
+END
+GrantRevoke.class
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/GrantRevoke.class
+END
+DropRole.class
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/DropRole.class
+END
+TruncateTable.class
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/TruncateTable.class
+END
+DropTrigger.class
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/DropTrigger.class
+END
+DropDatabase.class
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/DropDatabase.class
+END
+CreateUserDataType.class
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/CreateUserDataType.class
+END
+PrepareProcedure.class
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/PrepareProcedure.class
+END
+Analyze.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/Analyze.class
+END
+DropAggregate.class
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/DropAggregate.class
+END
+DefineCommand.class
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/DefineCommand.class
+END
+DropSequence.class
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/DropSequence.class
+END
+CreateRole.class
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/CreateRole.class
+END
+AlterTableAlterColumn.class
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/command/ddl/AlterTableAlterColumn.class
+END

@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc
+END
+JdbcClob.class
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcClob.class
+END
+JdbcPreparedStatement.class
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcPreparedStatement.class
+END
+JdbcSavepoint.class
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcSavepoint.class
+END
+JdbcBlob.class
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcBlob.class
+END
+JdbcResultSetMetaData.class
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcResultSetMetaData.class
+END
+JdbcConnection.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcConnection.class
+END
+JdbcSQLException.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcSQLException.class
+END
+JdbcCallableStatement.class
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcCallableStatement.class
+END
+JdbcParameterMetaData.class
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcParameterMetaData.class
+END
+JdbcArray.class
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcArray.class
+END
+JdbcClob$1.class
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcClob$1.class
+END
+JdbcBlob$1.class
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcBlob$1.class
+END
+JdbcClob$2.class
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcClob$2.class
+END
+JdbcDatabaseMetaData.class
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcDatabaseMetaData.class
+END
+JdbcBlob$2.class
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcBlob$2.class
+END
+JdbcBatchUpdateException.class
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcBatchUpdateException.class
+END
+JdbcResultSet.class
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcResultSet.class
+END
+JdbcStatement.class
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/jdbc/JdbcStatement.class
+END

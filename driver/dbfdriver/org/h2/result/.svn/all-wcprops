@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result
+END
+RowList.class
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/RowList.class
+END
+ResultDiskBuffer.class
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/ResultDiskBuffer.class
+END
+Row.class
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/Row.class
+END
+ResultInterface.class
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/ResultInterface.class
+END
+ResultTempTable.class
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/ResultTempTable.class
+END
+ResultRemote.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/ResultRemote.class
+END
+UpdatableRow.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/UpdatableRow.class
+END
+ResultDiskBuffer$ResultDiskTape.class
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/ResultDiskBuffer$ResultDiskTape.class
+END
+ResultExternal.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/ResultExternal.class
+END
+SimpleRow.class
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/SimpleRow.class
+END
+LocalResult.class
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/LocalResult.class
+END
+SimpleRowValue.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/SimpleRowValue.class
+END
+ResultTarget.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/ResultTarget.class
+END
+SortOrder.class
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/SortOrder.class
+END
+SearchRow.class
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/SearchRow.class
+END
+ResultColumn.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/result/ResultColumn.class
+END

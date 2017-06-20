@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web
+END
+WebServer.class
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web/WebServer.class
+END
+DbContents.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web/DbContents.class
+END
+DbTableOrView.class
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web/DbTableOrView.class
+END
+WebApp$1.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web/WebApp$1.class
+END
+WebApp$2.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web/WebApp$2.class
+END
+WebThread.class
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web/WebThread.class
+END
+DbSchema.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web/DbSchema.class
+END
+WebSession.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web/WebSession.class
+END
+WebApp$IndexInfo.class
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web/WebApp$IndexInfo.class
+END
+WebServer$TranslateThread.class
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web/WebServer$TranslateThread.class
+END
+ConnectionInfo.class
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web/ConnectionInfo.class
+END
+WebApp.class
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web/WebApp.class
+END
+DbContextRule.class
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web/DbContextRule.class
+END
+PageParser.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web/PageParser.class
+END
+DbColumn.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/server/web/DbColumn.class
+END

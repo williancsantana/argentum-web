@@ -1,0 +1,143 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io
+END
+CommonsVFSFileManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/CommonsVFSFileManager.class
+END
+CommonsVFSDirectoryManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/CommonsVFSDirectoryManager.class
+END
+ClasspathDirectoryManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/ClasspathDirectoryManager.class
+END
+DirectoryManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/DirectoryManager.class
+END
+ZipDirectoryManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/ZipDirectoryManager.class
+END
+FTPDirectoryManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/FTPDirectoryManager.class
+END
+FileManagerListener.class
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/FileManagerListener.class
+END
+FileCacheDirectoryManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/FileCacheDirectoryManager.class
+END
+LocalFileManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/LocalFileManager.class
+END
+FileCache.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/FileCache.class
+END
+FileCacheManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/FileCacheManager.class
+END
+LocalFileDirectoryManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/LocalFileDirectoryManager.class
+END
+HTTPDirectoryManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/HTTPDirectoryManager.class
+END
+SMBDirectoryManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/SMBDirectoryManager.class
+END
+SMBFileManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/SMBFileManager.class
+END
+FileManagerEvent.class
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/FileManagerEvent.class
+END
+FileObjectInfo.class
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/FileObjectInfo.class
+END
+HTTPFileManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/HTTPFileManager.class
+END
+SmbExtensionFileFilter.class
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/SmbExtensionFileFilter.class
+END
+FTPFileManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/FTPFileManager.class
+END
+ZipFileManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/ZipFileManager.class
+END
+FileManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/FileManager.class
+END
+ClasspathFileManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jstels/database/io/ClasspathFileManager.class
+END

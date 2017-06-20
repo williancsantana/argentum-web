@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/ntlmssp
+END
+Type3Message.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/ntlmssp/Type3Message.class
+END
+Type2Message.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/ntlmssp/Type2Message.class
+END
+NtlmMessage.class
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/ntlmssp/NtlmMessage.class
+END
+NtlmFlags.class
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/ntlmssp/NtlmFlags.class
+END
+Type1Message.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/ntlmssp/Type1Message.class
+END

@@ -1,0 +1,227 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util
+END
+DateTimeUtils.class
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/DateTimeUtils.class
+END
+MathUtils$1.class
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/MathUtils$1.class
+END
+TempFileDeleter.class
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/TempFileDeleter.class
+END
+Tool.class
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/Tool.class
+END
+SourceCompiler.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/SourceCompiler.class
+END
+ExactUTF8InputStreamReader.class
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/ExactUTF8InputStreamReader.class
+END
+StringUtils.class
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/StringUtils.class
+END
+New.class
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/New.class
+END
+AutoCloseInputStream.class
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/AutoCloseInputStream.class
+END
+CacheObject.class
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/CacheObject.class
+END
+SoftHashMap.class
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/SoftHashMap.class
+END
+SourceCompiler$1.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/SourceCompiler$1.class
+END
+SourceCompiler$2.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/SourceCompiler$2.class
+END
+Profiler.class
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/Profiler.class
+END
+IntArray.class
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/IntArray.class
+END
+StatementBuilder.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/StatementBuilder.class
+END
+BitField.class
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/BitField.class
+END
+Permutations.class
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/Permutations.class
+END
+ScriptReader.class
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/ScriptReader.class
+END
+Utils.class
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/Utils.class
+END
+JdbcUtils.class
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/JdbcUtils.class
+END
+SmallLRUCache.class
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/SmallLRUCache.class
+END
+ValueHashMap.class
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/ValueHashMap.class
+END
+HashBase.class
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/HashBase.class
+END
+Cache.class
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/Cache.class
+END
+CacheHead.class
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/CacheHead.class
+END
+Task.class
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/Task.class
+END
+SoftHashMap$SoftValue.class
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/SoftHashMap$SoftValue.class
+END
+MathUtils.class
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/MathUtils.class
+END
+IOUtils.class
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/IOUtils.class
+END
+CacheLRU.class
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/CacheLRU.class
+END
+CacheSecondLevel.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/CacheSecondLevel.class
+END
+IntIntHashMap.class
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/IntIntHashMap.class
+END
+SortedProperties.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/SortedProperties.class
+END
+NetUtils.class
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/NetUtils.class
+END
+SmallMap.class
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/SmallMap.class
+END
+CacheWriter.class
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/util/CacheWriter.class
+END

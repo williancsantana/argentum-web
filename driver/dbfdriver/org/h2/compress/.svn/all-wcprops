@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/compress
+END
+CompressLZF.class
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/compress/CompressLZF.class
+END
+CompressDeflate.class
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/compress/CompressDeflate.class
+END
+LZFOutputStream.class
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/compress/LZFOutputStream.class
+END
+LZFInputStream.class
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/compress/LZFInputStream.class
+END
+CompressNo.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/compress/CompressNo.class
+END
+Compressor.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/compress/Compressor.class
+END

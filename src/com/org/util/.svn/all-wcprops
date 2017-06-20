@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/tdn_svn/!svn/ver/114/trunk/src/com/org/util
+END
+FileFilterUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tdn_svn/!svn/ver/57/trunk/src/com/org/util/FileFilterUtils.java
+END
+SinanUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tdn_svn/!svn/ver/171/trunk/src/com/org/util/SinanUtil.java
+END
+SinanDateUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/tdn_svn/!svn/ver/138/trunk/src/com/org/util/SinanDateUtil.java
+END
+ArquivoUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tdn_svn/!svn/ver/57/trunk/src/com/org/util/ArquivoUtils.java
+END
+Report.java
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/tdn_svn/!svn/ver/13/trunk/src/com/org/util/Report.java
+END
+SinanProgressBarUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/tdn_svn/!svn/ver/2/trunk/src/com/org/util/SinanProgressBarUtil.java
+END

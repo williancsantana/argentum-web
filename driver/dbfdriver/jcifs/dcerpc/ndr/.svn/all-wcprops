@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/ndr
+END
+NdrLong.class
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/ndr/NdrLong.class
+END
+NdrBuffer$Entry.class
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/ndr/NdrBuffer$Entry.class
+END
+NdrSmall.class
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/ndr/NdrSmall.class
+END
+NdrObject.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/ndr/NdrObject.class
+END
+NdrBuffer.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/ndr/NdrBuffer.class
+END
+NdrException.class
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/dcerpc/ndr/NdrException.class
+END

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/util/transport
+END
+TransportException.class
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/util/transport/TransportException.class
+END
+Transport.class
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/util/transport/Transport.class
+END
+Request.class
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/util/transport/Request.class
+END
+Response.class
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/util/transport/Response.class
+END

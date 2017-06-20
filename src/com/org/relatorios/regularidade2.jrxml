@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="130"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="periodo1" class="java.lang.String"/>
+	<parameter name="periodo2" class="java.lang.String"/>
+	<parameter name="periodo3" class="java.lang.String"/>
+	<parameter name="periodo4" class="java.lang.String"/>
+	<parameter name="periodo5" class="java.lang.String"/>
+	<parameter name="periodo6" class="java.lang.String"/>
+	<parameter name="periodo7" class="java.lang.String"/>
+	<parameter name="periodo8" class="java.lang.String"/>
+	<parameter name="periodo9" class="java.lang.String"/>
+	<parameter name="periodo10" class="java.lang.String"/>
+	<parameter name="periodo11" class="java.lang.String"/>
+	<parameter name="periodo12" class="java.lang.String"/>
+	<parameter name="periodo13" class="java.lang.String"/>
+	<parameter name="periodo14" class="java.lang.String"/>
+	<parameter name="periodo15" class="java.lang.String"/>
+	<parameter name="periodo16" class="java.lang.String"/>
+	<parameter name="periodo17" class="java.lang.String"/>
+	<parameter name="periodo18" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Java\\sinan_relatorios\\src\\com\\org\\relatorios\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="TITULO" class="java.lang.String"/>
+	<parameter name="CABECALHO1" class="java.lang.String"/>
+	<parameter name="CABECALHO2" class="java.lang.String"/>
+	<parameter name="RODAPE1" class="java.lang.String"/>
+	<parameter name="ARQUIVO1" class="java.lang.String"/>
+	<parameter name="ARQUIVO2" class="java.lang.String"/>
+	<parameter name="ARQUIVO3" class="java.lang.String"/>
+	<parameter name="ARQUIVO4" class="java.lang.String"/>
+	<parameter name="ARQUIVO0" class="java.lang.String"/>
+	<parameter name="UF" class="java.lang.String"/>
+	<parameter name="REGIONAL" class="java.lang.String"/>
+	<parameter name="MUNICIPIO" class="java.lang.String"/>
+	<parameter name="ARQUIVO5" class="java.lang.String"/>
+	<parameter name="ARQUIVO6" class="java.lang.String"/>
+	<parameter name="ARQUIVO7" class="java.lang.String"/>
+	<parameter name="ARQUIVO8" class="java.lang.String"/>
+	<parameter name="ARQUIVO9" class="java.lang.String"/>
+	<parameter name="BRASIL1" class="java.lang.String"/>
+	<parameter name="BRASIL2" class="java.lang.String"/>
+	<parameter name="BRASIL3" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="listaUF" class="java.util.ArrayList"/>
+	<field name="qtdeMunicipio" class="java.lang.Integer"/>
+	<field name="qtdeMunicIrregular" class="java.lang.Integer"/>
+	<field name="percetualIrregular" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="160" splitType="Stretch">
+			<rectangle>
+				<reportElement x="2" y="47" width="552" height="109"/>
+			</rectangle>
+			<textField>
+				<reportElement x="1" y="0" width="306" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{CABECALHO1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="347" y="0" width="207" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{CABECALHO2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="19" width="529" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{TITULO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="49" width="100" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Nível de agregação:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="66" width="100" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[UF de notificação:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="82" width="100" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Regional de notificação:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="100" width="100" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Município de notificação:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="127" width="127" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Arquivos selecionados:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="102" y="142" width="88" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ARQUIVO1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="191" y="127" width="88" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ARQUIVO2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="191" y="142" width="88" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ARQUIVO3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="281" y="127" width="88" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ARQUIVO4}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="102" y="127" width="88" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ARQUIVO0}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="232" y="46" width="1" height="79"/>
+			</line>
+			<staticText>
+				<reportElement x="238" y="49" width="118" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Períodos avaliados:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="244" y="62" width="16" height="14">
+					<printWhenExpression><![CDATA[$P{periodo1}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P1:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="244" y="72" width="16" height="14">
+					<printWhenExpression><![CDATA[$P{periodo2}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P2:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="244" y="81" width="16" height="14">
+					<printWhenExpression><![CDATA[$P{periodo3}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P3:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="244" y="91" width="16" height="14">
+					<printWhenExpression><![CDATA[$P{periodo4}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P4:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="244" y="101" width="16" height="14">
+					<printWhenExpression><![CDATA[$P{periodo5}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P5:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="349" y="61" width="16" height="14">
+					<printWhenExpression><![CDATA[$P{periodo7}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P7:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="349" y="92" width="20" height="14">
+					<printWhenExpression><![CDATA[$P{periodo10}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P10:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="244" y="112" width="16" height="14">
+					<printWhenExpression><![CDATA[$P{periodo6}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P6:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="349" y="72" width="16" height="14">
+					<printWhenExpression><![CDATA[$P{periodo8}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P8:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="349" y="82" width="16" height="14">
+					<printWhenExpression><![CDATA[$P{periodo9}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P9:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="349" y="112" width="20" height="14">
+					<printWhenExpression><![CDATA[$P{periodo12}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P12:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="456" y="83" width="20" height="14">
+					<printWhenExpression><![CDATA[$P{periodo15}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P15:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="349" y="101" width="20" height="14">
+					<printWhenExpression><![CDATA[$P{periodo11}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P11:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="456" y="63" width="20" height="14">
+					<printWhenExpression><![CDATA[$P{periodo13}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P13:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="456" y="73" width="20" height="14">
+					<printWhenExpression><![CDATA[$P{periodo14}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P14:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="258" y="62" width="100" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="258" y="72" width="100" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="258" y="82" width="100" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="258" y="91" width="100" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo4}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="258" y="101" width="100" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo5}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="258" y="112" width="100" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo6}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="363" y="62" width="100" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo7}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="363" y="73" width="100" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo8}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="365" y="83" width="100" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo9}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="367" y="92" width="100" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo10}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="367" y="102" width="80" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo11}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="367" y="111" width="80" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo12}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="474" y="63" width="80" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo13}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="474" y="74" width="80" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo14}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="474" y="83" width="80" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo15}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="456" y="93" width="20" height="14">
+					<printWhenExpression><![CDATA[$P{periodo16}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P16:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="456" y="103" width="20" height="14">
+					<printWhenExpression><![CDATA[$P{periodo17}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P17:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="456" y="112" width="20" height="14">
+					<printWhenExpression><![CDATA[$P{periodo18}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P18:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="474" y="93" width="80" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo16}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="474" y="103" width="80" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo17}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="474" y="112" width="80" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{periodo18}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="66" width="120" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{UF}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="104" y="82" width="120" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{REGIONAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="107" y="100" width="120" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{MUNICIPIO}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="125" width="552" height="1"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="281" y="142" width="88" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ARQUIVO5}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="371" y="127" width="88" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ARQUIVO6}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="371" y="142" width="88" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ARQUIVO7}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="460" y="127" width="88" height="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ARQUIVO8}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="34" width="550" height="14" forecolor="#666666" backcolor="#666666"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Proporção de municípios irregulares do Sinan por Unidade de Federação, grandes Regiões e Brasil]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="460" y="142" width="88" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ARQUIVO9}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="89" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="39" width="554" height="50"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaUF})]]></dataSourceExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "regularidade_sub2.jasper"]]></subreportExpression>
+			</subreport>
+			<rectangle radius="10">
+				<reportElement x="0" y="0" width="554" height="38"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="43" y="9" width="121" height="14"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Unidade da Federação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="9" width="138" height="14"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total de Municípios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="377" y="2" width="178" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total de municípios irregulares (*)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="392" y="14" width="62" height="14"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="505" y="14" width="18" height="14"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="174" y="24" width="100" height="14" forecolor="#666666"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{qtdeMunicipio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="393" y="24" width="40" height="14" forecolor="#666666"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{qtdeMunicIrregular}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="482" y="24" width="40" height="14" forecolor="#666666"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{percetualIrregular}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="24" width="164" height="14" forecolor="#666666"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="34" splitType="Stretch">
+			<rectangle>
+				<reportElement x="1" y="1" width="553" height="15"/>
+				<graphicElement>
+					<pen lineColor="#999999"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="419" y="20" width="134" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{RODAPE1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="195" y="21" width="80" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Pág. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="275" y="21" width="40" height="12"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="78" y="20" width="77" height="14"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="20" width="76" height="14"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Relatório emitido em:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="2" width="525" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[ (*) Municípios que não notificaram no Sinan em pelo menos um dos períodos avaliados.]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="38">
+			<printWhenExpression><![CDATA[!$P{BRASIL1}.equals("")]]></printWhenExpression>
+			<rectangle radius="10">
+				<reportElement x="3" y="1" width="554" height="37"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="68" y="4" width="138" height="16"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total de Municípios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="15" width="121" height="16"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Brasil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="343" y="1" width="178" height="14"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total de municípios irregulares (*)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="474" y="14" width="18" height="14"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="368" y="14" width="62" height="14"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantidade]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="28" y="24" width="87" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{BRASIL1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="24" width="100" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{BRASIL2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="391" y="24" width="100" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{BRASIL3}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

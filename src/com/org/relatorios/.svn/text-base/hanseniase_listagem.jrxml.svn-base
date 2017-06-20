@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="865" pageHeight="842" orientation="Landscape" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="212"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="parUf" class="java.lang.String">
+		<defaultValueExpression><![CDATA["23"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parNomeMunicipio" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parConfig" class="java.lang.String"/>
+	<parameter name="parTipo" class="java.lang.String"/>
+	<parameter name="parSgUf" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parTitulo1" class="java.lang.String"/>
+	<parameter name="parRodape" class="java.lang.String"/>
+	<parameter name="parVersao" class="java.lang.String"/>
+	<parameter name="parPeriodo" class="java.lang.String"/>
+	<parameter name="parDataAtual" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="prontuario" class="java.lang.String"/>
+	<field name="numero" class="java.lang.String"/>
+	<field name="classificacao" class="java.lang.String"/>
+	<field name="dtDiagnostico" class="java.lang.String"/>
+	<field name="dtInicioTratamento" class="java.lang.String"/>
+	<field name="dtUltimoComparecimento" class="java.lang.String"/>
+	<field name="dtHoje" class="java.lang.String"/>
+	<field name="nuMesesSemInformacao" class="java.lang.String"/>
+	<field name="unidade" class="java.lang.String"/>
+	<field name="noUnidade" class="java.lang.String"/>
+	<field name="dtNotificacao" class="java.lang.String"/>
+	<group name="unidade" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{unidade}]]></groupExpression>
+		<groupHeader>
+			<band height="20" splitType="Stretch">
+				<textField evaluationTime="Group" evaluationGroup="unidade">
+					<reportElement mode="Opaque" x="0" y="0" width="819" height="20" backcolor="#CCCCFF"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA["Unidade de Saúde de Notificação atual: "+$F{unidade}+" - "+$F{noUnidade}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Stretch"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="116" splitType="Stretch">
+			<textField>
+				<reportElement x="2" y="22" width="800" height="22"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{parTitulo1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="436" y="0" width="302" height="22" forecolor="#000000"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sistema de Informação de Agravos de Notificação - Sinan]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="2" y="2" width="434" height="20"/>
+				<textElement>
+					<font fontName="Arial Black" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["República Federativa do Brasil\nMinistério da Saúde\n"+$P{parConfig}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="45" width="817" height="69"/>
+				<box leftPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{parNomeMunicipio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="1" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="35" splitType="Stretch">
+			<line direction="BottomUp">
+				<reportElement x="118" y="0" width="1" height="32"/>
+			</line>
+			<textField>
+				<reportElement mode="Opaque" x="607" y="0" width="87" height="35" backcolor="#CCCCFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Data Último Comparecimento"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="438" y="0" width="82" height="35" backcolor="#CCCCFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Data do Diagnóstico"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="520" y="0" width="87" height="35" backcolor="#CCCCFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Data Início Tratamento"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="118" y="2" width="79" height="30" backcolor="#CCCCFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Data Notificação"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="382" y="0" width="55" height="35" backcolor="#CCCCFF"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Class. Operacional   Atual"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="64" height="35" backcolor="#CCCCFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["N. Notificacao Atual"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="694" y="0" width="69" height="35" backcolor="#CCCCFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Data Hoje (computador)"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="33" width="819" height="2"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="62" y="0" width="1" height="32"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="819" height="2"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="197" y="0" width="1" height="32"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="761" y="0" width="1" height="32"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="692" y="0" width="1" height="32"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="607" y="0" width="1" height="32"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="517" y="0" width="1" height="32"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="437" y="0" width="1" height="32"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="381" y="0" width="1" height="32"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="0" y="0" width="1" height="33"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="818" y="2" width="1" height="33"/>
+			</line>
+			<textField>
+				<reportElement mode="Opaque" x="63" y="0" width="56" height="35" backcolor="#CCCCFF"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["N. Prontuário"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="763" y="0" width="56" height="33" backcolor="#CCCCFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Meses sem informação"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="199" y="2" width="181" height="30" backcolor="#CCCCFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Nome - disponívelm em DBF"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="122" y="3" width="75" height="15"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{dtNotificacao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="517" y="3" width="90" height="15"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{dtInicioTratamento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="64" y="3" width="54" height="15"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{prontuario}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="198" y="1" width="183" height="15"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="438" y="3" width="79" height="15"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{dtDiagnostico}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="608" y="3" width="84" height="15"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{dtUltimoComparecimento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="763" y="4" width="56" height="15"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nuMesesSemInformacao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="402" y="3" width="35" height="15"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{classificacao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="692" y="3" width="69" height="15"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<line direction="BottomUp">
+				<reportElement x="437" y="3" width="1" height="15"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="517" y="3" width="1" height="16"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="607" y="3" width="1" height="16"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="380" y="3" width="1" height="16"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="118" y="3" width="1" height="13"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="62" y="3" width="1" height="16"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="691" y="3" width="1" height="16"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="761" y="3" width="1" height="15"/>
+			</line>
+			<line>
+				<reportElement x="0" y="1" width="819" height="2"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="818" y="-19" width="1" height="38"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="0" y="-19" width="1" height="37"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="197" y="3" width="1" height="13"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="3" width="63" height="15"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="622" y="2" width="195" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["SINAN Relatórios - Versão "+$P{parVersao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="12" y="2" width="115" height="20"/>
+				<textElement/>
+				<text><![CDATA[Relatório obtido no dia ]]></text>
+			</staticText>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="125" y="2" width="242" height="20" forecolor="#000000"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{parDataAtual}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="171" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="4" width="802" height="167"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{parRodape}+"\n\n"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

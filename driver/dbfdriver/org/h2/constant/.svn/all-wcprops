@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/constant
+END
+SysProperties.class
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/constant/SysProperties.class
+END
+DbSettings.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/constant/DbSettings.class
+END
+ErrorCode.class
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/org/h2/constant/ErrorCode.class
+END

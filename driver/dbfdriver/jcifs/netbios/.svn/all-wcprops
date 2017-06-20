@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/netbios
+END
+SessionServicePacket.class
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/netbios/SessionServicePacket.class
+END
+Lmhosts.class
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/netbios/Lmhosts.class
+END
+Name.class
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/netbios/Name.class
+END
+NodeStatusRequest.class
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/netbios/NodeStatusRequest.class
+END
+NameQueryResponse.class
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/netbios/NameQueryResponse.class
+END
+NbtException.class
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/netbios/NbtException.class
+END
+NbtAddress$CacheEntry.class
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/netbios/NbtAddress$CacheEntry.class
+END
+SessionRequestPacket.class
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/netbios/SessionRequestPacket.class
+END
+NameQueryRequest.class
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/netbios/NameQueryRequest.class
+END
+NameServicePacket.class
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/netbios/NameServicePacket.class
+END
+NbtAddress.class
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/netbios/NbtAddress.class
+END
+NameServiceClient.class
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/netbios/NameServiceClient.class
+END
+NodeStatusResponse.class
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/tdn_svn/!svn/ver/2/trunk/driver/dbfdriver/jcifs/netbios/NodeStatusResponse.class
+END
