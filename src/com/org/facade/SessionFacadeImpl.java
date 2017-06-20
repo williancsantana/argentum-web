@@ -785,17 +785,37 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         return null;
     }
 
+        /*Alterado pelo grupo do sinan relatórios */
+    public String[] retornaSubgrupos(String grupo) {
+        String[] subgrupos = new String[]{""};
+        if (grupo.equals("Pactuações Anteriores")) {
+            subgrupos = new String[] {
+                "Selecione a pactuação",
+                "COAP até 2015",
+                "PACTO 2008/2009",
+                "PACTO 2010/2011",                
+                "PQAVS até 2016"
+            };
+            return subgrupos;
+        }
+        return subgrupos;
+    }
+
+    
     public String[] retornaGrupos() {
         String[] grupos = {
             "Selecione um Grupo",
             "Análise de Completitude",
-            "COAP - Encerramento Oportuno da Investigação",
+          // "COAP - Encerramento Oportuno da Investigação",
            // "Duplicidade",
-            "PACTO 2010/2011",
-            "PACTO 2008/2009",
-            "PQAVS - Programa de Qualificação das Ações de Vigilância em Saúde",
+            "Pactuações Anteriores",
+         //   "PACTO 2010/2011",
+         //   "PACTO 2008/2009",
+        //    "PQAVS até 2016",
+          //"PQAVS - Programa de Qualificação das Ações de Vigilância em Saúde",
           //  "Recebimento de Lotes",
-            "Regularidade na alimentação do Sinan", "Outros relatórios"
+         //   "Regularidade na alimentação do Sinan", 
+            "Outros relatórios"
         };
         return grupos;
     }
@@ -817,12 +837,12 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 ////                        "Hepatite", "Hanseníase", "PFA", "Saúde do Trabalhador", "Sífilis Congênita", "Tuberculose"};
 //            grupos = new String[]{"--------"};
 //        }
-        if (grupo.equals("PQAVS - Programa de Qualificação das Ações de Vigilância em Saúde")) {
+        if (grupo.equals("PQAVS até 2016")) {
 //            grupos = new String[]{"Selecione um Agravo", "Encerramento Oportuno da Investigação", "Aids", "Dengue",
 //                        "Hepatite", "Hanseníase", "PFA", "Saúde do Trabalhador", "Sífilis Congênita", "Tuberculose"};
             grupos = new String[]{"------"};
         }
-        if (grupo.equals("COAP - Encerramento Oportuno da Investigação")) {
+        if (grupo.equals("COAP até 2015")) {
 //            grupos = new String[]{"Selecione um Agravo", "Encerramento Oportuno da Investigação", "Aids", "Dengue",
 //                        "Hepatite", "Hanseníase", "PFA", "Saúde do Trabalhador", "Sífilis Congênita", "Tuberculose"};
             grupos = new String[]{"-----"};
@@ -837,16 +857,16 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 //                        "Hepatite", "Hanseníase", "PFA", "Tuberculose"};
             grupos = new String[]{"--"};
         }
-        if (grupo.equals("Regularidade na alimentação do Sinan")) {
+    /*    if (grupo.equals("Regularidade na alimentação do Sinan")) {
             grupos = new String[]{"---"};
-        }
+        }*/
         /*
         if (grupo.equals("Duplicidade")) {
             grupos = new String[]{"----"};
         }*/
-        if (grupo.equals("Outros relatórios")) {
+   /*     if (grupo.equals("Outros relatórios")) {
             grupos = new String[]{"Selecione um Agravo", "Exantemática", "Hanseníase", "PFA"};
-        }
+        }*/
         return grupos;
     }
 
@@ -941,10 +961,10 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 //            if (grupo.equals("PQAVS - Semanas epidemiológicas com notificação")) {
 //                relatorios = new String[]{"Selecione o Relatório", "PQAVS - Semanas epidemiológicas com notificação"};
 //            }
-            if (grupo.equals("PQAVS - Programa de Qualificação das Ações de Vigilância em Saúde")) {
+            if (grupo.equals("PQAVS até 2016")) {
                 relatorios = new String[]{"Selecione o Relatório", "Número de semanas epidemiológicas com informação", "Proporção de casos DNCI encerrados em até 60 dias após notificação"};
             }
-            if (grupo.equals("COAP - Encerramento Oportuno da Investigação")) {
+            if (grupo.equals("COAP até 2015")) {
                 relatorios = new String[]{"Selecione o Relatório", "COAP - Encerramento Oportuno da Investigação"};
             }
             if (grupo.equals("Análise de Completitude")) {
@@ -957,16 +977,9 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 relatorios = new String[]{"Selecione o Relatório", "Duplicidade"};
             } 
              */
-            if (grupo.equals("Outros relatórios")) {
+/*           if (grupo.equals("Outros relatórios")) {
                 if (agravo.equals("Exantemática")) {
                     relatorios = new String[]{"Selecione o Relatório", "Proporção de doenças exantemáticas investigados oportuna e adequadamente", "Proporção de doenças exantemáticas investigados oportunamente (PAVS 2010/2011)"};
-                    /*
-                    if(isDbf())
-                        relatorios = new String[]{"Selecione o Relatório", "Proporção de doenças exantemáticas investigados oportunamente (PAVS 2010/2011)"};
-                    else                    
-                        relatorios = new String[]{"Selecione o Relatório", "Proporção de doenças exantemáticas investigados oportuna e adequadamente", "Proporção de doenças exantemáticas investigados oportunamente (PAVS 2010/2011)"};
-                     
-                     */
                 }
                 if (agravo.equals("PFA")) {
                     relatorios = new String[]{"Selecione o Relatório", "Taxa de notificação de casos de PFA em menores de 15 anos (PAVS 2010/2011)"};
@@ -975,7 +988,22 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                     relatorios = new String[]{"Selecione o Relatório", "Listagem de notificações de prováveis faltosos e abandono do tratamento de hanseníase"};
                 }
                
+            }*/
+            
+            if (grupo.equals("Outros relatórios")) {
+                    relatorios = new String[]{"Selecione o Relatório", 
+                        "Proporção de doenças exantemáticas investigados oportuna e adequadamente", 
+                        "Proporção de doenças exantemáticas investigados oportunamente (PAVS 2010/2011)",
+                        "Taxa de notificação de casos de PFA em menores de 15 anos (PAVS 2010/2011)",
+                        "Listagem de notificações de prováveis faltosos e abandono do tratamento de hanseníase",
+                        "Regularidade na alimentação do Sinan",
+                        "Número de semanas epidemiológicas com informação"
+                        
+                    
+                    };
             }
+            
+            
         }
         return relatorios;
     }
