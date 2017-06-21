@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 public interface SessionFacade {
     public String[] retornaGrupos();
     public String[] retornaAgravos(String grupo);
+    public String[] retornaSubgrupos(String grupo); /** SINAN_RELATORIO Nova função implementada para retornar as pactuações anteriores */
     public String[] retornaRelatorios(String grupo,String agravo);
     public JPanel retornaPanel(String relatorio,String grupo);
     public Vector<String> retornaUFs();
