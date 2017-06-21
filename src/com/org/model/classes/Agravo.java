@@ -1022,6 +1022,76 @@ public class Agravo {
 
     }
 
+        public HashMap<String, Agravo> populaMunicipiosBeansPactuacao(String sgUfResidencia, String codRegiao) {
+        DBFUtil utilDbf = new DBFUtil();
+        HashMap<String, String> municipios = new HashMap<String, String>();
+        HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
+        //se codRegional estiver preenchida, deve buscar somente os municipios pertencentes a ela
+        if (codRegiao.length() > 0) {
+            //busca municipios dessa regional
+            DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
+            Object[] rowObjects1;
+
+            try {
+                utilDbf.mapearPosicoes(readerMunicipio);
+                while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
+                    if (codRegiao.equals(utilDbf.getString(rowObjects1, "ID_REGIAO"))) {
+                        if (!utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
+                            if ((utilDbf.getString(rowObjects1, "SG_UF").equals("DF") && utilDbf.getString(rowObjects1, "NM_MUNICIP").equals("BRASILIA")) || !utilDbf.getString(rowObjects1, "SG_UF").equals("DF")) {
+                                Agravo agravoDbf = new Agravo();
+                                agravoDbf.setCodMunicipio(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
+                                agravoDbf.setNomeMunicipio(utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                                agravoDbf.setDenominador("0");
+                                agravoDbf.setNumerador("0");
+                                municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                                municipiosBeans.put(agravoDbf.getCodMunicipio(), agravoDbf);
+                            }
+                        }
+                    }
+                }
+            } catch (DBFException e) {
+                Master.mensagem("Erro ao carregar municipios:\n" + e);
+            }
+        } else {
+            //busca municipios dessa regional
+            DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
+            Object[] rowObjects1;
+            try {
+                utilDbf.mapearPosicoes(readerMunicipio);
+
+                while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
+                    if (sgUfResidencia.equals(utilDbf.getString(rowObjects1, "SG_UF")) || sgUfResidencia.equals("BR")) {
+                        if (!utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
+                            if ((utilDbf.getString(rowObjects1, "SG_UF").equals("DF") && utilDbf.getString(rowObjects1, "NM_MUNICIP").equals("BRASILIA")) || !utilDbf.getString(rowObjects1, "SG_UF").equals("DF")) {
+                                Agravo agravoDbf = new Agravo();
+                                agravoDbf.setCodMunicipio(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
+                                agravoDbf.setNomeMunicipio(utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                                agravoDbf.setDenominador("0");
+                                agravoDbf.setNumerador("0");
+                                municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                                municipiosBeans.put(agravoDbf.getCodMunicipio(), agravoDbf);
+                            }
+                        }
+                    }
+                }
+            } catch (DBFException e) {
+                Master.mensagem("Erro ao carregar municipios:\n" + e);
+            }
+        }
+        municipios = sortHashMapByValues(municipios, false);
+        Set<String> municipiosKeys = municipios.keySet();
+        HashMap<String, Agravo> municipiosBeansRetorno = new HashMap<String, Agravo>();
+        Iterator valueIt = municipiosKeys.iterator();
+        while (valueIt.hasNext()) {
+            String key = (String) valueIt.next();
+            municipiosBeansRetorno.put(key, municipiosBeans.get(key));
+
+        }
+        return municipiosBeansRetorno;
+
+    }
+
+    
     public HashMap<String, TuberculoseCoorte> populaMunicipiosBeansTube(String sgUfResidencia, String codRegional) {
         DBFUtil utilDbf = new DBFUtil();
         HashMap<String, String> municipios = new HashMap<String, String>();
