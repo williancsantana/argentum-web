@@ -543,6 +543,16 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         }
     }
 
+    
+    public JPanel retornaPanel(String relatorio,String grupo) {
+        JPanel panel = null;
+         if (relatorio.equals("Taxa de incidência de aids em menores de 5 anos de idade")) {
+            panel = new AidsTaxaCriancaPactuacao();
+            this.relatorio = "AidsTaxaCriancaPactuacao";
+        }
+    return panel;
+    }
+    
     public JPanel retornaPanel(String relatorio) {
         JPanel panel = null;
         //verifica qual relatorio foi selecionado
@@ -555,6 +565,8 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             this.relatorio = "DengueLetalidade";
         }
         if (relatorio.equals("Taxa de incidência de aids em menores de 5 anos de idade")) {
+             //if(grupo.equals("Pactuação Interfederativa 2017 a 2021")){}
+            // this.relatorio = "AidsTaxaCriancaPactuacao";
             panel = new AidsTaxaCrianca();
             this.relatorio = "AidsTaxaCrianca";
         }
@@ -645,6 +657,9 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         }
         if (relatorio.equals("AidsTaxaCrianca")) {
             agravo = new com.org.model.classes.agravos.AidsTaxaCrianca(isDbf());
+        }
+        if (relatorio.equals("AidsTaxaCriancaPactuacao")) {
+            agravo = new com.org.model.classes.agravos.AidsTaxaCriancaPactuacao(isDbf());
         }
         if (relatorio.equals("SifilisCongenitaIncidencia")) {
             agravo = new com.org.model.classes.agravos.SifilisCongenitaIncidencia(isDbf());
@@ -806,6 +821,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         String[] grupos = {
             "Selecione um Grupo",
             "Análise de Completitude",
+            "Pactuação Interfederativa 2017 a 2021",
           // "COAP - Encerramento Oportuno da Investigação",
            // "Duplicidade",
             "Pactuações Anteriores",
@@ -846,6 +862,12 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 //            grupos = new String[]{"Selecione um Agravo", "Encerramento Oportuno da Investigação", "Aids", "Dengue",
 //                        "Hepatite", "Hanseníase", "PFA", "Saúde do Trabalhador", "Sífilis Congênita", "Tuberculose"};
             grupos = new String[]{"-----"};
+        }
+        //Novo pacto
+        if (grupo.equals("Pactuação Interfederativa 2017 a 2021")) {
+//            grupos = new String[]{"Selecione um Agravo", "Encerramento Oportuno da Investigação", "Aids", "Dengue", "Exantemática",
+//                        "Hepatite", "Hanseníase", "PFA", "Tuberculose"};
+            grupos = new String[]{"--"};
         }
         if (grupo.equals("PACTO 2010/2011")) {
 //            grupos = new String[]{"Selecione um Agravo", "Encerramento Oportuno da Investigação", "Aids", "Dengue",
@@ -924,6 +946,9 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 //                    relatorios = new String[]{"Selecione o Relatório", "Encerramento Oportuno da Investigação"};
 //                }
 
+            }
+             if (grupo.equals("Pactuação Interfederativa 2017 a 2021")) {
+                relatorios = new String[]{"Selecione o Relatório", "Taxa de incidência de aids em menores de 5 anos de idade"};
             }
             if (grupo.equals("PACTO 2008/2009")) {
                 relatorios = new String[]{"Selecione o Relatório", "Situação da coorte de casos novos de Tuberculose", "Taxa de notificação de casos de PFA em menores de 15 anos", "Percentual de casos de hepatites B e C", "Proporção de doenças exantemáticas investigados oportunamente", "Taxa de letalidade por Febre Hemorrágica Dengue", "Taxa de incidência de aids em menores de 5 anos de idade", "Situação da coorte de casos novos de hanseníase"};

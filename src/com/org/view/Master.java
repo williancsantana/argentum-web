@@ -323,23 +323,24 @@ public class Master extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cmbFiltroAgravoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFiltroAgravoActionPerformed
+/*private void cmbFiltroAgravoActionPerformed(java.awt.event.ActionEvent evt) {                                                
         this.cmbFiltroAgravoActionPerformed();
-    }//GEN-LAST:event_cmbFiltroAgravoActionPerformed
-
-    private void cmbFiltroRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFiltroRelatorioActionPerformed
+    }   
+	*/
+ /*
+    private void cmbFiltroRelatorioActionPerformed(java.awt.event.ActionEvent evt) {                                                   
         jTabbedPane1.removeAll();
         if (this.cmbFiltroRelatorio.getSelectedItem() != null) {
             if (!this.cmbFiltroRelatorio.getSelectedItem().toString().equals("Selecione o Relatório")) {
 
                 //bloco retirado, pois essa função está sendo feita pelo bloco do grupo do relatório
                 //modificado em 14/06/2011, conforme solicitação da Ana Medeiros
-                /*
+               
                 if (cmbFiltroRelatorio.getSelectedItem().toString().equals("Regularidade na alimentação do Sinan")) {
                     rbtPostgres.setSelected(false);
                     rbtDBF.setSelected(true);
                     SessionFacadeImpl.setDbf(true);
-                }*/
+                }
  /*bloco retirado para possibilitar a escolha do reltório também em DBF
                 if (cmbFiltroRelatorio.getSelectedItem().toString().equals("Proporção de doenças exantemáticas investigados oportuna e adequadamente")) {
                     if (rbtDBF.isSelected()) {
@@ -349,11 +350,12 @@ public class Master extends javax.swing.JFrame {
                     rbtDBF.setSelected(false);
                     SessionFacadeImpl.setDbf(false);
 
-                }*/
+                }
                 jTabbedPane1.addTab(cmbFiltroRelatorio.getSelectedItem().toString(), session.retornaPanel(this.cmbFiltroRelatorio.getSelectedItem().toString()));
             }
         }
-    }//GEN-LAST:event_cmbFiltroRelatorioActionPerformed
+    }  
+	*/
 
     private void cmbFiltroGrupoRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFiltroGrupoRelatoriosActionPerformed
         //limpa combos
@@ -489,10 +491,15 @@ public class Master extends javax.swing.JFrame {
             this.cmbFiltroAgravo.setModel(modelo);
             lblFiltroAgravo.setVisible(true);
             cmbFiltroAgravo.setVisible(true);
+
+        }         
+        else {
+
             lblSubgrupoRelatórios.setVisible(false);
             cmbFiltroSubgrupoRelatorios.setVisible(false);
 
         }*/ else {
+
             modelo = new DefaultComboBoxModel(this.session.retornaAgravos(this.cmbFiltroGrupoRelatorios.getSelectedItem().toString()));
             this.cmbFiltroAgravo.setModel(modelo);
             this.cmbFiltroAgravoActionPerformed();
@@ -562,6 +569,46 @@ public class Master extends javax.swing.JFrame {
         }
 
     }
+
+    private void cmbFiltroAgravoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFiltroAgravoActionPerformed
+        this.cmbFiltroAgravoActionPerformed();
+    }//GEN-LAST:event_cmbFiltroAgravoActionPerformed
+
+    private void cmbFiltroRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFiltroRelatorioActionPerformed
+        jTabbedPane1.removeAll();
+        if (this.cmbFiltroRelatorio.getSelectedItem() != null) {
+            if (!this.cmbFiltroRelatorio.getSelectedItem().toString().equals("Selecione o Relatório")) {
+                
+                //bloco retirado, pois essa função está sendo feita pelo bloco do grupo do relatório
+                //modificado em 14/06/2011, conforme solicitação da Ana Medeiros
+                /*
+                if (cmbFiltroRelatorio.getSelectedItem().toString().equals("Regularidade na alimentação do Sinan")) {
+                    rbtPostgres.setSelected(false);
+                    rbtDBF.setSelected(true);
+                    SessionFacadeImpl.setDbf(true);
+                }*/
+                /*bloco retirado para possibilitar a escolha do reltório também em DBF
+                if (cmbFiltroRelatorio.getSelectedItem().toString().equals("Proporção de doenças exantemáticas investigados oportuna e adequadamente")) {
+                    if (rbtDBF.isSelected()) {
+                        mensagem("Relatório disponível somente em Postgres");
+                    }
+                    rbtPostgres.setSelected(true);
+                    rbtDBF.setSelected(false);
+                    SessionFacadeImpl.setDbf(false);
+
+                }*/
+                 if (this.cmbFiltroGrupoRelatorios.getSelectedItem().toString().equals("Pactuação Interfederativa 2017 a 2021")) {
+                    jTabbedPane1.addTab(cmbFiltroRelatorio.getSelectedItem().toString(), session.retornaPanel(this.cmbFiltroRelatorio.getSelectedItem().toString(),this.cmbFiltroGrupoRelatorios.getSelectedItem().toString()));
+
+                }else{
+                     jTabbedPane1.addTab(cmbFiltroRelatorio.getSelectedItem().toString(), session.retornaPanel(this.cmbFiltroRelatorio.getSelectedItem().toString()));
+                 
+                 }
+                
+            }
+        }
+    }//GEN-LAST:event_cmbFiltroRelatorioActionPerformed
+
 
     private void limpaFormulario() {
         jTabbedPane1.removeAll();
