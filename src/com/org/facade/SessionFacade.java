@@ -16,7 +16,7 @@ public interface SessionFacade {
     public String[] retornaGrupos();
     public String[] retornaAgravos(String grupo);
     public String[] retornaRelatorios(String grupo,String agravo);
-    public JPanel retornaPanel(String relatorio);
+    public JPanel retornaPanel(String relatorio,String grupo);
     public Vector<String> retornaUFs();
     public Vector<String> retornaRegionais(String UF);
     public Vector<String> retornaMunicipios(String UF);

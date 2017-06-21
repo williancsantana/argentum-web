@@ -543,6 +543,16 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         }
     }
 
+    
+    public JPanel retornaPanel(String relatorio,String grupo) {
+        JPanel panel = null;
+         if (relatorio.equals("Taxa de incidência de aids em menores de 5 anos de idade")) {
+            panel = new AidsTaxaCriancaPactuacao();
+            this.relatorio = "AidsTaxaCriancaPactuacao";
+        }
+    return panel;
+    }
+    
     public JPanel retornaPanel(String relatorio) {
         JPanel panel = null;
         //verifica qual relatorio foi selecionado
@@ -647,6 +657,9 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         }
         if (relatorio.equals("AidsTaxaCrianca")) {
             agravo = new com.org.model.classes.agravos.AidsTaxaCrianca(isDbf());
+        }
+        if (relatorio.equals("AidsTaxaCriancaPactuacao")) {
+            agravo = new com.org.model.classes.agravos.AidsTaxaCriancaPactuacao(isDbf());
         }
         if (relatorio.equals("SifilisCongenitaIncidencia")) {
             agravo = new com.org.model.classes.agravos.SifilisCongenitaIncidencia(isDbf());

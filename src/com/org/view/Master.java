@@ -417,7 +417,8 @@ public class Master extends javax.swing.JFrame {
             this.cmbFiltroAgravo.setModel(modelo);
             lblFiltroAgravo.setVisible(true);
             cmbFiltroAgravo.setVisible(true);
-        } else {
+        }         
+        else {
             modelo = new DefaultComboBoxModel(this.session.retornaAgravos(this.cmbFiltroGrupoRelatorios.getSelectedItem().toString()));
             this.cmbFiltroAgravo.setModel(modelo);
             this.cmbFiltroAgravoActionPerformed();
@@ -468,7 +469,14 @@ public class Master extends javax.swing.JFrame {
                     SessionFacadeImpl.setDbf(false);
 
                 }*/
-                jTabbedPane1.addTab(cmbFiltroRelatorio.getSelectedItem().toString(), session.retornaPanel(this.cmbFiltroRelatorio.getSelectedItem().toString()));
+                 if (this.cmbFiltroGrupoRelatorios.getSelectedItem().toString().equals("Pactuação Interfederativa 2017 a 2021")) {
+                    jTabbedPane1.addTab(cmbFiltroRelatorio.getSelectedItem().toString(), session.retornaPanel(this.cmbFiltroRelatorio.getSelectedItem().toString(),this.cmbFiltroGrupoRelatorios.getSelectedItem().toString()));
+
+                }else{
+                     jTabbedPane1.addTab(cmbFiltroRelatorio.getSelectedItem().toString(), session.retornaPanel(this.cmbFiltroRelatorio.getSelectedItem().toString()));
+                 
+                 }
+                
             }
         }
     }//GEN-LAST:event_cmbFiltroRelatorioActionPerformed
