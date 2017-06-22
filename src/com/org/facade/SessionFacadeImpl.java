@@ -550,8 +550,6 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             this.relatorio = "DengueLetalidade";
         }
         if (relatorio.equals("Taxa de incidência de aids em menores de 5 anos de idade")) {
-            //if(grupo.equals("Pactuação Interfederativa 2017 a 2021")){}
-            // this.relatorio = "AidsTaxaCriancaPactuacao";
             panel = new AidsTaxaCrianca();
             this.relatorio = "AidsTaxaCrianca";
         }

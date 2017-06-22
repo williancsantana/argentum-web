@@ -29,11 +29,12 @@ public class Conexao {
     public Conexao(String bd, String banco, String host, String usuario, String pass) {
         if (bd.equals("POSTGRESQL")) {
             setLocal(host);
-            setSenha("oiretsinimodeduas1953");
+            //setSenha("oiretsinimodeduas1953");
+            setSenha("*Dtspg.112233*");
             setUser("postgres");
 //            setSenha(pass);
 //            setUser(usuario);
-            setStr_conexao("jdbc:postgresql://" + getLocal() + ":5432/" + banco);
+            setStr_conexao("jdbc:postgresql://" + getLocal() + ":5445/" + banco);
             setDriverjdbc("org.postgresql.Driver");
         } else {
             if (bd.equals("INTERBASE")) {

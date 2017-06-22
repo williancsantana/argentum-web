@@ -50,8 +50,8 @@ public class AidsTaxaCriancaPactuacao extends Agravo {
         this.setTipo("");
         this.setTipo("populacao");
         this.setTitulo1("Taxa de incidência de aids em menores de 5 anos de idade ");
-        this.setTituloColuna("Taxa de Incidência por 100.000");
-        this.setRodape("Numerador: Nº de casos de aids em menores de 5 anos diagnosticados em  determinado ano, por local de residência  \n" + "Denominador: População total residente de menores de 5 anos de idade nesse mesmo ano e local");
+        this.setTituloColuna("Indicador");
+        this.setRodape("Indicador: Nº de casos de aids em menores de 5 anos diagnosticados em  determinado ano, por local de residência  \n");
         this.setSqlNumeradorCompletitude("");
         if (!isDBF()) {
             this.setSqlNumeradorMunicipioEspecifico("select count(*) as numerador from dbsinan.tb_notificacao as t1, " + "dbsinan.tb_investiga_aids_crianca as t2 " + "where  t1.nu_notificacao=t2.nu_notificacao and " + "t1.dt_notificacao=t2.dt_notificacao and " + "t1.co_municipio_notificacao=t2.co_municipio_notificacao" + " and nu_idade < 4005 and tp_criterio_definicao not in (900,901) and (t1.dt_diagnostico_sintoma BETWEEN ?  " + "AND ?) and " + "t1.co_uf_residencia= ? and " + "t1.co_municipio_residencia = ?");
@@ -157,21 +157,26 @@ public class AidsTaxaCriancaPactuacao extends Agravo {
 //        if (parametros.get("parSgUf").toString().equals("TODAS")) {
         for (Iterator<Agravo> it = municipioBean.iterator(); it.hasNext();) {
             Agravo agravoDBF = it.next();
+             /*
             double num = Double.parseDouble(agravoDBF.getNumerador());
+           
             try {
                 agravoDBF.setDenominador(String.valueOf(getPopulacao(agravoDBF.getCodMunicipio().toString(), 2, ano)));
             } catch (DBFException e) {
                 System.out.println(e);
             }
 
+
             double den = Double.parseDouble(agravoDBF.getDenominador());
+
             if (den == 0) {
                 agravoDBF.setTaxa("0.00");
             } else {
                 agravoDBF.setTaxa(df.format(num / den * 100000));
             }
+*/
             this.getBeans().add(agravoDBF);
-            getBarraStatus().setString("Buscando pop. de: " + agravoDBF.getNomeMunicipio());
+            getBarraStatus().setString("Calculando indicador para: " + agravoDBF.getNomeMunicipio());
         }
         getBarraStatus().setString(null);
         Collections.sort(this.getBeans(), new BeanComparator("nomeMunicipio"));
@@ -179,6 +184,7 @@ public class AidsTaxaCriancaPactuacao extends Agravo {
 
         //calcular o total
         this.getBeans().add(adicionaBrasil(municipioBean));
+        
         if (!parametros.get("parSgUf").toString().equals("TODAS") && !parametros.get("municipios").toString().equals("sim")) {
             Agravo agravoBrasil = (Agravo) this.getBeans().get(27);
             List arrayT = new ArrayList();
@@ -198,7 +204,6 @@ public class AidsTaxaCriancaPactuacao extends Agravo {
         municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
 
         //inicia o calculo
-
         Object[] rowObjects;
         Date dtDiagnostico;
         String criterio;
@@ -263,15 +268,17 @@ public class AidsTaxaCriancaPactuacao extends Agravo {
             }
         }
         String ano = dataInicio.substring(0, 4);
+        /*
         try {
             denominadorEstadual = getPopulacao(ufResidencia, 2, ano);
         } catch (DBFException e) {
             System.out.println(e);
         }
-        total = df.format(Double.parseDouble(String.valueOf(numeradorEstadual)) / Double.parseDouble(String.valueOf(denominadorEstadual)) * 100000);
-        setTaxaEstadual(total + " (Numerador:" + String.valueOf(numeradorEstadual) + " / Denominador: " + String.valueOf(denominadorEstadual) + ")");
+        */
+       // total = df.format(Double.parseDouble(String.valueOf(numeradorEstadual)) / Double.parseDouble(String.valueOf(denominadorEstadual)) * 100000);
+       // setTaxaEstadual(total + " (Numerador:" + String.valueOf(numeradorEstadual) + " / Denominador: " + String.valueOf(denominadorEstadual) + ")");
         //calcula o percentual da completitude
-        setPercentualCompletitude(df.format(Double.parseDouble(String.valueOf(completitude)) / Double.parseDouble(String.valueOf(denominadorEstadual)) * 100));
+        //setPercentualCompletitude(df.format(Double.parseDouble(String.valueOf(completitude)) / Double.parseDouble(String.valueOf(denominadorEstadual)) * 100));
 
         //CALCULA A TAXA PARA TODOS OS MUNICIPIOS
         this.setBeans(new ArrayList());
@@ -279,6 +286,7 @@ public class AidsTaxaCriancaPactuacao extends Agravo {
 
         for (Iterator<Agravo> it = municipioBean.iterator(); it.hasNext();) {
             Agravo agravoDBF = it.next();
+            /*
             double num = Double.parseDouble(agravoDBF.getNumerador());
             try {
                 agravoDBF.setDenominador(String.valueOf(getPopulacao(agravoDBF.getCodMunicipio().toString(), 2, ano)));
@@ -291,8 +299,10 @@ public class AidsTaxaCriancaPactuacao extends Agravo {
             } else {
                 agravoDBF.setTaxa(df.format(num / den * 100000));
             }
+            */
+            
             this.getBeans().add(agravoDBF);
-            getBarraStatus().setString("Buscando pop. de: " + agravoDBF.getNomeMunicipio());
+            getBarraStatus().setString("Calculando indicador para: " + agravoDBF.getNomeMunicipio());
         }
         getBarraStatus().setString(null);
         Collections.sort(this.getBeans(), new BeanComparator("nomeMunicipio"));
@@ -381,11 +391,11 @@ public class AidsTaxaCriancaPactuacao extends Agravo {
                     //busca o denonimador que é a pop por estado
 
                     String ano = dataInicio.substring(0, 4);
-                    denominadorEstadual = getPopulacao(ufResidencia, 2, ano);
+                   // denominadorEstadual = getPopulacao(ufResidencia, 2, ano);
                     if (municipioResidencia.length() == 0) {
                         denominadorEspecifico = denominadorEstadual;
                     } else {
-                        denominadorEspecifico = getPopulacao(municipioResidencia, 2, ano);
+                       // denominadorEspecifico = getPopulacao(municipioResidencia, 2, ano);
                     }
 
                     total = df.format(Double.parseDouble(String.valueOf(numeradorEstadual)) / Double.parseDouble(String.valueOf(denominadorEstadual)) * 100000);
@@ -437,7 +447,7 @@ public class AidsTaxaCriancaPactuacao extends Agravo {
         parametros.put("parAno", Util.getAno(this.getDataFim()));
         parametros.put("parRodape", this.getRodape());
         parametros.put("parConfig", "");
-        parametros.put("parTitulo1", "Taxa de incidência de aids em menores de 5 anos de idade ");
+        parametros.put("parTitulo1", "Número de casos de aids em menores de 5 anos de idade ");
         //pegar o ano para exportar para dbf
         ANO = "";
         if (Util.getAno(this.getDataFim()).equals(Util.getAno(this.getDataInicio()))) {
@@ -451,7 +461,7 @@ public class AidsTaxaCriancaPactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"ID_LOCRES", "DS_LOCRES", "ID_UFRES", "N_INCAIDS", "D_INCAIDS", "I_INCAIDS", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+        return new String[]{"ID_LOCRES", "DS_LOCRES", "ID_UFRES", "N_INCAIDS", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
     }
 
     @Override
@@ -461,8 +471,8 @@ public class AidsTaxaCriancaPactuacao extends Agravo {
         hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("ID_UFRES", new ColunasDbf(2));
         hashColunas.put("N_INCAIDS", new ColunasDbf(10, 0));
-        hashColunas.put("D_INCAIDS", new ColunasDbf(10, 0));
-        hashColunas.put("I_INCAIDS", new ColunasDbf(6, 2));
+        //hashColunas.put("D_INCAIDS", new ColunasDbf(10, 0));
+       // hashColunas.put("I_INCAIDS", new ColunasDbf(6, 2));
         hashColunas.put("ANO_DIAG", new ColunasDbf(4, 0));
         hashColunas.put("DT_DIAGIN", new ColunasDbf(10));
         hashColunas.put("DT_DIAGFI", new ColunasDbf(10));
@@ -486,8 +496,8 @@ public class AidsTaxaCriancaPactuacao extends Agravo {
             rowData[1] = agravo.getNomeMunicipio();
 
             rowData[3] = Double.parseDouble(agravo.getNumerador());
-            rowData[4] = Double.parseDouble(agravo.getDenominador().replace(".", ""));
-            rowData[5] = Double.parseDouble(agravo.getTaxa().replace(",", "."));
+            //rowData[4] = Double.parseDouble(agravo.getDenominador().replace(".", ""));
+            //rowData[5] = Double.parseDouble(agravo.getTaxa().replace(",", "."));
             rowData[6] = preencheAno(getDataInicio(), getDataFim());
             rowData[7] = getDataInicio();
             rowData[8] = getDataFim();
@@ -500,6 +510,6 @@ public class AidsTaxaCriancaPactuacao extends Agravo {
 
     @Override
     public String getCaminhoJasper() {
-        return "/com/org/relatorios/agravo1.jasper";
+        return "/com/org/relatorios/aidsTaxaCriancaPactuacao.jasper";
     }
 }

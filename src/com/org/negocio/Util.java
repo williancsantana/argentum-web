@@ -47,7 +47,8 @@ public class Util {
             String nomeDB = "";
             String host = "";
             String usuario = "postgres";
-            String senha = "oiretsinimadeduas1953";
+            //String senha = "oiretsinimadeduas1953";
+            String senha = "*Dtspg.112233*";
             while (!linha.equals("Drivername")) {
                 linha = leitor.readLine();
                 String s[] = linha.split("\\=");
