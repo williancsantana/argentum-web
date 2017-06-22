@@ -126,18 +126,18 @@ public class Agravo {
         for (Iterator<Agravo> it = municipioBean.iterator(); it.hasNext();) {
             Agravo agravoUF = it.next();
             agravoBean.setNumerador(String.valueOf(Integer.parseInt(agravoUF.getNumerador()) + Integer.parseInt(agravoBean.getNumerador())));
-            //agravoBean.setDenominador(String.valueOf(Integer.parseInt(agravoUF.getDenominador()) + Integer.parseInt(agravoBean.getDenominador())));
-            /*
+            agravoBean.setDenominador(String.valueOf(Integer.parseInt(agravoUF.getDenominador()) + Integer.parseInt(agravoBean.getDenominador())));
+            
             if (agravoBean.getDenominador().equals("0")) {
                 agravoBean.setTaxa("0.00");
             } else {
                 agravoBean.setTaxa(df.format(Double.parseDouble(agravoBean.getNumerador()) / Double.parseDouble(agravoBean.getDenominador()) * this.getMultiplicador()));
             }
-            */
+            
         }
         return agravoBean;
     }
-
+    
     public Agravo adicionaRegional(Collection<Agravo> municipioBean, String nomeRegional, String codRegional) {
         DecimalFormat df = new DecimalFormat("0.00");
         Agravo agravoBean = new Agravo();

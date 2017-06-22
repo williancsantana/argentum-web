@@ -31,11 +31,11 @@ import org.apache.commons.beanutils.BeanComparator;
  *
  * @author geraldo
  */
-public class AidsTaxaCriancaPactuacao extends Agravo {
+public class AidsIndicadorCriancaPactuacao extends Agravo {
 
     static String ANO;
 
-    public AidsTaxaCriancaPactuacao(boolean isDbf) {
+    public AidsIndicadorCriancaPactuacao(boolean isDbf) {
         this.setDBF(isDbf);
         setPeriodo("de Diagnóstico");
         setTipoAgregacao("de Residência");
@@ -199,9 +199,21 @@ public class AidsTaxaCriancaPactuacao extends Agravo {
         String ufResidencia = (String) parametros.get("parUf");
         String sgUfResidencia = (String) parametros.get("parSgUf");
         String codRegional = (String) parametros.get("parCodRegional");
+        String codRegiao = (String) parametros.get("parCodRegiaoSaude");
+        
+       
         DBFUtil utilDbf = new DBFUtil();
+         if (codRegional == null) {
+            codRegional = "";
+        }
+        if ((Boolean)parametros.get("parIsRegiao")) {
+            
+           municipiosBeans = populaMunicipiosBeansPactuacao(sgUfResidencia,codRegiao);
+        }else{
+           municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
+        }
 
-        municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
+        //municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
 
         //inicia o calculo
         Object[] rowObjects;
@@ -510,6 +522,6 @@ public class AidsTaxaCriancaPactuacao extends Agravo {
 
     @Override
     public String getCaminhoJasper() {
-        return "/com/org/relatorios/aidsTaxaCriancaPactuacao.jasper";
+        return "/com/org/relatorios/aidsIndicadorCriancaPactuacao.jasper";
     }
 }

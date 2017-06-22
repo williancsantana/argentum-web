@@ -205,6 +205,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 parametros.put("parUf", String.valueOf(getCodigoUf(uf)));
                 if (parametros.get("parRegiaoSaude") != null && parametros.get("parRegiaoSaude") != "") {
                     parametros.put("parCodRegiaoSaude", getCodRegiaoSaude(parametros.get("parRegiaoSaude").toString()));
+                    parametros.put("parNomeRegiao", getRegional());
                 }
                 if (municipio.equals("TODOS") || municipio.equals("-- Selecione --")) {
                     if (regional == null) {
@@ -533,12 +534,12 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         }
     }
 
-    public JPanel retornaPanel(String relatorio, String grupo) {
+    public JPanel retornaPanelPactuacao(String relatorio) {
         JPanel panel = null;
         System.out.println("");
         if (relatorio.equals("Taxa de incidência de aids em menores de 5 anos de idade")) {
-            panel = new AidsTaxaCriancaPactuacao();
-            this.relatorio = "AidsTaxaCriancaPactuacao";
+            panel = new AidsIndicadorCriancaPactuacao();
+            this.relatorio = "AidsIndicadorCriancaPactuacao";
         } else if (relatorio.equals("Número de casos novos de sífilis congênita em menores de 1 ano de idade")) {
             panel = new SifilisCongenitaIncidenciaPactuacao();
             this.relatorio = "SifilisCongenitaIncidenciaPactuacao";
@@ -649,8 +650,8 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         if (relatorio.equals("AidsTaxaCrianca")) {
             agravo = new com.org.model.classes.agravos.AidsTaxaCrianca(isDbf());
         }
-        if (relatorio.equals("AidsTaxaCriancaPactuacao")) {
-            agravo = new com.org.model.classes.agravos.AidsTaxaCriancaPactuacao(isDbf());
+        if (relatorio.equals("AidsIndicadorCriancaPactuacao")) {
+            agravo = new com.org.model.classes.agravos.AidsIndicadorCriancaPactuacao(isDbf());
         }
         if (relatorio.equals("SifilisCongenitaIncidencia")) {
             agravo = new com.org.model.classes.agravos.SifilisCongenitaIncidencia(isDbf());
