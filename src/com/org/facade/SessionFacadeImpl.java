@@ -240,8 +240,17 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 
             //montar o cFabeçalho do relatorio
             //1-nível de agregacao
-            parametros.put("parNomeMunicipio", "Nível de Agregação:\nUF " + agravo.getTipoAgregacao() + ": " + uf + "\nRegional " + agravo.getTipoAgregacao() + ":" + getRegional() + "\nMunicípio " + agravo.getTipoAgregacao() + ":" + municipio);
-
+            String nomeReg = "Regional";
+            if ((Boolean)parametros.get("parIsRegiao")){
+                nomeReg = "Região";
+            }
+            if (getRegional() != null) {
+                parametros.put("parNomeMunicipio", "Nível de Agregação:\nUF " + agravo.getTipoAgregacao() + ": " + uf + "\n"+nomeReg+" " + agravo.getTipoAgregacao() + ":" + getRegional() + "\nMunicípio " + agravo.getTipoAgregacao() + ":" + municipio);
+            }else {
+                 parametros.put("parNomeMunicipio", "Nível de Agregação:\nUF " + agravo.getTipoAgregacao() + ": " + uf + "\nMunicípio " + agravo.getTipoAgregacao() + ":" + municipio);
+            }
+            
+            
             if (!relatorio.equals("Oportunidade") && !relatorio.equals("OportunidadeCOAP") && !relatorio.equals("OportunidadePQAVS") && !relatorio.equals("RecebimentoLote")) {
                 parametros.put("parPeriodo", "Período " + agravo.getPeriodo() + ":\n" + parametros.get("parPeriodo"));
             }

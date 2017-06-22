@@ -349,11 +349,23 @@ public class SifilisCongenitaIncidenciaPactuacao extends javax.swing.JPanel {
             modelo = new DefaultComboBoxModel(this.session.retornaMunicipiosPQAVS(this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString()));
             this.cbMunicipio.setModel(modelo);
         }
-        
+
 }//GEN-LAST:event_cbRegionalActionPerformed
 
     private void cbUfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbUfActionPerformed
-        cbDesagregacao.setSelectedIndex(1);
+        if (cbUf.getSelectedItem().toString().equals("TODAS") || cbUf.getSelectedItem().toString().equals("Brasil")) {
+            cbRegional.setVisible(false);
+            lblRegional.setVisible(false);
+            cbDesagregacao.setSelectedIndex(0);
+            cbDesagregacao.actionPerformed(evt);
+            cbDesagregacao.setVisible(false);
+            lblDesagregacao.setVisible(false);
+        } else {
+            cbDesagregacao.setVisible(true);
+            lblRegional.setVisible(true);
+            cbRegional.setVisible(true);
+            lblDesagregacao.setVisible(true);
+        }
 }//GEN-LAST:event_cbUfActionPerformed
 
     private void btCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCalcularActionPerformed
@@ -386,17 +398,19 @@ public class SifilisCongenitaIncidenciaPactuacao extends javax.swing.JPanel {
         Map parametros = new HashMap();
         parametros.put("parArquivos", this.lblArquivosSelecionados.getText());
         parametros.put("parVariosArquivos", "sim");
-        parametros.put("parIsRegiao", false);
-        if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")){
-         parametros.put("paIsRegiao", true);
-        }
         session.setParametros(parametros);
         session.setDataFim(SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy"));
         session.setDataInicio(SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy"));
         session.setJprogress(prbStatus);
         session.setMunicipio(cbMunicipio.getSelectedItem().toString());
-        session.setRegional(cbRegional.getSelectedItem().toString());
-        
+        parametros.put("parIsRegiao", false);
+        if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")) {
+            parametros.put("parIsRegiao", true);
+            parametros.put("parRegiaoSaude",cbRegional.getSelectedItem().toString());
+        }
+        if (cbRegional.isVisible()) {
+            session.setRegional(cbRegional.getSelectedItem().toString());
+        }
         session.setUf(cbUf.getSelectedItem().toString());
         session.setRelatorio("SifilisCongenitaIncidenciaPactuacao");
         session.execute();

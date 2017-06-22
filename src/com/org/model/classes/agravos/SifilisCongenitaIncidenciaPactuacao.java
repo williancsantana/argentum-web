@@ -220,14 +220,15 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
         String ufResidencia = (String) parametros.get("parUf");
         String sgUfResidencia = (String) parametros.get("parSgUf");
         String codRegional = (String) parametros.get("parCodRegional");
+        String codRegiao = (String) parametros.get("parCodRegiaoSaude");
         DBFUtil utilDbf = new DBFUtil();
         if (codRegional == null) {
             codRegional = "";
         }
         if ((Boolean)parametros.get("parIsRegiao")) {
-            municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
+            municipiosBeans = populaMunicipiosBeansPactuacao(sgUfResidencia,codRegiao);
         }else{
-            municipiosBeans = populaMunicipiosBeansPactuacao(sgUfResidencia,codRegional);
+             municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
         }
 
         //inicia o calculo
@@ -499,7 +500,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
         parametros.put("parConfig", "");
         parametros.put("parTituloDenominador", "Idade ign ");
         parametros.put("parTituloNumerador", "Menor 1 ano");
-        parametros.put("parTitulo1", "Incidência de sífilis congênita");
+        parametros.put("parTitulo1", "Número de casos novos de sífilis congênita em menores de 1 ano de idade");
         //pegar o ano para exportar para dbf
         ANO = "";
         if (Util.getAno(this.getDataFim()).equals(Util.getAno(this.getDataInicio()))) {
