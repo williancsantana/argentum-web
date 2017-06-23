@@ -242,7 +242,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             //montar o cFabeçalho do relatorio
             //1-nível de agregacao
             String nomeReg = "Regional";
-            if ((Boolean)parametros.get("parIsRegiao")){
+            if ((Boolean)parametros.get("parIsRegiao") != null && (Boolean)parametros.get("parIsRegiao")){
                 nomeReg = "Região";
             }
             if (getRegional() != null) {
@@ -537,7 +537,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
     public JPanel retornaPanelPactuacao(String relatorio) {
         JPanel panel = null;
         System.out.println("");
-        if (relatorio.equals("Taxa de incidência de aids em menores de 5 anos de idade")) {
+        if (relatorio.equals("Número de casos novos de AIDS em menores de 5 anos")) {
             panel = new AidsIndicadorCriancaPactuacao();
             this.relatorio = "AidsIndicadorCriancaPactuacao";
         } else if (relatorio.equals("Número de casos novos de sífilis congênita em menores de 1 ano de idade")) {
@@ -631,6 +631,12 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             panel = new SaudeTrabalhador();
             this.relatorio = "SaudeTrabalhador";
         }
+         if (relatorio.equals("Análise de Completitude")) {
+            Frame parent =  new Frame();
+            Dialog completitude = new Completitude(parent, true);
+            completitude.setVisible(true);
+            return null;
+         }
 
         return panel;
     }
@@ -756,7 +762,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         if (relatorio.equals("Duplicidade")) {
             agravo = new com.org.model.classes.agravos.Regularidade(isDbf());
         }*/
-//        if (relatorio.equals("Análise de Completitude")) {
+//       if (relatorio.equals("Análise de Completitude")) {
 //            Frame parent =  new Frame();
 //            Dialog completitude = new Completitude(parent, true);
 //            completitude.setVisible(true);
@@ -814,7 +820,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
     public String[] retornaGrupos() {
         String[] grupos = {
             "Selecione um Grupo",
-            "Análise de Completitude",
+            "PQAVS a partir de 2017",
             "Pactuação Interfederativa 2017 a 2021",
             // "COAP - Encerramento Oportuno da Investigação",
             // "Duplicidade",
@@ -939,7 +945,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 
             }
             if (grupo.equals("Pactuação Interfederativa 2017 a 2021")) {
-                relatorios = new String[]{"Selecione o Relatório", "Taxa de incidência de aids em menores de 5 anos de idade", "Número de casos novos de sífilis congênita em menores de 1 ano de idade"};
+                relatorios = new String[]{"Selecione o Relatório", "Número de casos novos de AIDS em menores de 5 anos", "Número de casos novos de sífilis congênita em menores de 1 ano de idade"};
             }
             if (grupo.equals("PACTO 2008/2009")) {
                 relatorios = new String[]{"Selecione o Relatório", "Situação da coorte de casos novos de Tuberculose", "Taxa de notificação de casos de PFA em menores de 15 anos", "Percentual de casos de hepatites B e C", "Proporção de doenças exantemáticas investigados oportunamente", "Taxa de letalidade por Febre Hemorrágica Dengue", "Taxa de incidência de aids em menores de 5 anos de idade", "Situação da coorte de casos novos de hanseníase"};
@@ -1008,6 +1014,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 
             if (grupo.equals("Outros relatórios")) {
                 relatorios = new String[]{"Selecione o Relatório",
+                    "Análise de Completitude",
                     "Proporção de doenças exantemáticas investigados oportuna e adequadamente",
                     "Proporção de doenças exantemáticas investigados oportunamente (PAVS 2010/2011)",
                     "Taxa de notificação de casos de PFA em menores de 15 anos (PAVS 2010/2011)",

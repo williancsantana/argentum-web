@@ -49,7 +49,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
         this.setMultiplicador(100000);
         this.setTipo("");
         this.setTipo("populacao");
-        this.setTitulo1("Taxa de incidência de aids em menores de 5 anos de idade ");
+        this.setTitulo1("Número de casos novos de AIDS em menores de 5 anos.");
         this.setTituloColuna("Indicador");
         this.setRodape("Indicador: Nº de casos de aids em menores de 5 anos diagnosticados em  determinado ano, por local de residência  \n");
         this.setSqlNumeradorCompletitude("");
@@ -318,6 +318,21 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
         }
         getBarraStatus().setString(null);
         Collections.sort(this.getBeans(), new BeanComparator("nomeMunicipio"));
+        
+        //calcular o total
+        if ((Boolean)parametros.get("parIsRegiao")) {
+            this.getBeans().add(adicionaTotal(municipioBean,codRegiao));
+        }else{
+             this.getBeans().add(adicionaTotal(municipioBean,codRegional));
+        }
+       /*
+        if (!parametros.get("parSgUf").toString().equals("TODAS") && !parametros.get("municipios").toString().equals("sim")) {
+            Agravo agravoBrasil = (Agravo) this.getBeans().get(this.getBeans().size()-1);
+            List arrayT = new ArrayList();
+            arrayT.add(agravoBrasil);
+            this.setBeans(arrayT);
+        }
+*/
     }
 
     @Override
@@ -473,7 +488,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"ID_LOCRES", "DS_LOCRES", "ID_UFRES", "N_INCAIDS", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+        return new String[]{"ID_LOCRES", "DS_LOCRES", "ID_UFRES", "INCAIDS", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
     }
 
     @Override
@@ -482,7 +497,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
         hashColunas.put("ID_LOCRES", new ColunasDbf(7));
         hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("ID_UFRES", new ColunasDbf(2));
-        hashColunas.put("N_INCAIDS", new ColunasDbf(10, 0));
+        hashColunas.put("INCAIDS", new ColunasDbf(10, 0));
         //hashColunas.put("D_INCAIDS", new ColunasDbf(10, 0));
        // hashColunas.put("I_INCAIDS", new ColunasDbf(6, 2));
         hashColunas.put("ANO_DIAG", new ColunasDbf(4, 0));
@@ -498,7 +513,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
         for (int i = 0; i < bean.size(); i++) {
             Object rowData[] = new Object[colunas.size()];
             Agravo agravo = (Agravo) bean.get(i);
-            if (agravo.getNomeMunicipio().equals("BRASIL")) {
+            if (agravo.getNomeMunicipio().equals("BRASIL") || agravo.getNomeMunicipio().equals("TOTAL")) {
                 rowData[0] = null;
                 rowData[2] = null;
             } else {
@@ -510,10 +525,14 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
             rowData[3] = Double.parseDouble(agravo.getNumerador());
             //rowData[4] = Double.parseDouble(agravo.getDenominador().replace(".", ""));
             //rowData[5] = Double.parseDouble(agravo.getTaxa().replace(",", "."));
-            rowData[6] = preencheAno(getDataInicio(), getDataFim());
-            rowData[7] = getDataInicio();
-            rowData[8] = getDataFim();
-            rowData[9] = "AIDS-SINANNET";
+           // rowData[6] = preencheAno(getDataInicio(), getDataFim());
+           // rowData[7] = getDataInicio();
+           // rowData[8] = getDataFim();
+           // rowData[9] = "AIDS-SINANNET";
+            rowData[4] = preencheAno(getDataInicio(), getDataFim());
+            rowData[5] = getDataInicio();
+            rowData[6] = getDataFim();
+            rowData[7] = "AIDS-SINANNET";
 
             writer.addRecord(rowData);
         }

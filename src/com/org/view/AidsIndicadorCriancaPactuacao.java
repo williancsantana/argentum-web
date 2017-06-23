@@ -259,7 +259,7 @@ public class AidsIndicadorCriancaPactuacao extends javax.swing.JPanel {
         lblDesagregacao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblDesagregacao.setText("Desagregação:");
 
-        cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "Somente municípios", "UF subdividida por Regiões de Saúde", "UF subdividida por Regionais de Saúde" }));
+        cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "Somente municípios", "UF subdividida por Regiões de Saúde", "UF subdividida por Regional de Saúde" }));
         cbDesagregacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbDesagregacaoActionPerformed(evt);
@@ -341,7 +341,7 @@ public class AidsIndicadorCriancaPactuacao extends javax.swing.JPanel {
 
     private void cbRegionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRegionalActionPerformed
         ComboBoxModel modelo;
-        if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regionais de Saúde")) {
+        if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regional de Saúde")) {
             modelo = new DefaultComboBoxModel(this.session.retornaMunicipios(this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString()));
             this.cbMunicipio.setModel(modelo);
         } else if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")) {
@@ -464,8 +464,8 @@ public class AidsIndicadorCriancaPactuacao extends javax.swing.JPanel {
             modelo = new DefaultComboBoxModel(this.session.retornaRegioes(this.cbUf.getSelectedItem().toString()));
             this.cbRegional.setModel(modelo);
 
-        } else if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regionais de Saúde")) {
-            lblRegional.setText("Regionais de Residência");
+        } else if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regional de Saúde")) {
+            lblRegional.setText("Regional de Residência");
             lblRegional.setVisible(true);
             cbRegional.setVisible(true);
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));

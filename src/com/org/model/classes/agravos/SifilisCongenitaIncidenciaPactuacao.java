@@ -101,6 +101,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
         int totalNotificacoes = 0;
         int numeradorEstadual = 0;
         int denominadorEstadual = 0;
+        int diagnosticoFinal = 0;
         boolean isBetween = false;
 
         Agravo municipioResidencia;
@@ -121,7 +122,9 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
                         //verifica se existe a referencia do municipio no bean
                         municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, coluna));
                         idade = utilDbf.getInt(rowObjects, "NU_IDADE_N");
+                        diagnosticoFinal = utilDbf.getInt(rowObjects, "EVO_DIAG_N");
                         isBetween = isBetweenDates(utilDbf.getDate(rowObjects, "DT_DIAG"), dataInicio, dataFim);
+                        if(diagnosticoFinal == 1 || diagnosticoFinal == 2 || diagnosticoFinal ==4){
                         if (municipioResidencia != null) {
                             //se estiver no hashmap, inicia o calulo
                             if (idade == -1 || idade > 4125) {
@@ -148,6 +151,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
                                 numerador++;
                                 municipioResidencia.setTaxa(String.valueOf(numerador));
                             }
+                        }
                         }
                     }
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
@@ -241,6 +245,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
         int numeradorEstadual = 0;
         int denominadorEstadual = 0;
         int numeradorRegional = 0;
+        int diagnosticoFinal = 0;
         int denominadorRegional = 0;
         boolean isBetween = false;
 
@@ -262,7 +267,10 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
                         //verifica se existe a referencia do municipio no bean
                         municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MN_RESI"));
                         idade = utilDbf.getInt(rowObjects, "NU_IDADE_N");
+                        diagnosticoFinal = utilDbf.getInt(rowObjects, "EVO_DIAG_N");
                         isBetween = isBetweenDates(utilDbf.getDate(rowObjects, "DT_DIAG"), dataInicio, dataFim);
+                        if(diagnosticoFinal == 1 || diagnosticoFinal == 2 || diagnosticoFinal ==4){
+                            /*
                         if (municipioResidencia != null) {
                             //se estiver no hashmap, inicia o calulo
                             if (idade == -1 || idade > 4125) {
@@ -273,6 +281,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
                                     municipioResidencia.setDenominador(String.valueOf(denominador));
                                     denominadorEstadual++;
                                     denominadorRegional++;
+                                   
                                 }
 
                             } else {
@@ -283,6 +292,36 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
                                     municipioResidencia.setNumerador(String.valueOf(numerador));
                                     numeradorEstadual++;
                                     numeradorRegional++;
+                                    
+                                }
+                            }
+                            //incrementa a taxa que tras todas as notificacoes
+                            if (isBetween) {
+                                if (municipioResidencia.getTaxa() == null) {
+                                    municipioResidencia.setTaxa("0");
+                                }
+                                numerador = Integer.parseInt(municipioResidencia.getTaxa());
+                                numerador++;
+                                //municipioResidencia.setTaxa(String.valueOf(numerador));
+                                municipioResidencia.setTaxa(String.valueOf(todasIdades));
+                            }
+                        } 
+                        */
+                             if (municipioResidencia != null) {
+                            //se estiver no hashmap, inicia o calulo
+                            if (idade == -1 || idade > 4125) {
+                                if (isBetween) {
+                                    //incrementa o denominador que na verdade eh os casos sem informacao de idade
+                                    denominador = Integer.parseInt(municipioResidencia.getDenominador());
+                                    denominador++;
+                                    municipioResidencia.setDenominador(String.valueOf(denominador));
+                                }
+                            } else {
+                                //incrementa o numerador que na verdade eh os casos < que 1 ano de idade
+                                if (isBetween && idade < 4001) {
+                                    numerador = Integer.parseInt(municipioResidencia.getNumerador());
+                                    numerador++;
+                                    municipioResidencia.setNumerador(String.valueOf(numerador));
                                 }
                             }
                             //incrementa a taxa que tras todas as notificacoes
@@ -294,7 +333,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
                                 numerador++;
                                 municipioResidencia.setTaxa(String.valueOf(numerador));
                             }
-                        } else {
+                        }else {
                             //CALCULA A TAXA ESTADUAL
                             //verifica se é do estado
                             if (ufResidencia.equals(utilDbf.getString(rowObjects, "SG_UF"))) {
@@ -311,6 +350,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
                                 }
 
                             }
+                        }
                         }
                     }
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
@@ -350,6 +390,12 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
             this.getBeans().add(agravoDBF);
         }
         Collections.sort(this.getBeans(), new BeanComparator("nomeMunicipio"));
+         //calcular o total
+        if ((Boolean)parametros.get("parIsRegiao")) {
+            this.getBeans().add(adicionaTotal(municipioBean,codRegiao));
+        }else{
+             this.getBeans().add(adicionaTotal(municipioBean,codRegional));
+        }
     }
 
     @Override
@@ -378,6 +424,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
                 int denominadorEstadual = 0;
                 int numeradorEstadual = 0;
                 int denominadorEspecifico = 0;
+                int diagnosticoFinal = 0;
                 int numeradorEspecifico = 0;
                 int todasIdades = 0;
                 boolean isBetween = false;
@@ -403,6 +450,8 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
                                 if (utilDbf.getString(rowObjects, "SG_UF").equals(ufResidencia)) {
                                     //verifica se tem o parametro de municipio de residencia
                                     idade = utilDbf.getInt(rowObjects, "NU_IDADE_N");
+                                    diagnosticoFinal = utilDbf.getInt(rowObjects, "EVO_DIAG_N");
+                                    if(diagnosticoFinal == 1 || diagnosticoFinal == 2 || diagnosticoFinal ==4){
                                     try {
                                         isBetween = isBetweenDates(utilDbf.getDate(rowObjects, "DT_DIAG"), dataInicio, dataFim);
                                     } catch (ParseException ex) {
@@ -442,6 +491,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
                                                 numeradorEstadual++;
                                             }
                                         }
+                                    }
                                     }
 
                                 }
@@ -540,7 +590,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
         for (int i = 0; i < bean.size(); i++) {
             Object rowData[] = new Object[colunas.size()];
             Agravo agravo = (Agravo) bean.get(i);
-            if (agravo.getNomeMunicipio().equals("BRASIL")) {
+            if (agravo.getNomeMunicipio().equals("BRASIL") || agravo.getNomeMunicipio().equals("TOTAL")) {
                 rowData[0] = null;
                 rowData[2] = null;
             } else {

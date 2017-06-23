@@ -157,6 +157,26 @@ public class Agravo {
         }
         return agravoBean;
     }
+     public Agravo adicionaTotal(Collection<Agravo> municipioBean, String codRegiao) {
+        DecimalFormat df = new DecimalFormat("0");
+        Agravo agravoBean = new Agravo();
+        agravoBean.setNomeMunicipio("TOTAL");
+        agravoBean.setCodMunicipio(codRegiao);
+        agravoBean.setNumerador("0");
+        agravoBean.setDenominador("0");
+        for (Iterator<Agravo> it = municipioBean.iterator(); it.hasNext();) {
+            Agravo agravoUF = it.next();
+            agravoBean.setNumerador(String.valueOf(Integer.parseInt(agravoUF.getNumerador()) + Integer.parseInt(agravoBean.getNumerador())));
+            agravoBean.setDenominador(String.valueOf(Integer.parseInt(agravoUF.getDenominador()) + Integer.parseInt(agravoBean.getDenominador())));
+            if (agravoBean.getTaxa() == null || agravoUF.getTaxa() == null) {
+                agravoBean.setTaxa("0");
+            } else {
+               // agravoBean.setTaxa(df.format(Double.parseDouble(agravoBean.getNumerador()) / Double.parseDouble(agravoBean.getDenominador()) * this.getMultiplicador()));
+                agravoBean.setTaxa(df.format(Double.parseDouble(agravoUF.getTaxa()) + Double.parseDouble(agravoBean.getTaxa())));
+            }
+        }
+        return agravoBean;
+    }
 
     public String getNomeMunicipio(String codMunicipio) {
         DBFUtil utilDbf = new DBFUtil();

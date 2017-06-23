@@ -153,7 +153,7 @@ public class SinanUtil {
          * @return 
          */
         public static String getVersaoSinanRelatorios(){
-            return "4.8";
+            return "5.0";
         }
         
         /**
