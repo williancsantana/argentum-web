@@ -386,6 +386,14 @@ public class SinanUtil {
         }
         return false;
     }
+    public static boolean verificaDBChikoOnLine(String[] arquivos){
+        for(int i = 0; i < arquivos.length; i++){
+            if(arquivos[i].substring(0, 6).equals("CHIKON")){
+                return true;
+            }
+        }
+        return false;
+    }
     
       public static void gerarTabela(File[] files, JTable tabela){
         List<String> listaArquivos = new ArrayList<String>();

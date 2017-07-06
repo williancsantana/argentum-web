@@ -24,6 +24,8 @@ public class OportunidadeAgravoPQAVS {
     private String regiao;
     private String regiaoSaude;
     private String uf;
+    private String codRegionalSaude;
+    private String regionalSaude;
     private String codRegiaoSaude;
     private Map<String, Integer> mapaSemEpidemiologica = new HashMap<String, Integer>();
     private Double resultado;
@@ -36,6 +38,26 @@ public class OportunidadeAgravoPQAVS {
         this.setQtdOportuno(0);
         this.setTotal(0);
     }
+
+    public String getCodRegionalSaude() {
+        return codRegionalSaude;
+    }
+
+    public void setCodRegionalSaude(String codRegionalSaude) {
+        this.codRegionalSaude = codRegionalSaude;
+    }
+
+    public String getRegionalSaude() {
+        return regionalSaude;
+    }
+
+    public void setRegionalSaude(String regionalSaude) {
+        this.regionalSaude = regionalSaude;
+    }
+    
+    
+    
+    
     /**
      * @return the nmAgravo
      */

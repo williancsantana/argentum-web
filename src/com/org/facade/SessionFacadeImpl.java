@@ -21,6 +21,7 @@ import com.org.negocio.Configuracao;
 import com.org.negocio.Util;
 import com.org.service.OportunidadeCOAPService;
 import com.org.service.OportunidadePQAVSService;
+import com.org.service.OportunidadePQAVSServicePactuacao;
 import com.org.service.RecebimentoLoteService;
 import com.org.service.SemEpidPQAVSService;
 import com.org.util.SinanUtil;
@@ -242,17 +243,16 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             //montar o cFabeçalho do relatorio
             //1-nível de agregacao
             String nomeReg = "Regional";
-            if ((Boolean)parametros.get("parIsRegiao") != null && (Boolean)parametros.get("parIsRegiao")){
+            if ((Boolean) parametros.get("parIsRegiao") != null && (Boolean) parametros.get("parIsRegiao")) {
                 nomeReg = "Região";
             }
             if (getRegional() != null) {
-                parametros.put("parNomeMunicipio", "Nível de Agregação:\nUF " + agravo.getTipoAgregacao() + ": " + uf + "\n"+nomeReg+" " + agravo.getTipoAgregacao() + ":" + getRegional() + "\nMunicípio " + agravo.getTipoAgregacao() + ":" + municipio);
-            }else {
-                 parametros.put("parNomeMunicipio", "Nível de Agregação:\nUF " + agravo.getTipoAgregacao() + ": " + uf + "\nMunicípio " + agravo.getTipoAgregacao() + ":" + municipio);
+                parametros.put("parNomeMunicipio", "Nível de Agregação:\nUF " + agravo.getTipoAgregacao() + ": " + uf + "\n" + nomeReg + " " + agravo.getTipoAgregacao() + ":" + getRegional() + "\nMunicípio " + agravo.getTipoAgregacao() + ":" + municipio);
+            } else {
+                parametros.put("parNomeMunicipio", "Nível de Agregação:\nUF " + agravo.getTipoAgregacao() + ": " + uf + "\nMunicípio " + agravo.getTipoAgregacao() + ":" + municipio);
             }
-            
-            
-            if (!relatorio.equals("Oportunidade") && !relatorio.equals("OportunidadeCOAP") && !relatorio.equals("OportunidadePQAVS") && !relatorio.equals("RecebimentoLote")) {
+
+            if (!relatorio.equals("Oportunidade") && !relatorio.equals("OportunidadePQAVSPactuacao") && !relatorio.equals("OportunidadeCOAP") && !relatorio.equals("OportunidadePQAVS") && !relatorio.equals("RecebimentoLote")) {
                 parametros.put("parPeriodo", "Período " + agravo.getPeriodo() + ":\n" + parametros.get("parPeriodo"));
             }
             if (!relatorio.equals("RecebimentoLote") && parametros.get("parCompletitude").equals(" null")) {
@@ -438,6 +438,108 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 }
             }
 
+            if (relatorio != null && relatorio.equals("OportunidadePQAVSPactuacao")) {
+                //Realizar aqui o teste de agrupamento por Região de Saúde
+                OportunidadePQAVSServicePactuacao oportunidadePQAVSService = new OportunidadePQAVSServicePactuacao();
+                List<RegiaoSaudePQAVS> listaRegiaoSaude = new ArrayList<RegiaoSaudePQAVS>();
+                List<UFPQAVS> listaUF = new ArrayList<UFPQAVS>();
+
+                if (parametros.get("parDesagregacao").equals("UF subdividida por Regiões de Saúde")) {
+                    if (parametros.get("parNenhum").toString().equals("true")) {
+                        parametros.put("TITULO_COLUNA", "UF       Região de Saúde");
+                        parametros.put("QTDE_REG_MUNIC_AGR", "Regiões");
+                        listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegiaoSaudeEmLista(oportunidadePQAVSService.agruparRegiaoSaude2(beans), parametros);
+                        listaUF = oportunidadePQAVSService.converterMapaUFRegiaoSaudeEmLista(oportunidadePQAVSService.agruparUFRegiaoSaude2(listaRegiaoSaude), parametros);
+                        oportunidadePQAVSService.gerarRelatorioPQAVSUFRegiaoSaude(listaUF, parametros, 0, null);
+
+                        if (parametros.get("exportarDBF").equals(true)) {
+                            OportunidadeAgravoPQAVS bean;
+                            List<OportunidadeAgravoPQAVS> listaBean = new ArrayList<OportunidadeAgravoPQAVS>();
+                            for (UFPQAVS item : listaUF) {
+                                for (RegiaoSaudePQAVS regiao : item.getLista()) {
+                                    bean = new OportunidadeAgravoPQAVS();
+                                    bean.setUf(regiao.getUf());
+                                    bean.setCodRegiaoSaude(regiao.getCodRegiaoSaude());
+                                    bean.setRegiaoSaude(regiao.getNmAgravo());// VERIFICAR ESTE TRECHO
+                                    bean.setNmAgravo("");
+                                    bean.setQtdOportuno(regiao.getQtdOportuno());
+                                    bean.setTotal(regiao.getTotal());
+                                    listaBean.add(bean);
+                                }
+                            }
+                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(listaBean);
+                        }
+                    } else {
+                        parametros.put("TITULO_COLUNA", "UF       Região de Saúde");
+                        parametros.put("QTDE_REG_MUNIC_AGR", "Municípios");
+
+                        listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegiaoSaudeEmLista(oportunidadePQAVSService.agruparRegiaoSaude(beans), parametros);
+                        oportunidadePQAVSService.gerarRelatorioPQAVS(listaRegiaoSaude, parametros, 0);
+                        if (parametros.get("exportarDBF").equals(true)) {
+                            beans.remove(beans.size() - 1);
+                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans);
+                            // CHAMAR EXPORTAR PASSA beans como parâmetro
+                        }
+                    }
+
+                } else if (parametros.get("parDesagregacao").equals("UF subdividida por Regionais de Saúde")) {
+
+                    if (parametros.get("parNenhum").toString().equals("true")) {
+                        parametros.put("TITULO_COLUNA", "UF       Regionais de Saúde");
+                        parametros.put("QTDE_REG_MUNIC_AGR", "Regionais");
+                        listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegionalSaudeEmLista(oportunidadePQAVSService.agruparRegionalSaude2(beans), parametros);
+                        listaUF = oportunidadePQAVSService.converterMapaUFRegiaoSaudeEmLista(oportunidadePQAVSService.agruparUFRegiaoSaude2(listaRegiaoSaude), parametros);
+                        oportunidadePQAVSService.gerarRelatorioPQAVSUFRegiaoSaude(listaUF, parametros, 0, null);
+
+                        if (parametros.get("exportarDBF").equals(true)) {
+                            OportunidadeAgravoPQAVS bean;
+                            List<OportunidadeAgravoPQAVS> listaBean = new ArrayList<OportunidadeAgravoPQAVS>();
+                            for (UFPQAVS item : listaUF) {
+                                for (RegiaoSaudePQAVS regiao : item.getLista()) {
+                                    bean = new OportunidadeAgravoPQAVS();
+                                    bean.setUf(regiao.getUf());
+                                    bean.setCodRegiaoSaude(regiao.getCodRegiaoSaude());
+                                    bean.setRegiaoSaude(regiao.getNmAgravo());// VERIFICAR ESTE TRECHO
+                                    bean.setNmAgravo("");
+                                    bean.setQtdOportuno(regiao.getQtdOportuno());
+                                    bean.setTotal(regiao.getTotal());
+                                    listaBean.add(bean);
+                                }
+                            }
+                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(listaBean);
+                        }
+                    } else {
+                        parametros.put("TITULO_COLUNA", "UF       Regional de Saúde");
+                        parametros.put("QTDE_REG_MUNIC_AGR", "Municípios");
+
+                        listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegiaoSaudeEmLista(oportunidadePQAVSService.agruparRegionalSaude(beans), parametros);
+                        oportunidadePQAVSService.gerarRelatorioPQAVS(listaRegiaoSaude, parametros, 0);
+                        if (parametros.get("exportarDBF").equals(true)) {
+                            beans.remove(beans.size() - 1);
+                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans);
+                            // CHAMAR EXPORTAR PASSA beans como parâmetro
+                        }
+                    }
+
+                } else {
+                    if (parametros.get("parDiscriminarPorAgravo").equals(true)) {
+                        parametros.put("TITULO_COLUNA", "                Agravo");
+                        parametros.put("QTDE_REG_MUNIC_AGR", "Agravos");
+                    }
+                    
+                    listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegiaoSaudeEmLista(oportunidadePQAVSService.agruparRegiaoSaude(beans), parametros);
+                    oportunidadePQAVSService.gerarRelatorioPQAVS(listaRegiaoSaude, parametros, 0);
+                    
+                    
+                    if (parametros.get("exportarDBF").equals(true)) {
+                        beans.remove(beans.size() - 1);
+                        oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans);
+                        // CHAMAR EXPORTAR PASSA beans como parâmetro
+                    }
+
+                }
+            }
+
             if (relatorio != null && relatorio.equals("OportunidadeCOAP")) {
                 //Realizar aqui o teste de agrupamento por Região de Saúde
                 OportunidadeCOAPService oportunidadeCOAPService = new OportunidadeCOAPService();
@@ -544,6 +646,9 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             panel = new SifilisCongenitaIncidenciaPactuacao();
             this.relatorio = "SifilisCongenitaIncidenciaPactuacao";
 
+        } else if (relatorio.equals("Proporção de casos DNCI encerrados em até 60 dias após notificação")) {
+            panel = new OportunidadePQAVSPactuacao();
+            this.relatorio = "OportunidadePQAVSPactuacao";
         }
         return panel;
     }
@@ -631,12 +736,12 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             panel = new SaudeTrabalhador();
             this.relatorio = "SaudeTrabalhador";
         }
-         if (relatorio.equals("Análise de Completitude")) {
-            Frame parent =  new Frame();
+        if (relatorio.equals("Análise de Completitude")) {
+            Frame parent = new Frame();
             Dialog completitude = new Completitude(parent, true);
             completitude.setVisible(true);
             return null;
-         }
+        }
 
         return panel;
     }
@@ -737,6 +842,19 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             agravo.setRegional(regional);
             agravo.setTemListagem(this.temListagem);
         }
+        if (relatorio.equals("OportunidadePQAVSPactuacao")) {
+            agravo = new com.org.model.classes.agravos.OportunidadePQAVSPactuacao(isDbf());
+            agravo.setAnoAvaliado(this.anoAvaliado);
+            agravo.setDtInicioAvaliacao(this.dtInicioAvaliacao);
+            agravo.setDtFimAvaliacao(this.dtFimAvaliacao);
+            agravo.setDataAvaliacao(dataAvaliacao);
+            agravo.setNomeAgravo(nomeAgravo);
+            agravo.setUf(uf);
+            agravo.setMunicipio(municipio);
+            agravo.setRegional(regional);
+            agravo.setTemListagem(this.temListagem);
+        }
+
         if (relatorio.equals("Oportunidade")) {
             agravo = new com.org.model.classes.agravos.Oportunidade(isDbf());
             agravo.setAnoAvaliado(this.anoAvaliado);
@@ -945,7 +1063,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 
             }
             if (grupo.equals("Pactuação Interfederativa 2017 a 2021")) {
-                relatorios = new String[]{"Selecione o Relatório", "Número de casos novos de AIDS em menores de 5 anos", "Número de casos novos de sífilis congênita em menores de 1 ano de idade"};
+                relatorios = new String[]{"Selecione o Relatório", "Número de casos novos de AIDS em menores de 5 anos", "Número de casos novos de sífilis congênita em menores de 1 ano de idade", "Proporção de casos DNCI encerrados em até 60 dias após notificação"};
             }
             if (grupo.equals("PACTO 2008/2009")) {
                 relatorios = new String[]{"Selecione o Relatório", "Situação da coorte de casos novos de Tuberculose", "Taxa de notificação de casos de PFA em menores de 15 anos", "Percentual de casos de hepatites B e C", "Proporção de doenças exantemáticas investigados oportunamente", "Taxa de letalidade por Febre Hemorrágica Dengue", "Taxa de incidência de aids em menores de 5 anos de idade", "Situação da coorte de casos novos de hanseníase"};

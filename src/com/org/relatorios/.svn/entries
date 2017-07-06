@@ -729,6 +729,52 @@ taidson
 
 16375
 
+oportunidadePQAVSPactuacao.jrxml
+file
+
+
+
+add
+
+31c7592054c921ef37fc37311fae76c3
+
+
+
+
+
+
+
+
+
+
+
+copied
+http://subversion.assembla.com/svn/tdn_svn/trunk/src/com/org/relatorios/oportunidadePQAVS.jrxml
+158
+
+oportunidadePQAVSPactuacao_sub.jrxml
+file
+
+
+
+add
+
+5e6595174ea589f2706e3766bcdac34d
+
+
+
+
+
+
+
+
+
+
+
+copied
+http://subversion.assembla.com/svn/tdn_svn/trunk/src/com/org/relatorios/oportunidadePQAVS_sub.jrxml
+158
+
 oportunidadePQAVS_sub.jasper
 file
 158
