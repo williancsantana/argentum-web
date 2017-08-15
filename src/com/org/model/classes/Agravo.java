@@ -105,6 +105,9 @@ public class Agravo {
     private String uf;
     private String municipio;
     private String regional;
+    private String codRegional;
+    private String regiaoSaude;
+    private String codRegiaoSaude;
 
     public Agravo() {
     }
@@ -994,6 +997,13 @@ public class Agravo {
                                 Agravo agravoDbf = new Agravo();
                                 agravoDbf.setCodMunicipio(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
                                 agravoDbf.setNomeMunicipio(utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                                agravoDbf.setCodRegional(utilDbf.getString(rowObjects1, "ID_REGIONA"));
+                                try {
+                                    agravoDbf.setRegional(buscaRegionalSaude(utilDbf.getString(rowObjects1, "ID_REGIONA")));
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(Agravo.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                
                                 agravoDbf.setDenominador("0");
                                 agravoDbf.setNumerador("0");
                                 municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
@@ -1019,6 +1029,12 @@ public class Agravo {
                                 Agravo agravoDbf = new Agravo();
                                 agravoDbf.setCodMunicipio(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
                                 agravoDbf.setNomeMunicipio(utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                                agravoDbf.setCodRegional(utilDbf.getString(rowObjects1, "ID_REGIONA"));
+                                try {
+                                    agravoDbf.setRegional(buscaRegionalSaude(utilDbf.getString(rowObjects1, "ID_REGIONA")));
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(Agravo.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                                 agravoDbf.setDenominador("0");
                                 agravoDbf.setNumerador("0");
                                 municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
@@ -1544,6 +1560,30 @@ public class Agravo {
         }
     }
 
+    
+        public String buscaRegionalSaude(String idRegiao) throws SQLException {
+        if (idRegiao == null) {
+            return "";
+        }
+
+        DBFReader reader = SinanUtil.retornaObjetoDbfCaminhoArquivo("REGIONET", "dbf\\");
+        Object[] rowObjects;
+        DBFUtil utilDbf = new DBFUtil();
+        try {
+            utilDbf.mapearPosicoes(reader);
+            while ((rowObjects = reader.nextRecord()) != null) {
+                if (idRegiao.equals(utilDbf.getString(rowObjects, "ID_REGIONA"))) {
+                    return utilDbf.getString(rowObjects, "NM_REGIONA");
+                }
+            }
+        } catch (DBFException e) {
+            Master.mensagem("Erro: regional nao encontrada.Verifique se existe a pasta DBF e se os arquivo REGIAO.DBF está lá:\n" + e);
+        }
+        return "";
+    }
+
+    
+    
     public List getBeansMunicipioEspecifico(Connection con, Map parametros) throws SQLException {
         return this.getBeanMunicipioEspecifico(con, parametros);
     }
@@ -2130,6 +2170,31 @@ public class Agravo {
     public void setDtInicioTransf(String dtInicioTransf) {
         this.dtInicioTransf = dtInicioTransf;
     }
+
+    public String getRegiaoSaude() {
+        return regiaoSaude;
+    }
+
+    public void setRegiaoSaude(String regiaoSaude) {
+        this.regiaoSaude = regiaoSaude;
+    }
+
+    public String getCodRegional() {
+        return codRegional;
+    }
+
+    public void setCodRegional(String codRegional) {
+        this.codRegional = codRegional;
+    }
+
+    public String getCodRegiaoSaude() {
+        return codRegiaoSaude;
+    }
+
+    public void setCodRegiaoSaude(String codRegiaoSaude) {
+        this.codRegiaoSaude = codRegiaoSaude;
+    }
+
     
     
     
