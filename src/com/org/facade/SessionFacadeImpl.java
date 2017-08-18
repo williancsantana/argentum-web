@@ -178,6 +178,11 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         parametros.put("parConfig", "");
         parametros.put("parVersao", getVersao());
         parametros.put("municipios", "nao");
+
+        parametros.put("CABECALHO1", "República Federativa do Brasil - Ministério da Saúde");
+        parametros.put("CABECALHO2", "Sistema de Informação de Agravos de Notificação - Sinan");
+        parametros.put("RODAPE1", "SINAN Relatórios - Versão " + SinanUtil.getVersaoSinanRelatorios());
+
         Date data = new Date();
         SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
         parametros.put("parDataAtual", formatador.format(data));
@@ -197,6 +202,12 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                     parametros.put("municipios", "sim");
                 }
                 parametros.put("parUf", "brasil");
+                if (relatorio.equals("AutoctonesMalariaPactuacao")) {
+                    if (uf.equals("TODAS")) {
+                        parametros.put("parUf", "TODAS");
+                    }
+                }
+
                 parametros.put("parSgUf", uf);
                 agravo.getTaxaEstado(conexao, parametros);
                 beans = agravo.getBeanMunicipios(conexao, parametros);
@@ -243,6 +254,15 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 
             //montar o cFabeçalho do relatorio
             //1-nível de agregacao
+            if ((Boolean) parametros.get("parNenhum")) {
+                parametros.put("parDescricaoReg", "");
+            } else {
+                parametros.put("parDescricaoReg", "Regional de Saúde");
+                if ((Boolean) parametros.get("parIsRegiao") != null && (Boolean) parametros.get("parIsRegiao")) {
+                    parametros.put("parDescricaoReg", "Região de Saúde");
+                }
+            }
+
             String nomeReg = "Regional";
             if ((Boolean) parametros.get("parIsRegiao") != null && (Boolean) parametros.get("parIsRegiao")) {
                 nomeReg = "Região";
@@ -554,7 +574,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 }
                 //verifica se tem o parametro de arquivos
                 if (parametros.get("parVariosArquivos") != null && isDbf()) {
-                    parametros.put("parArquivos", "Arquivos selecionados:\n" + parametros.get("parArquivos").toString());
+                    parametros.put("parArquivos", "Arquivos selecionados:\n " + parametros.get("parArquivos").toString());
                 } else {
                     if (!relatorio.equals("Regularidade")) {
                         parametros.put("parArquivos", "");

@@ -463,18 +463,19 @@ public class AutoctonesMalaria extends javax.swing.JPanel {
 
         parametros.put("parIsRegiao", true);
         if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regionais de Saúde")) {
-            //parametros.put("parRegionalSaude", cbRegional.getSelectedItem().toString());
+            parametros.put("parRegionalSaude", cbRegional.getSelectedItem().toString());
             session.setRegional(cbRegional.getSelectedItem().toString());
             parametros.put("parIsRegiao", false);
         } else {
             parametros.put("parRegiaoSaude", cbRegional.getSelectedItem().toString());
+            session.setRegional(cbRegional.getSelectedItem().toString());
         }
 
-        parametros.put("parNenhum", "false");
+        parametros.put("parNenhum", false);
         if (cbMunicipio.getSelectedItem().toString().equals("NENHUM")) {
             cbMunicipio.setSelectedItem("TODOS");
             parametros.put("parMunic", cbMunicipio.getSelectedItem().toString());
-            parametros.put("parNenhum", "true");
+            parametros.put("parNenhum", true);
         } else {
             parametros.put("parMunic", cbMunicipio.getSelectedItem().toString());
         }

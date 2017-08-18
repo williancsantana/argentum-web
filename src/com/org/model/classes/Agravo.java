@@ -4,6 +4,7 @@
  */
 package com.org.model.classes;
 //teste
+
 import com.linuxense.javadbf.DBFException;
 import com.linuxense.javadbf.DBFReader;
 import com.linuxense.javadbf.DBFWriter;
@@ -54,6 +55,8 @@ public class Agravo {
     private String nomeMunicipio;
     private String codMunicipio;
     private String numerador;
+    private Integer numeradorInt;
+    private Integer denominadorInt;
     private String denominador;
     private String periodo;
     private String taxa;
@@ -99,7 +102,7 @@ public class Agravo {
     private String dtInicioTransf;
     private String dtFimTransf;
     private String dtInicioReceb;
-    private String dtFimReceb;    
+    private String dtFimReceb;
     private String nomeAgravo;
     private boolean temListagem;
     private String uf;
@@ -130,17 +133,17 @@ public class Agravo {
             Agravo agravoUF = it.next();
             agravoBean.setNumerador(String.valueOf(Integer.parseInt(agravoUF.getNumerador()) + Integer.parseInt(agravoBean.getNumerador())));
             agravoBean.setDenominador(String.valueOf(Integer.parseInt(agravoUF.getDenominador()) + Integer.parseInt(agravoBean.getDenominador())));
-            
+
             if (agravoBean.getDenominador().equals("0")) {
                 agravoBean.setTaxa("0.00");
             } else {
                 agravoBean.setTaxa(df.format(Double.parseDouble(agravoBean.getNumerador()) / Double.parseDouble(agravoBean.getDenominador()) * this.getMultiplicador()));
             }
-            
+
         }
         return agravoBean;
     }
-    
+
     public Agravo adicionaRegional(Collection<Agravo> municipioBean, String nomeRegional, String codRegional) {
         DecimalFormat df = new DecimalFormat("0.00");
         Agravo agravoBean = new Agravo();
@@ -160,7 +163,8 @@ public class Agravo {
         }
         return agravoBean;
     }
-     public Agravo adicionaTotal(Collection<Agravo> municipioBean, String codRegiao) {
+
+    public Agravo adicionaTotal(Collection<Agravo> municipioBean, String codRegiao) {
         DecimalFormat df = new DecimalFormat("0");
         Agravo agravoBean = new Agravo();
         agravoBean.setNomeMunicipio("TOTAL");
@@ -174,7 +178,7 @@ public class Agravo {
             if (agravoBean.getTaxa() == null || agravoUF.getTaxa() == null) {
                 agravoBean.setTaxa("0");
             } else {
-               // agravoBean.setTaxa(df.format(Double.parseDouble(agravoBean.getNumerador()) / Double.parseDouble(agravoBean.getDenominador()) * this.getMultiplicador()));
+                // agravoBean.setTaxa(df.format(Double.parseDouble(agravoBean.getNumerador()) / Double.parseDouble(agravoBean.getDenominador()) * this.getMultiplicador()));
                 agravoBean.setTaxa(df.format(Double.parseDouble(agravoUF.getTaxa()) + Double.parseDouble(agravoBean.getTaxa())));
             }
         }
@@ -508,7 +512,6 @@ public class Agravo {
                 } catch (Exception exception) {
                     System.out.println(municipio + "\n" + exception);
                 }
-
 
             }
             getBarraStatus().setString(null);
@@ -945,11 +948,12 @@ public class Agravo {
         return municipiosRegionais;
 
     }
-    
+
     /**
      * Retorna os muncípio de uma região de saúde específica
+     *
      * @param codRegiaoSaude
-     * @return 
+     * @return
      * @data 15fev2013
      * @autor Taidson
      */
@@ -1003,7 +1007,7 @@ public class Agravo {
                                 } catch (SQLException ex) {
                                     Logger.getLogger(Agravo.class.getName()).log(Level.SEVERE, null, ex);
                                 }
-                                
+
                                 agravoDbf.setDenominador("0");
                                 agravoDbf.setNumerador("0");
                                 municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
@@ -1060,7 +1064,103 @@ public class Agravo {
 
     }
 
-        public HashMap<String, Agravo> populaMunicipiosBeansPactuacao(String sgUfResidencia, String codRegiao) {
+    public HashMap<String, Agravo> populaMunicipiosBeansMAL(String sgUfResidencia, String codRegiao, String regiao) {
+        DBFUtil utilDbf = new DBFUtil();
+        HashMap<String, String> municipios = new HashMap<String, String>();
+        HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
+        //se codRegional estiver preenchida, deve buscar somente os municipios pertencentes a ela
+        //busca municipios dessa regional
+        DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
+        Object[] rowObjects1;
+
+        Boolean sgUF = false;
+        Boolean reg = false;
+        Boolean temReg = false;
+        int i = 1;
+
+        try {
+            utilDbf.mapearPosicoes(readerMunicipio);
+            double TotalRegistros = Double.parseDouble(String.valueOf(readerMunicipio.getRecordCount()));
+            while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
+                if (utilDbf.getString(rowObjects1, "SG_UF") != null && sgUfResidencia != "TODAS") {
+                    sgUF = (utilDbf.getString(rowObjects1, "SG_UF").equals(sgUfResidencia));
+                }
+                if (utilDbf.getString(rowObjects1, "SG_UF").equals("TO")) {
+                    System.out.println("");
+                }
+                if (regiao.equals("true")) {
+                    if (utilDbf.getString(rowObjects1, "ID_REGIAO") != null) {
+                        reg = utilDbf.getString(rowObjects1, "ID_REGIAO").equals(codRegiao);
+                    }
+                } else {
+                    if (utilDbf.getString(rowObjects1, "ID_REGIONA") != null) {
+                        reg = utilDbf.getString(rowObjects1, "ID_REGIONA").equals(codRegiao);
+                    }
+                }
+                if (sgUfResidencia.equals("TODAS")) {
+                    if (regiao.equals("true")) {
+                        if (utilDbf.getString(rowObjects1, "ID_REGIAO") != null) {
+                            temReg = true;
+                        }
+                    } else {
+                        if (utilDbf.getString(rowObjects1, "ID_REGIONA") != null) {
+                            temReg = true;
+                        }
+                    }
+                }
+
+                if (temReg || (sgUF && codRegiao.length() == 0) || (reg && !(codRegiao.length() == 0))) {
+                    if (!utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
+                        Agravo agravoDbf = new Agravo();
+                        agravoDbf.setCodMunicipio(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
+                        agravoDbf.setNomeMunicipio(utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                        agravoDbf.setUf(utilDbf.getString(rowObjects1, "SG_UF"));
+                        agravoDbf.setCodRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO"));
+                        agravoDbf.setCodRegional(utilDbf.getString(rowObjects1, "ID_REGIONA"));
+                        try {
+                            agravoDbf.setRegiaoSaude(buscaRegiaoSaude(agravoDbf.getCodRegiaoSaude()));
+                            agravoDbf.setRegional(buscaRegionalSaude(agravoDbf.getCodRegional()));
+
+                            if (agravoDbf.getRegiaoSaude() == null) {
+                                agravoDbf.setRegional("");
+                            }
+                            if (agravoDbf.getRegional() == null) {
+                                agravoDbf.setRegional("");
+                            }
+
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Agravo.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        agravoDbf.setDenominador("0");
+                        agravoDbf.setNumerador("0");
+                        municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                        municipiosBeans.put(agravoDbf.getCodMunicipio(), agravoDbf);
+                    }
+                }
+                temReg = false;
+                float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                getBarraStatus().setValue((int) percentual);
+                i++;
+
+            }
+        } catch (DBFException e) {
+            Master.mensagem("Erro ao carregar municipios:\n" + e);
+        }
+
+        municipios = sortHashMapByValues(municipios, false);
+        Set<String> municipiosKeys = municipios.keySet();
+        HashMap<String, Agravo> municipiosBeansRetorno = new HashMap<String, Agravo>();
+        Iterator valueIt = municipiosKeys.iterator();
+        while (valueIt.hasNext()) {
+            String key = (String) valueIt.next();
+            municipiosBeansRetorno.put(key, municipiosBeans.get(key));
+
+        }
+        return municipiosBeansRetorno;
+
+    }
+
+    public HashMap<String, Agravo> populaMunicipiosBeansPactuacao(String sgUfResidencia, String codRegiao) {
         DBFUtil utilDbf = new DBFUtil();
         HashMap<String, String> municipios = new HashMap<String, String>();
         HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
@@ -1069,7 +1169,6 @@ public class Agravo {
             //busca municipios dessa regional
             DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
             Object[] rowObjects1;
-
             try {
                 utilDbf.mapearPosicoes(readerMunicipio);
                 while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
@@ -1079,6 +1178,8 @@ public class Agravo {
                                 Agravo agravoDbf = new Agravo();
                                 agravoDbf.setCodMunicipio(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
                                 agravoDbf.setNomeMunicipio(utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                                agravoDbf.setUf(utilDbf.getString(rowObjects1, "SG_UF"));
+                                agravoDbf.setCodRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO"));
                                 agravoDbf.setDenominador("0");
                                 agravoDbf.setNumerador("0");
                                 municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
@@ -1096,7 +1197,6 @@ public class Agravo {
             Object[] rowObjects1;
             try {
                 utilDbf.mapearPosicoes(readerMunicipio);
-
                 while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
                     if (sgUfResidencia.equals(utilDbf.getString(rowObjects1, "SG_UF")) || sgUfResidencia.equals("BR")) {
                         if (!utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
@@ -1104,6 +1204,8 @@ public class Agravo {
                                 Agravo agravoDbf = new Agravo();
                                 agravoDbf.setCodMunicipio(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
                                 agravoDbf.setNomeMunicipio(utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                                agravoDbf.setUf(utilDbf.getString(rowObjects1, "SG_UF"));
+                                agravoDbf.setCodRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO"));
                                 agravoDbf.setDenominador("0");
                                 agravoDbf.setNumerador("0");
                                 municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
@@ -1129,7 +1231,6 @@ public class Agravo {
 
     }
 
-    
     public HashMap<String, TuberculoseCoorte> populaMunicipiosBeansTube(String sgUfResidencia, String codRegional) {
         DBFUtil utilDbf = new DBFUtil();
         HashMap<String, String> municipios = new HashMap<String, String>();
@@ -1232,6 +1333,109 @@ public class Agravo {
             ufsBeansRetorno.put(key, ufsBeans.get(key));
         }
         return ufsBeansRetorno;
+    }
+
+    public HashMap<String, Agravo> populaRegiaoBeans(String SG_UF, String id_Regiao) {
+        DBFUtil utilDbf = new DBFUtil();
+        HashMap<String, String> regiao = new HashMap<String, String>();
+        HashMap<String, Agravo> RegBeans = new HashMap<String, Agravo>();
+        Boolean sgUF = false;
+        Boolean reg = false;
+        Boolean temReg = false;
+        //se codRegional estiver preenchida, deve buscar somente os municipios pertencentes a ela
+        //busca municipios dessa regional
+        DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("REGIAO", "dbf\\");
+        Object[] rowObjects1;
+
+        try {
+            utilDbf.mapearPosicoes(readerMunicipio);
+            while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
+
+                if (utilDbf.getString(rowObjects1, "SG_UF") != null) {
+                    sgUF = (utilDbf.getString(rowObjects1, "SG_UF").equals(SG_UF));
+                }
+                if (utilDbf.getString(rowObjects1, "ID_REGIAO") != null) {
+                    reg = utilDbf.getString(rowObjects1, "ID_REGIAO").equals(id_Regiao);
+                }
+
+                if (SG_UF.equals("TODAS")) {
+                    if (utilDbf.getString(rowObjects1, "ID_REGIAO") != null) {
+                        temReg = true;
+                    }
+                }
+
+                if (temReg || (sgUF && id_Regiao.isEmpty()) || (reg && !id_Regiao.isEmpty())) {
+                    Agravo agravoDbf = new Agravo();
+                    agravoDbf.init("");
+                    agravoDbf.setUf(utilDbf.getString(rowObjects1, "SG_UF"));
+                    agravoDbf.setCodMunicipio(utilDbf.getString(rowObjects1, "ID_REGIAO"));
+                    agravoDbf.setNomeMunicipio(utilDbf.getString(rowObjects1, "NM_REGIAO"));
+                    agravoDbf.setDenominador("0");
+                    agravoDbf.setNumerador("0");
+                    regiao.put(utilDbf.getString(rowObjects1, "ID_REGIAO"), utilDbf.getString(rowObjects1, "NM_REGIAO"));
+                    RegBeans.put(agravoDbf.getCodMunicipio(), agravoDbf);
+                }
+                temReg = false;
+            }
+        } catch (DBFException e) {
+            Master.mensagem("Erro ao carregar municipios:\n" + e);
+        }
+        regiao = sortHashMapByValues(regiao, false);
+        Set<String> RegKeys = regiao.keySet();
+        HashMap<String, Agravo> regBeansRetorno = new HashMap<String, Agravo>();
+        Iterator valueIt = RegKeys.iterator();
+        while (valueIt.hasNext()) {
+            String key = (String) valueIt.next();
+            regBeansRetorno.put(key, RegBeans.get(key));
+        }
+        return regBeansRetorno;
+    }
+
+    public HashMap<String, Agravo> populaRegionalBeans(String SG_UF, String id_Regiao) {
+        DBFUtil utilDbf = new DBFUtil();
+        HashMap<String, String> regiao = new HashMap<String, String>();
+        HashMap<String, Agravo> RegBeans = new HashMap<String, Agravo>();
+        Boolean temReg = false;
+        //se codRegional estiver preenchida, deve buscar somente os municipios pertencentes a ela
+        //busca municipios dessa regional
+        DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("REGIONET", "dbf\\");
+        Object[] rowObjects1;
+
+        try {
+            utilDbf.mapearPosicoes(readerMunicipio);
+            while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
+                if (SG_UF.equals("TODAS")) {
+                    if (utilDbf.getString(rowObjects1, "ID_REGIONA") != null) {
+                        temReg = true;
+                    }
+                }
+
+                if (temReg || (utilDbf.getString(rowObjects1, "SG_UF").equals(SG_UF) && id_Regiao.isEmpty())
+                        || (!id_Regiao.isEmpty() && utilDbf.getString(rowObjects1, "ID_REGIONA").equals(id_Regiao))) {
+                    Agravo agravoDbf = new Agravo();
+                    agravoDbf.init("");
+                    agravoDbf.setUf(utilDbf.getString(rowObjects1, "SG_UF"));
+                    agravoDbf.setCodMunicipio(utilDbf.getString(rowObjects1, "ID_REGIONA"));
+                    agravoDbf.setNomeMunicipio(utilDbf.getString(rowObjects1, "NM_REGIONA"));
+                    agravoDbf.setDenominador("0");
+                    agravoDbf.setNumerador("0");
+                    regiao.put(utilDbf.getString(rowObjects1, "ID_REGIONA"), utilDbf.getString(rowObjects1, "NM_REGIONA"));
+                    RegBeans.put(agravoDbf.getCodMunicipio(), agravoDbf);
+                }
+                temReg = false;
+            }
+        } catch (DBFException e) {
+            Master.mensagem("Erro ao carregar municipios:\n" + e);
+        }
+        regiao = sortHashMapByValues(regiao, false);
+        Set<String> RegKeys = regiao.keySet();
+        HashMap<String, Agravo> regBeansRetorno = new HashMap<String, Agravo>();
+        Iterator valueIt = RegKeys.iterator();
+        while (valueIt.hasNext()) {
+            String key = (String) valueIt.next();
+            regBeansRetorno.put(key, RegBeans.get(key));
+        }
+        return regBeansRetorno;
     }
 
     public HashMap<String, TuberculoseCoorte> populaUfsBeansTube() {
@@ -1450,7 +1654,6 @@ public class Agravo {
             // Marca que é um saldo negativo ou positivo
             result_months = result_months * dif_multiplier;
 
-
             // Retirna a diferenca de dias do total dos meses
             result_days += (endTime.get(GregorianCalendar.DAY_OF_MONTH) - startTime.get(GregorianCalendar.DAY_OF_MONTH));
 
@@ -1502,7 +1705,9 @@ public class Agravo {
     }
 
     public int getPopulacao(String ufResidencia, int idade, String ano) throws DBFException {
-        if(ufResidencia.length() == 2) return getPopulacaoEstadual(ufResidencia, idade, ano);
+        if (ufResidencia.length() == 2) {
+            return getPopulacaoEstadual(ufResidencia, idade, ano);
+        }
         Object[] rowObjects;
         String municipioPesquisa;
         double pop1 = 0, pop1a4 = 0, pop5a9 = 0, pop10a14 = 0;
@@ -1524,12 +1729,12 @@ public class Agravo {
 //            total = (int) (pop1 + pop1a4 + pop5a9 + pop10a14);
             return (int) (pop1 + pop1a4 + pop5a9 + pop10a14);
         } else {
-         //   total = (int) (pop1 + pop1a4);
+            //   total = (int) (pop1 + pop1a4);
             return (int) (pop1 + pop1a4);
         }
         //return total;
     }
-    
+
     public int getPopulacaoEstadual(String ufResidencia, int idade, String ano) throws DBFException {
         Object[] rowObjects;
         String municipioPesquisa;
@@ -1537,7 +1742,7 @@ public class Agravo {
         DBFReader reader = Util.retornaObjetoDbfCaminhoArquivo("populacao" + ano, "dbf\\");
         DBFUtil utilDbf = new DBFUtil();
         utilDbf.mapearPosicoes(reader);
-        
+
         while ((rowObjects = reader.nextRecord()) != null) {
             municipioPesquisa = utilDbf.getString(rowObjects, "ID_MUNIC");
             //é necessário comparar o tamanho do campo igual a 2, por que tanto o id do município
@@ -1547,7 +1752,7 @@ public class Agravo {
                 pop1a4 = Double.parseDouble(utilDbf.getString(rowObjects, "NU_POP1A4A"));
                 pop5a9 = Double.parseDouble(utilDbf.getString(rowObjects, "NU_POP5A9A"));
                 pop10a14 = Double.parseDouble(utilDbf.getString(rowObjects, "NU_POP10A1"));
-                
+
                 totalPop1a4 = pop1 + pop1a4;
                 totalPop1a14 = pop1 + pop1a4 + pop5a9 + pop10a14;
                 break;
@@ -1560,8 +1765,7 @@ public class Agravo {
         }
     }
 
-    
-        public String buscaRegionalSaude(String idRegiao) throws SQLException {
+    public String buscaRegionalSaude(String idRegiao) throws SQLException {
         if (idRegiao == null) {
             return "";
         }
@@ -1582,8 +1786,27 @@ public class Agravo {
         return "";
     }
 
-    
-    
+    public String buscaRegiaoSaude(String idRegiao) throws SQLException {
+        if (idRegiao == null) {
+            return "";
+        }
+
+        DBFReader reader = SinanUtil.retornaObjetoDbfCaminhoArquivo("REGIAO", "dbf\\");
+        Object[] rowObjects;
+        DBFUtil utilDbf = new DBFUtil();
+        try {
+            utilDbf.mapearPosicoes(reader);
+            while ((rowObjects = reader.nextRecord()) != null) {
+                if (idRegiao.equals(utilDbf.getString(rowObjects, "ID_REGIAO"))) {
+                    return utilDbf.getString(rowObjects, "NM_REGIAO");
+                }
+            }
+        } catch (DBFException e) {
+            Master.mensagem("Erro: regional nao encontrada.Verifique se existe a pasta DBF e se os arquivo REGIAO.DBF está lá:\n" + e);
+        }
+        return "";
+    }
+
     public List getBeansMunicipioEspecifico(Connection con, Map parametros) throws SQLException {
         return this.getBeanMunicipioEspecifico(con, parametros);
     }
@@ -1805,8 +2028,8 @@ public class Agravo {
     }
 
     /**
-     * @return the ordemColunas
-     * informa a order do header das colunas do dbf a ser exportado
+     * @return the ordemColunas informa a order do header das colunas do dbf a
+     * ser exportado
      */
     public String[] getOrdemColunas() {
         return ordemColunas;
@@ -1989,7 +2212,6 @@ public class Agravo {
         this.dtFimAvaliacao = dtFimAvaliacao;
     }
 
-    
     /**
      * @return the nomeAgravo
      */
@@ -2073,12 +2295,14 @@ public class Agravo {
     public void setListagemCasos(List<com.org.model.classes.agravos.oportunidade.CasoOportunidade> listagemCasos) {
         this.listagemCasos = listagemCasos;
     }
+
     /**
      * @return the listagemCasos
      */
     public List<com.org.model.classes.agravos.oportunidade.CasoOportunidadeCOAP> getListagemCasosCOAP() {
         return listagemCasosCOAP;
     }
+
     /**
      * @return the listagemCasos
      */
@@ -2092,6 +2316,7 @@ public class Agravo {
     public void setListagemCasosCOAP(List<com.org.model.classes.agravos.oportunidade.CasoOportunidadeCOAP> listagemCasosCOAP) {
         this.listagemCasosCOAP = listagemCasosCOAP;
     }
+
     /**
      * @param listagemCasos the listagemCasos to set
      */
@@ -2195,7 +2420,22 @@ public class Agravo {
         this.codRegiaoSaude = codRegiaoSaude;
     }
 
+    public Integer getNumeradorInt() {
+        return numeradorInt;
+    }
+
+    public void setNumeradorInt(Integer numeradorInt) {
+        this.numeradorInt = numeradorInt;
+    }
+
+    public Integer getDenominadorInt() {
+        return denominadorInt;
+    }
+
+    public void setDenominadorInt(Integer denominadorInt) {
+        this.denominadorInt = denominadorInt;
+    }
     
     
-    
+
 }

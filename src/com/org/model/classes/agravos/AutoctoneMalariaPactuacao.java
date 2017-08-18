@@ -20,6 +20,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -27,7 +28,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections.comparators.ComparatorChain;
 
 /**
  *
@@ -66,12 +71,14 @@ public class AutoctoneMalariaPactuacao extends Agravo {
         }
     }
 
+    /*
     private void calculaBrasil(DBFReader reader, Map parametros) throws ParseException {
         //buscar os municipios que vao para o resultado
         HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
         DBFUtil utilDbf = new DBFUtil();
         String coluna;
-        if (parametros.get("municipios").toString().equals("sim")) {
+        String municipios = (!parametros.get("parNenhum").equals("true")) ? "sim" : "não";
+        if (municipios.equals("sim")) {
             municipiosBeans = populaMunicipiosBeans("BR", "");
             coluna = "ID_MN_RESI";
         } else {
@@ -147,6 +154,117 @@ public class AutoctoneMalariaPactuacao extends Agravo {
             this.setBeans(arrayT);
         }
     }
+     */
+    private void calculaRegiao(DBFReader reader, Map parametros) throws ParseException {
+        //buscar os municipios que vao para o resultado
+        HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
+        String ufResidencia = (String) parametros.get("parUf");
+        String sgUfResidencia = (String) parametros.get("parSgUf");
+        String codRegional = (String) parametros.get("parCodRegional");
+        String codRegiao = (String) parametros.get("parCodRegiaoSaude");
+
+        DBFUtil utilDbf = new DBFUtil();
+        if (codRegional == null) {
+            codRegional = "";
+        }
+        if ((Boolean) parametros.get("parIsRegiao")) {
+            municipiosBeans = populaRegiaoBeans(sgUfResidencia, codRegiao);
+        } else {
+            municipiosBeans = populaRegionalBeans(sgUfResidencia, codRegional);
+        }
+        //municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
+        //inicia o calculo
+        Object[] rowObjects;
+        Date dtDiagnostico;
+        Boolean CID_B54 = false;
+        Boolean AT_LAMINA = false;
+        Boolean RESULT = false;
+        Boolean AUTOCTONE = false;
+
+        String total;
+        DecimalFormat df = new DecimalFormat("0.00");
+        int numerador = 0;
+        int numeradorEstadual = 0;
+        int denominadorEstadual = 0;
+        Agravo municipioResidencia = null;
+        String dataInicio = (String) parametros.get("parDataInicio");
+        String dataFim = (String) parametros.get("parDataFim");
+        //loop para ler os arquivos selecionados
+        String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
+        for (int k = 0; k < arquivos.length; k++) {
+            int i = 1;
+            try {
+                reader = Util.retornaObjetoDbfCaminhoArquivo(arquivos[k].substring(0, arquivos[k].length() - 4), Configuracao.getPropriedade("caminho"));
+                utilDbf.mapearPosicoes(reader);
+                double TotalRegistros = Double.parseDouble(String.valueOf(reader.getRecordCount()));
+                while ((rowObjects = reader.nextRecord()) != null) {
+                    //cálculo da taxa estadual
+                    //verifica a uf de residencia
+                    if (utilDbf.getString(rowObjects, "SG_UF") != null) {
+                        try {
+                            //verifica se existe a referencia do municipio no bean
+                            municipioResidencia = municipiosBeans.get(buscaRegiaoSaude(utilDbf.getString(rowObjects, "ID_MN_RESI")));
+                        } catch (SQLException ex) {
+                            Logger.getLogger(AutoctoneMalariaPactuacao.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        //verifica se tem o parametro de municipio de residencia
+                        //Critérios
+                        CID_B54 = utilDbf.getString(rowObjects, "ID_AGRAVO").equals("B54");
+                        if (utilDbf.getString(rowObjects, "AT_LAMINA") != null) {
+                            AT_LAMINA = utilDbf.getString(rowObjects, "AT_LAMINA").equals("1") || utilDbf.getString(rowObjects, "AT_LAMINA").equals("2");
+                        }
+                        if (utilDbf.getString(rowObjects, "RESULT") != null) {
+                            RESULT = utilDbf.getString(rowObjects, "RESULT").equals("2") || utilDbf.getString(rowObjects, "RESULT").equals("3")
+                                    || utilDbf.getString(rowObjects, "RESULT").equals("4") || utilDbf.getString(rowObjects, "RESULT").equals("5")
+                                    || utilDbf.getString(rowObjects, "RESULT").equals("6") || utilDbf.getString(rowObjects, "RESULT").equals("7");
+                        }
+
+                        dtDiagnostico = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
+
+                        if (municipioResidencia != null && CID_B54 && AT_LAMINA && RESULT) {
+                            AUTOCTONE = utilDbf.getString(rowObjects, "ID_MN_RESI").equals(utilDbf.getString(rowObjects, "COMUNINF"));
+                            if (isBetweenDates(dtDiagnostico, dataInicio, dataFim) && AUTOCTONE) {
+                                numerador = Integer.parseInt(municipioResidencia.getNumerador());
+                                numerador++;
+                                municipioResidencia.setNumerador(String.valueOf(numerador));
+                                numeradorEstadual++;
+                            }
+                        }
+                    }
+                    float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setValue((int) percentual);
+                    i++;
+                }
+
+            } catch (DBFException ex) {
+                Master.mensagem("Erro:\n" + ex);
+            }
+        }
+        String ano = dataInicio.substring(0, 4);
+
+        //CALCULA A TAXA PARA TODOS OS MUNICIPIOS
+        this.setBeans(new ArrayList());
+        Collection<Agravo> municipioBean = municipiosBeans.values();
+
+        for (Iterator<Agravo> it = municipioBean.iterator(); it.hasNext();) {
+            Agravo agravoDBF = it.next();
+            this.getBeans().add(agravoDBF);
+            getBarraStatus().setString("Calculando indicador para: " + agravoDBF.getNomeMunicipio());
+        }
+        getBarraStatus().setString(null);
+
+        ComparatorChain chain;
+        chain = new ComparatorChain(Arrays.asList(
+                new BeanComparator("uf"),
+                new BeanComparator("nomeMunicipio")));
+        Collections.sort(this.getBeans(), chain);
+        //calcular o total
+        if ((Boolean) parametros.get("parIsRegiao")) {
+            this.getBeans().add(adicionaTotal(municipioBean, codRegiao));
+        } else {
+            this.getBeans().add(adicionaTotal(municipioBean, codRegional));
+        }
+    }
 
     private void calculaMunicipios(DBFReader reader, Map parametros) throws ParseException {
         //buscar os municipios que vao para o resultado
@@ -160,10 +278,14 @@ public class AutoctoneMalariaPactuacao extends Agravo {
         if (codRegional == null) {
             codRegional = "";
         }
+        if (codRegiao == null) {
+            codRegiao = "";
+        }
+
         if ((Boolean) parametros.get("parIsRegiao")) {
-            municipiosBeans = populaMunicipiosBeansPactuacao(sgUfResidencia, codRegiao);
+            municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, parametros.get("parIsRegiao").toString());
         } else {
-            municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
+            municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, parametros.get("parIsRegiao").toString());
         }
         //municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
         //inicia o calculo
@@ -202,20 +324,21 @@ public class AutoctoneMalariaPactuacao extends Agravo {
                         if (utilDbf.getString(rowObjects, "AT_LAMINA") != null) {
                             AT_LAMINA = utilDbf.getString(rowObjects, "AT_LAMINA").equals("1") || utilDbf.getString(rowObjects, "AT_LAMINA").equals("2");
                         }
-                        if (utilDbf.getString(rowObjects, "RESULT") != null ) {
+                        if (utilDbf.getString(rowObjects, "RESULT") != null) {
                             RESULT = utilDbf.getString(rowObjects, "RESULT").equals("2") || utilDbf.getString(rowObjects, "RESULT").equals("3")
                                     || utilDbf.getString(rowObjects, "RESULT").equals("4") || utilDbf.getString(rowObjects, "RESULT").equals("5")
                                     || utilDbf.getString(rowObjects, "RESULT").equals("6") || utilDbf.getString(rowObjects, "RESULT").equals("7");
                         }
-                        
+
                         dtDiagnostico = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
 
                         if (municipioResidencia != null && CID_B54 && AT_LAMINA && RESULT) {
                             AUTOCTONE = utilDbf.getString(rowObjects, "ID_MN_RESI").equals(utilDbf.getString(rowObjects, "COMUNINF"));
-                            if (isBetweenDates(dtDiagnostico, dataInicio, dataFim) && AUTOCTONE ) {
+                            if (isBetweenDates(dtDiagnostico, dataInicio, dataFim) && AUTOCTONE) {
                                 numerador = Integer.parseInt(municipioResidencia.getNumerador());
                                 numerador++;
                                 municipioResidencia.setNumerador(String.valueOf(numerador));
+                                municipioResidencia.setNumeradorInt(numerador);
                                 numeradorEstadual++;
                             }
                         }
@@ -241,7 +364,21 @@ public class AutoctoneMalariaPactuacao extends Agravo {
             getBarraStatus().setString("Calculando indicador para: " + agravoDBF.getNomeMunicipio());
         }
         getBarraStatus().setString(null);
-        Collections.sort(this.getBeans(), new BeanComparator("nomeMunicipio"));
+        ComparatorChain chain;
+        if ((Boolean) parametros.get("parIsRegiao")) {
+            chain = new ComparatorChain(Arrays.asList(
+                    new BeanComparator("uf"),
+                    new BeanComparator("regiaoSaude"),
+                    new BeanComparator("nomeMunicipio")));
+        } else {
+            chain = new ComparatorChain(Arrays.asList(
+                    new BeanComparator("uf"),
+                    new BeanComparator("regional"),
+                    new BeanComparator("nomeMunicipio")));
+        }
+        parametros.put("numeradorTotal", String.valueOf(numeradorEstadual));
+        
+        Collections.sort(this.getBeans(), chain);
 
         //calcular o total
         if ((Boolean) parametros.get("parIsRegiao")) {
@@ -251,9 +388,16 @@ public class AutoctoneMalariaPactuacao extends Agravo {
         }
     }
 
-    @Override
-    public void calcula(DBFReader reader, Map parametros) {
-        String municipios = (String) parametros.get("municipios");
+    /*
+    public void calculaUF(DBFReader reader, Map parametros) {
+
+        // String municipios = (String) parametros.get("municipios");
+        Boolean CID_B54 = false;
+        Boolean AT_LAMINA = false;
+        Boolean RESULT = false;
+        Boolean AUTOCTONE = false;
+
+        String municipios = (!parametros.get("parNenhum").equals("true")) ? "sim" : "não";
         String brasil = (String) parametros.get("parUf");
         if (municipios.equals("sim") && !brasil.equals("brasil")) {
             try {
@@ -264,8 +408,11 @@ public class AutoctoneMalariaPactuacao extends Agravo {
         } else {
             try {
                 if (brasil.equals("brasil")) {
-                    calculaBrasil(reader, parametros);
+                    //calculaBrasil(reader, parametros);
+                } else if (!parametros.get("parUf").equals("Todos")) {
+                    calculaRegiao(reader, parametros);
                 } else {
+
                     Object[] rowObjects;
                     DBFUtil utilDbf = new DBFUtil();
                     Date dtDiagnostico;
@@ -298,31 +445,26 @@ public class AutoctoneMalariaPactuacao extends Agravo {
                             if (utilDbf.getString(rowObjects, "SG_UF") != null) {
                                 if (utilDbf.getString(rowObjects, "SG_UF").equals(ufResidencia)) {
                                     //verifica se tem o parametro de municipio de residencia
-                                    dtDiagnostico = utilDbf.getDate(rowObjects, "DT_DIAG");
-                                    criterio = utilDbf.getString(rowObjects, "CRITERIO", 3);
-                                    idade = Integer.parseInt(utilDbf.getString(rowObjects, "NU_IDADE_N", 4));
-
-                                    if (verificaMunicipio(municipioResidencia, utilDbf.getString(rowObjects, "ID_MN_RESI")) && criterio != null) {
-                                        if (isBetweenDates(dtDiagnostico, dataInicio, dataFim)) {
-                                            //verifica a idade é <=4015
-                                            if (idade < 4005 && idade > 0 && !criterio.equals("900") && !criterio.equals("901")) {
-                                                numeradorEspecifico++;
-                                                numeradorEstadual++;
-                                            }
-                                        }
-
-                                    } else {
-                                        //CALCULA A TAXA ESTADUAL
-                                        if (criterio != null) {
-                                            if (isBetweenDates(dtDiagnostico, dataInicio, dataFim)) {
-                                                //se dt_investigacao <= 2 entao entra no calculo do numerador
-                                                if (idade < 4005 && idade > 0 && !criterio.equals("900") && !criterio.equals("901")) {
-                                                    numeradorEstadual++;
-                                                }
-                                            }
-                                        }
-
+                                    //Critérios
+                                    CID_B54 = utilDbf.getString(rowObjects, "ID_AGRAVO").equals("B54");
+                                    if (utilDbf.getString(rowObjects, "AT_LAMINA") != null) {
+                                        AT_LAMINA = utilDbf.getString(rowObjects, "AT_LAMINA").equals("1") || utilDbf.getString(rowObjects, "AT_LAMINA").equals("2");
                                     }
+                                    if (utilDbf.getString(rowObjects, "RESULT") != null) {
+                                        RESULT = utilDbf.getString(rowObjects, "RESULT").equals("2") || utilDbf.getString(rowObjects, "RESULT").equals("3")
+                                                || utilDbf.getString(rowObjects, "RESULT").equals("4") || utilDbf.getString(rowObjects, "RESULT").equals("5")
+                                                || utilDbf.getString(rowObjects, "RESULT").equals("6") || utilDbf.getString(rowObjects, "RESULT").equals("7");
+                                    }
+
+                                    dtDiagnostico = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
+
+                                    if (municipioResidencia != null && CID_B54 && AT_LAMINA && RESULT) {
+                                        AUTOCTONE = utilDbf.getString(rowObjects, "ID_MN_RESI").equals(utilDbf.getString(rowObjects, "COMUNINF"));
+                                        if (isBetweenDates(dtDiagnostico, dataInicio, dataFim) && AUTOCTONE) {
+                                            numeradorEstadual++;
+                                        }
+                                    }
+
                                 }
                             }
                             float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
@@ -373,6 +515,32 @@ public class AutoctoneMalariaPactuacao extends Agravo {
             } catch (ParseException ex) {
                 System.out.println(ex);
             } catch (DBFException ex) {
+                System.out.println(ex);
+            }
+        }
+    }
+     */
+    @Override
+    public void calcula(DBFReader reader, Map parametros) {
+
+        Boolean municipios = ((Boolean) parametros.get("parNenhum")) ? false : true;
+        String brasil = (String) parametros.get("parUf");
+        if (municipios) {
+            try {
+                calculaMunicipios(reader, parametros);
+            } catch (ParseException ex) {
+                System.out.println(ex);
+            }
+        } else {
+            try {
+                if (brasil.equals("brasil")) {
+                    //calculaBrasil(reader, parametros);
+                } else if (!parametros.get("parUf").equals("Todos")) {
+                    calculaRegiao(reader, parametros);
+                }
+            } catch (NumberFormatException ex) {
+                System.out.println(ex);
+            } catch (ParseException ex) {
                 System.out.println(ex);
             }
         }
@@ -461,6 +629,6 @@ public class AutoctoneMalariaPactuacao extends Agravo {
 
     @Override
     public String getCaminhoJasper() {
-        return "/com/org/relatorios/autoctoneMalariaPactuacao.jasper";
+        return "/com/org/relatorios/MalariaPactuacao.jasper";
     }
 }
