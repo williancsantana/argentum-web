@@ -15,6 +15,7 @@ import com.org.beans.UFPQAVS;
 import com.org.model.classes.Agravo;
 import com.org.model.classes.DBF;
 import com.org.model.classes.UF;
+import com.org.model.classes.agravos.OportunidadeMalariaPactuacao;
 import com.org.model.classes.agravos.oportunidade.OportunidadeAgravoPQAVS;
 import com.org.model.classes.agravos.oportunidade.OportunidadeAgravoCOAP;
 import com.org.negocio.Configuracao;
@@ -615,8 +616,10 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         } else if (relatorio.equals("Número de casos autóctones de malária")) {
             panel = new AutoctonesMalaria();
             this.relatorio = "AutoctonesMalariaPactuacao";
+        } else if (relatorio.equals("Proporçao de Casos de Malária que iniciaram tratamento em tempo oportuno")) {
+            panel = new com.org.view.OportunidadeMalariaPactuacao();
+            this.relatorio = "OportunidadeMalariaPactuacao";
         }
-
         return panel;
     }
 
@@ -764,6 +767,18 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 
         if (relatorio.equals("AutoctonesMalariaPactuacao")) {
             agravo = new com.org.model.classes.agravos.AutoctoneMalariaPactuacao(isDbf());
+            agravo.setAnoAvaliado(this.anoAvaliado);
+
+            agravo.setDtInicioAvaliacao(this.dtInicioAvaliacao);
+            agravo.setDtFimAvaliacao(this.dtFimAvaliacao);
+            agravo.setDataAvaliacao(dataAvaliacao);
+            agravo.setUf(uf);
+            agravo.setMunicipio(municipio);
+            agravo.setRegional(regional);
+            agravo.setTemListagem(this.temListagem);
+        }
+        if (relatorio.equals("OportunidadeMalariaPactuacao")) {
+            agravo = new com.org.model.classes.agravos.OportunidadeMalariaPactuacao(isDbf());
             agravo.setAnoAvaliado(this.anoAvaliado);
 
             agravo.setDtInicioAvaliacao(this.dtInicioAvaliacao);
@@ -1061,7 +1076,8 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 relatorios = new String[]{"Selecione o Relatório", "Número de casos novos de AIDS em menores de 5 anos",
                     "Número de casos novos de sífilis congênita em menores de 1 ano de idade",
                     "Proporção de casos DNCI encerrados em até 60 dias após notificação",
-                    "Número de casos autóctones de malária"};
+                    "Número de casos autóctones de malária",
+                    "Proporçao de Casos de Malária que iniciaram tratamento em tempo oportuno"};
             }
             if (grupo.equals("PACTO 2008/2009")) {
                 relatorios = new String[]{"Selecione o Relatório", "Situação da coorte de casos novos de Tuberculose", "Taxa de notificação de casos de PFA em menores de 15 anos", "Percentual de casos de hepatites B e C", "Proporção de doenças exantemáticas investigados oportunamente", "Taxa de letalidade por Febre Hemorrágica Dengue", "Taxa de incidência de aids em menores de 5 anos de idade", "Situação da coorte de casos novos de hanseníase"};

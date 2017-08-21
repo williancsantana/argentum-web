@@ -1785,6 +1785,26 @@ public class Agravo {
         }
         return "";
     }
+    public String buscaIdRegionalSaude(String idMunicipio) throws SQLException {
+        if (idMunicipio == null) {
+            return "";
+        }
+
+        DBFReader reader = SinanUtil.retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
+        Object[] rowObjects;
+        DBFUtil utilDbf = new DBFUtil();
+        try {
+            utilDbf.mapearPosicoes(reader);
+            while ((rowObjects = reader.nextRecord()) != null) {
+                if (idMunicipio.equals(utilDbf.getString(rowObjects, "ID_MUNICIP"))) {
+                    return utilDbf.getString(rowObjects, "ID_REGIONA");
+                }
+            }
+        } catch (DBFException e) {
+            Master.mensagem("Erro: regional nao encontrada.Verifique se existe a pasta DBF e se os arquivo REGIAO.DBF está lá:\n" + e);
+        }
+        return "";
+    }
 
     public String buscaRegiaoSaude(String idRegiao) throws SQLException {
         if (idRegiao == null) {
@@ -1799,6 +1819,26 @@ public class Agravo {
             while ((rowObjects = reader.nextRecord()) != null) {
                 if (idRegiao.equals(utilDbf.getString(rowObjects, "ID_REGIAO"))) {
                     return utilDbf.getString(rowObjects, "NM_REGIAO");
+                }
+            }
+        } catch (DBFException e) {
+            Master.mensagem("Erro: regional nao encontrada.Verifique se existe a pasta DBF e se os arquivo REGIAO.DBF está lá:\n" + e);
+        }
+        return "";
+    }
+    public String buscaIdRegiaoSaude(String idMunicipio) throws SQLException {
+        if (idMunicipio == null) {
+            return "";
+        }
+
+        DBFReader reader = SinanUtil.retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
+        Object[] rowObjects;
+        DBFUtil utilDbf = new DBFUtil();
+        try {
+            utilDbf.mapearPosicoes(reader);
+            while ((rowObjects = reader.nextRecord()) != null) {
+                if (idMunicipio.equals(utilDbf.getString(rowObjects, "ID_MUNICIP"))) {
+                    return utilDbf.getString(rowObjects, "ID_REGIAO");
                 }
             }
         } catch (DBFException e) {
