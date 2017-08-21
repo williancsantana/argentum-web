@@ -213,7 +213,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                         regional = "-- Selecione --";
                     }
                     if (municipio.equals("-- Selecione --") && (regional.equals("-- Selecione --") || regional.equals("TODAS"))) {
-                        //relatorio para uma uf especifica
+                        //relatorio para uma uf especifica 
                         parametros.put("nivelAgregacao", "UF");
                         parametros.put("taxaEstadual", agravo.getTaxaEstado(conexao, parametros));
                         parametros.put("parCompletitude", agravo.getCompletitude(conexao, parametros));
@@ -1130,6 +1130,12 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                
             }*/
 
+            if (grupo.equals("PQAVS a partir de 2017")) {
+                relatorios = new String[]{"Selecione o Relatório",
+                    "Número de semanas epidemiológicas com informação"
+                };
+            }
+            
             if (grupo.equals("Outros relatórios")) {
                 relatorios = new String[]{"Selecione o Relatório",
                     "Análise de Completitude",
@@ -1840,7 +1846,11 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         DBFReader reader = null;
         InputStream inputStream = null;
         try {
-            inputStream = new FileInputStream(caminho + arquivo + ".DBF"); // take dbf file as program argument
+            if(System.getProperty("os.name").compareTo("Linux") == 0){
+                inputStream = new FileInputStream(caminho.replace("\\","/") + arquivo + ".DBF"); // take dbf file as program argument
+            }else{
+                inputStream = new FileInputStream(caminho + arquivo + ".DBF"); // take dbf file as program argument
+            }
 
         } catch (FileNotFoundException e) {
             Logger.getLogger(SessionFacadeImpl.class.getName()).log(Level.SEVERE, null, "Erro: tabela " + arquivo + ".dbf nao encontrada.\n" + e);

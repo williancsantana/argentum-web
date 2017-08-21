@@ -181,7 +181,11 @@ public class Util {
         DBFReader reader = null;
         InputStream inputStream = null;
         try {
-            inputStream = new FileInputStream(caminho + arquivo + ".DBF"); // take dbf file as program argument
+            if(System.getProperty("os.name").compareTo("Linux") == 0){
+                inputStream = new FileInputStream(caminho.replace("\\","/") + arquivo + ".DBF"); // take dbf file as program argument
+            }else{
+                inputStream = new FileInputStream(caminho + arquivo + ".DBF"); // take dbf file as program argument
+            }
 
         } catch (FileNotFoundException e) {
             Master.mensagem("Erro: tabela " + arquivo + ".dbf nao encontrada.\n" + e);

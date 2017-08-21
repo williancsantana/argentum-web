@@ -156,7 +156,7 @@ public class SemEpidPQAVS extends Agravo {
         getAgravosValidos().add("U049");  //SINDROME RESPIRATORIA AGUDA GRAVE ASSOCIADA A CORONAVIRUS
         getAgravosValidos().add("A219");  //TULAREMIA
         getAgravosValidos().add("B03");   //VARIOLA
-            
+
     }
 
     private String buscaRegiao(String uf) {
@@ -250,9 +250,10 @@ public class SemEpidPQAVS extends Agravo {
 
     /**
      * Busca na base DBF de Região de Saúde o nome da região a partir do código.
+     *
      * @param idRegiao
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      * @data 15fev2013
      * @autor Taidson
      */
@@ -260,7 +261,7 @@ public class SemEpidPQAVS extends Agravo {
         if (idRegiao == null) {
             return "";
         }
- 
+
         DBFReader reader = SinanUtil.retornaObjetoDbfCaminhoArquivo("REGIAO", "dbf\\");
         Object[] rowObjects;
         DBFUtil utilDbf = new DBFUtil();
@@ -271,29 +272,28 @@ public class SemEpidPQAVS extends Agravo {
                     return utilDbf.getString(rowObjects, "NM_REGIAO");
                 }
             }
-        }catch (DBFException e) {
+        } catch (DBFException e) {
             Master.mensagem("Erro: regional nao encontrada.Verifique se existe a pasta DBF e se os arquivo REGIONET.DBF está lá:\n" + e);
         }
         return "";
     }
-        
-        
+
     private HashMap<String, OportunidadeAgravoPQAVS> populaMunicipiosBeansOportuno(String uf, String idMunicipio, String codRegional) {
         DBFUtil utilDbf = new DBFUtil();
         HashMap<String, String> municipios = new HashMap<String, String>();
         HashMap<String, OportunidadeAgravoPQAVS> municipiosBeans = new HashMap<String, OportunidadeAgravoPQAVS>();
         //se codRegional estiver preenchida, deve buscar somente os municipios pertencentes a ela
-        int i=1;
+        int i = 1;
         if (codRegional.length() > 0 || ("".equals(idMunicipio) && !"BR".equals(uf))) {
-            
+
             //busca municipios dessa regional
             DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
             Object[] rowObjects1;
 //ALTERAR ESSE CÓDIGO PARA BUSCAR OS MUNICÍPIOS DA REGIÃO DE SAÚDE - 14FEV2013
-            try { 
+            try {
                 utilDbf.mapearPosicoes(readerMunicipio);
                 while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
-                    
+
                     int TotalRegistrosInt = readerMunicipio.getRecordCount();
                     if (codRegional.length() > 0 && codRegional.equals(utilDbf.getString(rowObjects1, "ID_REGIAO"))) {
                         if (!utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
@@ -302,7 +302,7 @@ public class SemEpidPQAVS extends Agravo {
                                 agravoDbf.setNmAgravo(utilDbf.getString(rowObjects1, "NM_MUNICIP"));
                                 agravoDbf.setCodAgravo(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
                                 agravoDbf.setRegiao(buscaRegiao(agravoDbf.getNmAgravo()));
-                      //          agravoDbf.setNmAgravo(utilDbf.getString(rowObjects1, "SG_UF")); //ALTEREI PARA MUNICIPIO 21mar2013
+                                //          agravoDbf.setNmAgravo(utilDbf.getString(rowObjects1, "SG_UF")); //ALTEREI PARA MUNICIPIO 21mar2013
                                 agravoDbf.setUf(utilDbf.getString(rowObjects1, "SG_UF"));
                                 agravoDbf.setCodRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO"));
                                 try {
@@ -326,7 +326,7 @@ public class SemEpidPQAVS extends Agravo {
                                 agravoDbf.setNmAgravo(utilDbf.getString(rowObjects1, "NM_MUNICIP"));
                                 agravoDbf.setCodAgravo(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
                                 agravoDbf.setRegiao(buscaRegiao(agravoDbf.getNmAgravo()));
-                      //          agravoDbf.setNmAgravo(utilDbf.getString(rowObjects1, "SG_UF")); //ALTEREI PARA MUNICIPIO 21mar2013
+                                //          agravoDbf.setNmAgravo(utilDbf.getString(rowObjects1, "SG_UF")); //ALTEREI PARA MUNICIPIO 21mar2013
                                 agravoDbf.setUf(utilDbf.getString(rowObjects1, "SG_UF"));
                                 agravoDbf.setCodRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO"));
                                 try {
@@ -344,16 +344,16 @@ public class SemEpidPQAVS extends Agravo {
                             }
                         }
                     }
-                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistrosInt)) * 100;
+                    float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistrosInt)) * 100;
                     getBarraStatus().setString("Preparando arquivos... ");
-                     getBarraStatus().setValue((int) percentual);
+                    getBarraStatus().setValue((int) percentual);
                     i++;
                 }
                 getBarraStatus().setValue(0);
             } catch (DBFException e) {
                 Master.mensagem("Erro ao carregar municipios:\n" + e);
             }
-           
+
         } else {
             //busca municipios dessa regional
             DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
@@ -363,35 +363,34 @@ public class SemEpidPQAVS extends Agravo {
 //VERIFICAR ESSE TRECHO DE CÓDIGO
                 int TotalRegistrosInt = readerMunicipio.getRecordCount();
                 while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
-                   // if ((uf.equals(utilDbf.getString(rowObjects1, "SG_UF")) && utilDbf.getString(rowObjects1, "NM_MUNICIP").equals("BRASILIA")) || uf.equals("BR")) {
-                 //       if (!utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
-                           if(utilDbf.getString(rowObjects1, "NM_MUNICIP").equals("BRASILIA"))
-                                SinanUtil.imprimirConsole("TESTE");
-                            if ((utilDbf.getString(rowObjects1, "SG_UF").equals("DF") && utilDbf.getString(rowObjects1, "ID_MUNICIP").equals("530010")) || !utilDbf.getString(rowObjects1, "SG_UF").equals("DF")) {
-                                if (idMunicipio.equals("") || idMunicipio.equals(utilDbf.getString(rowObjects1, "ID_MUNICIP"))) {
-                                    OportunidadeAgravoPQAVS agravoDbf = new OportunidadeAgravoPQAVS();
-                                    agravoDbf.setNmAgravo(utilDbf.getString(rowObjects1, "NM_MUNICIP"));
-                                    agravoDbf.setCodAgravo(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
-                                    agravoDbf.setRegiao(buscaRegiao(agravoDbf.getNmAgravo()));
-                                    agravoDbf.setUf(utilDbf.getString(rowObjects1, "SG_UF"));
-                                    agravoDbf.setCodRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO"));
-                                    try {
-                                        agravoDbf.setRegiaoSaude(buscaRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO")));
-                                    } catch (SQLException ex) {
-                                        Logger.getLogger(SemEpidPQAVS.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                    agravoDbf.setQtdDataInvalida(0);
-                                    agravoDbf.setQtdInoportuno(0);
-                                    agravoDbf.setQtdNaoEncerrado(0);
-                                    agravoDbf.setQtdOportuno(0);
-                                    agravoDbf.setTotal(0);
-                                    municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
-                                    municipiosBeans.put(agravoDbf.getCodAgravo(), agravoDbf);
-                                }
-                 //           }
-                 //       }
+                    if (utilDbf.getString(rowObjects1, "NM_MUNICIP").equals("BRASILIA")) {
+                        SinanUtil.imprimirConsole("TESTE");
                     }
-                             float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistrosInt)) * 100;
+                    if ((utilDbf.getString(rowObjects1, "SG_UF").equals("DF") && utilDbf.getString(rowObjects1, "ID_MUNICIP").equals("530010")) || !utilDbf.getString(rowObjects1, "SG_UF").equals("DF")) {
+                        if (idMunicipio.equals("") || idMunicipio.equals(utilDbf.getString(rowObjects1, "ID_MUNICIP"))) {
+                            OportunidadeAgravoPQAVS agravoDbf = new OportunidadeAgravoPQAVS();
+                            agravoDbf.setNmAgravo(utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                            agravoDbf.setCodAgravo(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
+                            agravoDbf.setRegiao(buscaRegiao(agravoDbf.getNmAgravo()));
+                            agravoDbf.setUf(utilDbf.getString(rowObjects1, "SG_UF"));
+                            agravoDbf.setCodRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO"));
+                            try {
+                                agravoDbf.setRegiaoSaude(buscaRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO")));
+                            } catch (SQLException ex) {
+                                Logger.getLogger(SemEpidPQAVS.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            agravoDbf.setQtdDataInvalida(0);
+                            agravoDbf.setQtdInoportuno(0);
+                            agravoDbf.setQtdNaoEncerrado(0);
+                            agravoDbf.setQtdOportuno(0);
+                            agravoDbf.setTotal(0);
+                            municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                            municipiosBeans.put(agravoDbf.getCodAgravo(), agravoDbf);
+                        }
+                        //           }
+                        //       }
+                    }
+                    float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistrosInt)) * 100;
                     getBarraStatus().setString("Preparando arquivos... ");
                     getBarraStatus().setValue((int) percentual);
                     i++;
@@ -414,33 +413,83 @@ public class SemEpidPQAVS extends Agravo {
 
     public String buscaNomeAgravo(String codAgravo) {
         String retorno = "";
-        
-        if (codAgravo.equals("A229")) { retorno = "ANTRAZ PNEUMONICO";}
-        if (codAgravo.equals("A969")) { retorno = "ARENAVIRUS";}
-        if (codAgravo.equals("A051")) { retorno = "BOTULISMO";}
-        if (codAgravo.equals("A009")) { retorno = "COLERA";}
-        if (codAgravo.equals("A90")) { retorno = "DENGUE (OBITOS)";}
-        if (codAgravo.equals("A984")) { retorno = "EBOLA";}
-        if (codAgravo.equals("Y59")) { retorno = "EVENTOS ADVERSOS GRAVES OU OBITOS POS-VACINACAO";}
-        if (codAgravo.equals("A959")) { retorno = "FEBRE AMARELA";}
-        if (codAgravo.equals("A920")) { retorno = "FEBRE DE CHIKUNGUNYA";}
-        if (codAgravo.equals("A923")) { retorno = "FEBRE DO NILO OCIDENTAL";}
-        if (codAgravo.equals("A779")) { retorno = "FEBRE MACULOSA E OUTRAS RIQUETISIOSES";}
-        if (codAgravo.equals("A484")) { retorno = "FEBRE PURPURICA BRASILEIRA";}
-        if (codAgravo.equals("J11")) { retorno = "INFLUENZA HUMANA PRODUZIDA POR NOVO SUBTIPO VIRAL";}
-        if (codAgravo.equals("A962")) { retorno = "LASSA";}
-        if (codAgravo.equals("B54")) { retorno = "MALARIA NA REGIAO EXTRA AMAZONICA";}
-        if (codAgravo.equals("A983")) { retorno = "MARBURG";}
-        if (codAgravo.equals("A809")) { retorno = "PARALISIA FLACIDA AGUDA";}
-        if (codAgravo.equals("A209")) { retorno = "PESTE";}
-        if (codAgravo.equals("A829")) { retorno = "RAIVA HUMANA";}
-        if (codAgravo.equals("B092")) { retorno = "RUBEOLA";}
-        if (codAgravo.equals("B091")) { retorno = "SARAMPO";}
-        if (codAgravo.equals("P350")) { retorno = "SINDROME DA RUBEOLA CONGENITA";}
-        if (codAgravo.equals("U049")) { retorno = "SINDROME RESPIRATORIA AGUDA GRAVE ASSOCIADA A CORONAVIRUS";}
-        if (codAgravo.equals("A219")) { retorno = "TULAREMIA";}
-        if (codAgravo.equals("B03")) { retorno = "VARIOLA";}
-        
+
+        if (codAgravo.equals("A229")) {
+            retorno = "ANTRAZ PNEUMONICO";
+        }
+        if (codAgravo.equals("A969")) {
+            retorno = "ARENAVIRUS";
+        }
+        if (codAgravo.equals("A051")) {
+            retorno = "BOTULISMO";
+        }
+        if (codAgravo.equals("A009")) {
+            retorno = "COLERA";
+        }
+        if (codAgravo.equals("A90")) {
+            retorno = "DENGUE (OBITOS)";
+        }
+        if (codAgravo.equals("A984")) {
+            retorno = "EBOLA";
+        }
+        if (codAgravo.equals("Y59")) {
+            retorno = "EVENTOS ADVERSOS GRAVES OU OBITOS POS-VACINACAO";
+        }
+        if (codAgravo.equals("A959")) {
+            retorno = "FEBRE AMARELA";
+        }
+        if (codAgravo.equals("A920")) {
+            retorno = "FEBRE DE CHIKUNGUNYA";
+        }
+        if (codAgravo.equals("A923")) {
+            retorno = "FEBRE DO NILO OCIDENTAL";
+        }
+        if (codAgravo.equals("A779")) {
+            retorno = "FEBRE MACULOSA E OUTRAS RIQUETISIOSES";
+        }
+        if (codAgravo.equals("A484")) {
+            retorno = "FEBRE PURPURICA BRASILEIRA";
+        }
+        if (codAgravo.equals("J11")) {
+            retorno = "INFLUENZA HUMANA PRODUZIDA POR NOVO SUBTIPO VIRAL";
+        }
+        if (codAgravo.equals("A962")) {
+            retorno = "LASSA";
+        }
+        if (codAgravo.equals("B54")) {
+            retorno = "MALARIA NA REGIAO EXTRA AMAZONICA";
+        }
+        if (codAgravo.equals("A983")) {
+            retorno = "MARBURG";
+        }
+        if (codAgravo.equals("A809")) {
+            retorno = "PARALISIA FLACIDA AGUDA";
+        }
+        if (codAgravo.equals("A209")) {
+            retorno = "PESTE";
+        }
+        if (codAgravo.equals("A829")) {
+            retorno = "RAIVA HUMANA";
+        }
+        if (codAgravo.equals("B092")) {
+            retorno = "RUBEOLA";
+        }
+        if (codAgravo.equals("B091")) {
+            retorno = "SARAMPO";
+        }
+        if (codAgravo.equals("P350")) {
+            retorno = "SINDROME DA RUBEOLA CONGENITA";
+        }
+        if (codAgravo.equals("U049")) {
+            retorno = "SINDROME RESPIRATORIA AGUDA GRAVE ASSOCIADA A CORONAVIRUS";
+        }
+        if (codAgravo.equals("A219")) {
+            retorno = "TULAREMIA";
+        }
+        if (codAgravo.equals("B03")) {
+            retorno = "VARIOLA";
+        }
+
         return retorno;
     }
 
@@ -542,13 +591,12 @@ public class SemEpidPQAVS extends Agravo {
         }
         return "";
 
-
     }
 
     /**
      * POPULA O BEAN PARA EXPORTAR PARA DBF
-     * @param
-     * return null
+     *
+     * @param return null
      */
     private void populaBeanExportacaoDBF(String situacao, String agravo, String idMunicipioNotificacao,
             String idMunicipioResidencia, String dtNotificacao,
@@ -570,12 +618,12 @@ public class SemEpidPQAVS extends Agravo {
         getListExportacao().add(caso);
     }
 
-    /**classifica a oportunidade da notificacao
+    /**
+     * classifica a oportunidade da notificacao
      *
      * @param diferencaDatas
      * @param diferencaValida indica se eh um agravo de 180 ou 60 dias
-     * @param agravoBean
-     * retorna qual situacao foi classificada
+     * @param agravoBean retorna qual situacao foi classificada
      */
     private String classificaNotificacao(int diferencaDatas, int diferencaValida, OportunidadeAgravoPQAVS agravoBean, int classificaoFinal) {
         String retorno = "";
@@ -608,8 +656,8 @@ public class SemEpidPQAVS extends Agravo {
      * @param parametros
      * @return uma lista dos resultados com beans
      * @throws ParseException
-     * @throws DBFException
-     * CALCULO A PARTIR DA BASE DBF - POR ESTADO OU MUNICIPIO
+     * @throws DBFException CALCULO A PARTIR DA BASE DBF - POR ESTADO OU
+     * MUNICIPIO
      */
 //    ALTERAR ESSA MÉTODO --> INCLUIR ALGORITMO NOVO
     @SuppressWarnings("SizeReplaceableByIsEmpty")
@@ -622,11 +670,11 @@ public class SemEpidPQAVS extends Agravo {
         boolean todosMunicipio = true;
         //busca o parametro agravo
         String agravoSelecionado = buscaCodigoAgravo(parametros.get("parAgravo").toString());
+        Agravo agravodbf = new Agravo();
+        
         if (agravoSelecionado.equals("")) {
             agravoSelecionado = "TODOS";
         }
-        Agravo agravodbf = new Agravo();
-
         //inicia variavel com agravos válidos
         iniciaAgravosValidos();
         //verificar se a calculo é para ser listado por agravo ou por municipio
@@ -649,9 +697,6 @@ public class SemEpidPQAVS extends Agravo {
             municipiosRegionais = verificaMunicipioRegiaoSaude(parametros.get("parCodRegiaoSaude").toString());
             porRegional = true;
         }
-//        if (parametros.get("parNomeMunicipio").equals("TODOS")) {
-//            parametros.put("parNomeMunicipio", "Todos Municípios");
-//        }
         //selecionou um municipio
         if (!parametros.get("parNomeMunicipio").equals("") && !parametros.get("parNomeMunicipio").equals("TODOS")) {
             //popular somente com o municipio selecionado
@@ -676,10 +721,7 @@ public class SemEpidPQAVS extends Agravo {
             }
         }
 
-       
-
         //inicia o calculo
-
         Object[] rowObjects;
         java.sql.Date dtNotificacao, dtEncerramento;
         String agravo;
@@ -696,15 +738,9 @@ public class SemEpidPQAVS extends Agravo {
         String anoEdpid = "";
         Map<String, Integer> mapaSemEpidemiologica;
         int i = 1;
-
-        //verifica se o agravo é malaria e se o ano é 2008. se for, parar por aqui
-///        int anoAvaliadoMalaria = Integer.parseInt(parametros.get("parDataInicio").toString().split("-")[0]);
-//        if (anoAvaliadoMalaria == 2008 && agravoSelecionado.equals("B54")) {
-//            Master.mensagem("Malária está disponível a partir do ano de 2009");
-//            return null;
-//        }
         String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
         boolean denqueOnLine = SinanUtil.verificaDBDengueOnLine(arquivos);
+        
         for (int k = 0; k < arquivos.length; k++) {
             i = 1;
             String arquivo = arquivos[k].substring(0, 5);
@@ -713,274 +749,44 @@ public class SemEpidPQAVS extends Agravo {
                 utilDbf.mapearPosicoes(reader);
                 double TotalRegistros = Double.parseDouble(String.valueOf(reader.getRecordCount()));
                 while ((rowObjects = reader.nextRecord()) != null) {
-                    
-                    
-                    
-
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                     //cálculo da taxa estadual
                     //verifica a uf de residencia
                     if (utilDbf.getString(rowObjects, "SG_UF_NOT") != null) {
-                        
-                        
-                            codMunicipio = utilDbf.getString(rowObjects, "ID_MUNICIP");
-                            semEpidemilogica = utilDbf.getString(rowObjects, "SEM_NOT");
-                            dtNotificacao = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
-                            ufResidenciaDbf = utilDbf.getString(rowObjects, "SG_UF_NOT");
 
-                          //  String ano = dtNotificacao.toString().substring(0, 4);
-                           
-                            
-                            if(semEpidemilogica != null && semEpidemilogica.length() >= 4){
-                                anoEdpid = semEpidemilogica.substring(0, 4);
-                            }else{
-                                anoEdpid = "0";
-                            }
-                            
-                            
-                            if(utilDbf.getString(rowObjects, "NU_NOTIFIC").equals("5039435") || utilDbf.getString(rowObjects, "NU_NOTIFIC").equals("9948375")){
-                                SinanUtil.imprimirConsole(utilDbf.getString(rowObjects, "NU_NOTIFIC"));  
-                            }
-    //                        SinanUtil.imprimirConsole(utilDbf.getString(rowObjects, "NU_NOTIFIC"));  
-                            
-                          //  SinanUtil.imprimirConsole(anoEdpid + ' '+ anoEdpid.length()  + ' '+ semEpidemilogica.length());
-                            if(municipiosBeans.containsKey(codMunicipio) && anoEdpid.length() == 4 && parametros.get("parAnoAvaliacao").equals(anoEdpid) && semEpidemilogica.length() == 6) {
-                                    if(municipiosBeans.get(codMunicipio) != null && municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().size() == 0){
-                                        mapaSemEpidemiologica = new HashMap<String, Integer>();
-                                        mapaSemEpidemiologica.put(semEpidemilogica, 1);
-                                        municipiosBeans.get(codMunicipio).setMapaSemEpidemiológica(mapaSemEpidemiologica);
-                                        municipiosBeans.get(codMunicipio).setTotal(1);
-                                    }else{
-                                        if(municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().get(semEpidemilogica) == null){
-                                            municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().put(semEpidemilogica, 1);
-                                            municipiosBeans.get(codMunicipio).setTotal(municipiosBeans.get(codMunicipio).getTotal() + 1);
-                                        }
-                                    }
+                        codMunicipio = utilDbf.getString(rowObjects, "ID_MUNICIP");
+                        semEpidemilogica = utilDbf.getString(rowObjects, "SEM_NOT");
+                        dtNotificacao = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
+                        ufResidenciaDbf = utilDbf.getString(rowObjects, "SG_UF_NOT");
 
-                                }  
-                            
-//                            
-//                            if(municipiosBeans.size() > 1){
-//                                 if(municipiosBeans.containsKey(codMunicipio) && anoEdpid.length() == 4 && parametros.get("parAnoAvaliacao").equals(anoEdpid) && ufResidencia.equals(ufResidenciaDbf) && semEpidemilogica.length() == 6) {
-//                                    if(municipiosBeans.get(codMunicipio) != null && municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().size() == 0){
-//                                        mapaSemEpidemiologica = new HashMap<String, Integer>();
-//                                        mapaSemEpidemiologica.put(semEpidemilogica, 1);
-//                                        municipiosBeans.get(codMunicipio).setMapaSemEpidemiológica(mapaSemEpidemiologica);
-//                                        municipiosBeans.get(codMunicipio).setTotal(1);
-//                                    }else{
-//                                        if(municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().get(semEpidemilogica) == null){
-//                                            municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().put(semEpidemilogica, 1);
-//                                            municipiosBeans.get(codMunicipio).setTotal(municipiosBeans.get(codMunicipio).getTotal() + 1);
-//                                        }
-//                                    }
-//
-//                                }
-//                            }else{
-//                                if(anoEdpid.length() == 4 && parametros.get("parMunicipio").equals(codMunicipio) && anoEdpid.length() == 4 && parametros.get("parAnoAvaliacao").equals(anoEdpid) && ufResidencia.equals(ufResidenciaDbf) && semEpidemilogica.length() == 6) {
-//                                    if(municipiosBeans.get(codMunicipio) != null && municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().size() == 0){
-//                                        mapaSemEpidemiologica = new HashMap<String, Integer>();
-//                                        mapaSemEpidemiologica.put(semEpidemilogica, 1);
-//                                        municipiosBeans.get(codMunicipio).setMapaSemEpidemiológica(mapaSemEpidemiologica);
-//                                        municipiosBeans.get(codMunicipio).setTotal(1);
-//                                    }else{
-//                                        if(municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().get(semEpidemilogica) == null){
-//                                            municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().put(semEpidemilogica, 1);
-//                                            municipiosBeans.get(codMunicipio).setTotal(municipiosBeans.get(codMunicipio).getTotal() + 1);
-//                                        }
-//                                    }
-//
-//                                }
-//                            }
- //                        SinanUtil.imprimirConsole(utilDbf.getString(rowObjects, "NU_NOTIFIC"));   
-//                        if(utilDbf.getString(rowObjects, "NU_NOTIFIC").equals("7675226")){
-//                            SinanUtil.imprimirConsole(utilDbf.getString(rowObjects, "NU_NOTIFIC"));
-//                        }
-                    
+                        if (semEpidemilogica != null && semEpidemilogica.length() >= 4) {
+                            anoEdpid = semEpidemilogica.substring(0, 4);
+                        } else {
+                            anoEdpid = "0";
+                        }
 
- //                       dtNotificacao = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
- //                       dtEncerramento = utilDbf.getDate(rowObjects, "DT_ENCERRA");
-//                        agravo = utilDbf.getString(rowObjects, "ID_AGRAVO");
-                        
-
-                        //verifica se tem o parametro de municipio de residencia
-//                        parMunicipioResidenciaDbf = utilDbf.getString(rowObjects, "ID_MN_RESI");
-                        
-        //                if(arquivo.equals("DENGO") || (arquivo.equals("NINDI") && denqueOnLine && !agravo.equals("A90")) || (arquivo.equals("NINDI") && !denqueOnLine)){
-                        
-//                            if (agravo.equals("B09")) {
-//                                int suspeita = utilDbf.getInt(rowObjects, "CS_SUSPEIT");
-//                                if (suspeita == 1) {
-//                                    agravo = "B091";
-//                                } else {
-//                                    agravo = "B092";
-//                                }
-//                            }
-
-                            //verifica se existe a referencia do municipio no bean
-                            
-//                            if (parametros.get("parNomeMunicipio").toString().equals("Todos Municípios")) {
-//                                municipioResidencia = municipiosBeans.get(parMunicipioResidenciaDbf);
-//                            } else {
-//                                if (!parametros.get("parNomeMunicipio").toString().equals("") && !isPorAgravo()) {
-//                                    municipioResidencia = municipiosBeans.get(parMunicipioResidenciaDbf);
-//                                } else {
-//                                    municipioResidencia = municipiosBeans.get(agravo);
-//                                }
-//                            }
-//
-//                            boolean continuaCalculo = true;
-//                            //verifica se o agravo é o mesmo selecionado
-//                            if (!agravoSelecionado.equals("TODOS")) {
-//                                if (!agravoSelecionado.equals(agravo)) {
-//                                    continuaCalculo = false;
-//                                }
-//                            }
-//                            //verifica se por regional o municipio pertence a regional
-//                            if (porRegional) {
-//                                if (!municipiosRegionais.contains(utilDbf.getString(rowObjects, "ID_MN_RESI"))) {
-//                                    continuaCalculo = false;
-//                                }
-//                            }
-//                            //verifica se foi selecionado agravo = todos e se o ano de avaliacao = 2008 e se o agravo é malaria
-////                            if (agravoSelecionado.equals("TODOS") && anoAvaliadoMalaria == 2008 && agravo.equals("B54")) {
-////                                continuaCalculo = false;
-////                            }
-//                            //verifica se a uf de residencia é igual a selecionada
-//                            if (ufResidenciaDbf == null) {
-//                                continuaCalculo = false;
-//                            } else {
-//                                if (!ufResidencia.equals(ufResidenciaDbf)) {
-//                                    continuaCalculo = false;
-//                                }
-//                            }
-//
-//                            //verifica se o municipio de residencia é igual a selecionada, se foi selecionada
-//                            if (parMunicipioResidencia != null) {
-//                                if (parMunicipioResidenciaDbf == null) {
-//                                    continuaCalculo = false;
-//                                } else {
-//                                    if (!parMunicipioResidencia.equals(parMunicipioResidenciaDbf)) {
-//                                        continuaCalculo = false;
-//                                    }
-//                                }
-//
-//                            }
-//
-                            //se o agravo for dengue, verifica classificacao final
-                            /*
-                            if (agravo.equals("A90")) {
-                                String classificacaoFinal = utilDbf.getString(rowObjects, "CLASSI_FIN", 1);
-                                if (classificacaoFinal == null) {
-                                    continuaCalculo = false;
-                                } else {
-                                    int cf = Integer.parseInt(classificacaoFinal);
-                                    if (cf < 2 || cf > 4) {
-                                        continuaCalculo = false;
-                                    }
+                        if (utilDbf.getString(rowObjects, "NU_NOTIFIC").equals("5039435") 
+                                || utilDbf.getString(rowObjects, "NU_NOTIFIC").equals("9948375")) {
+                            SinanUtil.imprimirConsole(utilDbf.getString(rowObjects, "NU_NOTIFIC"));
+                        }
+                        if (municipiosBeans.containsKey(codMunicipio)
+                                && anoEdpid.length() == 4
+                                && parametros.get("parAnoAvaliacao").equals(anoEdpid)
+                                && semEpidemilogica.length() == 6) {
+                            if (municipiosBeans.get(codMunicipio) != null
+                                    && municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().size() == 0) {
+                                mapaSemEpidemiologica = new HashMap<String, Integer>();
+                                mapaSemEpidemiologica.put(semEpidemilogica, 1);
+                                municipiosBeans.get(codMunicipio).setMapaSemEpidemiológica(mapaSemEpidemiologica);
+                                municipiosBeans.get(codMunicipio).setTotal(1);
+                            } else {
+                                if (municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().get(semEpidemilogica) == null) {
+                                    municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().put(semEpidemilogica, 1);
+                                    municipiosBeans.get(codMunicipio).setTotal(municipiosBeans.get(codMunicipio).getTotal() + 1);
                                 }
-                            }*/
-                            
-                            //se o agravo for dengue, verifica se é óbito por Dengue ou óbito em investigação
-//                            if (agravo.equals("A90")) {
-//                                String evolucao = utilDbf.getString(rowObjects, "EVOLUCAO", 1);
-//                                if (evolucao == null) {
-//                                    continuaCalculo = false;
-//                                } else {
-//                                    int cf = Integer.parseInt(evolucao);
-//                                    if (cf < 2 || cf > 4) {
-//                                        continuaCalculo = false;
-//                                    }
-//                                }
-//                            }
-//                            
-//                            if (municipioResidencia != null && verificaAgravoOportuno(agravo) && continuaCalculo) {
-//
-//                                //verifica qual agravo para designar a dataFinal de avaliacao
-//                                String dataFim = dataFim60;
-//                                String colunaClassificacao = "CLASSI_FIN";
-//                                if (agravo.equals("B19") || agravo.equals("P350") || agravo.equals("B551")) {
-//                                    dataFim = dataFim180;
-//                                    if (agravo.equals("B551")) {
-//                                        colunaClassificacao = "CLASSI_FIN";
-//                                    }
-//                                }
-//                                if (agravodbf.isBetweenDates(dtNotificacao, dataInicio, dataFim)) {
-//                                    casoListado = new CasoOportunidadePQAVS();
-//                                    String situacao = "";
-//                                    //verifica se a data de encerramento é nula
-//                                    if (dtEncerramento == null) {
-//                                        //se o usuario marcou que quer a listagem, armazenar o caso no array listagemCasos
-//                                        if (this.isTemListagem()) {
-//                                            casoListado.setAgravo(buscaNomeAgravo(agravo));
-//                                            casoListado.setDtNotificacao(formataData(dtNotificacao.toString()));
-//                                            casoListado.setIdUnidade(utilDbf.getString(rowObjects, "ID_UNIDADE"));
-//                                            casoListado.setNumNotificacao(utilDbf.getString(rowObjects, "NU_NOTIFIC"));
-//                                            casoListado.setIdMunicipio(utilDbf.getString(rowObjects, "ID_MUNICIP"));
-//                                            String nomeMunicipio = retornaNome(utilDbf.getString(rowObjects, "ID_MN_RESI"));
-//                                            if (nomeMunicipio.equals("")) {
-//                                                Municipio municipioNovo = new Municipio();
-//                                                municipioNovo.setCodMunicipio(utilDbf.getString(rowObjects, "ID_MN_RESI"));
-//                                                municipioNovo.setNmMunicipio(agravodbf.getNomeMunicipio(utilDbf.getString(rowObjects, "ID_MN_RESI")));
-//                                                casoListado.setNmMunicipio(municipioNovo.getNmMunicipio());
-//                                                getMunicipios().add(municipioNovo);
-//                                            } else {
-//                                                casoListado.setNmMunicipio(nomeMunicipio);
-//                                            }
-//                                            casoListado.setSituacao("Não Encerrado");
-//                                            this.getListagemCasosPQAVS().add(casoListado);
-//                                            situacao = "Não Encerrado";
-//                                        }
-//                                        municipioResidencia.setQtdNaoEncerrado(Integer.valueOf(municipioResidencia.getQtdNaoEncerrado().intValue() + 1));
-//                                        municipioResidencia.setTotal(Integer.valueOf(municipioResidencia.getTotal().intValue() + 1));
-//                                    } else {
-//                                        int diferenca = Agravo.dataDiff(dtNotificacao, dtEncerramento);
-//                                        int diferencaOportuna = retornaDiferenca(agravo);
-//                                        situacao = classificaNotificacao(diferenca, diferencaOportuna, municipioResidencia, utilDbf.getInt(rowObjects, colunaClassificacao));
-//                                        if (agravo.equals("A010")) {
-//                                            System.out.println(utilDbf.getString(rowObjects, "NU_NOTIFIC"));
-//                                        }
-//                                        if (this.isTemListagem() && !situacao.equals("Oportuno") && !situacao.equals("Inoportuno com outras categorias")) {
-//                                            casoListado.setAgravo(buscaNomeAgravo(agravo));
-//                                            casoListado.setDtNotificacao(formataData(dtNotificacao.toString()));
-//                                            casoListado.setIdUnidade(utilDbf.getString(rowObjects, "ID_UNIDADE"));
-//                                            casoListado.setNumNotificacao(utilDbf.getString(rowObjects, "NU_NOTIFIC"));
-//                                            casoListado.setIdMunicipio(utilDbf.getString(rowObjects, "ID_MUNICIP"));
-//                                            String nomeMunicipio = retornaNome(utilDbf.getString(rowObjects, "ID_MN_RESI"));
-//                                            if (nomeMunicipio.equals("")) {
-//                                                Municipio municipioNovo = new Municipio();
-//                                                municipioNovo.setCodMunicipio(utilDbf.getString(rowObjects, "ID_MN_RESI"));
-//                                                municipioNovo.setNmMunicipio(agravodbf.getNomeMunicipio(utilDbf.getString(rowObjects, "ID_MN_RESI")));
-//                                                casoListado.setNmMunicipio(municipioNovo.getNmMunicipio());
-//                                                getMunicipios().add(municipioNovo);
-//                                            } else {
-//                                                casoListado.setNmMunicipio(nomeMunicipio);
-//                                            }
-//                                            casoListado.setSituacao(situacao);
-//                                            this.getListagemCasosPQAVS().add(casoListado);
-//                                        }
-//                                    }
-//                                    //ALIMENTAR PARA EXPORTAR PARA DBF
-//                                    String dtEncerramentoExportacao;
-//                                    if (dtEncerramento == null) {
-//                                        dtEncerramentoExportacao = "";
-//                                    } else {
-//                                        dtEncerramentoExportacao = formataData(dtEncerramento.toString());
-//                                    }
-//    //                            populaBeanExportacaoDBF(situacao, buscaNomeAgravo(agravo), utilDbf.getString(rowObjects, "ID_MUNICIP"),
-//    //                                    utilDbf.getString(rowObjects, "ID_MN_RESI"), formataData(dtNotificacao.toString()),
-//    //                                    utilDbf.getString(rowObjects, "NU_NOTIFIC"), utilDbf.getString(rowObjects, "ID_UNIDADE"),
-//    //                                    dtEncerramentoExportacao);
-//                                }
-//                            }
-      //                  }
+                            }
+
+                        }
                         float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
-                       // ;
                         getBarraStatus().setString((int) percentual + "%");
                         getBarraStatus().setValue((int) percentual);
                         i++;
@@ -1079,12 +885,10 @@ public class SemEpidPQAVS extends Agravo {
      * @param parametros
      * @return uma lista dos resultados com beans
      * @throws ParseException
-     * @throws DBFException
-     * CALCULO A PARTIR DA BASE DBF - BRASIL
+     * @throws DBFException CALCULO A PARTIR DA BASE DBF - BRASIL
      */
-    
     //ALTERAR O ALGORITMO AQUI
-   // *********************************************
+    // *********************************************
     public List getCalculaResultado(DBFReader reader, Map parametros) throws ParseException, DBFException {
 
         //verifica se o calculo é o brasil
@@ -1119,20 +923,14 @@ public class SemEpidPQAVS extends Agravo {
             municipiosBeans = populaUfsBeansOportuno();// PREENCHE AS COLUNAS COM AS UFs. CRIAR RECURSO PARA AS REGIÕES
             coluna = "SG_UF";
         }
-        
-        
+
         //AQUI JÁ TEM O MAPA POPULADO COM TODOS OS MUNICÍPIOS (municipiosBeans)
-        
-        
-        
         //inicia variavel com agravos válidos
         iniciaAgravosValidos();
         if (parametros.get("parDiscriminarPorAgravo").equals(true)) {
             municipiosBeans = populaAgravosBeans(agravoSelecionado);
             coluna = "ID_AGRAVO";
         }
-
-
 
         //inicia o calculo
         String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
@@ -1145,37 +943,34 @@ public class SemEpidPQAVS extends Agravo {
                 utilDbf.mapearPosicoes(reader);
                 int TotalRegistrosInt = reader.getRecordCount();
                 while ((rowObjects = reader.nextRecord()) != null) {
-                    
+
                     codMunicipio = utilDbf.getString(rowObjects, "ID_MUNICIP");
                     semEpidemilogica = utilDbf.getString(rowObjects, "SEM_NOT");
                     dtNotificacao = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
-                    
-                 //   String ano = dtNotificacao.toString().substring(0, 4);
-                 //     anoEdpid = semEpidemilogica.substring(0, 4);
-                    
-                      if(semEpidemilogica != null && semEpidemilogica.length() >= 4){
-                        anoEdpid = semEpidemilogica.substring(0, 4);
-                      }else{
-                        anoEdpid = "0";
-                      }
-                            
-           //         SinanUtil.imprimirConsole(anoEdpid + ' '+ anoEdpid.length()  + ' '+ semEpidemilogica.length());
-                          
-                    
-                    if(municipiosBeans.containsKey(codMunicipio) && anoEdpid.length() == 4 && parametros.get("parAnoAvaliacao").equals(anoEdpid) && semEpidemilogica.length() == 6) {
-                                    if(municipiosBeans.get(codMunicipio) != null && municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().size() == 0){
-                                        mapaSemEpidemiologica = new HashMap<String, Integer>();
-                                        mapaSemEpidemiologica.put(semEpidemilogica, 1);
-                                        municipiosBeans.get(codMunicipio).setMapaSemEpidemiológica(mapaSemEpidemiologica);
-                                        municipiosBeans.get(codMunicipio).setTotal(1);
-                                    }else{
-                                        if(municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().get(semEpidemilogica) == null){
-                                            municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().put(semEpidemilogica, 1);
-                                            municipiosBeans.get(codMunicipio).setTotal(municipiosBeans.get(codMunicipio).getTotal() + 1);
-                                        }
-                                    }
 
-                                }  
+                    //   String ano = dtNotificacao.toString().substring(0, 4);
+                    //     anoEdpid = semEpidemilogica.substring(0, 4);
+                    if (semEpidemilogica != null && semEpidemilogica.length() >= 4) {
+                        anoEdpid = semEpidemilogica.substring(0, 4);
+                    } else {
+                        anoEdpid = "0";
+                    }
+
+                    //         SinanUtil.imprimirConsole(anoEdpid + ' '+ anoEdpid.length()  + ' '+ semEpidemilogica.length());
+                    if (municipiosBeans.containsKey(codMunicipio) && anoEdpid.length() == 4 && parametros.get("parAnoAvaliacao").equals(anoEdpid) && semEpidemilogica.length() == 6) {
+                        if (municipiosBeans.get(codMunicipio) != null && municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().size() == 0) {
+                            mapaSemEpidemiologica = new HashMap<String, Integer>();
+                            mapaSemEpidemiologica.put(semEpidemilogica, 1);
+                            municipiosBeans.get(codMunicipio).setMapaSemEpidemiológica(mapaSemEpidemiologica);
+                            municipiosBeans.get(codMunicipio).setTotal(1);
+                        } else {
+                            if (municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().get(semEpidemilogica) == null) {
+                                municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().put(semEpidemilogica, 1);
+                                municipiosBeans.get(codMunicipio).setTotal(municipiosBeans.get(codMunicipio).getTotal() + 1);
+                            }
+                        }
+
+                    }
 //                    
 //                    if(anoEdpid.length() == 4 && parametros.get("parAnoAvaliacao").equals(anoEdpid) && semEpidemilogica.length() == 6){
 //                        if(municipiosBeans.get(codMunicipio) != null && municipiosBeans.get(codMunicipio).getMapaSemEpidemiologica().size() == 0){
@@ -1191,14 +986,12 @@ public class SemEpidPQAVS extends Agravo {
 //                        }
 //                        
 //                    }
-       //TAIDSON    
-                   if(utilDbf.getString(rowObjects, "NU_NOTIFIC").equals("7675226")){
-                       SinanUtil.imprimirConsole(utilDbf.getString(rowObjects, "NU_NOTIFIC"));
-                   }
-                    
-                   
-                    
-                   /*
+                    //TAIDSON    
+                    if (utilDbf.getString(rowObjects, "NU_NOTIFIC").equals("7675226")) {
+                        SinanUtil.imprimirConsole(utilDbf.getString(rowObjects, "NU_NOTIFIC"));
+                    }
+
+                    /*
 
                     //verifica a uf de residencia é diferente de null
                     if (utilDbf.getString(rowObjects, coluna) != null) {
@@ -1243,8 +1036,7 @@ public class SemEpidPQAVS extends Agravo {
                                     }
                                 }
                             }*/
-                            
-                             //se o agravo for dengue, verifica se é óbito por Dengue ou óbito em investigação
+                    //se o agravo for dengue, verifica se é óbito por Dengue ou óbito em investigação
                     /*
                             if (agravo.equals("A90")) {
                                 String evolucao = utilDbf.getString(rowObjects, "EVOLUCAO", 1);
@@ -1414,8 +1206,8 @@ public class SemEpidPQAVS extends Agravo {
      * @param con
      * @param parametros
      * @return uma lista dos resultados com beans
-     * @throws SQLException
-     * CALCULO A PARTIR DA BASE POSTGRES - USADO PARA CALCULAR TODOS OS MUNICIPIOS
+     * @throws SQLException CALCULO A PARTIR DA BASE POSTGRES - USADO PARA
+     * CALCULAR TODOS OS MUNICIPIOS
      */
     private List getCalculaResultadoPorMunicipio(Connection con, Map parametros) throws SQLException {
         String sql;
@@ -1454,7 +1246,6 @@ public class SemEpidPQAVS extends Agravo {
             agravoBean.setNmAgravo(noMunicipio);
             beans.add(agravoBean);
             //busca o total de encerrados, nao encerrados, data inválida e inoportunos
-
 
             //primeira busca é dos agravos de 180 dias
             //busca o parametro agravo
@@ -1684,8 +1475,7 @@ public class SemEpidPQAVS extends Agravo {
      * @param con
      * @param parametros
      * @return uma lista dos resultados com beans
-     * @throws SQLException
-     * CALCULO A PARTIR DA BASE POSTGRES
+     * @throws SQLException CALCULO A PARTIR DA BASE POSTGRES
      */
     public List getCalculaResultado(Connection con, Map parametros) throws SQLException, ParseException {
         ResultSet rs2;
@@ -1787,7 +1577,6 @@ public class SemEpidPQAVS extends Agravo {
                     agravoBean.setQtdNaoEncerrado(Integer.valueOf(agravoBean.getQtdNaoEncerrado().intValue() + 1));
                     agravoBean.setTotal(Integer.valueOf(agravoBean.getTotal().intValue() + 1));
                     //popula o bean para exportacao
-
 
                 } else {
                     situacao = this.classificaNotificacao(rs2.getInt("diff"), 180, agravoBean, rs2.getInt("tp_classificacao_final"));
@@ -1989,11 +1778,11 @@ public class SemEpidPQAVS extends Agravo {
         String dataFim60 = "";
         String dataFim180 = "";
         try {
-            if(this.dtInicioAvaliacao != null){
+            if (this.dtInicioAvaliacao != null) {
                 dataInicio = retornaDataInicioNotificacao(this.dtInicioAvaliacao, this.dataAvaliacao);
                 dataFim60 = retornaDataFimNotificacao(this.dtFimAvaliacao, this.dataAvaliacao, 60);
                 dataFim180 = retornaDataFimNotificacao(this.dtFimAvaliacao, this.dataAvaliacao, 180);
-            }else{
+            } else {
                 dataInicio = retornaDataInicio(this.anoAvaliado, this.dataAvaliacao);
                 dataFim60 = retornaDataFim(this.anoAvaliado, this.dataAvaliacao, 60);
                 dataFim180 = retornaDataFim(this.anoAvaliado, this.dataAvaliacao, 180);
@@ -2009,9 +1798,9 @@ public class SemEpidPQAVS extends Agravo {
         } else {
             parametros.put("parAgravo", buscaCodigoAgravo(this.nomeAgravo.toString()));
         }
-        if(this.dtInicioAvaliacao != null){
-            parametros.put("parAnoAvaliacao", this.dtInicioAvaliacao.toString() + " a "+ this.dtFimAvaliacao.toString());
-        }else{
+        if (this.dtInicioAvaliacao != null) {
+            parametros.put("parAnoAvaliacao", this.dtInicioAvaliacao.toString() + " a " + this.dtFimAvaliacao.toString());
+        } else {
             parametros.put("parAnoAvaliacao", this.anoAvaliado.toString());
         }
         parametros.put("parAnoAvaliacao", this.anoAvaliado.toString());
@@ -2024,8 +1813,8 @@ public class SemEpidPQAVS extends Agravo {
         parametros.put("parDataInicio", Util.formataData(dataInicio));
         parametros.put("parDataFim60", Util.formataData(dataFim60));
         parametros.put("parDataFim180", Util.formataData(dataFim180));
-        */
-        
+         */
+
         if (isPeriodoValido180dias() && isPeriodoValido60dias()) {
             parametros.put("parPeriodo", "\n    SRC, LTA e HEPATITES: de " + dataInicio + " a " + dataFim180 + "\n    Demais agravos de " + dataInicio + " a " + dataFim60);
             parametros.put("parPeriodo60", dataInicio + " a " + dataFim60);
@@ -2077,10 +1866,10 @@ public class SemEpidPQAVS extends Agravo {
         //se anos forem iguais
         if (anoAvaliacao.equals(anoAvaliado)) {
             //verificar dataAvaliacao-1/1/anoavaliado > 60 dias
-            
+
             if (Agravo.dataDiff(dataInicio, dataFim) > 60) {
                 return fmt.format(dataInicio).toString();
-            }else{
+            } else {
                 Master.mensagem("O intervalo entre data de avaliação e ano/período avaliado é insuficiente para avaliar agravos cujo prazo de encerramento oportuno é de 60 dias");
                 setPeriodoValido60dias(false);
             }
@@ -2112,25 +1901,23 @@ public class SemEpidPQAVS extends Agravo {
             }
         }
     }
-    
+
     private String retornaDataInicioNotificacao(String dtInicioNotificacao, String dataAvaliacao) throws ParseException {
         //String anoAvaliacao = dataAvaliacao.split("/")[2];
-        
+
         DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 //      Date dataInicio = new java.sql.Date(fmt.parse("01/01/" + anoAvaliacao).getTime());
         Date dataInicio = new java.sql.Date(fmt.parse(dtInicioNotificacao).getTime());
         Date dataFim = new java.sql.Date(fmt.parse(dataAvaliacao).getTime());
 
-    
         //verificar dataAvaliacao-1/1/anoavaliado > 60 dias
-        
         if (Agravo.dataDiff(dataInicio, dataFim) > 60) {
             return fmt.format(dataInicio).toString();
-        }else{
+        } else {
             Master.mensagem("O intervalo entre data de avaliação e ano/período avaliado é insuficiente para avaliar agravos cujo prazo de encerramento oportuno é de 60 dias");
             setPeriodoValido60dias(false);
         }
-           
+
         return null;
     }
 
@@ -2142,7 +1929,7 @@ public class SemEpidPQAVS extends Agravo {
         calendarData.add(Calendar.DATE, -intervalo);
         java.util.Date dataFim2 = calendarData.getTime();
         //se anos forem iguais
-        
+
         //verifica se subtrair a data de avaliacao pelo intervalo vai ser menor que 31/12/anoAvaliado
         //se for menor a data final vai ser esta subtraçao
         //se for maior, a data final vai ser 31/12/anoAvaliado
@@ -2153,40 +1940,85 @@ public class SemEpidPQAVS extends Agravo {
             return dtFimNotificacao;
         }
     }
-    
- 
 
-   
-    
     public String buscaCodigoAgravo(String nomeAgravo) {
         String retorno = "";
-        
-        if (nomeAgravo.equals("ANTRAZ PNEUMONICO")) { retorno = "A229";}
-        if (nomeAgravo.equals("ARENAVIRUS")) { retorno = "A969";}
-        if (nomeAgravo.equals("BOTULISMO")) { retorno = "A051";}
-        if (nomeAgravo.equals("COLERA")) { retorno = "A009";}
-        if (nomeAgravo.equals("DENGUE (OBITOS)")) { retorno = "A90";}
-        if (nomeAgravo.equals("EBOLA")) { retorno = "A984";}
-        if (nomeAgravo.equals("EVENTOS ADVERSOS GRAVES OU OBITOS POS-VACINACAO")) { retorno = "Y59";}
-        if (nomeAgravo.equals("FEBRE AMARELA")) { retorno = "A959";}
-        if (nomeAgravo.equals("FEBRE DE CHIKUNGUNYA")) { retorno = "A920";}
-        if (nomeAgravo.equals("FEBRE DO NILO OCIDENTAL")) { retorno = "A923";}
-        if (nomeAgravo.equals("FEBRE MACULOSA E OUTRAS RIQUETISIOSES")) { retorno = "A779";}
-        if (nomeAgravo.equals("FEBRE PURPURICA BRASILEIRA")) { retorno = "A484";}
-        if (nomeAgravo.equals("INFLUENZA HUMANA PRODUZIDA POR NOVO SUBTIPO VIRAL")) { retorno = "J11";}
-        if (nomeAgravo.equals("LASSA")) { retorno = "A962";}
-        if (nomeAgravo.equals("MALARIA NA REGIAO EXTRA AMAZONICA")) { retorno = "B54";}
-        if (nomeAgravo.equals("MARBURG")) { retorno = "A983";}
-        if (nomeAgravo.equals("PARALISIA FLACIDA AGUDA")) { retorno = "A809";}
-        if (nomeAgravo.equals("PESTE")) { retorno = "A209";}
-        if (nomeAgravo.equals("RAIVA HUMANA")) { retorno = "A829";}
-        if (nomeAgravo.equals("RUBEOLA")) { retorno = "B092";}
-        if (nomeAgravo.equals("SARAMPO")) { retorno = "B091";}
-        if (nomeAgravo.equals("SINDROME DA RUBEOLA CONGENITA")) { retorno = "P350";}
-        if (nomeAgravo.equals("SINDROME RESPIRATORIA AGUDA GRAVE ASSOCIADA A CORONAVIRUS")) { retorno = "U049";}
-        if (nomeAgravo.equals("TULAREMIA")) { retorno = "A219";}
-        if (nomeAgravo.equals("VARIOLA")) { retorno = "B03";}
 
+        if (nomeAgravo.equals("ANTRAZ PNEUMONICO")) {
+            retorno = "A229";
+        }
+        if (nomeAgravo.equals("ARENAVIRUS")) {
+            retorno = "A969";
+        }
+        if (nomeAgravo.equals("BOTULISMO")) {
+            retorno = "A051";
+        }
+        if (nomeAgravo.equals("COLERA")) {
+            retorno = "A009";
+        }
+        if (nomeAgravo.equals("DENGUE (OBITOS)")) {
+            retorno = "A90";
+        }
+        if (nomeAgravo.equals("EBOLA")) {
+            retorno = "A984";
+        }
+        if (nomeAgravo.equals("EVENTOS ADVERSOS GRAVES OU OBITOS POS-VACINACAO")) {
+            retorno = "Y59";
+        }
+        if (nomeAgravo.equals("FEBRE AMARELA")) {
+            retorno = "A959";
+        }
+        if (nomeAgravo.equals("FEBRE DE CHIKUNGUNYA")) {
+            retorno = "A920";
+        }
+        if (nomeAgravo.equals("FEBRE DO NILO OCIDENTAL")) {
+            retorno = "A923";
+        }
+        if (nomeAgravo.equals("FEBRE MACULOSA E OUTRAS RIQUETISIOSES")) {
+            retorno = "A779";
+        }
+        if (nomeAgravo.equals("FEBRE PURPURICA BRASILEIRA")) {
+            retorno = "A484";
+        }
+        if (nomeAgravo.equals("INFLUENZA HUMANA PRODUZIDA POR NOVO SUBTIPO VIRAL")) {
+            retorno = "J11";
+        }
+        if (nomeAgravo.equals("LASSA")) {
+            retorno = "A962";
+        }
+        if (nomeAgravo.equals("MALARIA NA REGIAO EXTRA AMAZONICA")) {
+            retorno = "B54";
+        }
+        if (nomeAgravo.equals("MARBURG")) {
+            retorno = "A983";
+        }
+        if (nomeAgravo.equals("PARALISIA FLACIDA AGUDA")) {
+            retorno = "A809";
+        }
+        if (nomeAgravo.equals("PESTE")) {
+            retorno = "A209";
+        }
+        if (nomeAgravo.equals("RAIVA HUMANA")) {
+            retorno = "A829";
+        }
+        if (nomeAgravo.equals("RUBEOLA")) {
+            retorno = "B092";
+        }
+        if (nomeAgravo.equals("SARAMPO")) {
+            retorno = "B091";
+        }
+        if (nomeAgravo.equals("SINDROME DA RUBEOLA CONGENITA")) {
+            retorno = "P350";
+        }
+        if (nomeAgravo.equals("SINDROME RESPIRATORIA AGUDA GRAVE ASSOCIADA A CORONAVIRUS")) {
+            retorno = "U049";
+        }
+        if (nomeAgravo.equals("TULAREMIA")) {
+            retorno = "A219";
+        }
+        if (nomeAgravo.equals("VARIOLA")) {
+            retorno = "B03";
+        }
 
         return retorno;
     }
@@ -2262,9 +2094,7 @@ public class SemEpidPQAVS extends Agravo {
     public void setDtFimAvaliacao(String dtFimAvaliacao) {
         this.dtFimAvaliacao = dtFimAvaliacao;
     }
-    
-    
-    
+
     /**
      * @return the nomeAgravo
      */
@@ -2352,12 +2182,12 @@ public class SemEpidPQAVS extends Agravo {
         // return new String[]{"AGRAVO", "ID_MUNIC", "ID_MN_RES", "DT_NOTIFIC", "NU_NOTIFIC", "ID_UNIDADE", "SG_UF", "NU_ANO", "UFRES", "OPORTU", "ORIGEM"};
         if (isPorAgravo()) {
             return new String[]{"ID_AGRAVO", "DS_AGRAVO", "NUM_NENC", "PER_NENC", "NUM_INOIN", "PER_INOIN",
-                        "NUM_INOOT", "PER_INOOT", "N_ENCOPOR", "I_ENCOPOR", "NUM_DTINV", "PER_DTINV", "D_ENCOPOR", "ANO_NOTIF",
-                        "DT_AVALIA", "ORIGEM"};
+                "NUM_INOOT", "PER_INOOT", "N_ENCOPOR", "I_ENCOPOR", "NUM_DTINV", "PER_DTINV", "D_ENCOPOR", "ANO_NOTIF",
+                "DT_AVALIA", "ORIGEM"};
         } else {
             return new String[]{"ID_LOCRES", "DS_LOCRES", "ID_UFRES", "NUM_NENC", "PER_NENC", "NUM_INOIN", "PER_INOIN",
-                        "NUM_INOOT", "PER_INOOT", "N_ENCOPOR", "I_ENCOPOR", "NUM_DTINV", "PER_DTINV", "D_ENCOPOR", "ANO_NOTIF",
-                        "DT_AVALIA", "ORIGEM"};
+                "NUM_INOOT", "PER_INOOT", "N_ENCOPOR", "I_ENCOPOR", "NUM_DTINV", "PER_DTINV", "D_ENCOPOR", "ANO_NOTIF",
+                "DT_AVALIA", "ORIGEM"};
         }
     }
 
@@ -2507,7 +2337,8 @@ public class SemEpidPQAVS extends Agravo {
     }
 
     /**
-     * @param sqlCalculoAgravosMalaria60dias the sqlCalculoAgravosMalaria60dias to set
+     * @param sqlCalculoAgravosMalaria60dias the sqlCalculoAgravosMalaria60dias
+     * to set
      */
     public void setSqlCalculoAgravosMalaria60dias(String sqlCalculoAgravosMalaria60dias) {
         this.sqlCalculoAgravosMalaria60dias = sqlCalculoAgravosMalaria60dias;

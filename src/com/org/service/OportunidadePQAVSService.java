@@ -435,7 +435,11 @@ public class OportunidadePQAVSService {
         DBFReader reader = null;
         InputStream inputStream = null;
         try {
-            inputStream = new FileInputStream(caminho + arquivo + ".DBF"); // take dbf file as program argument
+            if(System.getProperty("os.name").compareTo("Linux") == 0){
+                inputStream = new FileInputStream(caminho.replace("\\","/") + arquivo + ".DBF"); // take dbf file as program argument
+            }else{
+                inputStream = new FileInputStream(caminho + arquivo + ".DBF"); // take dbf file as program argument
+            }
 
         } catch (FileNotFoundException e) {
             Logger.getLogger(SessionFacadeImpl.class.getName()).log(Level.SEVERE, null, "Erro: tabela " + arquivo + ".dbf nao encontrada.\n" + e);

@@ -26,59 +26,61 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="lblUF" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="1"/>
+                              <EmptySpace min="-2" pref="145" max="-2" attributes="0"/>
+                              <Component id="btCalcular" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="btLimpar" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Group type="102" alignment="1" attributes="1">
+                                  <EmptySpace min="10" pref="10" max="10" attributes="0"/>
+                                  <Component id="prbStatus" max="32767" attributes="1"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="cbMunicipio" alignment="0" pref="225" max="32767" attributes="1"/>
-                                      <Component id="cbRegional" alignment="0" max="32767" attributes="1"/>
-                                      <Component id="cbUf" alignment="0" max="32767" attributes="1"/>
-                                  </Group>
-                                  <Component id="chkExportarDbf" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="pnlArquivos" alignment="0" min="-2" pref="550" max="-2" attributes="1"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="145" max="-2" attributes="0"/>
-                                      <Component id="btCalcular" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="btLimpar" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Group type="102" alignment="1" attributes="1">
-                                          <EmptySpace min="10" pref="10" max="10" attributes="0"/>
-                                          <Component id="prbStatus" max="32767" attributes="1"/>
-                                      </Group>
-                                      <Component id="pnlArquivos" alignment="0" min="-2" pref="550" max="-2" attributes="1"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel23" max="32767" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="panelOportunidade" min="-2" pref="564" max="-2" attributes="1"/>
-                                  </Group>
-                              </Group>
+                              <Component id="jLabel23" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="panelOportunidade" min="-2" pref="564" max="-2" attributes="1"/>
                           </Group>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
-                      <Component id="jLabel10" min="-2" max="-2" attributes="1"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                              <Component id="jLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="1"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                              <Component id="lblUF" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cbDesagregacao" min="-2" max="-2" attributes="1"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="cbUf" min="-2" max="-2" attributes="1"/>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="cbMunicipio" alignment="0" pref="225" max="32767" attributes="1"/>
+                              <Component id="cbRegional" alignment="0" max="32767" attributes="1"/>
+                          </Group>
+                          <Component id="chkExportarDbf" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbDesagregacao" min="-2" pref="280" max="-2" attributes="1"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="185" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+              <Component id="jLabel10" min="-2" max="-2" attributes="1"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -87,13 +89,13 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="cbDesagregacao" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel10" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                  <Component id="lblUF" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cbUf" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblUF" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cbUf" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cbDesagregacao" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel10" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -109,10 +111,10 @@
               <Component id="chkExportarDbf" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jLabel23" max="32767" attributes="0"/>
-                  <Component id="panelOportunidade" pref="22" max="32767" attributes="0"/>
+                  <Component id="jLabel23" pref="42" max="32767" attributes="0"/>
+                  <Component id="panelOportunidade" pref="42" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="pnlArquivos" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
               <Component id="prbStatus" min="-2" max="-2" attributes="0"/>
@@ -130,7 +132,7 @@
     <Container class="javax.swing.JPanel" name="panelOportunidade">
       <Properties>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[561, 99]"/>
+          <Dimension value="[300, 99]"/>
         </Property>
       </Properties>
 
@@ -139,15 +141,15 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="anoAvaliadoOportunidade" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="515" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="495" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <Component id="anoAvaliadoOportunidade" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="2" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="15" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -331,8 +333,11 @@
     <Component class="javax.swing.JComboBox" name="cbDesagregacao">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="1">
-            <StringItem index="0" value="UF subdividida por Regi&#xf5;es de Sa&#xfa;de e Munic&#xed;pios"/>
+          <StringArray count="4">
+            <StringItem index="0" value="-- Selecione --"/>
+            <StringItem index="1" value="Somente munic&#xed;pios"/>
+            <StringItem index="2" value="UF subdividida por Regi&#xf5;es de Sa&#xfa;de"/>
+            <StringItem index="3" value="UF subdividida por Regional de Sa&#xfa;de"/>
           </StringArray>
         </Property>
       </Properties>
