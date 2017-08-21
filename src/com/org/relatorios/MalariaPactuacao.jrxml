@@ -43,10 +43,14 @@
 	<variable name="REPORT_TOTAL" class="java.lang.Integer">
 		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
 	</variable>
+	<variable name="CURRENT_PAGE" class="java.lang.Integer" resetType="Page">
+		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
+	</variable>
 	<group name="Regiao">
 		<groupExpression><![CDATA[$P{parNenhum}?$F{uf}:$P{parIsRegiao}?$F{codRegiaoSaude}:$F{codRegional}]]></groupExpression>
 		<groupHeader>
 			<band height="50">
+				<printWhenExpression><![CDATA[!$F{nomeMunicipio}.equals("TOTAL")]]></printWhenExpression>
 				<rectangle>
 					<reportElement x="-2" y="0" width="548" height="45" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#CCCCCC"/>
 				</rectangle>
@@ -58,32 +62,38 @@
 				<textField>
 					<reportElement x="99" y="0" width="220" height="20"/>
 					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$P{parIsRegiao}?$F{regiaoSaude}:$F{regional}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$P{parNenhum}?"":$P{parIsRegiao}?$P{parRegiaoSaude}:$P{parRegionalSaude}]]></textFieldExpression>
 				</textField>
-				<staticText>
-					<reportElement x="0" y="25" width="100" height="20"/>
-					<textElement/>
-					<text><![CDATA[Nome do Município]]></text>
-				</staticText>
 				<staticText>
 					<reportElement x="475" y="25" width="67" height="20"/>
 					<textElement textAlignment="Center"/>
 					<text><![CDATA[Nº de Casos]]></text>
 				</staticText>
+				<textField>
+					<reportElement x="0" y="30" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$P{parNenhum}?"Regional de Infecção":"Município de Infecção"]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="22">
+			<band height="34">
+				<printWhenExpression><![CDATA[$F{nomeMunicipio}.equals("TOTAL")]]></printWhenExpression>
+				<rectangle>
+					<reportElement x="-1" y="0" width="547" height="20" backcolor="#CCCCCC"/>
+				</rectangle>
 				<textField>
-					<reportElement x="446" y="0" width="100" height="20"/>
-					<textElement/>
+					<reportElement x="475" y="0" width="71" height="20"/>
+					<textElement textAlignment="Center"/>
 					<textFieldExpression class="java.lang.String"><![CDATA[$P{numeradorTotal}]]></textFieldExpression>
 				</textField>
-				<textField evaluationTime="Report">
-					<reportElement x="176" y="2" width="100" height="20"/>
-					<textElement/>
-					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
-				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="220" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL]]></text>
+				</staticText>
 			</band>
 		</groupFooter>
 	</group>
@@ -169,14 +179,14 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parDesagregacao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="76" y="66" width="100" height="12"/>
+				<reportElement x="78" y="65" width="100" height="12"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parSgUf}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="106" y="78" width="136" height="12"/>
+				<reportElement x="89" y="78" width="153" height="12"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -211,7 +221,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parArquivos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="5" y="78" width="100" height="12"/>
+				<reportElement x="5" y="78" width="84" height="12"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -221,6 +231,7 @@
 	</title>
 	<detail>
 		<band height="20" splitType="Stretch">
+			<printWhenExpression><![CDATA[!$F{nomeMunicipio}.equals("TOTAL")]]></printWhenExpression>
 			<textField pattern="###0.0;-###0.0">
 				<reportElement x="1" y="0" width="220" height="18"/>
 				<textElement>
