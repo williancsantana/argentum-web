@@ -33,9 +33,9 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="160" splitType="Stretch">
+		<band height="173" splitType="Stretch">
 			<rectangle>
-				<reportElement x="2" y="50" width="552" height="109"/>
+				<reportElement x="2" y="50" width="552" height="123"/>
 			</rectangle>
 			<textField isBlankWhenNull="true">
 				<reportElement x="1" y="0" width="306" height="14"/>
@@ -104,7 +104,7 @@
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Meu relatório - Proporção de casos de doenças de notificação compulsória imediata (DNCI) encerradas em até 60 dias após notificação]]></text>
+				<text><![CDATA[Proporção de casos de doenças de notificação compulsória imediata (DNCI) encerradas em até 60 dias após notificação]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="321" y="52" width="100" height="14"/>
@@ -121,11 +121,11 @@
 				<text><![CDATA[Ano/Período de avaliação:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="4" y="107" width="548" height="53" forecolor="#666666"/>
+				<reportElement x="4" y="107" width="548" height="66" forecolor="#666666"/>
 				<textElement textAlignment="Justified">
 					<font size="8" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
-				<text><![CDATA[Para monitoramento, foram definidas, em virtude de sua magnitude e relevância, 25 doenças de notificação imediata nacional. São elas: Antraz pneumônico, Arenavírus, Botulismo, Cólera, Dengue (óbitos), Ebola, Eventos adversos graves ou óbitos pós-vacinação, Febre amarela, Febre de chikungunya, Febre do nilo ocidental e outras arboviroses de importância em saúde pública, Febre maculosa e outras riquetisioses, Febre purpúrica brasileira, Influenza humana produzida por novo subtipo viral, Lassa, Malária na região extra Amazônica, Marburg, Paralisia flácida aguda, Peste, Raiva humana, Rubéola, Sarampo, SRC, SRAG associada a coronavírus, Tularemia e Varíola.]]></text>
+				<text><![CDATA[Para este indicador, foram definidas, em virtude de sua magnitude e relevância, os seguintes eventos e doenças de notificação imediata nacional, listados na Portaria nº 204/GM/MS, de 17 de fevereiro de 2016: Antraz pneumônico, Arenavírus, Botulismo, Cólera, Dengue (óbitos), Ebola, Febre amarela, Febre do Nilo ocidental e outras arboviroses de importância em saúde pública, Febre maculosa e outras riquetisioses, Febre purpúrica brasileira, Hantavirose, Influenza humana produzida por novo subtipo viral, Lassa, Malária na região extra Amazônica, Marburg, Poliomielite por poliovírus selvagem, Peste, Óbito com suspeita de doença pelo vírus Zika, Óbito com suspeita de Febre de Chikungunya, Raiva humana, Rubéola, Sarampo, Síndrome de paralisia flácida aguda, Tularemia, Varíola e outras emergências de saúde pública.]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="106" y="53" width="209" height="15"/>

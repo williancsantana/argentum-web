@@ -181,12 +181,20 @@ public class OportunidadeMalariaPactuacao extends Agravo {
         Boolean AT_LAMINA = false;
         Boolean RESULT = false;
         Boolean AUTOCTONE = false;
+        Boolean AT_SINTOMA = false;
+        Boolean Data = false;
+        Boolean MUNIC_NOTIFICACAO = false;
 
         String total;
         DecimalFormat df = new DecimalFormat("0.00");
         int numerador = 0;
+        int denominador = 0;
         int numeradorEstadual = 0;
         int denominadorEstadual = 0;
+
+        java.sql.Date dtPrimeirosSintomas = null;
+        java.sql.Date dtTratamento = null;
+
         Agravo municipioResidencia = null;
         String dataInicio = (String) parametros.get("parDataInicio");
         String dataFim = (String) parametros.get("parDataFim");
@@ -201,13 +209,13 @@ public class OportunidadeMalariaPactuacao extends Agravo {
                 while ((rowObjects = reader.nextRecord()) != null) {
                     //cálculo da taxa estadual
                     //verifica a uf de residencia
-                    if (utilDbf.getString(rowObjects, "COUFINF") != null) {
+                    if (utilDbf.getString(rowObjects, "SG_UF_NOT") != null) {
                         try {
                             //verifica se existe a referencia do municipio no bean
                             if ((Boolean) parametros.get("parIsRegiao")) {
-                                municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "COMUNINF")));
+                                municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
                             } else {
-                                municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "COMUNINF")));
+                                municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
                             }
                         } catch (SQLException ex) {
                             Logger.getLogger(AutoctoneMalariaPactuacao.class.getName()).log(Level.SEVERE, null, ex);
@@ -218,6 +226,10 @@ public class OportunidadeMalariaPactuacao extends Agravo {
                         if (utilDbf.getString(rowObjects, "AT_LAMINA") != null) {
                             AT_LAMINA = utilDbf.getString(rowObjects, "AT_LAMINA").equals("1") || utilDbf.getString(rowObjects, "AT_LAMINA").equals("2");
                         }
+                        if (utilDbf.getString(rowObjects, "AT_SINTOMA") != null) {
+                            AT_SINTOMA = utilDbf.getString(rowObjects, "AT_SINTOMA").equals("1");
+                        }
+
                         if (utilDbf.getString(rowObjects, "RESULT") != null) {
                             RESULT = utilDbf.getString(rowObjects, "RESULT").equals("2") || utilDbf.getString(rowObjects, "RESULT").equals("3")
                                     || utilDbf.getString(rowObjects, "RESULT").equals("4") || utilDbf.getString(rowObjects, "RESULT").equals("5")
@@ -228,16 +240,50 @@ public class OportunidadeMalariaPactuacao extends Agravo {
 
                         dtDiagnostico = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
 
-                        if (municipioResidencia != null && CID_B54 && AT_LAMINA && RESULT) {
-                            // AUTOCTONE = utilDbf.getString(rowObjects, "ID_MN_RESI").equals(utilDbf.getString(rowObjects, "COMUNINF"));
+                        if (municipioResidencia != null && CID_B54 && AT_LAMINA && RESULT && AT_SINTOMA) {
+                            MUNIC_NOTIFICACAO = utilDbf.getString(rowObjects, "ID_MUNICIP").equals(utilDbf.getString(rowObjects, "COMUNINF"));
                             if (isBetweenDates(dtDiagnostico, dataInicio, dataFim)) {
                                 numerador = Integer.parseInt(municipioResidencia.getNumerador());
                                 numerador++;
                                 municipioResidencia.setNumerador(String.valueOf(numerador));
+                                municipioResidencia.setNumeradorInt(numerador);
                                 numeradorEstadual++;
+                                if (utilDbf.getDate(rowObjects, "DT_SIN_PRI") != null && utilDbf.getDate(rowObjects, "DTRATA") != null) {
+                                    dtPrimeirosSintomas = utilDbf.getDate(rowObjects, "DT_SIN_PRI");
+                                    dtTratamento = utilDbf.getDate(rowObjects, "DTRATA");
+                                }
+
+                                if (MUNIC_NOTIFICACAO) {
+                                    if (dataDiff(dtTratamento, dtPrimeirosSintomas) <= 2) {
+                                        denominador = Integer.parseInt(municipioResidencia.getDenominador());
+                                        denominador++;
+                                        denominadorEstadual++;
+                                        municipioResidencia.setDenominador(String.valueOf(denominador));
+                                        municipioResidencia.setDenominadorInt(denominador);
+                                    }
+                                } else {
+                                    if (dataDiff(dtPrimeirosSintomas, dtTratamento) <= 4) {
+                                        denominador = Integer.parseInt(municipioResidencia.getDenominador());
+                                        denominador++;
+                                        denominadorEstadual++;
+                                        municipioResidencia.setDenominador(String.valueOf(denominador));
+                                        municipioResidencia.setDenominadorInt(denominador);
+
+                                    }
+
+                                }
+
                             }
                         }
                     }
+
+                    CID_B54 = false;
+                    AT_LAMINA = false;
+
+                    RESULT = false;
+                    AT_SINTOMA = false;
+                    Data = false;
+                    MUNIC_NOTIFICACAO = false;
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
                     getBarraStatus().setValue((int) percentual);
                     i++;
@@ -260,7 +306,9 @@ public class OportunidadeMalariaPactuacao extends Agravo {
         }
         getBarraStatus().setString(null);
 
-        parametros.put("numeradorTotal", String.valueOf(numeradorEstadual));
+        parametros.put("numeradorTotal", numeradorEstadual);
+        parametros.put("denominadorTotal", denominadorEstadual);
+
         ComparatorChain chain;
         chain = new ComparatorChain(Arrays.asList(
                 new BeanComparator("uf"),
@@ -303,6 +351,7 @@ public class OportunidadeMalariaPactuacao extends Agravo {
         Boolean AT_LAMINA = false;
         Boolean AT_SINTOMA = false;
         Boolean RESULT = false;
+        Boolean Data = false;
         Boolean MUNIC_NOTIFICACAO = false;
 
         String total;
@@ -314,7 +363,8 @@ public class OportunidadeMalariaPactuacao extends Agravo {
         Agravo municipioResidencia;
         String dataInicio = (String) parametros.get("parDataInicio");
         String dataFim = (String) parametros.get("parDataFim");
-        java.sql.Date dtPrimeirosSintomas, dtTratamento;
+        java.sql.Date dtPrimeirosSintomas = null;
+        java.sql.Date dtTratamento = null;
         //loop para ler os arquivos selecionados
         String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
         for (int k = 0; k < arquivos.length; k++) {
@@ -326,9 +376,10 @@ public class OportunidadeMalariaPactuacao extends Agravo {
                 while ((rowObjects = reader.nextRecord()) != null) {
                     //cálculo da taxa estadual
                     //verifica a uf de residencia
-                    if (utilDbf.getString(rowObjects, "COUFINF") != null) {
+                    if (utilDbf.getString(rowObjects, "SG_UF_NOT") != null) {
                         //verifica se existe a referencia do municipio no bean
                         municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
+
                         //verifica se tem o parametro de municipio de residencia
                         //Critérios
                         CID_B54 = utilDbf.getString(rowObjects, "ID_AGRAVO").equals("B54");
@@ -336,7 +387,7 @@ public class OportunidadeMalariaPactuacao extends Agravo {
                             AT_LAMINA = utilDbf.getString(rowObjects, "AT_LAMINA").equals("1") || utilDbf.getString(rowObjects, "AT_LAMINA").equals("2");
                         }
                         if (utilDbf.getString(rowObjects, "AT_SINTOMA") != null) {
-                            AT_LAMINA = utilDbf.getString(rowObjects, "AT_SINTOMA").equals("1");
+                            AT_SINTOMA = utilDbf.getString(rowObjects, "AT_SINTOMA").equals("1");
                         }
 
                         if (utilDbf.getString(rowObjects, "RESULT") != null) {
@@ -357,23 +408,26 @@ public class OportunidadeMalariaPactuacao extends Agravo {
                                 municipioResidencia.setNumerador(String.valueOf(numerador));
                                 municipioResidencia.setNumeradorInt(numerador);
                                 numeradorEstadual++;
-                                if (MUNIC_NOTIFICACAO) {
+                                if (utilDbf.getDate(rowObjects, "DT_SIN_PRI") != null && utilDbf.getDate(rowObjects, "DTRATA") != null) {
                                     dtPrimeirosSintomas = utilDbf.getDate(rowObjects, "DT_SIN_PRI");
-                                    dtTratamento = utilDbf.getDate(rowObjects, "DT_TRATA");
+                                    dtTratamento = utilDbf.getDate(rowObjects, "DTRATA");
+                                }
+
+                                if (MUNIC_NOTIFICACAO) {
                                     if (dataDiff(dtTratamento, dtPrimeirosSintomas) <= 2) {
+                                        denominador = Integer.parseInt(municipioResidencia.getDenominador());
                                         denominador++;
                                         denominadorEstadual++;
-                                        municipioResidencia.setDenominador(String.valueOf(numerador));
-                                        municipioResidencia.setDenominadorInt(numerador);
+                                        municipioResidencia.setDenominador(String.valueOf(denominador));
+                                        municipioResidencia.setDenominadorInt(denominador);
                                     }
                                 } else {
-                                    dtPrimeirosSintomas = utilDbf.getDate(rowObjects, "DT_SIN_PRI");
-                                    dtTratamento = utilDbf.getDate(rowObjects, "DT_TRATA");
-                                    if (dataDiff(dtTratamento, dtPrimeirosSintomas) <= 4) {
+                                    if (dataDiff(dtPrimeirosSintomas, dtTratamento) <= 4) {
+                                        denominador = Integer.parseInt(municipioResidencia.getDenominador());
                                         denominador++;
                                         denominadorEstadual++;
-                                        municipioResidencia.setDenominador(String.valueOf(numerador));
-                                        municipioResidencia.setDenominadorInt(numerador);
+                                        municipioResidencia.setDenominador(String.valueOf(denominador));
+                                        municipioResidencia.setDenominadorInt(denominador);
 
                                     }
 
@@ -382,6 +436,14 @@ public class OportunidadeMalariaPactuacao extends Agravo {
                             }
                         }
                     }
+
+                    CID_B54 = false;
+                    AT_LAMINA = false;
+                    AT_SINTOMA = false;
+                    RESULT = false;
+                    Data = false;
+                    MUNIC_NOTIFICACAO = false;
+
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
                     getBarraStatus().setValue((int) percentual);
                     i++;
@@ -415,9 +477,9 @@ public class OportunidadeMalariaPactuacao extends Agravo {
                     new BeanComparator("regional"),
                     new BeanComparator("nomeMunicipio")));
         }
-        parametros.put("numeradorTotal", String.valueOf(numeradorEstadual));
-        parametros.put("denominadorTotal", String.valueOf(denominadorEstadual));
-        
+        parametros.put("numeradorTotal", numeradorEstadual);
+        parametros.put("denominadorTotal", denominadorEstadual);
+
         Collections.sort(this.getBeans(), chain);
 
         //calcular o total

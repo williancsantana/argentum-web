@@ -1,5 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
+* To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.org.model.classes.agravos;
@@ -143,11 +143,13 @@ public class OportunidadePQAVSPactuacao extends Agravo {
         getAgravosValidos().add("A923");  //FEBRE DO NILO OCIDENTAL
         getAgravosValidos().add("A779");  //FEBRE MACULOSA E OUTRAS RIQUETISIOSES
         getAgravosValidos().add("A484");  //FEBRE PURPURICA BRASILEIRA
+        getAgravosValidos().add("A988");  //Hantavirose - NOVO
         getAgravosValidos().add("J11");   //INFLUENZA HUMANA PRODUZIDA POR NOVO SUBTIPO VIRAL
         getAgravosValidos().add("A962");  //LASSA
         getAgravosValidos().add("B54");   //MALARIA NA REGIAO EXTRA AMAZONICA
         getAgravosValidos().add("A983");  //MARBURG
         getAgravosValidos().add("A809");  //PARALISIA FLACIDA AGUDA
+        getAgravosValidos().add("A928");  //ZIKA
         getAgravosValidos().add("A209");  //PESTE
         getAgravosValidos().add("A829");  //RAIVA HUMANA
         getAgravosValidos().add("B092");  //RUBEOLA
@@ -525,6 +527,12 @@ public class OportunidadePQAVSPactuacao extends Agravo {
         if (codAgravo.equals("B03")) {
             retorno = "VARIOLA";
         }
+        if (codAgravo.equals("A988")) {
+            retorno = "HANTAVIROSE";
+        }
+        if (codAgravo.equals("A928")) {
+            retorno = "ZIKA";
+        }
 
         return retorno;
     }
@@ -894,12 +902,35 @@ public class OportunidadePQAVSPactuacao extends Agravo {
                                     continuaCalculo = false;
                                 } else {
                                     int cf = Integer.parseInt(evolucao);
+                                    if (cf != 2) {
+                                        continuaCalculo = false;
+                                    }
+                                }
+                            }
+                            if (agravo.equals("A920")) {
+                                String evolucao = utilDbf.getString(rowObjects, "EVOLUCAO", 1);
+                                if (evolucao == null) {
+                                    continuaCalculo = false;
+                                } else {
+                                    int cf = Integer.parseInt(evolucao);
                                     if (cf < 2 || cf > 4) {
                                         continuaCalculo = false;
                                     }
                                 }
                             }
+                            if (agravo.equals("A928")) {
+                                String evolucao = utilDbf.getString(rowObjects, "EVOLUCAO", 1);
+                                if (evolucao == null) {
+                                    continuaCalculo = false;
+                                } else {
+                                    int cf = Integer.parseInt(evolucao);
+                                    if (cf < 2 || cf > 3) {
+                                        continuaCalculo = false;
+                                    }
+                                }
+                            }
 
+                            
                             if (municipioResidencia != null && verificaAgravoOportuno(agravo) && continuaCalculo) {
 
                                 //verifica qual agravo para designar a dataFinal de avaliacao
@@ -2165,6 +2196,12 @@ public class OportunidadePQAVSPactuacao extends Agravo {
         }
         if (nomeAgravo.equals("VARIOLA")) {
             retorno = "B03";
+        }
+        if (nomeAgravo.equals("HANTAVIROSE")) {
+            retorno = "A988";
+        }
+        if (nomeAgravo.equals("ZIKA")) {
+            retorno = "A928";
         }
 
         return retorno;

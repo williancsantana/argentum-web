@@ -1010,6 +1010,8 @@ public class Agravo {
 
                                 agravoDbf.setDenominador("0");
                                 agravoDbf.setNumerador("0");
+                                agravoDbf.setDenominadorInt(0);
+                                agravoDbf.setNumeradorInt(0);
                                 municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
                                 municipiosBeans.put(agravoDbf.getCodMunicipio(), agravoDbf);
                             }
@@ -1133,6 +1135,8 @@ public class Agravo {
                         }
                         agravoDbf.setDenominador("0");
                         agravoDbf.setNumerador("0");
+                        agravoDbf.setNumeradorInt(0);
+                        agravoDbf.setDenominadorInt(0);
                         municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
                         municipiosBeans.put(agravoDbf.getCodMunicipio(), agravoDbf);
                     }
@@ -1372,6 +1376,8 @@ public class Agravo {
                     agravoDbf.setNomeMunicipio(utilDbf.getString(rowObjects1, "NM_REGIAO"));
                     agravoDbf.setDenominador("0");
                     agravoDbf.setNumerador("0");
+                    agravoDbf.setNumeradorInt(0);
+                    agravoDbf.setDenominadorInt(0);
                     regiao.put(utilDbf.getString(rowObjects1, "ID_REGIAO"), utilDbf.getString(rowObjects1, "NM_REGIAO"));
                     RegBeans.put(agravoDbf.getCodMunicipio(), agravoDbf);
                 }
@@ -1419,6 +1425,8 @@ public class Agravo {
                     agravoDbf.setNomeMunicipio(utilDbf.getString(rowObjects1, "NM_REGIONA"));
                     agravoDbf.setDenominador("0");
                     agravoDbf.setNumerador("0");
+                    agravoDbf.setNumeradorInt(0);
+                    agravoDbf.setDenominadorInt(0);
                     regiao.put(utilDbf.getString(rowObjects1, "ID_REGIONA"), utilDbf.getString(rowObjects1, "NM_REGIONA"));
                     RegBeans.put(agravoDbf.getCodMunicipio(), agravoDbf);
                 }

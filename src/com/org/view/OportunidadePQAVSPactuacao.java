@@ -125,23 +125,25 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
             cbAgravo.addItem("COLERA");
             cbAgravo.addItem("DENGUE (OBITOS)");
             cbAgravo.addItem("EBOLA");
-            cbAgravo.addItem("EVENTOS ADVERSOS GRAVES OU OBITOS POS-VACINACAO");
+           // cbAgravo.addItem("EVENTOS ADVERSOS GRAVES OU OBITOS POS-VACINACAO");
             cbAgravo.addItem("FEBRE AMARELA");
             cbAgravo.addItem("FEBRE DE CHIKUNGUNYA");
             cbAgravo.addItem("FEBRE DO NILO OCIDENTAL");
             cbAgravo.addItem("FEBRE MACULOSA E OUTRAS RIQUETISIOSES");
             cbAgravo.addItem("FEBRE PURPURICA BRASILEIRA");
+            cbAgravo.addItem("HANTAVIROSE");
             cbAgravo.addItem("INFLUENZA HUMANA PRODUZIDA POR NOVO SUBTIPO VIRAL");
             cbAgravo.addItem("LASSA");
             cbAgravo.addItem("MALARIA NA REGIAO EXTRA AMAZONICA");
             cbAgravo.addItem("MARBURG");
             cbAgravo.addItem("PARALISIA FLACIDA AGUDA");
             cbAgravo.addItem("PESTE");
+            cbAgravo.addItem("ZIKA");
             cbAgravo.addItem("RAIVA HUMANA");
             cbAgravo.addItem("RUBEOLA");
             cbAgravo.addItem("SARAMPO");
-            cbAgravo.addItem("SINDROME DA RUBEOLA CONGENITA");
-            cbAgravo.addItem("SINDROME RESPIRAT. AGUDA GRAVE ASSOC. A CORONAVIRUS");
+            //cbAgravo.addItem("SINDROME DA RUBEOLA CONGENITA");
+            //cbAgravo.addItem("SINDROME RESPIRAT. AGUDA GRAVE ASSOC. A CORONAVIRUS");
             cbAgravo.addItem("TULAREMIA");
             cbAgravo.addItem("VARIOLA");
         }
@@ -628,11 +630,11 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
             parametros.put("parRegiaoSaude", cbRegional.getSelectedItem().toString());
         }
 
-        parametros.put("parNenhum", "false");
+        parametros.put("parNenhum", false);
         if (cbMunicipio.getSelectedItem().toString().equals("NENHUM")) {
             cbMunicipio.setSelectedItem("TODOS");
             parametros.put("parMunic", cbMunicipio.getSelectedItem().toString());
-            parametros.put("parNenhum", "true");
+            parametros.put("parNenhum", true);
         } else {
             parametros.put("parMunic", cbMunicipio.getSelectedItem().toString());
         }
