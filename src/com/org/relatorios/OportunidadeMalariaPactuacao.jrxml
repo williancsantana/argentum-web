@@ -162,7 +162,7 @@
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Proporçao de Casos de Malária que iniciaram tratamento em tempo oportuno.]]></text>
+				<text><![CDATA[Proporçao de Casos de Malária que iniciaram tratamento em tempo oportuno]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="321" y="68" width="118" height="14"/>

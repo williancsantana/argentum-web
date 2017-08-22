@@ -162,7 +162,7 @@
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Proporção de casos de doenças de notificação compulsória imediata (DNCI) encerradas em até 60 dias após notificação]]></text>
+				<text><![CDATA[Número de casos autóctone de malária]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="321" y="68" width="118" height="14"/>
