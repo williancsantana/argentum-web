@@ -710,6 +710,10 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             panel = new AutoctonesMalaria();
             this.relatorio = "AutoctonesMalariaPactuacao";
         }
+        if (relatorio.equals("Violência")) {
+            panel = new Violencia();
+            this.relatorio = "Violencia";
+        }
 
         if (relatorio.equals("Análise de Completitude")) {
             Frame parent = new Frame();
@@ -877,6 +881,17 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         }
         if (relatorio.equals("Regularidade")) {
             agravo = new com.org.model.classes.agravos.Regularidade(isDbf());
+        }
+        if (relatorio.equals("Violencia")) {
+            agravo = new com.org.model.classes.agravos.ViolenciaAgravo(isDbf());
+            agravo.setAnoAvaliado(this.anoAvaliado);
+            agravo.setDtInicioAvaliacao(this.dtInicioAvaliacao);
+            agravo.setDtFimAvaliacao(this.dtFimAvaliacao);
+            agravo.setDataAvaliacao(dataAvaliacao);
+            agravo.setUf(uf);
+            agravo.setMunicipio(municipio);
+            agravo.setRegional(regional);
+            agravo.setTemListagem(this.temListagem);
         }
         /*
         if (relatorio.equals("Duplicidade")) {
@@ -1146,7 +1161,8 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 
             if (grupo.equals("PQAVS a partir de 2017")) {
                 relatorios = new String[]{"Selecione o Relatório",
-                    "Número de semanas epidemiológicas com informação"
+                    "Número de semanas epidemiológicas com informação",
+                    "Violência"
                 };
             }
             

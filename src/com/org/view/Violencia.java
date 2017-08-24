@@ -369,7 +369,7 @@ public class Violencia extends javax.swing.JPanel {
         }
         session = new SessionFacadeImpl();
         session.setBrasil(true);
-        SessionFacadeImpl.setNomeDbf("AIDSC");
+        SessionFacadeImpl.setNomeDbf("VIOLENET");
         session.setTodosMunicipios(true);
         //verifica se vai exportar para dbf o resultado
         if (chkExportarDbf.isSelected()) {
@@ -397,10 +397,11 @@ public class Violencia extends javax.swing.JPanel {
         session.setMunicipio(cbMunicipio.getSelectedItem().toString());
         if(cbRegional.getSelectedItem() != null){
             session.setRegional(cbRegional.getSelectedItem().toString());
+            parametros.put("parMunicipio", cbRegional.getSelectedItem().toString());
         }
 
         session.setUf(cbUf.getSelectedItem().toString());
-        session.setRelatorio("AidsIndicadorCriancaPactuacao");
+        session.setRelatorio("Violencia");
         session.execute();
     }//GEN-LAST:event_btCalcularActionPerformed
 
@@ -420,7 +421,7 @@ public class Violencia extends javax.swing.JPanel {
         FiltroArquivo filtro = new FiltroArquivo();
         filtro.addExtension("dbf");
         filtro.setDescription("Arquivo DBF");
-        filtro.addInicioNome("AIDSC");
+        filtro.addInicioNome("VIOLENET");
 
         fileopen.addChoosableFileFilter(filtro);
 
