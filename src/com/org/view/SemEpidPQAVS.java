@@ -515,6 +515,7 @@ public class SemEpidPQAVS extends javax.swing.JPanel {
         parametros.put("parDiscriminarPorAgravo", "");
         parametros.put("parAnoPeriodoAvaliacao", "");
         parametros.put("parAnoEpid", anoAvaliadoOportunidade.getSelectedItem().toString());
+        parametros.put("parNenhum", false);//parametro para listar ou não os municípios
         
  //       parametros.put("parDesagregacao", cbDesagregacao.getSelectedItem().toString());
         parametros.put("parDesagregacao", "UF subdividida por Regiões de Saúde e Municípios");
