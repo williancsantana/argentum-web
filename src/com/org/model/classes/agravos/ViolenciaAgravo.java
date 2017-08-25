@@ -436,9 +436,9 @@ public class ViolenciaAgravo extends Agravo {
         hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("ID_UFRES", new ColunasDbf(2));
         hashColunas.put("CS_RACA", new ColunasDbf(1, 0));
-        hashColunas.put("NU_ANO", new ColunasDbf(4, 0));
+        hashColunas.put("P_RACPRE", new ColunasDbf(4, 0));
         hashColunas.put("DT_NOTIFIC", new ColunasDbf(10));
-        hashColunas.put("ID_REGIONA", new ColunasDbf(10));
+        hashColunas.put("DT_NOTIFI", new ColunasDbf(10));
         this.setColunas(hashColunas);
         return hashColunas;
     }
@@ -457,10 +457,10 @@ public class ViolenciaAgravo extends Agravo {
             }
             rowData[1] = agravo.getNomeMunicipio();
             rowData[3] = Double.parseDouble(agravo.getNumerador());
-            rowData[4] = preencheAno(getDataInicio(), getDataFim());
-            rowData[5] = getDataInicio();
+            rowData[4] = Double.parseDouble(agravo.getTaxa());
+            rowData[5] = Double.parseDouble(agravo.getDenominador());
             rowData[6] = getDataFim();
-            rowData[7] = "VIOLENCIA-SINANNET";
+            //rowData[7] = "VIOLENCIA-SINANNET";
 
             writer.addRecord(rowData);
         }
