@@ -40,6 +40,20 @@ public class Violencia extends javax.swing.JPanel {
             Master.mensagem("Selecione a UF de residência");
             return false;
         }
+        if (cbDesagregacao.getSelectedItem().toString().equals("-- Selecione --")) {
+            Master.mensagem("Selecione a Desagregação desejada");
+            return false;
+        }
+        if (null != cbRegional.getSelectedItem() && cbRegional.getSelectedItem().toString().equals("-- Selecione --") 
+                && (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")
+                || cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regional de Saúde"))) {
+            Master.mensagem("Selecione a Região ou Regional de residência");
+            return false;
+        }
+        if (cbMunicipio.getSelectedItem().toString().equals("-- Selecione --")) {
+            Master.mensagem("Selecione o Município de residência");
+            return false;
+        }
         if (SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy").equals("")) {
             Master.mensagem("Informe o período inicial");
             return false;

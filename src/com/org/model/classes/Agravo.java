@@ -179,6 +179,9 @@ public class Agravo {
                 agravoBean.setTaxa("0");
             } else {
                 // agravoBean.setTaxa(df.format(Double.parseDouble(agravoBean.getNumerador()) / Double.parseDouble(agravoBean.getDenominador()) * this.getMultiplicador()));
+                if(agravoUF.getTaxa().split(",").length > 1){
+                    agravoUF.setTaxa(agravoUF.getTaxa().split(",")[0] + "." + agravoUF.getTaxa().split(",")[1]);
+                }
                 agravoBean.setTaxa(df.format(Double.parseDouble(agravoUF.getTaxa()) + Double.parseDouble(agravoBean.getTaxa())));
             }
         }

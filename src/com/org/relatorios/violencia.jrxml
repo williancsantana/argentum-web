@@ -165,10 +165,10 @@
 			<line>
 				<reportElement x="0" y="19" width="552" height="1" uuid="8b5be93d-1c4c-4e7d-b43d-0c3d43605b33"/>
 			</line>
-			<textField>
+			<textField pattern="" isBlankWhenNull="false">
 				<reportElement x="435" y="0" width="120" height="20" uuid="0dae59a3-9dd2-486f-bf48-9628a33a990b"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$F{taxa}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{taxa}!=null?$F{taxa}:0]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="0" width="182" height="20" backcolor="#666600" uuid="a15a36b1-c715-4356-a463-e6d0bbe79a5a"/>
