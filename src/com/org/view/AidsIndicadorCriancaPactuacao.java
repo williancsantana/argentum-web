@@ -387,6 +387,7 @@ public class AidsIndicadorCriancaPactuacao extends javax.swing.JPanel {
         parametros.put("parArquivos", this.lblArquivosSelecionados.getText());
         parametros.put("parVariosArquivos", "sim");
         parametros.put("parIsRegiao", false);
+        parametros.put("parNenhum", false);
        
         if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")){
           parametros.put("parIsRegiao", true);
