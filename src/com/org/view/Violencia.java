@@ -1,5 +1,4 @@
 ﻿package com.org.view;
-//teste
 
 import com.org.facade.SessionFacadeImpl;
 import com.org.model.classes.Agravo;
