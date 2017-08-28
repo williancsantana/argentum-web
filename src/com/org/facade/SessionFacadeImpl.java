@@ -619,7 +619,12 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         } else if (relatorio.equals("Proporçao de Casos de Malária que iniciaram tratamento em tempo oportuno")) {
             panel = new com.org.view.OportunidadeMalariaPactuacao();
             this.relatorio = "OportunidadeMalariaPactuacao";
+        } else if (relatorio.equals("Casos examinados tuberculose")) {
+            panel = new com.org.view.ContatosExaminadosTuberculosePactuacao() ;
+            this.relatorio = "ExaminadosTuberculosePactuacao";
         }
+        
+        
         return panel;
     }
 
@@ -781,6 +786,19 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             agravo.setRegional(regional);
             agravo.setTemListagem(this.temListagem);
         }
+        if (relatorio.equals("ExaminadosTuberculosePactuacao")) {
+            agravo = new com.org.model.classes.agravos.ContatosExaminadosTuberculosePactuacao(isDbf());
+            agravo.setAnoAvaliado(this.anoAvaliado);
+            agravo.setDtInicioAvaliacao(this.dtInicioAvaliacao);
+            agravo.setDtFimAvaliacao(this.dtFimAvaliacao);
+            agravo.setDataAvaliacao(dataAvaliacao);
+            agravo.setUf(uf);
+            agravo.setMunicipio(municipio);
+            agravo.setRegional(regional);
+            agravo.setTemListagem(this.temListagem);
+        }
+        
+        
         if (relatorio.equals("OportunidadeMalariaPactuacao")) {
             agravo = new com.org.model.classes.agravos.OportunidadeMalariaPactuacao(isDbf());
             agravo.setAnoAvaliado(this.anoAvaliado);
@@ -1092,7 +1110,9 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                     "Número de casos novos de sífilis congênita em menores de 1 ano de idade",
                     "Proporção de casos DNCI encerrados em até 60 dias após notificação",
                     "Número de casos autóctones de malária",
-                    "Proporçao de Casos de Malária que iniciaram tratamento em tempo oportuno"};
+                    "Proporçao de Casos de Malária que iniciaram tratamento em tempo oportuno",
+                    "Casos examinados tuberculose"
+                };
             }
             if (grupo.equals("PACTO 2008/2009")) {
                 relatorios = new String[]{"Selecione o Relatório", "Situação da coorte de casos novos de Tuberculose", "Taxa de notificação de casos de PFA em menores de 15 anos", "Percentual de casos de hepatites B e C", "Proporção de doenças exantemáticas investigados oportunamente", "Taxa de letalidade por Febre Hemorrágica Dengue", "Taxa de incidência de aids em menores de 5 anos de idade", "Situação da coorte de casos novos de hanseníase"};
