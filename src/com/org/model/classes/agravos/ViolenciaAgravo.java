@@ -10,10 +10,12 @@ import com.org.negocio.Configuracao;
 import com.org.negocio.Util;
 import com.org.view.Master;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -24,6 +26,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections.comparators.ComparatorChain;
 
 /**
  *
@@ -72,87 +75,127 @@ public class ViolenciaAgravo extends Agravo {
         getBarraStatus().setValue((int) percentual);
     }
 
-    private void calculaBrasil(DBFReader reader, Map parametros) throws ParseException {
-        //buscar os municipios que vao para o resultado
-        HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
-        DBFUtil utilDbf = new DBFUtil();
-        String coluna;
-        if (parametros.get("municipios").toString().equals("sim")) {
-            municipiosBeans = populaMunicipiosBeans("BR", "");
-            coluna = "ID_MN_RESI";
-        } else {
-            municipiosBeans = populaUfsBeans();
-            coluna = "SG_UF";
-        }
-        //inicia o calculo
-        Object[] rowObjects;
-        Date dataNotificacao;
-        DecimalFormat df = new DecimalFormat("0.00");
-        int completitude = 0, numeradorMunicipio = 0, numeradorBrasil = 0, denominadorMunicipio = 0, denominadorBrasil = 0, raca = 0;
-        Agravo municipioResidencia;
-        String racaCor;
-        String dataInicio = (String) parametros.get("parDataInicio");
-        String dataFim = (String) parametros.get("parDataFim");
-        String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
-
-        //loop para ler os arquivos selecionados
-        for (String arquivo : arquivos) {
-            int indexDoRegistroEmLeitura = 1;
-            try {
-                reader = Util.retornaObjetoDbfCaminhoArquivo(arquivo.substring(0, arquivo.length() - 4), Configuracao.getPropriedade("caminho"));
-                utilDbf.mapearPosicoes(reader);
-                double TotalRegistros = Double.parseDouble(String.valueOf(reader.getRecordCount()));
-                
-                while ((rowObjects = reader.nextRecord()) != null) {
-                    //verifica a uf de residencia
-                    if (utilDbf.getString(rowObjects, coluna) != null) {
-                        //verifica se existe a referencia do municipio no bean
-                        municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, coluna));
-                        dataNotificacao = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
-                        racaCor = utilDbf.getString(rowObjects, "CS_RACA", 1);
-                        raca = racaCor != null ? Integer.parseInt(racaCor) : 0;
-                        
-                        if (municipioResidencia != null && isBetweenDates(dataNotificacao, dataInicio, dataFim)){
-                            if(raca >= BRANCO && raca <= INDIGENA) {
-                                numeradorMunicipio = Integer.parseInt(municipioResidencia.getNumerador());
-                                numeradorMunicipio++;
-                                municipioResidencia.setNumerador(String.valueOf(numeradorMunicipio));
-                            }
-                            denominadorMunicipio = Integer.parseInt(municipioResidencia.getDenominador());
-                            denominadorMunicipio++;
-                            municipioResidencia.setDenominador(String.valueOf(denominadorMunicipio));
-                            calcularTaxaIndividual(df, municipioResidencia);
-                        }
-                    }
-                    setStatusBarra(indexDoRegistroEmLeitura, TotalRegistros);
-                    indexDoRegistroEmLeitura++;
-                }
-            }catch (DBFException ex) {
-                Master.mensagem("Erro:\n" + ex);
+    private void calculaRegiao(DBFReader reader, Map parametros) {
+        try{
+            //buscar os municipios que vao para o resultado
+            HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
+            DBFUtil utilDbf = new DBFUtil();
+            String coluna;
+            String ufResidencia = (String) parametros.get("parUf");
+            String sgUfResidencia = (String) parametros.get("parSgUf");
+            String codRegional = (String) parametros.get("parCodRegional");
+            String codRegiao = (String) parametros.get("parCodRegiaoSaude");
+            Object[] rowObjects;
+            Date dataNotificacao;
+            DecimalFormat df = new DecimalFormat("0.00");
+            int completitude = 0, numeradorMunicipio = 0, denominadorMunicipio = 0, 
+                denominadorBrasil = 0, raca = 0, numeradorEstadual = 0, denominadorRegiao = 0;
+            Agravo municipioResidencia;
+            String racaCor;
+            String dataInicio = (String) parametros.get("parDataInicio");
+            String dataFim = (String) parametros.get("parDataFim");
+            String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
+            
+            if (codRegional == null) {
+                codRegional = "";
             }
+            if ((Boolean) parametros.get("parIsRegiao")) {
+                municipiosBeans = populaRegiaoBeans(sgUfResidencia, codRegiao);
+            } else {
+                municipiosBeans = populaRegionalBeans(sgUfResidencia, codRegional);
+            }
+            //loop para ler os arquivos selecionados
+            for (String arquivo : arquivos) {
+                int indexDoRegistroEmLeitura = 1;
+                try {
+                    reader = Util.retornaObjetoDbfCaminhoArquivo(arquivo.substring(0, arquivo.length() - 4), Configuracao.getPropriedade("caminho"));
+                    utilDbf.mapearPosicoes(reader);
+                    double TotalRegistros = Double.parseDouble(String.valueOf(reader.getRecordCount()));
+
+                    while ((rowObjects = reader.nextRecord()) != null) {
+                        //verifica a uf de residencia
+                        if (utilDbf.getString(rowObjects, "SG_UF_NOT") != null) {
+                            //verifica se existe a referencia do municipio no bean
+                            municipioResidencia = getMunicipioPelaRegiaoOuRegional(parametros, municipiosBeans, utilDbf, rowObjects);
+                            dataNotificacao = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
+                            racaCor = utilDbf.getString(rowObjects, "CS_RACA", 1);
+                            raca = racaCor != null ? Integer.parseInt(racaCor) : 0;
+                            if(municipioResidencia != null ){
+                                municipioResidencia.setTaxa("0");
+                            }
+
+                            if (municipioResidencia != null && isBetweenDates(dataNotificacao, dataInicio, dataFim)){
+                                if(raca >= BRANCO && raca <= INDIGENA) {
+                                    numeradorMunicipio = Integer.parseInt(municipioResidencia.getNumerador());
+                                    numeradorMunicipio++;
+                                    municipioResidencia.setNumerador(String.valueOf(numeradorMunicipio));
+                                    numeradorEstadual++;
+                                }
+                                denominadorMunicipio = Integer.parseInt(municipioResidencia.getDenominador());
+                                denominadorMunicipio++;
+                                denominadorRegiao++;
+                                municipioResidencia.setDenominador(String.valueOf(denominadorMunicipio));
+                                calcularTaxaIndividual(df, municipioResidencia);
+                            }
+                        }
+                        setStatusBarra(indexDoRegistroEmLeitura, TotalRegistros);
+                        indexDoRegistroEmLeitura++;
+                    }
+                }catch (DBFException ex) {
+                    Master.mensagem("Erro:\n" + ex);
+                }
+            }
+
+            setTaxaEstadual("");
+            //CALCULA A TAXA PARA TODOS OS MUNICIPIOS
+            this.setBeans(new ArrayList());
+            Collection<Agravo> municipioBean = municipiosBeans.values();
+
+            for (Agravo agravoDBF : municipioBean) {
+                if(null == agravoDBF.getTaxa()){
+                    agravoDBF.setTaxa("0");
+                }
+                this.getBeans().add(agravoDBF);
+                getBarraStatus().setString("Calculando indicador para: " + agravoDBF.getNomeMunicipio());
+            }
+            getBarraStatus().setString(null);
+            ComparatorChain chain;
+            chain = new ComparatorChain(Arrays.asList(
+                new BeanComparator("uf"),
+                new BeanComparator("nomeMunicipio")));
+            Collections.sort(this.getBeans(), chain);
+            //Collections.sort(this.getBeans(), new BeanComparator("nomeMunicipio"));
+            //calcular o total
+            Agravo total = new Agravo();
+            if ((Boolean) parametros.get("parIsRegiao")) {
+                total = adicionaTotal(municipioBean, codRegiao);
+                adicionaParamentrosTotais(parametros, total);
+            } else {
+                total = adicionaTotal(municipioBean, codRegional);
+                adicionaParamentrosTotais(parametros, total);
+            }
+            
+            Agravo finalAgravo = new Agravo();
+            finalAgravo.setNomeMunicipio("TOTAL");
+            this.getBeans().add(finalAgravo);
+            
+        }catch (ParseException ex) {
+            ex.printStackTrace();
         }
-        
-        setTaxaEstadual("");
-        //CALCULA A TAXA PARA TODOS OS MUNICIPIOS
-        this.setBeans(new ArrayList());
-        Collection<Agravo> municipioBean = municipiosBeans.values();
-        
-        for (Iterator<Agravo> it = municipioBean.iterator(); it.hasNext();) {
-            Agravo agravoDBF = it.next();
-            this.getBeans().add(agravoDBF);
-            getBarraStatus().setString("Calculando indicador para: " + agravoDBF.getNomeMunicipio());
+    }
+    
+    private Agravo getMunicipioPelaRegiaoOuRegional(Map parametros, HashMap<String, Agravo> municipiosBeans, DBFUtil utilDbf, Object[] rowObjects){
+        Agravo municipioResidencia = new Agravo();
+        try {
+            if ((Boolean) parametros.get("parIsRegiao")) {
+                    municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
+            } else {
+                municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ViolenciaAgravo.class.getName()).log(Level.SEVERE, null, ex);
         }
-        getBarraStatus().setString(null);
-        Collections.sort(this.getBeans(), new BeanComparator("nomeMunicipio"));
-        //calcular o total
-        this.getBeans().add(adicionaBrasil(municipioBean));
-        
-        if (!parametros.get("parSgUf").toString().equals("TODAS") && !parametros.get("municipios").toString().equals("sim")) {
-            Agravo agravoBrasil = (Agravo) this.getBeans().get(27);
-            List arrayT = new ArrayList();
-            arrayT.add(agravoBrasil);
-            this.setBeans(arrayT);
-        }
+        return municipioResidencia;
     }
 
     /**
@@ -161,102 +204,141 @@ public class ViolenciaAgravo extends Agravo {
      * @param parametros
      * @throws ParseException 
      */
-    private void calculaMunicipios(DBFReader reader, Map parametros) throws ParseException {
-        //buscar os municipios que vao para o resultado
-        HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
-        String ufResidencia = (String) parametros.get("parUf");
-        String sgUfResidencia = (String) parametros.get("parSgUf");
-        String codRegional = (String) parametros.get("parCodRegional");
-        String codRegiao = (String) parametros.get("parCodRegiaoSaude");
-        DBFUtil utilDbf = new DBFUtil();
-        
-        if (codRegional == null) {
-            codRegional = "";
-        }
-        if ((Boolean)parametros.get("parIsRegiao")) {
-           municipiosBeans = populaMunicipiosBeansPactuacao(sgUfResidencia,codRegiao);
-        }else{
-           municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
-        }
+    private void calculaMunicipios(DBFReader reader, Map parametros) {
+        try{
+            //buscar os municipios que vao para o resultado
+            HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
+            String ufResidencia = (String) parametros.get("parUf");
+            String sgUfResidencia = (String) parametros.get("parSgUf");
+            String codRegional = (String) parametros.get("parCodRegional");
+            String codRegiao = (String) parametros.get("parCodRegiaoSaude");
+            DBFUtil utilDbf = new DBFUtil();
 
-        //inicia o calculo
-        Object[] rowObjects;
-        Date dataNotificacao;
-        String racaCor, total;
-        DecimalFormat df = new DecimalFormat("0");
-        DecimalFormat df2 = new DecimalFormat("0.00");
-        int numerador = 0, numeradorEstadual = 0, denominadorEstadual = 0, denominadorMunicipal = 0, raca = 0, completitude = 0;
-        Agravo municipioResidencia;
-        String dataInicio = (String) parametros.get("parDataInicio");
-        String dataFim = (String) parametros.get("parDataFim");
-        String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
-        
-        //loop para ler os arquivos selecionados
-        for (String arquivo : arquivos) {
-            int indexDoRegistroEmLeitura = 1;
-            try {
-                reader = Util.retornaObjetoDbfCaminhoArquivo(arquivo.substring(0, arquivo.length() - 4), Configuracao.getPropriedade("caminho"));
-                utilDbf.mapearPosicoes(reader);
-                double TotalRegistros = Double.parseDouble(String.valueOf(reader.getRecordCount()));
-                while ((rowObjects = reader.nextRecord()) != null) {
-                    //verifica a uf de residencia
-                    if (utilDbf.getString(rowObjects, "SG_UF") != null) {
-                        //verifica se existe a referencia do municipio no bean
-                        municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MN_RESI"));
-                        if(municipioResidencia != null ){
-                            municipioResidencia.setTaxa("0");
-                        }
-                        //municipioResidencia.setTaxa(String.valueOf(0));
-                        dataNotificacao = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
-                        racaCor = utilDbf.getString(rowObjects, "CS_RACA", 1);
-                        raca = racaCor != null ? Integer.parseInt(racaCor) : 0;
-                        
-                        if (municipioResidencia != null && raca > 0) {
-                            if (isBetweenDates(dataNotificacao, dataInicio, dataFim)) {
-                                if (raca >= BRANCO && raca <= INDIGENA) {
-                                    numerador = Integer.parseInt(municipioResidencia.getNumerador());
-                                    numerador++;
-                                    municipioResidencia.setNumerador(String.valueOf(numerador));
-                                }
-                                    denominadorMunicipal = Integer.parseInt(municipioResidencia.getDenominador());
-                                    denominadorMunicipal++;
-                                    municipioResidencia.setDenominador(String.valueOf(denominadorMunicipal));
-                                    calcularTaxaIndividual(df2, municipioResidencia);
+            if (codRegional == null) {
+                codRegional = "";
+            }
+            if ((Boolean)parametros.get("parIsRegiao")) {
+               municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia,codRegiao, parametros.get("parIsRegiao").toString());
+            }else{
+               municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, parametros.get("parIsRegiao").toString());
+            }
+
+            //inicia o calculo
+            Object[] rowObjects;
+            Date dataNotificacao;
+            String racaCor, total;
+            DecimalFormat df = new DecimalFormat("0");
+            DecimalFormat df2 = new DecimalFormat("0.00");
+            int numerador = 0, numeradorEstadual = 0, denominadorEstadual = 0, denominadorMunicipal = 0, raca = 0, completitude = 0;
+            Agravo municipioResidencia;
+            String dataInicio = (String) parametros.get("parDataInicio");
+            String ano = dataInicio.substring(0, 4);
+            String dataFim = (String) parametros.get("parDataFim");
+            String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
+
+            //loop para ler os arquivos selecionados
+            for (String arquivo : arquivos) {
+                int indexDoRegistroEmLeitura = 1;
+                try {
+                    reader = Util.retornaObjetoDbfCaminhoArquivo(arquivo.substring(0, arquivo.length() - 4), Configuracao.getPropriedade("caminho"));
+                    utilDbf.mapearPosicoes(reader);
+                    double TotalRegistros = Double.parseDouble(String.valueOf(reader.getRecordCount()));
+                    while ((rowObjects = reader.nextRecord()) != null) {
+                        //verifica a uf de residencia
+                        if (utilDbf.getString(rowObjects, "SG_UF") != null) {
+                            //verifica se existe a referencia do municipio no bean
+                            municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MN_RESI"));
+                            if(municipioResidencia != null ){
+                                municipioResidencia.setTaxa("0");
                             }
-                        } 
+                            //municipioResidencia.setTaxa(String.valueOf(0));
+                            dataNotificacao = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
+                            racaCor = utilDbf.getString(rowObjects, "CS_RACA", 1);
+                            raca = racaCor != null ? Integer.parseInt(racaCor) : 0;
+
+                            if (municipioResidencia != null && raca > 0) {
+                                if (isBetweenDates(dataNotificacao, dataInicio, dataFim)) {
+                                    if (raca >= BRANCO && raca <= INDIGENA) {
+                                        numerador = Integer.parseInt(municipioResidencia.getNumerador());
+                                        numerador++;
+                                        municipioResidencia.setNumerador(String.valueOf(numerador));
+                                    }
+                                        denominadorMunicipal = Integer.parseInt(municipioResidencia.getDenominador());
+                                        denominadorMunicipal++;
+                                        municipioResidencia.setDenominador(String.valueOf(denominadorMunicipal));
+                                        calcularTaxaIndividual(df2, municipioResidencia);
+                                }
+                            } 
+                        }
+                        setStatusBarra(indexDoRegistroEmLeitura, TotalRegistros);
+                        indexDoRegistroEmLeitura++;
                     }
-                    setStatusBarra(indexDoRegistroEmLeitura, TotalRegistros);
-                    indexDoRegistroEmLeitura++;
+                }catch (DBFException ex) {
+                    Master.mensagem("Erro:\n" + ex);
                 }
-            }catch (DBFException ex) {
-                Master.mensagem("Erro:\n" + ex);
             }
-        }
-        String ano = dataInicio.substring(0, 4);
 
-        //CALCULA A TAXA PARA TODOS OS MUNICIPIOS
-        this.setBeans(new ArrayList());
-        Collection<Agravo> municipioBean = municipiosBeans.values();
+            //CALCULA A TAXA PARA TODOS OS MUNICIPIOS
+            this.setBeans(new ArrayList());
+            Collection<Agravo> municipioBean = municipiosBeans.values();
 
-        for (Iterator<Agravo> it = municipioBean.iterator(); it.hasNext();) {
-            Agravo agravoDBF = it.next();
-            if(null == agravoDBF.getTaxa()){
-                agravoDBF.setTaxa("0");
+            for (Agravo agravoDBF : municipioBean) {
+                if(null == agravoDBF.getTaxa()){
+                    agravoDBF.setTaxa("0");
+                }
+                this.getBeans().add(agravoDBF);
+                getBarraStatus().setString("Calculando indicador para: " + agravoDBF.getNomeMunicipio());
             }
-            this.getBeans().add(agravoDBF);
-            getBarraStatus().setString("Calculando indicador para: " + agravoDBF.getNomeMunicipio());
+            getBarraStatus().setString(null);
+            ComparatorChain chain;
+            
+            if ((Boolean) parametros.get("parIsRegiao")) {
+                chain = new ComparatorChain(Arrays.asList(
+                        new BeanComparator("uf"),
+                        new BeanComparator("regiaoSaude"),
+                        new BeanComparator("nomeMunicipio")));
+            } else {
+                chain = new ComparatorChain(Arrays.asList(
+                        new BeanComparator("uf"),
+                        new BeanComparator("regional"),
+                        new BeanComparator("nomeMunicipio")));
+            }
+
+            Collections.sort(this.getBeans(), chain);
+            Agravo totalAgravo =  new Agravo();
+            //calcular o total
+            if ((Boolean)parametros.get("parIsRegiao")) {
+                totalAgravo = adicionaTotal(municipioBean,codRegiao);
+                adicionaParamentrosTotais(parametros, totalAgravo);
+            }else{
+                totalAgravo = adicionaTotal(municipioBean,codRegional);
+                adicionaParamentrosTotais(parametros, totalAgravo);
+            }
+            
+            Agravo finalAgravo = new Agravo();
+            finalAgravo.setNomeMunicipio("TOTAL");
+            this.getBeans().add(finalAgravo);
+            
+        } catch (ParseException ex) {
+            ex.printStackTrace();
         }
-        getBarraStatus().setString(null);
-        Collections.sort(this.getBeans(), new BeanComparator("nomeMunicipio"));
+    }
+    
+    private void adicionaParamentrosTotais(Map parametros, Agravo totalAgravo){
+        DecimalFormat df = new DecimalFormat("0.00");
+        parametros.put("numeradorTotal", totalAgravo.getNumerador());
+        parametros.put("denominadorTotal", totalAgravo.getDenominador());
+        Double numerador = Double.parseDouble(totalAgravo.getNumerador());
+        Double denominador = Double.parseDouble(totalAgravo.getDenominador());
+        double taxa;
         
-        //calcular o total
-        if ((Boolean)parametros.get("parIsRegiao")) {
-            this.getBeans().add(adicionaTotal(municipioBean,codRegiao));
-             this.getBeans().set(this.getBeans().size() - 1, calcularTaxaTotal(df2));
+        if(numerador == 0l && denominador == 0l){
+            taxa = 0l;
         }else{
-             this.getBeans().add(adicionaTotal(municipioBean,codRegional));
-             this.getBeans().set(this.getBeans().size() - 1, calcularTaxaTotal(df2));
+            taxa = (Double.parseDouble(totalAgravo.getNumerador()) / Double.parseDouble(totalAgravo.getDenominador())) * 100;
         }
+        
+        parametros.put("taxaTotal", df.format(taxa));
     }
     
     private Agravo calcularTaxaTotal(DecimalFormat df){
@@ -291,20 +373,17 @@ public class ViolenciaAgravo extends Agravo {
     @Override
     public void calcula(DBFReader reader, Map parametros) {
         String municipios = (String) parametros.get("municipios");
+        String municipioEspecifico = (String) parametros.get("municipioEspecifico");
         String filtroUF = (String) parametros.get("parUf");
-        //filtro municipios = TODOS e UF selecionado algum estado
-        if (municipios.equals("sim") && !filtroUF.equals("brasil")) {
-            try {
-                calculaMunicipios(reader, parametros);
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-            }
-        } else if (filtroUF.equals("brasil")) {
-                try {
-                    calculaBrasil(reader, parametros);
-                } catch (ParseException ex) {
-                    ex.printStackTrace();
-                }
+        boolean isRegiaoSelecionada = (boolean) parametros.get("parIsRegiao");
+        boolean isRegionalSelecionada = (boolean) parametros.get("parIsRegional");
+        boolean estadoEMunicipio = municipios.equals("sim") && !filtroUF.equals("brasil");
+        
+        //filtro municipios = TODOS e 7UF selecionado algum estado
+        if (municipios.equals("sim")) {
+            calculaMunicipios(reader, parametros);
+        } else if ((isRegionalSelecionada || isRegiaoSelecionada) && municipioEspecifico == "") {
+            calculaRegiao(reader, parametros);
         } else {
             calculaMunicipioIndividual(municipios, filtroUF, reader, parametros);
         }
@@ -324,6 +403,7 @@ public class ViolenciaAgravo extends Agravo {
             String dataInicio = (String) parametros.get("parDataInicio");
             String dataFim = (String) parametros.get("parDataFim");
             String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
+            String regiao = "";
 
             if (municipioResidencia == null) {
                 municipioResidencia = "";
@@ -370,6 +450,7 @@ public class ViolenciaAgravo extends Agravo {
             //começa o preencher o bean para estado ou 1 municipio
             Agravo violenciaMunicipio = new Agravo();
             violenciaMunicipio.setCodMunicipio((String) parametros.get("parMunicipio"));
+            violenciaMunicipio.setUf((String) parametros.get("parSgUf"));
             if (municipioResidencia.equals("")) {
                 total = "";
                 violenciaMunicipio.setNomeMunicipio((String) parametros.get("parSgUf"));
@@ -469,6 +550,6 @@ public class ViolenciaAgravo extends Agravo {
 
     @Override
     public String getCaminhoJasper() {
-        return "/com/org/relatorios/violencia.jasper";
+        return "/com/org/relatorios/violenciaPactuacao.jasper";
     }
 }

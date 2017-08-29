@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
@@ -25,7 +26,6 @@ public class Violencia extends javax.swing.JPanel {
     public Violencia() {
         initComponents();
         ComboBoxModel modelo;
-        this.session.setBrasil(true);
         this.session.setTodosMunicipios(true);
         modelo = new DefaultComboBoxModel(this.session.retornaUFs());
         this.cbUf.setModel(modelo);
@@ -339,7 +339,6 @@ public class Violencia extends javax.swing.JPanel {
     }//GEN-LAST:event_cbUfActionPerformed
 
     private void cbDesagregacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDesagregacaoActionPerformed
-        // TODO add your handling code here:
         ComboBoxModel modelo;
 
         if (this.cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
@@ -351,7 +350,6 @@ public class Violencia extends javax.swing.JPanel {
             cbRegional.setVisible(true);
             modelo = new DefaultComboBoxModel(this.session.retornaRegioes(this.cbUf.getSelectedItem().toString()));
             this.cbRegional.setModel(modelo);
-
         } else if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regional de Saúde")) {
             lblRegional.setText("Regional de Residência");
             lblRegional.setVisible(true);
@@ -362,7 +360,6 @@ public class Violencia extends javax.swing.JPanel {
 
         modelo = new DefaultComboBoxModel(this.session.retornaMunicipios(this.cbUf.getSelectedItem().toString()));
         this.cbMunicipio.setModel(modelo);
-
     }//GEN-LAST:event_cbDesagregacaoActionPerformed
 
     private void cbRegionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRegionalActionPerformed
@@ -375,7 +372,13 @@ public class Violencia extends javax.swing.JPanel {
             modelo = new DefaultComboBoxModel(this.session.retornaMunicipiosPQAVS(this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString()));
             this.cbMunicipio.setModel(modelo);
         }
-
+        
+        if (cbRegional.getSelectedItem() != null) {
+            Vector<String> municipiosPactuacao = this.session.retornaMunicipiosPQAVS(this.cbDesagregacao.getSelectedIndex(), this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString());
+            municipiosPactuacao.add(2, "NENHUM");
+            modelo = new DefaultComboBoxModel(municipiosPactuacao);
+            this.cbMunicipio.setModel(modelo);
+        }
     }//GEN-LAST:event_cbRegionalActionPerformed
 
     private void btCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCalcularActionPerformed
@@ -399,12 +402,33 @@ public class Violencia extends javax.swing.JPanel {
         parametros.put("parArquivos", this.lblArquivosSelecionados.getText());
         parametros.put("parVariosArquivos", "sim");
         parametros.put("parIsRegiao", false);
+        parametros.put("parIsRegional", false);
         parametros.put("parNenhum", false);//parametro para listar ou não os municípios
+        parametros.put("parDesagregacao", cbDesagregacao.getSelectedItem().toString());
+        parametros.put("parSgUf", cbUf.getSelectedItem().toString());
+        parametros.put("parRegionalSaude","");
+        parametros.put("parRegiaoSaude","");
+        parametros.put("parAnoPeriodoAvaliacao", 
+                SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy") 
+                + " " + SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy"));
 
         if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")){
             parametros.put("parIsRegiao", true);
             parametros.put("parRegiaoSaude", cbRegional.getSelectedItem().toString());
+        } else if(cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regional de Saúde")){
+            parametros.put("parRegionalSaude", cbRegional.getSelectedItem().toString());
+            parametros.put("parIsRegional", true);
+            session.setRegional(cbRegional.getSelectedItem().toString());
         }
+        
+        if(cbMunicipio.getSelectedItem().toString().isEmpty() 
+                || cbMunicipio.getSelectedItem().toString().equals("TODOS")
+                || cbMunicipio.getSelectedItem().toString().equals("NENHUM")){
+            parametros.put("municipioEspecifico", "");
+        }else{
+            parametros.put("municipioEspecifico", cbMunicipio.getSelectedItem().toString());
+        }
+        parametros.put("parAnoPeriodoAvaliacao", SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy") + " a " + SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy"));
         session.setParametros(parametros);
         session.setDataFim(SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy"));
         session.setDataInicio(SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy"));
