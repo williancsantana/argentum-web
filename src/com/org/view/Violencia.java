@@ -297,7 +297,7 @@ public class Violencia extends javax.swing.JPanel {
                         .addComponent(cbMunicipio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cbRegional, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cbDesagregacao, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(160, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -460,7 +460,7 @@ public class Violencia extends javax.swing.JPanel {
         FiltroArquivo filtro = new FiltroArquivo();
         filtro.addExtension("dbf");
         filtro.setDescription("Arquivo DBF");
-        filtro.addInicioNome("VIOLENET");
+        filtro.addInicioNome("VIOLE");
 
         fileopen.addChoosableFileFilter(filtro);
 

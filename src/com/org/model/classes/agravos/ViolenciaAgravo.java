@@ -507,7 +507,7 @@ public class ViolenciaAgravo extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"ID_LOCRES", "DS_LOCRES", "ID_UFRES", "CS_RACA", "NU_ANO", "DT_NOTIFIC", "ID_REGIONA"};
+        return new String[]{"ID_LOCRES", "DS_LOCRES", "ID_UFRES", "N_RACA", "D_RACATO", "P_RACPRE", "ANO_NOTI", "DT_NOTIN", "DT_NOTIFI", "ORIGEM"};
     }
 
     @Override
@@ -516,10 +516,13 @@ public class ViolenciaAgravo extends Agravo {
         hashColunas.put("ID_LOCRES", new ColunasDbf(7));
         hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("ID_UFRES", new ColunasDbf(2));
-        hashColunas.put("CS_RACA", new ColunasDbf(1, 0));
-        hashColunas.put("P_RACPRE", new ColunasDbf(4, 0));
-        hashColunas.put("DT_NOTIFIC", new ColunasDbf(10));
-        hashColunas.put("DT_NOTIFI", new ColunasDbf(10));
+        hashColunas.put("N_RACA", new ColunasDbf(10));
+        hashColunas.put("D_RACATO", new ColunasDbf(10));
+        hashColunas.put("P_RACPRE", new ColunasDbf(10));
+        hashColunas.put("ANO_NOTI", new ColunasDbf(4));
+        hashColunas.put("DT_NOTIN", new ColunasDbf(8));
+        hashColunas.put("DT_NOTIFI", new ColunasDbf(8));
+        hashColunas.put("ORIGEM", new ColunasDbf(10));
         this.setColunas(hashColunas);
         return hashColunas;
     }
@@ -537,11 +540,13 @@ public class ViolenciaAgravo extends Agravo {
                 rowData[2] = agravo.getCodMunicipio().substring(0, 2);
             }
             rowData[1] = agravo.getNomeMunicipio();
-            rowData[3] = Double.parseDouble(agravo.getNumerador());
-            rowData[4] = Double.parseDouble(agravo.getTaxa());
-            rowData[5] = Double.parseDouble(agravo.getDenominador());
-            rowData[6] = getDataFim();
-            //rowData[7] = "VIOLENCIA-SINANNET";
+            rowData[3] = agravo.getNumerador();
+            rowData[5] = agravo.getDenominador();
+            rowData[4] = agravo.getTaxa();
+            rowData[6] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
+            rowData[7] = getDataInicio();
+            rowData[8] = getDataFim();
+            rowData[9] = "VIOLENET";
 
             writer.addRecord(rowData);
         }
