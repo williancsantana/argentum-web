@@ -612,17 +612,23 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         } else if (relatorio.equals("Proporção de casos DNCI encerrados em até 60 dias após notificação")) {
             panel = new OportunidadePQAVSPactuacao();
             this.relatorio = "OportunidadePQAVSPactuacao";
-
         } else if (relatorio.equals("Número de casos autóctones de malária")) {
             panel = new AutoctonesMalaria();
             this.relatorio = "AutoctonesMalariaPactuacao";
-        } else if (relatorio.equals("Proporçao de Casos de Malária que iniciaram tratamento em tempo oportuno")) {
+        } else if (relatorio.equals("Proporção de casos de malária que iniciaram tratamento em tempo oportuno")) {
             panel = new com.org.view.OportunidadeMalariaPactuacao();
             this.relatorio = "OportunidadeMalariaPactuacao";
-        } else if (relatorio.equals("Casos examinados tuberculose")) {
+        } else if (relatorio.equals("Proporção de contatos examinados de casos novos de tuberculose")) {
             panel = new com.org.view.ContatosExaminadosTuberculosePactuacao() ;
             this.relatorio = "ExaminadosTuberculosePactuacao";
+        }else if (relatorio.equals("Violência")) {
+            panel = new Violencia();
+            this.relatorio = "Violencia";
+        } else if (relatorio.equals("Número de semanas epidemiológicas com informação")) {
+            panel = new SemEpidPQAVS();
+            this.relatorio = "SemEpidPQAVS";
         }
+
         
         
         return panel;
@@ -714,10 +720,6 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         if (relatorio.equals("Número de casos autóctones de malária")) {
             panel = new AutoctonesMalaria();
             this.relatorio = "AutoctonesMalariaPactuacao";
-        }
-        if (relatorio.equals("Violência")) {
-            panel = new Violencia();
-            this.relatorio = "Violencia";
         }
 
         if (relatorio.equals("Análise de Completitude")) {
@@ -975,15 +977,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             "Selecione um Grupo",
             "PQAVS a partir de 2017",
             "Pactuação Interfederativa 2017 a 2021",
-            // "COAP - Encerramento Oportuno da Investigação",
-            // "Duplicidade",
             "Pactuações Anteriores",
-            //   "PACTO 2010/2011",
-            //   "PACTO 2008/2009",
-            //    "PQAVS até 2016",
-            //"PQAVS - Programa de Qualificação das Ações de Vigilância em Saúde",
-            //  "Recebimento de Lotes",
-            //   "Regularidade na alimentação do Sinan", 
             "Outros relatórios"
         };
         return grupos;
@@ -1073,73 +1067,16 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                     "Taxa de letalidade das formas graves de dengue",
                     "Taxa de incidência de aids em menores de 5 anos de idade"
                 };
-//                if (agravo.equals("Hanseníase")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Situação da coorte de casos novos de hanseníase"};
-//                }
-//                if (agravo.equals("Aids")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Taxa de incidência de aids em menores de 5 anos de idade"};
-//                }
-//                if (agravo.equals("Dengue")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Taxa de letalidade das formas graves de dengue"};
-//                }
-//                if (agravo.equals("Exantemática")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Proporção de doenças exantemáticas investigados oportunamente (PAVS 2010/2011)"};
-//                }
-//                if (agravo.equals("Hepatite")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Percentual de casos de hepatites B confirmados por sorologia"};
-//                }
-//                if (agravo.equals("PFA")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Taxa de notificação de casos de PFA em menores de 15 anos (PAVS 2010/2011)"};
-//                }
-//                if (agravo.equals("Saúde do Trabalhador")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Número de notificações dos agravos à Saúde do trabalhador"};
-//                }
-//                if (agravo.equals("Sífilis Congênita")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Incidência de Sífilis Congênita"};
-//                }
-//                if (agravo.equals("Tuberculose")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Situação da coorte de casos novos de Tuberculose", "Listagem de registros com situação de encerramento não preenchida"};
-//                }
-//                if (agravo.equals("Encerramento Oportuno da Investigação")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Encerramento Oportuno da Investigação"};
-//                }
-
             }
             if (grupo.equals("Pactuação Interfederativa 2017 a 2021")) {
                 relatorios = new String[]{"Selecione o Relatório", "Número de casos novos de AIDS em menores de 5 anos",
                     "Número de casos novos de sífilis congênita em menores de 1 ano de idade",
                     "Proporção de casos DNCI encerrados em até 60 dias após notificação",
-                    "Número de casos autóctones de malária",
-                    "Proporçao de Casos de Malária que iniciaram tratamento em tempo oportuno",
-                    "Casos examinados tuberculose"
+                    "Número de casos autóctones de malária"
                 };
             }
             if (grupo.equals("PACTO 2008/2009")) {
                 relatorios = new String[]{"Selecione o Relatório", "Situação da coorte de casos novos de Tuberculose", "Taxa de notificação de casos de PFA em menores de 15 anos", "Percentual de casos de hepatites B e C", "Proporção de doenças exantemáticas investigados oportunamente", "Taxa de letalidade por Febre Hemorrágica Dengue", "Taxa de incidência de aids em menores de 5 anos de idade", "Situação da coorte de casos novos de hanseníase"};
-//                if (agravo.equals("Hanseníase")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Situação da coorte de casos novos de hanseníase"};
-//                }
-//                if (agravo.equals("Aids")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Taxa de incidência de aids em menores de 5 anos de idade"};
-//                }
-//                if (agravo.equals("Dengue")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Taxa de letalidade por Febre Hemorrágica Dengue"};
-//                }
-//                if (agravo.equals("Exantemática")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Proporção de doenças exantemáticas investigados oportunamente (PAVS 2010/2011)"};
-//                }
-//                if (agravo.equals("Hepatite")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Percentual de casos de hepatites B e C"};
-//                }
-//                if (agravo.equals("PFA")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Taxa de notificação de casos de PFA em menores de 15 anos (PAVS 2010/2011)"};
-//                }
-//                if (agravo.equals("Tuberculose")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Situação da coorte de casos novos de Tuberculose"};
-//                }
-//                if (agravo.equals("Encerramento Oportuno da Investigação")) {
-//                    relatorios = new String[]{"Selecione o Relatório", "Encerramento Oportuno da Investigação"};
-//                }
             }
             if (grupo.equals("Regularidade na alimentação do Sinan")) {
                 relatorios = new String[]{"Selecione o Relatório", "Regularidade na alimentação do Sinan"};
@@ -1161,28 +1098,17 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 Dialog completitude = new Completitude(parent, true);
                 completitude.setVisible(true);
             }
-            /*
-            if (grupo.equals("Duplicidade")) {
-                relatorios = new String[]{"Selecione o Relatório", "Duplicidade"};
-            } 
-             */
- /*           if (grupo.equals("Outros relatórios")) {
-                if (agravo.equals("Exantemática")) {
-                    relatorios = new String[]{"Selecione o Relatório", "Proporção de doenças exantemáticas investigados oportuna e adequadamente", "Proporção de doenças exantemáticas investigados oportunamente (PAVS 2010/2011)"};
-                }
-                if (agravo.equals("PFA")) {
-                    relatorios = new String[]{"Selecione o Relatório", "Taxa de notificação de casos de PFA em menores de 15 anos (PAVS 2010/2011)"};
-                }
-                if (agravo.equals("Hanseníase")) {
-                    relatorios = new String[]{"Selecione o Relatório", "Listagem de notificações de prováveis faltosos e abandono do tratamento de hanseníase"};
-                }
-               
-            }*/
 
             if (grupo.equals("PQAVS a partir de 2017")) {
                 relatorios = new String[]{"Selecione o Relatório",
                     "Número de semanas epidemiológicas com informação",
-                    "Violência"
+                    "Proporção de casos DNCI encerrados em até 60 dias após notificação",
+                    "Violência",
+                    "Proporção de casos de malária que iniciaram tratamento em tempo oportuno",
+                    "Proporção de contatos examinados de casos novos de hanseníase",
+                    "Proporção de contatos examinados de casos novos de tuberculose"
+                    
+                    
                 };
             }
             

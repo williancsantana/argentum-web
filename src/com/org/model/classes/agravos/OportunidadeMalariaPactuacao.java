@@ -687,6 +687,7 @@ public class OportunidadeMalariaPactuacao extends Agravo {
             try {
                 if (brasil.equals("brasil")) {
                     //calculaBrasil(reader, parametros);
+                    calculaRegiao(reader, parametros);
                 } else if (!parametros.get("parUf").equals("Todos")) {
                     calculaRegiao(reader, parametros);
                 }

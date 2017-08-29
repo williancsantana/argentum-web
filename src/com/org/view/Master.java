@@ -599,7 +599,8 @@ public class Master extends javax.swing.JFrame {
                     SessionFacadeImpl.setDbf(false);
 
                 }*/
-                 if (this.cmbFiltroGrupoRelatorios.getSelectedItem().toString().equals("Pactuação Interfederativa 2017 a 2021")) {
+                 if (this.cmbFiltroGrupoRelatorios.getSelectedItem().toString().equals("Pactuação Interfederativa 2017 a 2021") ||
+                  this.cmbFiltroGrupoRelatorios.getSelectedItem().toString().equals("PQAVS a partir de 2017")) {
                     jTabbedPane1.addTab(cmbFiltroRelatorio.getSelectedItem().toString(), session.retornaPanelPactuacao(this.cmbFiltroRelatorio.getSelectedItem().toString()));
 
                 }else{

@@ -1,10 +1,11 @@
-﻿package com.org.view;
+package com.org.view;
 
 import com.org.facade.SessionFacadeImpl;
 import com.org.model.classes.Agravo;
 import com.org.negocio.Configuracao;
 import com.org.negocio.FiltroArquivo;
 import com.org.util.SinanDateUtil;
+import com.org.util.SinanUtil;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,48 +38,48 @@ public class Violencia extends javax.swing.JPanel {
 
     private boolean preencheuFormulario() {
         if (cbUf.getSelectedItem().toString().equals("-- Selecione --")) {
-            Master.mensagem("Selecione a UF de residência");
+            SinanUtil.mensagem("Selecione a UF de residência");
             return false;
         }
         if (cbDesagregacao.getSelectedItem().toString().equals("-- Selecione --")) {
-            Master.mensagem("Selecione a Desagregação desejada");
+            SinanUtil.mensagem("Selecione a Desagregação desejada");
             return false;
         }
         if (null != cbRegional.getSelectedItem() && cbRegional.getSelectedItem().toString().equals("-- Selecione --") 
                 && (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")
                 || cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regional de Saúde"))) {
-            Master.mensagem("Selecione a Região ou Regional de residência");
+            SinanUtil.mensagem("Selecione a Região ou Regional de residência");
             return false;
         }
         if (cbMunicipio.getSelectedItem().toString().equals("-- Selecione --")) {
-            Master.mensagem("Selecione o Município de residência");
+            SinanUtil.mensagem("Selecione o Município de residência");
             return false;
         }
         if (SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy").equals("")) {
-            Master.mensagem("Informe o período inicial");
+            SinanUtil.mensagem("Informe o período inicial");
             return false;
         }
         if (SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy").equals("")) {
-            Master.mensagem("Informe o período final");
+            SinanUtil.mensagem("Informe o período final");
             return false;
         }
         if (Integer.parseInt(SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy").substring(6, 10)) < 2007) {
-            Master.mensagem("O período inicial deve ser maior que 2007");
+            SinanUtil.mensagem("O período inicial deve ser maior que 2007");
             return false;
         }
         try {
             Date dtInicio = Agravo.converterParaData(SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy"));
             Date dtFim = Agravo.converterParaData(SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy"));
             if (dtFim.before(dtInicio)) {
-                Master.mensagem("Data final deve ser maior que inicial");
+                SinanUtil.mensagem("Data final deve ser maior que inicial");
                 return false;
             }
         } catch (Exception e) {
-            Master.mensagem("Data inválida");
+            SinanUtil.mensagem("Data inválida");
             return false;
         }
         if (lblArquivosSelecionados.getText().equals("Nenhum arquivo selecionado") && SessionFacadeImpl.isDbf()) {
-            Master.mensagem("Selecione um arquivo.");
+            SinanUtil.mensagem("Selecione um arquivo.");
             return false;
         }
 
