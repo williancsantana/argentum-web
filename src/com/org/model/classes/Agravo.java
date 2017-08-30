@@ -15,6 +15,7 @@ import com.org.model.classes.agravos.DengueLetalidade;
 import com.org.model.classes.agravos.HanseniaseCoorte;
 import com.org.negocio.Util;
 import com.org.util.SinanUtil;
+import com.org.model.classes.agravos.HanseniaseCoorteCura;
 import com.org.view.Master;
 import java.io.File;
 import java.io.IOException;
@@ -1593,6 +1594,71 @@ public class Agravo {
             String key = (String) valueIt.next();
             municipiosBeansRetorno.put(key, municipiosBeans.get(key));
 
+        }
+        return municipiosBeansRetorno;
+    }
+    
+    public HashMap<String, HanseniaseCoorteCura> populaMunicipiosBeansHansCura(String sgUfResidencia, String codRegional) {
+        DBFUtil utilDbf = new DBFUtil();
+        HashMap<String, String> municipios = new HashMap<String, String>();
+        HashMap<String, HanseniaseCoorteCura> municipiosBeans = new HashMap<String, HanseniaseCoorteCura>();
+        //se codRegional estiver preenchida, deve buscar somente os municipios pertencentes a ela
+        if (codRegional.length() > 0) {
+            //busca municipios dessa regional
+            DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
+            Object[] rowObjects1;
+
+            try {
+                utilDbf.mapearPosicoes(readerMunicipio);
+                while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
+                    if (codRegional.equals(utilDbf.getString(rowObjects1, "ID_REGIONA"))) {
+                        if (!utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
+                            if ((utilDbf.getString(rowObjects1, "SG_UF").equals("DF") && utilDbf.getString(rowObjects1, "NM_MUNICIP").equals("BRASILIA")) || !utilDbf.getString(rowObjects1, "SG_UF").equals("DF")) {
+                                HanseniaseCoorteCura agravoDbf = new HanseniaseCoorteCura();
+                                agravoDbf.init("");
+                                agravoDbf.setCodMunicipio(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
+                                agravoDbf.setNomeMunicipio(utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                                municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                                municipiosBeans.put(agravoDbf.getCodMunicipio(), agravoDbf);
+                            }
+                        }
+                    }
+                }
+            } catch (DBFException e) {
+                Master.mensagem("Erro ao carregar municipios:\n" + e);
+            }
+        } else {
+            //busca municipios dessa regional
+            DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
+            Object[] rowObjects1;
+            try {
+                utilDbf.mapearPosicoes(readerMunicipio);
+
+                while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
+                    if (sgUfResidencia.equals(utilDbf.getString(rowObjects1, "SG_UF")) || sgUfResidencia.equals("BR")) {
+                        if (!utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
+                            if ((utilDbf.getString(rowObjects1, "SG_UF").equals("DF") && utilDbf.getString(rowObjects1, "NM_MUNICIP").equals("BRASILIA")) || !utilDbf.getString(rowObjects1, "SG_UF").equals("DF")) {
+                                HanseniaseCoorteCura agravoDbf = new HanseniaseCoorteCura();
+                                agravoDbf.init("");
+                                agravoDbf.setCodMunicipio(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
+                                agravoDbf.setNomeMunicipio(utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                                municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                                municipiosBeans.put(agravoDbf.getCodMunicipio(), agravoDbf);
+                            }
+                        }
+                    }
+                }
+            } catch (DBFException e) {
+                Master.mensagem("Erro ao carregar municipios:\n" + e);
+            }
+        }
+        municipios = sortHashMapByValues(municipios, false);
+        Set<String> municipiosKeys = municipios.keySet();
+        HashMap<String, HanseniaseCoorteCura> municipiosBeansRetorno = new HashMap<String, HanseniaseCoorteCura>();
+        Iterator valueIt = municipiosKeys.iterator();
+        while (valueIt.hasNext()) {
+            String key = (String) valueIt.next();
+            municipiosBeansRetorno.put(key, municipiosBeans.get(key));
         }
         return municipiosBeansRetorno;
     }

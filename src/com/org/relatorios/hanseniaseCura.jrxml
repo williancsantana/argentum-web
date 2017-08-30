@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="hanseniase" pageWidth="870" pageHeight="595" columnWidth="860" leftMargin="10" rightMargin="0" topMargin="20" bottomMargin="0" uuid="a397d13b-660d-4203-8cc0-8633c875b034">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="183"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="parNomeMunicipio" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parUf" class="java.lang.String">
+		<defaultValueExpression><![CDATA["23"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parConfig" class="java.lang.String"/>
+	<parameter name="parPeriodo" class="java.lang.String"/>
+	<parameter name="parTipo" class="java.lang.String"/>
+	<parameter name="parDataInicio" class="java.lang.String">
+		<defaultValueExpression><![CDATA["2007-01-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parDataFim" class="java.lang.String">
+		<defaultValueExpression><![CDATA["2007-01-31"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parSgUf" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Geraldo\\Documents\\NetBeansProjects\\sinan_relatrorios\\src\\com\\org\\relatorios\\postgres\\dengue\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parCompletitude" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parTitulo1" class="java.lang.String"/>
+	<parameter name="parRodape" class="java.lang.String"/>
+	<parameter name="parVersao" class="java.lang.String"/>
+	<parameter name="parDataAtual" class="java.lang.String"/>
+	<parameter name="parArquivos" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="cura" class="java.lang.String"/>
+	<field name="nomeMunicipio" class="java.lang.String"/>
+	<field name="denominador" class="java.lang.String"/>
+	<field name="transfMesmoMunicipio" class="java.lang.String"/>
+	<field name="transfOutroMunicipio" class="java.lang.String"/>
+	<field name="transfOutroUf" class="java.lang.String"/>
+	<field name="naoPreenchido" class="java.lang.String"/>
+	<field name="erroDiagnostico" class="java.lang.String"/>
+	<field name="perNaoPreenchido" class="java.lang.String"/>
+	<field name="subTotal" class="java.lang.String"/>
+	<field name="total" class="java.lang.String"/>
+	<field name="perAbandono" class="java.lang.String"/>
+	<field name="perCura" class="java.lang.String"/>
+	<field name="transfOutroPais" class="java.lang.String"/>
+	<field name="obito" class="java.lang.String"/>
+	<field name="abandono" class="java.lang.String"/>
+	<field name="transfNaoEspecificada" class="java.lang.String"/>
+	<field name="taxa" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="116" splitType="Stretch">
+			<staticText>
+				<reportElement x="435" y="0" width="302" height="22" forecolor="#000000" uuid="3936b6d8-16e9-48fd-8723-d339febca1d7"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sistema de Informação de Agravos de Notificação - Sinan]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="2" width="434" height="20" uuid="bb776fe5-01ae-452a-a365-8de3207a3f8b"/>
+				<textElement>
+					<font fontName="Arial Black" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["República Federativa do Brasil - Ministério da Saúde\n"+$P{parConfig}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="774" y="-1" width="19" height="20" uuid="1d1797ac-a113-4177-bc6a-dadf5f329753"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="740" y="0" width="43" height="20" uuid="ea3ffd25-b660-40b7-8bdd-6f0a6d6f4eee"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Página: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="22" width="800" height="22" uuid="cfac30be-2424-487b-9afb-605aaf3411c1"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parTitulo1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="338" y="45" width="367" height="69" uuid="a4e93861-78d6-437d-9256-064759f92e72"/>
+				<box leftPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parPeriodo}+$P{parArquivos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="45" width="337" height="69" uuid="2c969aae-c40f-481a-8ee0-7fe11c558872"/>
+				<box leftPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parNomeMunicipio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="37" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="701" height="1" uuid="32f5fccb-b587-44a2-92bc-fc3e0ab4e49c"/>
+			</line>
+			<line>
+				<reportElement x="0" y="34" width="701" height="3" uuid="7214e486-80a9-489d-95f0-247d4503fcc3"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="0" width="163" height="20" uuid="2af35cc9-368d-4c88-8c28-98aa85d2384c"/>
+				<textElement>
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Local de residência atual"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="583" y="1" width="122" height="34" uuid="3728488d-fe8f-45cc-8d7c-5d4e122b6652"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Proporção]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="1" width="122" height="34" uuid="593f438d-bf4e-44c3-bf6b-421188a211d4"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="339" y="1" width="122" height="34" uuid="9a20c90f-22cf-405b-8543-9b52636318ed"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cura]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="17" width="701" height="1" uuid="0aafb531-96c8-4a19-bb63-53858d6d3c2f"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="1" width="163" height="15" uuid="ee560dc6-2707-4f5a-bd89-2375aebc192d"/>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeMunicipio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="339" y="2" width="122" height="15" uuid="aa29caac-0eba-4543-9dd7-93193f66ef3c"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="583" y="2" width="122" height="15" uuid="69ad0525-ccc4-4a53-a795-e4dcd5c9289b"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{taxa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="461" y="2" width="122" height="15" uuid="7d45553a-99df-4171-b2b1-e489a1033a39"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{subTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="29" splitType="Stretch">
+			<textField>
+				<reportElement x="606" y="4" width="195" height="20" uuid="ce76c3db-2a2c-4866-8876-a47792ee7991"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA["SINAN Relatórios - Versão "+$P{parVersao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="4" width="115" height="20" uuid="be25e23e-c3e1-439c-83ae-58a29a6bf302"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Relatório obtido no dia ]]></text>
+			</staticText>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="119" y="4" width="242" height="20" forecolor="#000000" uuid="90b8a4e4-eabf-42d3-b246-f4654222e680"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parDataAtual}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="177" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="10" width="701" height="1" uuid="cf56195f-642a-4ce1-bb3b-9a102b204808"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="10" width="802" height="167" uuid="3bd9672e-1b15-45b7-87a7-8bbb8109e192"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parRodape}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
