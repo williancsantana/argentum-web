@@ -205,7 +205,7 @@ public class AutoctoneMalariaPactuacao extends Agravo {
                             //verifica se existe a referencia do municipio no bean
                             if ((Boolean) parametros.get("parIsRegiao")) {
                                 municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "COMUNINF")));
-                            }else{
+                            } else {
                                 municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "COMUNINF")));
                             }
                         } catch (SQLException ex) {
@@ -228,8 +228,8 @@ public class AutoctoneMalariaPactuacao extends Agravo {
                         dtDiagnostico = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
 
                         if (municipioResidencia != null && CID_B54 && AT_LAMINA && RESULT) {
-                           // AUTOCTONE = utilDbf.getString(rowObjects, "ID_MN_RESI").equals(utilDbf.getString(rowObjects, "COMUNINF"));
-                            if (isBetweenDates(dtDiagnostico, dataInicio, dataFim)) {
+                             AUTOCTONE = utilDbf.getString(rowObjects, "ID_MUNICIP").equals(utilDbf.getString(rowObjects, "COMUNINF"));
+                            if (isBetweenDates(dtDiagnostico, dataInicio, dataFim) && AUTOCTONE) {
                                 numerador = Integer.parseInt(municipioResidencia.getNumerador());
                                 numerador++;
                                 municipioResidencia.setNumerador(String.valueOf(numerador));
@@ -386,7 +386,7 @@ public class AutoctoneMalariaPactuacao extends Agravo {
                     new BeanComparator("nomeMunicipio")));
         }
         parametros.put("numeradorTotal", String.valueOf(numeradorEstadual));
-        
+
         Collections.sort(this.getBeans(), chain);
 
         //calcular o total
@@ -580,20 +580,18 @@ public class AutoctoneMalariaPactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"COUUFINF", "ID_RG_INF", "COMUNINF", "COD_CIR", "NOME_CIR", "ID_LOCRES", "NUM_MALA", "DS_LOCRES", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "NUM_MALA", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
     }
 
     @Override
     public HashMap<String, ColunasDbf> getColunas() {
         HashMap<String, ColunasDbf> hashColunas = new HashMap<String, ColunasDbf>();
         hashColunas.put("COUUFINF", new ColunasDbf(30));
-        hashColunas.put("ID_RG_INF", new ColunasDbf(30));
-        hashColunas.put("COMUNINF", new ColunasDbf(30));
+        hashColunas.put("ID_LOCRES", new ColunasDbf(30));
+        hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
         hashColunas.put("NOME_CIR", new ColunasDbf(30));
-        hashColunas.put("ID_LOCRES", new ColunasDbf(30));
         hashColunas.put("NUM_MALA", new ColunasDbf(30));
-        hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("ANO_DIAG", new ColunasDbf(30));
         hashColunas.put("DT_DIAGIN", new ColunasDbf(30));
         hashColunas.put("DT_DIAGFI", new ColunasDbf(30));
@@ -609,28 +607,32 @@ public class AutoctoneMalariaPactuacao extends Agravo {
             Object rowData[] = new Object[colunas.size()];
             Agravo agravo = (Agravo) bean.get(i);
             if (agravo.getNomeMunicipio().equals("BRASIL") || agravo.getNomeMunicipio().equals("TOTAL")) {
-                rowData[5] = null;
-                rowData[7] = null;
-            } else {
-                rowData[5] = null;
-                rowData[7] = null;
-                rowData[0] = agravo.getCodMunicipio().substring(0, 2);
-                rowData[2] = agravo.getCodMunicipio();
-                if (!agravo.getCodRegional().isEmpty()) {
-                    rowData[3] = agravo.getCodRegional();
-                    rowData[4] = agravo.getRegional();
-                } else {
-                    rowData[3] = agravo.getCodRegiaoSaude();
-                    rowData[4] = agravo.getRegiaoSaude();
-                }
-                rowData[8] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
-                rowData[9] = getDataInicio();
-                rowData[10] = getDataFim();
+                rowData[0] = null;
+                rowData[1] = null;
+                rowData[3] = null;
+                rowData[4] = null;
 
+            } else {
+                rowData[0] = agravo.getCodMunicipio().substring(0, 2);
+                rowData[1] = agravo.getCodMunicipio();
+
+                if (agravo.getRegional() != null && agravo.getRegional() != null) {
+                    if (!agravo.getRegional().isEmpty()) {
+                        rowData[3] = agravo.getCodRegional();
+                        rowData[4] = agravo.getRegional();
+                    } else if (!agravo.getRegiaoSaude().isEmpty()) {
+                        rowData[3] = agravo.getCodRegiaoSaude();
+                        rowData[4] = agravo.getRegiaoSaude();
+                    }
+                }
             }
-            rowData[1] = null; //agravo.getRegional();
-            rowData[6] = agravo.getNumerador();
-            rowData[11] = "MALAR-SINANNET";
+            rowData[2] = agravo.getNomeMunicipio();
+            rowData[5] = agravo.getNumerador();
+
+            rowData[6] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
+            rowData[7] = getDataInicio();
+            rowData[8] = getDataFim();
+            rowData[9] = "MALAR-SINANNET";
             writer.addRecord(rowData);
         }
         return writer;
