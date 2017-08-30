@@ -179,7 +179,7 @@ public class Agravo {
                 agravoBean.setTaxa("0");
             } else {
                 // agravoBean.setTaxa(df.format(Double.parseDouble(agravoBean.getNumerador()) / Double.parseDouble(agravoBean.getDenominador()) * this.getMultiplicador()));
-                if(agravoUF.getTaxa().split(",").length > 1){
+                if (agravoUF.getTaxa().split(",").length > 1) {
                     agravoUF.setTaxa(agravoUF.getTaxa().split(",")[0] + "." + agravoUF.getTaxa().split(",")[1]);
                 }
                 agravoBean.setTaxa(df.format(Double.parseDouble(agravoUF.getTaxa()) + Double.parseDouble(agravoBean.getTaxa())));
@@ -1120,14 +1120,20 @@ public class Agravo {
                         agravoDbf.setCodMunicipio(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
                         agravoDbf.setNomeMunicipio(utilDbf.getString(rowObjects1, "NM_MUNICIP"));
                         agravoDbf.setUf(utilDbf.getString(rowObjects1, "SG_UF"));
-                        agravoDbf.setCodRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO"));
-                        agravoDbf.setCodRegional(utilDbf.getString(rowObjects1, "ID_REGIONA"));
+                        if (regiao.equals("true")) {
+                            agravoDbf.setCodRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO"));
+                        } else {
+                            agravoDbf.setCodRegional(utilDbf.getString(rowObjects1, "ID_REGIONA"));
+                        }
                         try {
-                            agravoDbf.setRegiaoSaude(buscaRegiaoSaude(agravoDbf.getCodRegiaoSaude()));
-                            agravoDbf.setRegional(buscaRegionalSaude(agravoDbf.getCodRegional()));
+                            if (regiao.equals("true")) {
+                                agravoDbf.setRegiaoSaude(buscaRegiaoSaude(agravoDbf.getCodRegiaoSaude()));
+                            } else {
+                                agravoDbf.setRegional(buscaRegionalSaude(agravoDbf.getCodRegional()));
+                            }
 
                             if (agravoDbf.getRegiaoSaude() == null) {
-                                agravoDbf.setRegional("");
+                                agravoDbf.setRegiaoSaude("");
                             }
                             if (agravoDbf.getRegional() == null) {
                                 agravoDbf.setRegional("");
@@ -1796,6 +1802,7 @@ public class Agravo {
         }
         return "";
     }
+
     public String buscaIdRegionalSaude(String idMunicipio) throws SQLException {
         if (idMunicipio == null) {
             return "";
@@ -1837,6 +1844,7 @@ public class Agravo {
         }
         return "";
     }
+
     public String buscaIdRegiaoSaude(String idMunicipio) throws SQLException {
         if (idMunicipio == null) {
             return "";
@@ -2486,7 +2494,5 @@ public class Agravo {
     public void setDenominadorInt(Integer denominadorInt) {
         this.denominadorInt = denominadorInt;
     }
-    
-    
 
 }

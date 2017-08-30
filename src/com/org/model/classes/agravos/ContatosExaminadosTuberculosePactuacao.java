@@ -170,9 +170,8 @@ public class ContatosExaminadosTuberculosePactuacao extends Agravo {
         String sgUfResidencia = (String) parametros.get("parSgUf");
         String codRegional = (String) parametros.get("parCodRegional");
         String codRegiao = (String) parametros.get("parCodRegiaoSaude");
-                 parametros.put("numeradorTotal", 0);
-         parametros.put("denominadorTotal", 0);
-
+        parametros.put("numeradorTotal", 0);
+        parametros.put("denominadorTotal", 0);
 
         if (codRegional == null) {
             codRegional = "";
@@ -389,20 +388,20 @@ public class ContatosExaminadosTuberculosePactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"COUUFINF", "ID_RG_INF", "COMUNINF", "COD_CIR", "NOME_CIR", "ID_LOCRES", "NUM_MALA", "DS_LOCRES", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_TBREG", "N_TBEXAM", "P_TBEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
     }
 
     @Override
     public HashMap<String, ColunasDbf> getColunas() {
         HashMap<String, ColunasDbf> hashColunas = new HashMap<String, ColunasDbf>();
         hashColunas.put("COUUFINF", new ColunasDbf(30));
-        hashColunas.put("ID_RG_INF", new ColunasDbf(30));
-        hashColunas.put("COMUNINF", new ColunasDbf(30));
+        hashColunas.put("ID_LOCRES", new ColunasDbf(30));
+        hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
         hashColunas.put("NOME_CIR", new ColunasDbf(30));
-        hashColunas.put("ID_LOCRES", new ColunasDbf(30));
-        hashColunas.put("NUM_MALA", new ColunasDbf(30));
-        hashColunas.put("DS_LOCRES", new ColunasDbf(30));
+        hashColunas.put("D_TBREG", new ColunasDbf(30));
+        hashColunas.put("N_TBEXAM", new ColunasDbf(30));
+        hashColunas.put("P_TBEXAM", new ColunasDbf(30));
         hashColunas.put("ANO_DIAG", new ColunasDbf(30));
         hashColunas.put("DT_DIAGIN", new ColunasDbf(30));
         hashColunas.put("DT_DIAGFI", new ColunasDbf(30));
@@ -418,28 +417,39 @@ public class ContatosExaminadosTuberculosePactuacao extends Agravo {
             Object rowData[] = new Object[colunas.size()];
             Agravo agravo = (Agravo) bean.get(i);
             if (agravo.getNomeMunicipio().equals("BRASIL") || agravo.getNomeMunicipio().equals("TOTAL")) {
-                rowData[5] = null;
-                rowData[7] = null;
-            } else {
-                rowData[5] = null;
-                rowData[7] = null;
-                rowData[0] = agravo.getCodMunicipio().substring(0, 2);
-                rowData[2] = agravo.getCodMunicipio();
-                if (!agravo.getCodRegional().isEmpty()) {
-                    rowData[3] = agravo.getCodRegional();
-                    rowData[4] = agravo.getRegional();
-                } else {
-                    rowData[3] = agravo.getCodRegiaoSaude();
-                    rowData[4] = agravo.getRegiaoSaude();
-                }
-                rowData[8] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
-                rowData[9] = getDataInicio();
-                rowData[10] = getDataFim();
+                rowData[0] = null;
+                rowData[1] = null;
+                rowData[3] = null;
+                rowData[4] = null;
 
+            } else {
+                rowData[0] = agravo.getCodMunicipio().substring(0, 2);
+                rowData[1] = agravo.getCodMunicipio();
+
+                if (agravo.getRegional() != null && agravo.getRegional() != null) {
+                    if (!agravo.getRegional().isEmpty()) {
+                        rowData[3] = agravo.getCodRegional();
+                        rowData[4] = agravo.getRegional();
+                    } else if (!agravo.getRegiaoSaude().isEmpty()) {
+                        rowData[3] = agravo.getCodRegiaoSaude();
+                        rowData[4] = agravo.getRegiaoSaude();
+                    }
+                }
             }
-            rowData[1] = null; //agravo.getRegional();
-            rowData[6] = agravo.getNumerador();
-            rowData[11] = "MALAR-SINANNET";
+            rowData[2] = agravo.getNomeMunicipio();
+            rowData[5] = agravo.getNumerador();
+            rowData[6] = agravo.getDenominador();
+            if (Integer.valueOf(agravo.getNumerador()) <= 0) {
+                rowData[7] = "0.0";
+            } else {
+                Double percentual = (Double.valueOf(agravo.getDenominador()) / Double.valueOf(agravo.getNumerador())) * 100;
+                rowData[7] = String.format("%.1f", percentual);
+            }
+
+            rowData[8] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
+            rowData[9] = getDataInicio();
+            rowData[10] = getDataFim();
+            rowData[11] = "TUBERCULOSE-SINANNET";
             writer.addRecord(rowData);
         }
         return writer;

@@ -619,9 +619,9 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             panel = new com.org.view.OportunidadeMalariaPactuacao();
             this.relatorio = "OportunidadeMalariaPactuacao";
         } else if (relatorio.equals("Proporção de contatos examinados de casos novos de tuberculose")) {
-            panel = new com.org.view.ContatosExaminadosTuberculosePactuacao() ;
+            panel = new com.org.view.ContatosExaminadosTuberculosePactuacao();
             this.relatorio = "ExaminadosTuberculosePactuacao";
-        }else if (relatorio.equals("Violência")) {
+        } else if (relatorio.equals("Violência")) {
             panel = new Violencia();
             this.relatorio = "Violencia";
         } else if (relatorio.equals("Número de semanas epidemiológicas com informação")) {
@@ -629,8 +629,6 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             this.relatorio = "SemEpidPQAVS";
         }
 
-        
-        
         return panel;
     }
 
@@ -749,12 +747,29 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         }
         if (relatorio.equals("AidsIndicadorCriancaPactuacao")) {
             agravo = new com.org.model.classes.agravos.AidsIndicadorCriancaPactuacao(isDbf());
+            agravo.setAnoAvaliado(this.anoAvaliado);
+            agravo.setDtInicioAvaliacao(this.dtInicioAvaliacao);
+            agravo.setDtFimAvaliacao(this.dtFimAvaliacao);
+            agravo.setDataAvaliacao(dataAvaliacao);
+            agravo.setUf(uf);
+            agravo.setMunicipio(municipio);
+            agravo.setRegional(regional);
+            agravo.setTemListagem(this.temListagem);
+
         }
         if (relatorio.equals("SifilisCongenitaIncidencia")) {
             agravo = new com.org.model.classes.agravos.SifilisCongenitaIncidencia(isDbf());
         }
         if (relatorio.equals("SifilisCongenitaIncidenciaPactuacao")) {
             agravo = new com.org.model.classes.agravos.SifilisCongenitaIncidenciaPactuacao(isDbf());
+            agravo.setAnoAvaliado(this.anoAvaliado);
+            agravo.setDtInicioAvaliacao(this.dtInicioAvaliacao);
+            agravo.setDtFimAvaliacao(this.dtFimAvaliacao);
+            agravo.setDataAvaliacao(dataAvaliacao);
+            agravo.setUf(uf);
+            agravo.setMunicipio(municipio);
+            agravo.setRegional(regional);
+            agravo.setTemListagem(this.temListagem);
         }
         if (relatorio.equals("SaudeTrabalhador")) {
             agravo = new com.org.model.classes.agravos.SaudeTrabalhador(isDbf());
@@ -799,8 +814,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             agravo.setRegional(regional);
             agravo.setTemListagem(this.temListagem);
         }
-        
-        
+
         if (relatorio.equals("OportunidadeMalariaPactuacao")) {
             agravo = new com.org.model.classes.agravos.OportunidadeMalariaPactuacao(isDbf());
             agravo.setAnoAvaliado(this.anoAvaliado);
@@ -1107,11 +1121,10 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                     "Proporção de casos de malária que iniciaram tratamento em tempo oportuno",
                     "Proporção de contatos examinados de casos novos de hanseníase",
                     "Proporção de contatos examinados de casos novos de tuberculose"
-                    
-                    
+
                 };
             }
-            
+
             if (grupo.equals("Outros relatórios")) {
                 relatorios = new String[]{"Selecione o Relatório",
                     "Análise de Completitude",
@@ -1412,8 +1425,6 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         String SG_UF = UF;
         UF = String.valueOf(this.getCodigoUf(UF));
         Vector<String> regionais = new Vector<String>();
-        regionais.add(0, "-- Selecione --");
-        regionais.add(1, "TODAS");
         try {
             Util util = new Util();
             //verifica qual banco
@@ -1440,6 +1451,9 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                         }
                     }
                     Collections.sort(regionais);
+                    regionais.add(0, "-- Selecione --");
+                    regionais.add(1, "TODAS");
+
                 } catch (DBFException e) {
                     Master.mensagem("Erro ao carregar regionais. Verifique se existe a pasta DBF e se os arquivo REGIONET.DBF está lá:\n" + e);
                     System.out.println("Erro ao carregar REGIONAIS: " + e);
@@ -1822,9 +1836,9 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         DBFReader reader = null;
         InputStream inputStream = null;
         try {
-            if(System.getProperty("os.name").compareTo("Linux") == 0){
-                inputStream = new FileInputStream(caminho.replace("\\","/") + arquivo + ".DBF"); // take dbf file as program argument
-            }else{
+            if (System.getProperty("os.name").compareTo("Linux") == 0) {
+                inputStream = new FileInputStream(caminho.replace("\\", "/") + arquivo + ".DBF"); // take dbf file as program argument
+            } else {
                 inputStream = new FileInputStream(caminho + arquivo + ".DBF"); // take dbf file as program argument
             }
 
