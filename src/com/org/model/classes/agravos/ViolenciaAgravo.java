@@ -90,7 +90,7 @@ public class ViolenciaAgravo extends Agravo {
             DecimalFormat df = new DecimalFormat("0.00");
             int completitude = 0, numeradorMunicipio = 0, denominadorMunicipio = 0, 
                 denominadorBrasil = 0, raca = 0, numeradorEstadual = 0, denominadorRegiao = 0;
-            Agravo municipioResidencia;
+            Agravo municipioNotificacao;
             String racaCor;
             String dataInicio = (String) parametros.get("parDataInicio");
             String dataFim = (String) parametros.get("parDataFim");
@@ -116,26 +116,30 @@ public class ViolenciaAgravo extends Agravo {
                         //verifica a uf de residencia
                         if (utilDbf.getString(rowObjects, "SG_UF_NOT") != null) {
                             //verifica se existe a referencia do municipio no bean
-                            municipioResidencia = getMunicipioPelaRegiaoOuRegional(parametros, municipiosBeans, utilDbf, rowObjects);
+                            municipioNotificacao = getMunicipioPelaRegiaoOuRegional(parametros, municipiosBeans, utilDbf, rowObjects);
                             dataNotificacao = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
                             racaCor = utilDbf.getString(rowObjects, "CS_RACA", 1);
                             raca = racaCor != null ? Integer.parseInt(racaCor) : 0;
-                            if(municipioResidencia != null ){
-                                municipioResidencia.setTaxa("0");
+                            if(municipioNotificacao != null ){
+                                municipioNotificacao.setTaxa("0");
                             }
+                            int contador = 0;
 
-                            if (municipioResidencia != null && isBetweenDates(dataNotificacao, dataInicio, dataFim)){
+                            if (municipioNotificacao != null && isBetweenDates(dataNotificacao, dataInicio, dataFim)){
                                 if(raca >= BRANCO && raca <= INDIGENA) {
-                                    numeradorMunicipio = Integer.parseInt(municipioResidencia.getNumerador());
+                                    numeradorMunicipio = Integer.parseInt(municipioNotificacao.getNumerador());
                                     numeradorMunicipio++;
-                                    municipioResidencia.setNumerador(String.valueOf(numeradorMunicipio));
+                                    municipioNotificacao.setNumerador(String.valueOf(numeradorMunicipio));
                                     numeradorEstadual++;
                                 }
-                                denominadorMunicipio = Integer.parseInt(municipioResidencia.getDenominador());
+                                denominadorMunicipio = Integer.parseInt(municipioNotificacao.getDenominador());
                                 denominadorMunicipio++;
                                 denominadorRegiao++;
-                                municipioResidencia.setDenominador(String.valueOf(denominadorMunicipio));
-                                calcularTaxaIndividual(df, municipioResidencia);
+                                municipioNotificacao.setDenominador(String.valueOf(denominadorMunicipio));
+                                calcularTaxaIndividual(df, municipioNotificacao);
+                            }else{
+                                contador++;
+                                System.out.println(contador);
                             }
                         }
                         setStatusBarra(indexDoRegistroEmLeitura, TotalRegistros);
@@ -219,8 +223,8 @@ public class ViolenciaAgravo extends Agravo {
             }
             if ((Boolean)parametros.get("parIsRegiao")) {
                municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia,codRegiao, parametros.get("parIsRegiao").toString());
-            }else{
-               municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, parametros.get("parIsRegiao").toString());
+            }else {
+               municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, parametros.get("parIsRegional").toString());
             }
 
             //inicia o calculo
@@ -243,9 +247,10 @@ public class ViolenciaAgravo extends Agravo {
                     reader = Util.retornaObjetoDbfCaminhoArquivo(arquivo.substring(0, arquivo.length() - 4), Configuracao.getPropriedade("caminho"));
                     utilDbf.mapearPosicoes(reader);
                     double TotalRegistros = Double.parseDouble(String.valueOf(reader.getRecordCount()));
+
                     while ((rowObjects = reader.nextRecord()) != null) {
                         //verifica a uf de residencia
-                        if (utilDbf.getString(rowObjects, "SG_UF") != null) {
+                        if (utilDbf.getString(rowObjects, "SG_UF_NOT") != null) {
                             //verifica se existe a referencia do municipio no bean
                             municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
                             if(municipioResidencia != null ){
@@ -256,7 +261,7 @@ public class ViolenciaAgravo extends Agravo {
                             racaCor = utilDbf.getString(rowObjects, "CS_RACA", 1);
                             raca = racaCor != null ? Integer.parseInt(racaCor) : 0;
 
-                            if (municipioResidencia != null && raca > 0) {
+                            if (municipioResidencia != null && raca >= 0) {
                                 if (isBetweenDates(dataNotificacao, dataInicio, dataFim)) {
                                     if (raca >= BRANCO && raca <= INDIGENA) {
                                         numerador = Integer.parseInt(municipioResidencia.getNumerador());
@@ -417,7 +422,7 @@ public class ViolenciaAgravo extends Agravo {
                 double TotalRegistros = Double.parseDouble(String.valueOf(reader.getRecordCount()));
                 while ((rowObjects = reader.nextRecord()) != null) {
                     //verifica a uf de residencia
-                    if (utilDbf.getString(rowObjects, "SG_UF") != null && utilDbf.getString(rowObjects, "SG_UF").equals(ufResidencia)) {
+                    if (utilDbf.getString(rowObjects, "SG_UF_NOT") != null && utilDbf.getString(rowObjects, "SG_UF_NOT").equals(ufResidencia)) {
                         //verifica se tem o parametro de municipio de residencia
                         dtNotificacao = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
                         racaCor = utilDbf.getString(rowObjects, "CS_RACA", 1);

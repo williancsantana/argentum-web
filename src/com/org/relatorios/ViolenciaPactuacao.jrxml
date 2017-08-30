@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="681bd436-b298-4650-a13f-12541fab4b75">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="19"/>
+	<property name="ireport.x" value="166"/>
 	<property name="ireport.y" value="64"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Java\\sinan_relatorios\\src\\com\\org\\relatorios\\"]]></defaultValueExpression>
@@ -149,7 +149,7 @@
 				<textFieldExpression><![CDATA[$P{TITULO}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="5" y="52" width="99" height="14" uuid="cbc3e438-39c4-4a91-9d92-54578540f359"/>
+				<reportElement x="5" y="52" width="107" height="14" uuid="cbc3e438-39c4-4a91-9d92-54578540f359"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
@@ -163,11 +163,11 @@
 				<text><![CDATA[UF de notificação:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="90" width="100" height="14" uuid="be339661-d0b1-449f-978a-f38ecf7d706f"/>
+				<reportElement x="5" y="90" width="119" height="14" uuid="be339661-d0b1-449f-978a-f38ecf7d706f"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[Município de residência:]]></text>
+				<text><![CDATA[Município de notificação:]]></text>
 			</staticText>
 			<line>
 				<reportElement x="316" y="50" width="1" height="56" uuid="16b8551e-5aff-448f-9e06-5012979200f5"/>
@@ -194,7 +194,7 @@
 				<text><![CDATA[Ano/Período de avaliação:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="106" y="53" width="209" height="15" uuid="da25b133-8515-43f7-a385-e67d9babb0c2"/>
+				<reportElement x="112" y="52" width="203" height="15" uuid="da25b133-8515-43f7-a385-e67d9babb0c2"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -215,14 +215,14 @@
 				<textFieldExpression><![CDATA[$P{parNenhum}?"":$P{parIsRegiao}?$P{parRegiaoSaude}:$P{parRegionalSaude}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="400" y="54" width="142" height="11" uuid="30541461-807b-434d-83d5-c82e92f6b6ef"/>
+				<reportElement x="408" y="54" width="134" height="11" uuid="30541461-807b-434d-83d5-c82e92f6b6ef"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{parDataAtual}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="106" y="90" width="203" height="11" uuid="9ef6dfb0-e6a7-45bb-8790-8d3ed2d22554"/>
+				<reportElement x="124" y="90" width="191" height="11" uuid="9ef6dfb0-e6a7-45bb-8790-8d3ed2d22554"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -241,6 +241,13 @@
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{parDescricaoReg}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="439" y="66" width="103" height="16" uuid="76d7e964-302b-466f-a645-0cd92737748b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parAnoPeriodoAvaliacao}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
