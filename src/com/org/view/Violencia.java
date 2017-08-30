@@ -114,7 +114,7 @@ public class Violencia extends javax.swing.JPanel {
         lblArquivosSelecionados = new javax.swing.JLabel();
 
         lblRegional.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblRegional.setText("Regional de Residência:"); // NOI18N
+        lblRegional.setText("Regional de Notificação:"); // NOI18N
 
         chkExportarDbf.setText("Salvar resultado em DBF");
 
@@ -128,7 +128,7 @@ public class Violencia extends javax.swing.JPanel {
         lblDesagregacao.setText("Desagregação:");
 
         jLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel.setText("Município de Residência:"); // NOI18N
+        jLabel.setText("Município de Notificação:"); // NOI18N
 
         cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "Somente municípios", "UF subdividida por Regiões de Saúde", "UF subdividida por Regional de Saúde" }));
         cbDesagregacao.addActionListener(new java.awt.event.ActionListener() {
@@ -150,7 +150,7 @@ public class Violencia extends javax.swing.JPanel {
             }
         });
 
-        jpDataPrimeiroSintomas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data de Diagnóstico\n", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        jpDataPrimeiroSintomas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data de Notificação", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         jLabel9.setText("De"); // NOI18N
 
@@ -205,7 +205,7 @@ public class Violencia extends javax.swing.JPanel {
         });
 
         lblUF.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblUF.setText("UF de Residência:"); // NOI18N
+        lblUF.setText("UF de Notificação:"); // NOI18N
 
         cbMunicipio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -297,7 +297,7 @@ public class Violencia extends javax.swing.JPanel {
                         .addComponent(cbMunicipio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cbRegional, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cbDesagregacao, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addContainerGap(444, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -332,6 +332,8 @@ public class Violencia extends javax.swing.JPanel {
                     .addComponent(btLimpar))
                 .addContainerGap())
         );
+
+        jpDataPrimeiroSintomas.getAccessibleContext().setAccessibleName("Data de Notificação\n");
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbUfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbUfActionPerformed
@@ -410,7 +412,7 @@ public class Violencia extends javax.swing.JPanel {
         parametros.put("parRegiaoSaude","");
         parametros.put("parAnoPeriodoAvaliacao", 
                 SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy") 
-                + " " + SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy"));
+                + " a "+ SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy"));
 
         if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")){
             parametros.put("parIsRegiao", true);
@@ -428,7 +430,7 @@ public class Violencia extends javax.swing.JPanel {
         }else{
             parametros.put("municipioEspecifico", cbMunicipio.getSelectedItem().toString());
         }
-        parametros.put("parAnoPeriodoAvaliacao", SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy") + " a " + SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy"));
+        //parametros.put("parAnoPeriodoAvaliacao", SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy") + " a " + SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy"));
         session.setParametros(parametros);
         session.setDataFim(SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy"));
         session.setDataInicio(SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy"));

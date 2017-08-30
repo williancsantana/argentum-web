@@ -621,7 +621,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         } else if (relatorio.equals("Proporção de contatos examinados de casos novos de tuberculose")) {
             panel = new com.org.view.ContatosExaminadosTuberculosePactuacao() ;
             this.relatorio = "ExaminadosTuberculosePactuacao";
-        }else if (relatorio.equals("Violência")) {
+        }else if (relatorio.equals("Proporção de notificações de Violência interpessoal e autoprovocada com o campo raça/cor preenchido com informação válida")) {
             panel = new Violencia();
             this.relatorio = "Violencia";
         } else if (relatorio.equals("Número de semanas epidemiológicas com informação")) {
@@ -1103,7 +1103,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 relatorios = new String[]{"Selecione o Relatório",
                     "Número de semanas epidemiológicas com informação",
                     "Proporção de casos DNCI encerrados em até 60 dias após notificação",
-                    "Violência",
+                    "Proporção de notificações de Violência interpessoal e autoprovocada com o campo raça/cor preenchido com informação válida",
                     "Proporção de casos de malária que iniciaram tratamento em tempo oportuno",
                     "Proporção de contatos examinados de casos novos de hanseníase",
                     "Proporção de contatos examinados de casos novos de tuberculose"

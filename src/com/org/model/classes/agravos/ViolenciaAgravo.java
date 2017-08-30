@@ -247,7 +247,7 @@ public class ViolenciaAgravo extends Agravo {
                         //verifica a uf de residencia
                         if (utilDbf.getString(rowObjects, "SG_UF") != null) {
                             //verifica se existe a referencia do municipio no bean
-                            municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MN_RESI"));
+                            municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
                             if(municipioResidencia != null ){
                                 municipioResidencia.setTaxa("0");
                             }
@@ -423,7 +423,7 @@ public class ViolenciaAgravo extends Agravo {
                         racaCor = utilDbf.getString(rowObjects, "CS_RACA", 1);
                         raca = racaCor != null ? Integer.parseInt(racaCor) : 0;
 
-                        if (verificaMunicipio(municipioResidencia, utilDbf.getString(rowObjects, "ID_MN_RESI"))) {
+                        if (verificaMunicipio(municipioResidencia, utilDbf.getString(rowObjects, "ID_MUNICIP"))) {
                             //verifica se a raca/cor é branca, preta, amarela, parda, indigena
                             if (isBetweenDates(dtNotificacao, dataInicio, dataFim)) {
                                 denominadorEspecifico ++;
