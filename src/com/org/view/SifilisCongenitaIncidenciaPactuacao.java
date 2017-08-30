@@ -203,7 +203,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends javax.swing.JPanel {
 
         chkExportarDbf.setText("Salvar resultado em DBF");
 
-        jLabel1.setText("Período de avaliação");
+        jLabel1.setText("Período de diagnóstico");
 
         javax.swing.GroupLayout panelOportunidadeLayout = new javax.swing.GroupLayout(panelOportunidade);
         panelOportunidade.setLayout(panelOportunidadeLayout);

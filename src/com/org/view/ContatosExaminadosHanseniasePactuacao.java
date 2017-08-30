@@ -43,14 +43,14 @@ import javax.swing.JFileChooser;
  *
  * @author geraldo
  */
-public class AidsIndicadorCriancaPactuacao extends javax.swing.JPanel {
+public class ContatosExaminadosHanseniasePactuacao extends javax.swing.JPanel {
 
     SessionFacadeImpl session = new SessionFacadeImpl();
 
     /**
      * Creates new form Oportunidade
      */
-    public AidsIndicadorCriancaPactuacao() {
+    public ContatosExaminadosHanseniasePactuacao() {
         initComponents();
         //    iniciaCombo(cbAgravo);
         //   dtAvaliacaoOportunidade.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
@@ -203,7 +203,7 @@ public class AidsIndicadorCriancaPactuacao extends javax.swing.JPanel {
 
         chkExportarDbf.setText("Salvar resultado em DBF");
 
-        jLabel1.setText("Período de diagnóstico");
+        jLabel1.setText("Período de avaliação");
 
         javax.swing.GroupLayout panelOportunidadeLayout = new javax.swing.GroupLayout(panelOportunidade);
         panelOportunidade.setLayout(panelOportunidadeLayout);
@@ -227,7 +227,7 @@ public class AidsIndicadorCriancaPactuacao extends javax.swing.JPanel {
                         .addGap(149, 149, 149)
                         .addComponent(chkExportarDbf)))
                 .addContainerGap(119, Short.MAX_VALUE))
-            .addComponent(pnlArquivos, javax.swing.GroupLayout.PREFERRED_SIZE, 411, Short.MAX_VALUE)
+            .addComponent(pnlArquivos, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
         );
         panelOportunidadeLayout.setVerticalGroup(
             panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,7 +287,7 @@ public class AidsIndicadorCriancaPactuacao extends javax.swing.JPanel {
             }
         });
 
-        cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "UF subdividida por Regiões de Saúde", "UF subdividida por Regionais de Saúde", "" }));
+        cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "UF subdividida por Regiões de Saúde", "UF subdividida por Regionais de Saúde", " " }));
         cbDesagregacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbDesagregacaoActionPerformed(evt);
@@ -390,7 +390,7 @@ public class AidsIndicadorCriancaPactuacao extends javax.swing.JPanel {
         FiltroArquivo filtro = new FiltroArquivo();
         filtro.addExtension("dbf");
         filtro.setDescription("Arquivo DBF");
-        filtro.addInicioNome("AIDSC");
+        filtro.addInicioNome("HANSN");
 
         //fileopen.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileopen.addChoosableFileFilter(filtro);
@@ -432,7 +432,7 @@ public class AidsIndicadorCriancaPactuacao extends javax.swing.JPanel {
         btCalcular.setEnabled(false);
         session = new SessionFacadeImpl();
         session.setTodosMunicipios(true);
-        SessionFacadeImpl.setNomeDbf("AIDSC");
+        SessionFacadeImpl.setNomeDbf("HANSN");
         
         this.prbStatus.setStringPainted(true);
         this.prbStatus.setValue(0);
@@ -486,7 +486,7 @@ public class AidsIndicadorCriancaPactuacao extends javax.swing.JPanel {
         session.setMunicipio(cbMunicipio.getSelectedItem().toString());
         session.setRegional(cbRegional.getSelectedItem().toString());
         session.setUf(cbUf.getSelectedItem().toString());
-        session.setRelatorio("AidsIndicadorCriancaPactuacao");
+        session.setRelatorio("ExaminadosHanseniasePactuacao");
         session.execute();
         btCalcular.setEnabled(true);
 

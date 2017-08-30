@@ -38,14 +38,14 @@ import org.apache.commons.collections.comparators.ComparatorChain;
  *
  * @author geraldo
  */
-public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
+public class ContatosExaminadosHanseniasePactuacao extends Agravo {
 
     static String ANO;
     Agravo municipioResidencia;
     HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
     DBFUtil utilDbf = new DBFUtil();
 
-    public SifilisCongenitaIncidenciaPactuacao(boolean isDbf) {
+    public ContatosExaminadosHanseniasePactuacao(boolean isDbf) {
         this.setDBF(isDbf);
         setPeriodo("de Diagnóstico");
         setTipoAgregacao("de Residência");
@@ -55,14 +55,14 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
     @Override
 
     public void init(String tipoBanco) {
-        this.setArquivo("SIFICNET");
+        this.setArquivo("HANSNET");
         this.setTextoCompletitude("");
         this.setMultiplicador(100000);
         this.setTipo("");
         this.setTipo("populacao");
-        this.setTitulo1("Número de casos novos de sífilis congênita em menores de um ano de idade");
+        this.setTitulo1("Proporção de contatos examinados de casos novos de hanseníase.");
         this.setTituloColuna("Indicador");
-        this.setRodape("Indicador: Número de casos novos de sífilis congênita em menores de um ano de idade  \n");
+        this.setRodape("Indicador: Proporção de contatos examinados de casos novos de hanseníase.  \n");
         this.setSqlNumeradorCompletitude("");
         if (!isDBF()) {
             this.setSqlNumeradorMunicipioEspecifico("select count(*) as numerador from dbsinan.tb_notificacao as t1, " + "dbsinan.tb_investiga_aids_crianca as t2 " + "where  t1.nu_notificacao=t2.nu_notificacao and " + "t1.dt_notificacao=t2.dt_notificacao and " + "t1.co_municipio_notificacao=t2.co_municipio_notificacao" + " and nu_idade < 4005 and tp_criterio_definicao not in (900,901) and (t1.dt_diagnostico_sintoma BETWEEN ?  " + "AND ?) and " + "t1.co_uf_residencia= ? and " + "t1.co_municipio_residencia = ?");
@@ -78,14 +78,19 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
     private void calculaIndicador(Object[] rowObjects, Map parametros) throws ParseException {
 
         Date dtDiagnostico;
-        Boolean CID_A509 = false;
-        Boolean DIAGNOSTICO_FINAL = false;
-        Boolean IDADE = false;
+        Boolean CID_A309 = false;
+        Boolean MODOENTR = false;
+        Boolean CLASSATUAL = false;
+        Boolean ESQ_ATU_N = false;
+        Boolean TP_ALTA_MUNICIPAL = false;
+        Boolean TP_ALTA_ESTADUAL = false;
 
         String total;
         DecimalFormat df = new DecimalFormat("0.00");
         int numerador = 0;
+        int denominador;
         int numeradorEstadual = 0;
+        int denominadorEstadual = 0;
 
         String dataInicio = (String) parametros.get("parDataInicio");
         String dataFim = (String) parametros.get("parDataFim");
@@ -98,25 +103,87 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
         dtDiagnostico = utilDbf.getDate(rowObjects, "DT_DIAG");
 
         if (utilDbf.getString(rowObjects, "ID_AGRAVO") != null) {
-            CID_A509 = utilDbf.getString(rowObjects, "ID_AGRAVO").equals("A509");
+            CID_A309 = utilDbf.getString(rowObjects, "ID_AGRAVO").equals("A309");
         }
-        if (utilDbf.getString(rowObjects, "EVO_DIAG_N") != null) {
-            DIAGNOSTICO_FINAL = utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 1 ||utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 3 || utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 2 || utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 4;
+        if (utilDbf.getString(rowObjects, "MODOENTR") != null) {
+            MODOENTR = utilDbf.getString(rowObjects, "MODOENTR").equals("1");
         }
-        if (utilDbf.getString(rowObjects, "NU_IDADE_N") != null) {
-            IDADE = utilDbf.getInt(rowObjects, "NU_IDADE_N") >= 0 && utilDbf.getInt(rowObjects, "NU_IDADE_N") < 4001;
+        if (utilDbf.getString(rowObjects, "CLASSATUAL") != null) {
+            CLASSATUAL = utilDbf.getString(rowObjects, "CLASSATUAL").equals("1") || utilDbf.getString(rowObjects, "CLASSATUAL").equals("2");
+        }
+        if (utilDbf.getString(rowObjects, "ESQ_ATU_N") != null) {
+            ESQ_ATU_N = utilDbf.getString(rowObjects, "ESQ_ATU_N").equals("1") || utilDbf.getString(rowObjects, "ESQ_ATU_N").equals("2");
+        }
+        if (utilDbf.getString(rowObjects, "TPALTA_N") != null) {
+            TP_ALTA_MUNICIPAL = utilDbf.getString(rowObjects, "TPALTA_N").equals("1")
+                    || utilDbf.getString(rowObjects, "TPALTA_N").equals("2")
+                    || utilDbf.getString(rowObjects, "TPALTA_N").equals("6")
+                    || utilDbf.getString(rowObjects, "TPALTA_N").equals("7")
+                    || utilDbf.getString(rowObjects, "TPALTA_N").isEmpty();
+        } else {
+            TP_ALTA_MUNICIPAL = true;
+        }
+        if (utilDbf.getString(rowObjects, "TPALTA_N") != null) {
+            TP_ALTA_ESTADUAL = utilDbf.getString(rowObjects, "TPALTA_N").equals("1")
+                    || utilDbf.getString(rowObjects, "TPALTA_N").equals("2")
+                    || utilDbf.getString(rowObjects, "TPALTA_N").equals("3")
+                    || utilDbf.getString(rowObjects, "TPALTA_N").equals("6")
+                    || utilDbf.getString(rowObjects, "TPALTA_N").equals("7")
+                    || utilDbf.getString(rowObjects, "TPALTA_N").isEmpty();
+        } else {
+            TP_ALTA_ESTADUAL = true;
         }
 
-        if (municipioResidencia != null && CID_A509 && DIAGNOSTICO_FINAL && IDADE) {
-            //AUTOCTONE = utilDbf.getString(rowObjects, "ID_MN_RESI").equals(utilDbf.getString(rowObjects, "COMUNINF"));
+        if (municipioResidencia != null && CID_A309 && MODOENTR && CLASSATUAL && ESQ_ATU_N) {
+
             if (isBetweenDates(dtDiagnostico, dataInicio, dataFim)) {
-                numerador = Integer.parseInt(municipioResidencia.getNumerador());
-                numerador++;
-                municipioResidencia.setNumerador(String.valueOf(numerador));
-                municipioResidencia.setNumeradorInt(numerador);
-                numeradorEstadual = (Integer) parametros.get("numeradorTotal");
-                numeradorEstadual++;
-                parametros.put("numeradorTotal", numeradorEstadual);
+                if (utilDbf.getString(rowObjects, "CONTREG") != null) {
+
+                    if (!(Boolean) parametros.get("parNenhum")) {
+                        if (TP_ALTA_MUNICIPAL) {
+                            numerador = Integer.parseInt(municipioResidencia.getNumerador());
+                            numerador += (utilDbf.getInt(rowObjects, "CONTREG"));
+                            municipioResidencia.setNumerador(String.valueOf(numerador));
+                            municipioResidencia.setNumeradorInt(numerador);
+                        }
+                    } else if (TP_ALTA_ESTADUAL) {
+                        numerador = Integer.parseInt(municipioResidencia.getNumerador());
+                        numerador += (utilDbf.getInt(rowObjects, "CONTREG"));
+                        municipioResidencia.setNumerador(String.valueOf(numerador));
+                        municipioResidencia.setNumeradorInt(numerador);
+
+                    }
+                    if (TP_ALTA_ESTADUAL) {
+                        numeradorEstadual = (Integer) parametros.get("numeradorTotal");
+                        numeradorEstadual += utilDbf.getInt(rowObjects, "CONTREG");
+                        parametros.put("numeradorTotal", numeradorEstadual);
+                    }
+                }
+                if (utilDbf.getString(rowObjects, "CONTEXAM") != null) {
+
+                    if (!(Boolean) parametros.get("parNenhum") ) {
+                        if (TP_ALTA_MUNICIPAL) {
+                            denominador = Integer.parseInt(municipioResidencia.getDenominador());
+                            denominador += utilDbf.getInt(rowObjects, "CONTEXAM");
+                            municipioResidencia.setDenominador(String.valueOf(denominador));
+                            municipioResidencia.setDenominadorInt(denominador);
+                        }
+                    } else if (TP_ALTA_ESTADUAL) {
+                        denominador = Integer.parseInt(municipioResidencia.getDenominador());
+                        denominador += utilDbf.getInt(rowObjects, "CONTEXAM");
+                        municipioResidencia.setDenominador(String.valueOf(denominador));
+                        municipioResidencia.setDenominadorInt(denominador);
+
+                    }
+
+                    if (TP_ALTA_ESTADUAL) {
+                        denominadorEstadual = (Integer) parametros.get("denominadorTotal");
+                        denominadorEstadual += utilDbf.getInt(rowObjects, "CONTEXAM");
+                        parametros.put("denominadorTotal", denominadorEstadual);
+                    }
+
+                }
+
             }
         }
     }
@@ -129,6 +196,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
         String codRegional = (String) parametros.get("parCodRegional");
         String codRegiao = (String) parametros.get("parCodRegiaoSaude");
         parametros.put("numeradorTotal", 0);
+        parametros.put("denominadorTotal", 0);
 
         if (codRegional == null) {
             codRegional = "";
@@ -160,12 +228,12 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
                     try {
                         //verifica se existe a referencia do municipio no bean
                         if ((Boolean) parametros.get("parIsRegiao")) {
-                            municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "ID_MN_RESI")));
+                            municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "MUNIRESAT")));
                         } else {
-                            municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "ID_MN_RESI")));
+                            municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "MUNIRESAT")));
                         }
                     } catch (SQLException ex) {
-                        Logger.getLogger(SifilisCongenitaIncidenciaPactuacao.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ContatosExaminadosHanseniasePactuacao.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     calculaIndicador(rowObjects, parametros);
                     //verifica se tem o parametro de municipio de residencia
@@ -247,7 +315,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
                     //cálculo da taxa estadual
                     //verifica a uf de residencia
 
-                    municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MN_RESI"));
+                    municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "MUNIRESAT"));
                     calculaIndicador(rowObjects, parametros);
 
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
@@ -345,7 +413,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "NOT_M1ANO", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_TBREG", "N_TBEXAM", "P_TBEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
     }
 
     @Override
@@ -356,7 +424,9 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
         hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
         hashColunas.put("NOME_CIR", new ColunasDbf(30));
-        hashColunas.put("NOT_M1ANO", new ColunasDbf(30));
+        hashColunas.put("D_TBREG", new ColunasDbf(30));
+        hashColunas.put("N_TBEXAM", new ColunasDbf(30));
+        hashColunas.put("P_TBEXAM", new ColunasDbf(30));
         hashColunas.put("ANO_DIAG", new ColunasDbf(30));
         hashColunas.put("DT_DIAGIN", new ColunasDbf(30));
         hashColunas.put("DT_DIAGFI", new ColunasDbf(30));
@@ -393,11 +463,18 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
             }
             rowData[2] = agravo.getNomeMunicipio();
             rowData[5] = agravo.getNumerador();
+            rowData[6] = agravo.getDenominador();
+            if (Integer.valueOf(agravo.getNumerador()) <= 0) {
+                rowData[7] = "0.0";
+            } else {
+                Double percentual = (Double.valueOf(agravo.getDenominador()) / Double.valueOf(agravo.getNumerador())) * 100;
+                rowData[7] = String.format("%.1f", percentual);
+            }
 
-            rowData[6] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
-            rowData[7] = getDataInicio();
-            rowData[8] = getDataFim();
-            rowData[9] = "SIFILIS-SINANNET";
+            rowData[8] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
+            rowData[9] = getDataInicio();
+            rowData[10] = getDataFim();
+            rowData[11] = "HANSENIASE-SINANNET";
             writer.addRecord(rowData);
         }
         return writer;
@@ -405,6 +482,6 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
 
     @Override
     public String getCaminhoJasper() {
-        return "/com/org/relatorios/SifilisCongenitaIncidenciaPactuacao.jasper";
+        return "/com/org/relatorios/ContatosExaminadoHanseniasePactuacao.jasper";
     }
 }

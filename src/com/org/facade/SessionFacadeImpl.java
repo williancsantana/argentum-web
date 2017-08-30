@@ -630,7 +630,12 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         }if (relatorio.equals("Proporção de cura dos casos novos de hanseníase diagnosticados nos anos das coortes")) {
             panel = new HanseniaseCoorteCura();
             this.relatorio = "HanseniaseCoorteCura";
+        }else if (relatorio.equals("Proporção de contatos examinados de casos novos de hanseníase")) {
+            panel = new com.org.view.ContatosExaminadosHanseniasePactuacao();
+            this.relatorio = "ExaminadosHanseniasePactuacao";
         }
+        
+        
 
         return panel;
     }
@@ -817,6 +822,18 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             agravo.setRegional(regional);
             agravo.setTemListagem(this.temListagem);
         }
+        if (relatorio.equals("ExaminadosHanseniasePactuacao")) {
+            agravo = new com.org.model.classes.agravos.ContatosExaminadosHanseniasePactuacao(isDbf());
+            agravo.setAnoAvaliado(this.anoAvaliado);
+            agravo.setDtInicioAvaliacao(this.dtInicioAvaliacao);
+            agravo.setDtFimAvaliacao(this.dtFimAvaliacao);
+            agravo.setDataAvaliacao(dataAvaliacao);
+            agravo.setUf(uf);
+            agravo.setMunicipio(municipio);
+            agravo.setRegional(regional);
+            agravo.setTemListagem(this.temListagem);
+        }
+        
 
         if (relatorio.equals("OportunidadeMalariaPactuacao")) {
             agravo = new com.org.model.classes.agravos.OportunidadeMalariaPactuacao(isDbf());
@@ -1083,7 +1100,6 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                     "Incidência de Sífilis Congênita",
                     "Número de notificações dos agravos à Saúde do trabalhador",
                     "Situação da coorte de casos novos de hanseníase",
-                    "Proporção de cura dos casos novos de hanseníase diagnosticados nos anos das coortes",
                     "Percentual de casos de hepatites B confirmados por sorologia",
                     "Taxa de letalidade das formas graves de dengue",
                     "Taxa de incidência de aids em menores de 5 anos de idade"
