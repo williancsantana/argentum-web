@@ -101,7 +101,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
             CID_A509 = utilDbf.getString(rowObjects, "ID_AGRAVO").equals("A509");
         }
         if (utilDbf.getString(rowObjects, "EVO_DIAG_N") != null) {
-            DIAGNOSTICO_FINAL = utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 1 || utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 2 || utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 4;
+            DIAGNOSTICO_FINAL = utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 1 ||utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 3 || utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 2 || utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 4;
         }
         if (utilDbf.getString(rowObjects, "NU_IDADE_N") != null) {
             IDADE = utilDbf.getInt(rowObjects, "NU_IDADE_N") >= 0 && utilDbf.getInt(rowObjects, "NU_IDADE_N") < 4001;

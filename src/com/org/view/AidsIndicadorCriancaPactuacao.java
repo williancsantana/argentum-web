@@ -203,7 +203,7 @@ public class AidsIndicadorCriancaPactuacao extends javax.swing.JPanel {
 
         chkExportarDbf.setText("Salvar resultado em DBF");
 
-        jLabel1.setText("Período de avaliação");
+        jLabel1.setText("Período de diagnóstico");
 
         javax.swing.GroupLayout panelOportunidadeLayout = new javax.swing.GroupLayout(panelOportunidade);
         panelOportunidade.setLayout(panelOportunidadeLayout);
@@ -227,7 +227,7 @@ public class AidsIndicadorCriancaPactuacao extends javax.swing.JPanel {
                         .addGap(149, 149, 149)
                         .addComponent(chkExportarDbf)))
                 .addContainerGap(119, Short.MAX_VALUE))
-            .addComponent(pnlArquivos, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+            .addComponent(pnlArquivos, javax.swing.GroupLayout.PREFERRED_SIZE, 411, Short.MAX_VALUE)
         );
         panelOportunidadeLayout.setVerticalGroup(
             panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

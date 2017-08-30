@@ -102,16 +102,12 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
         }
 
         if (utilDbf.getString(rowObjects, "CRITERIO") != null) {
-            CRITERIO = utilDbf.getString(rowObjects, "CRITERIO").equals("900") || utilDbf.getString(rowObjects, "CRITERIO").equals("901") ;
+            CRITERIO = !utilDbf.getString(rowObjects, "CRITERIO").equals("900") && !utilDbf.getString(rowObjects, "CRITERIO").equals("901") ;
         }
         if (utilDbf.getString(rowObjects, "NU_IDADE_N") != null) {
             IDADE = utilDbf.getInt(rowObjects, "NU_IDADE_N") >= 0 && utilDbf.getInt(rowObjects, "NU_IDADE_N") < 4005;
         }
         
-        if (utilDbf.getString(rowObjects, "ID_MN_RESI").equals("170950") ){
-            System.out.println("");
-        }
-
         if (municipioResidencia != null && CRITERIO && IDADE) {
             //AUTOCTONE = utilDbf.getString(rowObjects, "ID_MN_RESI").equals(utilDbf.getString(rowObjects, "COMUNINF"));
             if (isBetweenDates(dtDiagnostico, dataInicio, dataFim)) {
@@ -350,7 +346,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "NOT_M1ANO", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "NOT_M5ANO", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
     }
 
     @Override
@@ -361,7 +357,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
         hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
         hashColunas.put("NOME_CIR", new ColunasDbf(30));
-        hashColunas.put("NOT_M1ANO", new ColunasDbf(30));
+        hashColunas.put("NOT_M5ANO", new ColunasDbf(30));
         hashColunas.put("ANO_DIAG", new ColunasDbf(30));
         hashColunas.put("DT_DIAGIN", new ColunasDbf(30));
         hashColunas.put("DT_DIAGFI", new ColunasDbf(30));
