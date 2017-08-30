@@ -627,7 +627,12 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         } else if (relatorio.equals("Número de semanas epidemiológicas com informação")) {
             panel = new SemEpidPQAVS();
             this.relatorio = "SemEpidPQAVS";
+        }else if (relatorio.equals("Proporção de contatos examinados de casos novos de hanseníase")) {
+            panel = new com.org.view.ContatosExaminadosHanseniasePactuacao();
+            this.relatorio = "ExaminadosHanseniasePactuacao";
         }
+        
+        
 
         return panel;
     }
@@ -814,6 +819,18 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             agravo.setRegional(regional);
             agravo.setTemListagem(this.temListagem);
         }
+        if (relatorio.equals("ExaminadosHanseniasePactuacao")) {
+            agravo = new com.org.model.classes.agravos.ContatosExaminadosHanseniasePactuacao(isDbf());
+            agravo.setAnoAvaliado(this.anoAvaliado);
+            agravo.setDtInicioAvaliacao(this.dtInicioAvaliacao);
+            agravo.setDtFimAvaliacao(this.dtFimAvaliacao);
+            agravo.setDataAvaliacao(dataAvaliacao);
+            agravo.setUf(uf);
+            agravo.setMunicipio(municipio);
+            agravo.setRegional(regional);
+            agravo.setTemListagem(this.temListagem);
+        }
+        
 
         if (relatorio.equals("OportunidadeMalariaPactuacao")) {
             agravo = new com.org.model.classes.agravos.OportunidadeMalariaPactuacao(isDbf());
