@@ -555,6 +555,6 @@ public class ViolenciaAgravo extends Agravo {
 
     @Override
     public String getCaminhoJasper() {
-        return "/com/org/relatorios/violenciaPactuacao.jasper";
+        return "/com/org/relatorios/ViolenciaPactuacao.jasper";
     }
 }
