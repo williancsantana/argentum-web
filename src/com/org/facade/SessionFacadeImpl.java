@@ -255,12 +255,14 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 
             //montar o cFabeçalho do relatorio
             //1-nível de agregacao
-            if ((Boolean) parametros.get("parNenhum")) {
-                parametros.put("parDescricaoReg", "");
-            } else {
-                parametros.put("parDescricaoReg", "Regional de Saúde");
-                if ((Boolean) parametros.get("parIsRegiao") != null && (Boolean) parametros.get("parIsRegiao")) {
-                    parametros.put("parDescricaoReg", "Região de Saúde");
+            if (parametros.get("parNenhum") != null) {
+                if ((Boolean) parametros.get("parNenhum")) {
+                    parametros.put("parDescricaoReg", "");
+                } else {
+                    parametros.put("parDescricaoReg", "Regional de Saúde");
+                    if ((Boolean) parametros.get("parIsRegiao") != null && (Boolean) parametros.get("parIsRegiao")) {
+                        parametros.put("parDescricaoReg", "Região de Saúde");
+                    }
                 }
             }
 
@@ -613,7 +615,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             panel = new OportunidadePQAVSPactuacao();
             this.relatorio = "OportunidadePQAVSPactuacao";
         } else if (relatorio.equals("Número de casos autóctones de malária")) {
-            panel = new AutoctonesMalaria();
+            panel = new AutoctonesMalariaPactuacao();
             this.relatorio = "AutoctonesMalariaPactuacao";
         } else if (relatorio.equals("Proporção de casos de malária que iniciaram tratamento em tempo oportuno")) {
             panel = new com.org.view.OportunidadeMalariaPactuacao();
@@ -621,18 +623,19 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         } else if (relatorio.equals("Proporção de contatos examinados de casos novos de tuberculose")) {
             panel = new com.org.view.ContatosExaminadosTuberculosePactuacao();
             this.relatorio = "ExaminadosTuberculosePactuacao";
-        }else if (relatorio.equals("Proporção de notificações de Violência interpessoal e autoprovocada com o campo raça/cor preenchido com informação válida")) {
+        } else if (relatorio.equals("Proporção de notificações de Violência interpessoal e autoprovocada com o campo raça/cor preenchido com informação válida")) {
             panel = new Violencia();
             this.relatorio = "Violencia";
         } else if (relatorio.equals("Número de semanas epidemiológicas com informação")) {
             panel = new SemEpidPQAVS();
             this.relatorio = "SemEpidPQAVS";
-        }else if (relatorio.equals("Proporção de contatos examinados de casos novos de hanseníase")) {
+        } else if (relatorio.equals("Proporção de contatos examinados de casos novos de hanseníase")) {
             panel = new com.org.view.ContatosExaminadosHanseniasePactuacao();
             this.relatorio = "ExaminadosHanseniasePactuacao";
+        }else if (relatorio.equals("Proporção de preenchimento do campo ocupação")) {
+            panel = new com.org.view.PreenchimentoOcupacaoTrabalhadorPactuacao();
+            this.relatorio = "PreenchimentoOcupacaoTrabalhadorPactuacao";
         }
-        
-        
 
         return panel;
     }
@@ -721,7 +724,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             this.relatorio = "SaudeTrabalhador";
         }
         if (relatorio.equals("Número de casos autóctones de malária")) {
-            panel = new AutoctonesMalaria();
+            panel = new AutoctonesMalariaPactuacao();
             this.relatorio = "AutoctonesMalariaPactuacao";
         }
 
@@ -808,6 +811,20 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             agravo.setRegional(regional);
             agravo.setTemListagem(this.temListagem);
         }
+        
+        if (relatorio.equals("PreenchimentoOcupacaoTrabalhadorPactuacao")) {
+            agravo = new com.org.model.classes.agravos.PreenchimentoOcupacaoTrabalhadorPactuacao(isDbf());
+            agravo.setAnoAvaliado(this.anoAvaliado);
+            agravo.setDtInicioAvaliacao(this.dtInicioAvaliacao);
+            agravo.setDtFimAvaliacao(this.dtFimAvaliacao);
+            agravo.setDataAvaliacao(dataAvaliacao);
+            agravo.setUf(uf);
+            agravo.setMunicipio(municipio);
+            agravo.setRegional(regional);
+            agravo.setTemListagem(this.temListagem);
+        }
+        
+        
         if (relatorio.equals("ExaminadosTuberculosePactuacao")) {
             agravo = new com.org.model.classes.agravos.ContatosExaminadosTuberculosePactuacao(isDbf());
             agravo.setAnoAvaliado(this.anoAvaliado);
@@ -830,7 +847,6 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             agravo.setRegional(regional);
             agravo.setTemListagem(this.temListagem);
         }
-        
 
         if (relatorio.equals("OportunidadeMalariaPactuacao")) {
             agravo = new com.org.model.classes.agravos.OportunidadeMalariaPactuacao(isDbf());
@@ -1103,7 +1119,8 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 relatorios = new String[]{"Selecione o Relatório", "Número de casos novos de AIDS em menores de 5 anos",
                     "Número de casos novos de sífilis congênita em menores de 1 ano de idade",
                     "Proporção de casos DNCI encerrados em até 60 dias após notificação",
-                    "Número de casos autóctones de malária"
+                    "Número de casos autóctones de malária",
+                    "Proporção de preenchimento do campo ocupação"
                 };
             }
             if (grupo.equals("PACTO 2008/2009")) {

@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -38,14 +39,14 @@ import org.apache.commons.collections.comparators.ComparatorChain;
  *
  * @author geraldo
  */
-public class AidsIndicadorCriancaPactuacao extends Agravo {
+public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
 
     static String ANO;
     Agravo municipioResidencia;
     HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
     DBFUtil utilDbf = new DBFUtil();
 
-    public AidsIndicadorCriancaPactuacao(boolean isDbf) {
+    public PreenchimentoOcupacaoTrabalhadorPactuacao(boolean isDbf) {
         this.setDBF(isDbf);
         setPeriodo("de Diagnóstico");
         setTipoAgregacao("de Residência");
@@ -53,16 +54,15 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
     }
 
     @Override
-
     public void init(String tipoBanco) {
-        this.setArquivo("SIFICNET");
+        this.setArquivo("ACIBIONETT");
         this.setTextoCompletitude("");
         this.setMultiplicador(100000);
         this.setTipo("");
         this.setTipo("populacao");
-        this.setTitulo1("Número de casos novos de AIDS em menores de 5 anos.");
+        this.setTitulo1("Proporção de preenchimento do campo “ocupação” nas notificações de agravos relacionados ao trabalho");
         this.setTituloColuna("Indicador");
-        this.setRodape("Indicador: Número de casos novos de AIDS em menores de 5 anos.  \n");
+        this.setRodape("Indicador: Proporção de preenchimento do campo “ocupação” nas notificações de agravos relacionados ao trabalho  \n");
         this.setSqlNumeradorCompletitude("");
         if (!isDBF()) {
             this.setSqlNumeradorMunicipioEspecifico("select count(*) as numerador from dbsinan.tb_notificacao as t1, " + "dbsinan.tb_investiga_aids_crianca as t2 " + "where  t1.nu_notificacao=t2.nu_notificacao and " + "t1.dt_notificacao=t2.dt_notificacao and " + "t1.co_municipio_notificacao=t2.co_municipio_notificacao" + " and nu_idade < 4005 and tp_criterio_definicao not in (900,901) and (t1.dt_diagnostico_sintoma BETWEEN ?  " + "AND ?) and " + "t1.co_uf_residencia= ? and " + "t1.co_municipio_residencia = ?");
@@ -78,38 +78,42 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
     private void calculaIndicador(Object[] rowObjects, Map parametros) throws ParseException {
 
         Date dtDiagnostico;
-        Boolean CID_A509 = false;
-        Boolean CRITERIO = false;
-        Boolean IDADE = false;
+        Boolean CID_Z209 = false;
+        Boolean CID_Y96 = false;
+        Boolean CID_T659 = false;
+        Boolean ID_OCUPACAO_N = false;
+        Boolean DOENCA_TRA = false;
 
-        String total;
-        DecimalFormat df = new DecimalFormat("0.00");
         int numerador = 0;
+        int denominador = 0;
         int numeradorEstadual = 0;
+        int denominadorEstadual = 0;
 
         String dataInicio = (String) parametros.get("parDataInicio");
         String dataFim = (String) parametros.get("parDataFim");
 
-        // if (utilDbf.getString(rowObjects, "SG_UF") != null) {
-        //verifica se existe a referencia do municipio no bean
-        //municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MN_RESI"));
+        java.sql.Date dtPrimeirosSintomas = null;
+        java.sql.Date dtTratamento = null;
+
         //verifica se tem o parametro de municipio de residencia
         //Critérios
-        dtDiagnostico = utilDbf.getDate(rowObjects, "DT_DIAG");
+        CID_Z209 = utilDbf.getString(rowObjects, "ID_AGRAVO").equals("Z209");
+        CID_Y96 = utilDbf.getString(rowObjects, "ID_AGRAVO").equals("Y96");
 
-        if (utilDbf.getString(rowObjects, "ID_AGRAVO") != null) {
-            CID_A509 = utilDbf.getString(rowObjects, "ID_AGRAVO").equals("B24");
+        CID_T659 = utilDbf.getString(rowObjects, "ID_AGRAVO").equals("T659");
+        if (CID_T659) {
+            if (utilDbf.getString(rowObjects, "DOENCA_TRA") != null) {
+                DOENCA_TRA = utilDbf.getString(rowObjects, "DOENCA_TRA").equals("1");
+            }
         }
 
-        if (utilDbf.getString(rowObjects, "CRITERIO") != null) {
-            CRITERIO = !utilDbf.getString(rowObjects, "CRITERIO").equals("900") && !utilDbf.getString(rowObjects, "CRITERIO").equals("901");
-        }
-        if (utilDbf.getString(rowObjects, "NU_IDADE_N") != null) {
-            IDADE = utilDbf.getInt(rowObjects, "NU_IDADE_N") >= 0 && utilDbf.getInt(rowObjects, "NU_IDADE_N") < 4005;
+        if (utilDbf.getString(rowObjects, "ID_OCUPA_N") != null) {
+            ID_OCUPACAO_N = !utilDbf.getString(rowObjects, "ID_OCUPA_N").isEmpty();
         }
 
-        if (municipioResidencia != null && CRITERIO && IDADE) {
-            //AUTOCTONE = utilDbf.getString(rowObjects, "ID_MN_RESI").equals(utilDbf.getString(rowObjects, "COMUNINF"));
+        dtDiagnostico = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
+
+        if (municipioResidencia != null && (CID_Z209 || CID_Y96 || (CID_T659 && DOENCA_TRA))) {
             if (isBetweenDates(dtDiagnostico, dataInicio, dataFim)) {
                 numerador = Integer.parseInt(municipioResidencia.getNumerador());
                 numerador++;
@@ -118,18 +122,28 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
                 numeradorEstadual = (Integer) parametros.get("numeradorTotal");
                 numeradorEstadual++;
                 parametros.put("numeradorTotal", numeradorEstadual);
+                if (ID_OCUPACAO_N) {
+                    denominador = Integer.parseInt(municipioResidencia.getDenominador());
+                    denominador++;
+                    municipioResidencia.setDenominador(String.valueOf(denominador));
+                    municipioResidencia.setDenominadorInt(denominador);
+                    denominadorEstadual = (Integer) parametros.get("denominadorTotal");
+                    denominadorEstadual++;
+                    parametros.put("denominadorTotal", denominadorEstadual);
+                }
             }
         }
+
     }
 
     private void calculaRegiao(DBFReader reader, Map parametros) throws ParseException {
         //buscar os municipios que vao para o resultado
-
         String ufResidencia = (String) parametros.get("parUf");
         String sgUfResidencia = (String) parametros.get("parSgUf");
         String codRegional = (String) parametros.get("parCodRegional");
         String codRegiao = (String) parametros.get("parCodRegiaoSaude");
         parametros.put("numeradorTotal", 0);
+        parametros.put("denominadorTotal", 0);
 
         if (codRegional == null) {
             codRegional = "";
@@ -143,8 +157,6 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
         //inicia o calculo
         Object[] rowObjects;
 
-        String total;
-        DecimalFormat df = new DecimalFormat("0.00");
         String dataInicio = (String) parametros.get("parDataInicio");
         String dataFim = (String) parametros.get("parDataFim");
         //loop para ler os arquivos selecionados
@@ -158,19 +170,21 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
                 while ((rowObjects = reader.nextRecord()) != null) {
                     //cálculo da taxa estadual
                     //verifica a uf de residencia
-                    try {
-                        //verifica se existe a referencia do municipio no bean
-                        if ((Boolean) parametros.get("parIsRegiao")) {
-                            municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "ID_MN_RESI")));
-                        } else {
-                            municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "ID_MN_RESI")));
+                    if (utilDbf.getString(rowObjects, "SG_UF_NOT") != null) {
+                        try {
+                            //verifica se existe a referencia do municipio no bean
+                            if ((Boolean) parametros.get("parIsRegiao")) {
+                                municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
+                            } else {
+                                municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
+                            }
+                        } catch (SQLException ex) {
+                            Logger.getLogger(AutoctoneMalariaPactuacao.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(AidsIndicadorCriancaPactuacao.class.getName()).log(Level.SEVERE, null, ex);
+                        calculaIndicador(rowObjects, parametros);
+                        //verifica se tem o parametro de municipio de residencia
+                        //Critérios
                     }
-                    calculaIndicador(rowObjects, parametros);
-                    //verifica se tem o parametro de municipio de residencia
-                    //Critérios
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
                     getBarraStatus().setValue((int) percentual);
                     i++;
@@ -208,12 +222,14 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
 
     private void calculaMunicipios(DBFReader reader, Map parametros) throws ParseException {
         //buscar os municipios que vao para o resultado
-
-        // HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
         String ufResidencia = (String) parametros.get("parUf");
         String sgUfResidencia = (String) parametros.get("parSgUf");
         String codRegional = (String) parametros.get("parCodRegional");
         String codRegiao = (String) parametros.get("parCodRegiaoSaude");
+        parametros.put("numeradorTotal", 0);
+        parametros.put("denominadorTotal", 0);
+        String dataInicio = (String) parametros.get("parDataInicio");
+        String dataFim = (String) parametros.get("parDataFim");
 
         if (codRegional == null) {
             codRegional = "";
@@ -231,11 +247,6 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
         //inicia o calculo
         Object[] rowObjects;
 
-        String dataInicio = (String) parametros.get("parDataInicio");
-        String dataFim = (String) parametros.get("parDataFim");
-        parametros.put("numeradorTotal", 0);
-        parametros.put("denominadorTotal", 0);
-
         //loop para ler os arquivos selecionados
         String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
         for (int k = 0; k < arquivos.length; k++) {
@@ -247,9 +258,13 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
                 while ((rowObjects = reader.nextRecord()) != null) {
                     //cálculo da taxa estadual
                     //verifica a uf de residencia
-
-                    municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MN_RESI"));
-                    calculaIndicador(rowObjects, parametros);
+                    if (utilDbf.getString(rowObjects, "SG_UF_NOT") != null) {
+                        //verifica se existe a referencia do municipio no bean
+                        municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
+                        //verifica se tem o parametro de municipio de residencia
+                        //Critérios
+                        calculaIndicador(rowObjects, parametros);
+                    }
 
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
                     getBarraStatus().setValue((int) percentual);
@@ -284,6 +299,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
                     new BeanComparator("regional"),
                     new BeanComparator("nomeMunicipio")));
         }
+
         Collections.sort(this.getBeans(), chain);
 
         //calcular o total
@@ -327,7 +343,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
                     //cálculo da taxa estadual
                     //verifica a uf de residencia
 
-                    municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MN_RESI"));
+                    municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
                     calculaIndicador(rowObjects, parametros);
 
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
@@ -358,6 +374,56 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
         Collections.sort(this.getBeans(), chain);
         //calcular o total
         this.getBeans().add(adicionaTotal(municipioBean, ""));
+    }
+
+    public static int dataDiff(Date dataLow, Date dataHigh) {
+
+        GregorianCalendar startTime = new GregorianCalendar();
+        GregorianCalendar endTime = new GregorianCalendar();
+
+        GregorianCalendar curTime = new GregorianCalendar();
+        GregorianCalendar baseTime = new GregorianCalendar();
+        try {
+            startTime.setTime(dataLow);
+            endTime.setTime(dataHigh);
+            int dif_multiplier = 1;
+
+            // Verifica a ordem de inicio das datas
+            if (dataLow.compareTo(dataHigh) < 0) {
+                baseTime.setTime(dataHigh);
+                curTime.setTime(dataLow);
+                dif_multiplier = 1;
+            } else {
+                baseTime.setTime(dataLow);
+                curTime.setTime(dataHigh);
+                dif_multiplier = -1;
+            }
+
+            int result_years = 0;
+            int result_months = 0;
+            int result_days = 0;
+
+            // Para cada mes e ano, vai de mes em mes pegar o ultimo dia para import acumulando
+            // no total de dias. Ja leva em consideracao ano bissesto
+            while (curTime.get(GregorianCalendar.YEAR) < baseTime.get(GregorianCalendar.YEAR) || curTime.get(GregorianCalendar.MONTH) < baseTime.get(GregorianCalendar.MONTH)) {
+
+                int max_day = curTime.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+                result_months += max_day;
+                curTime.add(GregorianCalendar.MONTH, 1);
+
+            }
+
+            // Marca que é um saldo negativo ou positivo
+            result_months = result_months * dif_multiplier;
+
+            // Retirna a diferenca de dias do total dos meses
+            result_days += (endTime.get(GregorianCalendar.DAY_OF_MONTH) - startTime.get(GregorianCalendar.DAY_OF_MONTH));
+
+            return result_years + result_months + result_days;
+        } catch (Exception e) {
+            System.out.println(e);
+            return -1;
+        }
     }
 
     @Override
@@ -391,7 +457,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
         parametros.put("parAno", Util.getAno(this.getDtFimAvaliacao()));
         parametros.put("parRodape", this.getRodape());
         parametros.put("parConfig", "");
-        parametros.put("parTitulo1", "Número de casos autóctones de malária.");
+        parametros.put("parTitulo1", "Proporçao de Casos de Malária que iniciaram tratamento em tempo oportuno.");
         //pegar o ano para exportar para dbf
         ANO = "";
         if (Util.getAno(this.getDtFimAvaliacao()).equals(Util.getAno(this.getDtInicioAvaliacao()))) {
@@ -405,7 +471,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "NOT_M5ANO", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_TBREG", "N_TBEXAM", "P_TBEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
     }
 
     @Override
@@ -416,12 +482,13 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
         hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
         hashColunas.put("NOME_CIR", new ColunasDbf(30));
-        hashColunas.put("NOT_M5ANO", new ColunasDbf(30));
+        hashColunas.put("D_TBREG", new ColunasDbf(30));
+        hashColunas.put("N_TBEXAM", new ColunasDbf(30));
+        hashColunas.put("P_TBEXAM", new ColunasDbf(30));
         hashColunas.put("ANO_DIAG", new ColunasDbf(30));
         hashColunas.put("DT_DIAGIN", new ColunasDbf(30));
         hashColunas.put("DT_DIAGFI", new ColunasDbf(30));
         hashColunas.put("ORIGEM", new ColunasDbf(30));
-
         this.setColunas(hashColunas);
         return hashColunas;
     }
@@ -453,11 +520,18 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
             }
             rowData[2] = agravo.getNomeMunicipio();
             rowData[5] = agravo.getNumerador();
+            rowData[6] = agravo.getDenominador();
+            if (Integer.valueOf(agravo.getNumerador()) <= 0) {
+                rowData[7] = "0.0";
+            } else {
+                Double percentual = (Double.valueOf(agravo.getDenominador()) / Double.valueOf(agravo.getNumerador())) * 100;
+                rowData[7] = String.format("%.1f", percentual);
+            }
 
-            rowData[6] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
-            rowData[7] = getDataInicio();
-            rowData[8] = getDataFim();
-            rowData[9] = "AIDSC-SINANNET";
+            rowData[8] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
+            rowData[9] = getDataInicio();
+            rowData[10] = getDataFim();
+            rowData[11] = "SaudeTrabalhador-SINANNET";
             writer.addRecord(rowData);
         }
         return writer;
@@ -465,6 +539,6 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
 
     @Override
     public String getCaminhoJasper() {
-        return "/com/org/relatorios/AidsIndicadorCriancaPactucao.jasper";
+        return "/com/org/relatorios/PreenchimentoOcupacaoTrabalhadorPactuacao.jasper";
     }
 }

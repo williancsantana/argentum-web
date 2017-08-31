@@ -1195,6 +1195,8 @@ public class Agravo {
                                 agravoDbf.setCodRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO"));
                                 agravoDbf.setDenominador("0");
                                 agravoDbf.setNumerador("0");
+                                agravoDbf.setDenominadorInt(0);
+                                agravoDbf.setNumeradorInt(0);
                                 municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
                                 municipiosBeans.put(agravoDbf.getCodMunicipio(), agravoDbf);
                             }
@@ -1221,6 +1223,9 @@ public class Agravo {
                                 agravoDbf.setCodRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO"));
                                 agravoDbf.setDenominador("0");
                                 agravoDbf.setNumerador("0");
+                                agravoDbf.setDenominadorInt(0);
+                                agravoDbf.setNumeradorInt(0);
+
                                 municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
                                 municipiosBeans.put(agravoDbf.getCodMunicipio(), agravoDbf);
                             }
