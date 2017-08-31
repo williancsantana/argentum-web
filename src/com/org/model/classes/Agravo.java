@@ -1070,6 +1070,122 @@ public class Agravo {
 
     }
 
+    public HashMap<String, Agravo> populaMunicipiosBeansMAL(String sgUfResidencia, String codRegiao, String municipio, String regiao) {
+
+        DBFUtil utilDbf = new DBFUtil();
+        HashMap<String, String> municipios = new HashMap<String, String>();
+        HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
+        //se codRegional estiver preenchida, deve buscar somente os municipios pertencentes a ela
+        //busca municipios dessa regional
+        DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
+        Object[] rowObjects1;
+
+        Boolean sgUF = false;
+        Boolean reg = false;
+        Boolean temReg = false;
+        Boolean temMunicipio = false;
+        Boolean MunicipioIgual = false;
+        Boolean somenteMunicipios = false;
+        int i = 1;
+
+        try {
+            utilDbf.mapearPosicoes(readerMunicipio);
+            double TotalRegistros = Double.parseDouble(String.valueOf(readerMunicipio.getRecordCount()));
+            while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
+                if (utilDbf.getString(rowObjects1, "SG_UF") != null && sgUfResidencia != "TODAS") {
+                    sgUF = (utilDbf.getString(rowObjects1, "SG_UF").equals(sgUfResidencia));
+                }
+                if (regiao.equals("true")) {
+                    if (utilDbf.getString(rowObjects1, "ID_REGIAO") != null) {
+                        reg = utilDbf.getString(rowObjects1, "ID_REGIAO").equals(codRegiao);
+                    }
+                } else {
+                    if (utilDbf.getString(rowObjects1, "ID_REGIONA") != null) {
+                        reg = utilDbf.getString(rowObjects1, "ID_REGIONA").equals(codRegiao);
+                    }
+                }
+                if (sgUfResidencia.equals("TODAS")) {
+                    if (!codRegiao.isEmpty()) {
+                        if (regiao.equals("true")) {
+                            if (utilDbf.getString(rowObjects1, "ID_REGIAO") != null) {
+                                temReg = true;
+                            }
+                        } else {
+                            if (utilDbf.getString(rowObjects1, "ID_REGIONA") != null) {
+                                temReg = true;
+                            }
+                        }
+                    }else{
+                        somenteMunicipios = true;
+                    }
+                }
+
+                if (!municipio.equals("TODOS") && !municipio.equals("NENHUM")) {
+                    temMunicipio = true;
+                    MunicipioIgual = utilDbf.getString(rowObjects1, "ID_MUNICIP").equals(municipio);
+                }
+
+                if (temReg || somenteMunicipios || (sgUF && codRegiao.length() == 0) || (reg && !(codRegiao.length() == 0))) {
+                    if (!utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
+                        if (!temMunicipio || MunicipioIgual) {
+                            Agravo agravoDbf = new Agravo();
+                            agravoDbf.setCodMunicipio(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
+                            agravoDbf.setNomeMunicipio(utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                            agravoDbf.setUf(utilDbf.getString(rowObjects1, "SG_UF"));
+                            if (regiao.equals("true")) {
+                                agravoDbf.setCodRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO"));
+                            } else {
+                                agravoDbf.setCodRegional(utilDbf.getString(rowObjects1, "ID_REGIONA"));
+                            }
+                            try {
+                                if (regiao.equals("true")) {
+                                    agravoDbf.setRegiaoSaude(buscaRegiaoSaude(agravoDbf.getCodRegiaoSaude()));
+                                } else {
+                                    agravoDbf.setRegional(buscaRegionalSaude(agravoDbf.getCodRegional()));
+                                }
+
+                                if (agravoDbf.getRegiaoSaude() == null) {
+                                    agravoDbf.setRegiaoSaude("");
+                                }
+                                if (agravoDbf.getRegional() == null) {
+                                    agravoDbf.setRegional("");
+                                }
+
+                            } catch (SQLException ex) {
+                                Logger.getLogger(Agravo.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            agravoDbf.setDenominador("0");
+                            agravoDbf.setNumerador("0");
+                            agravoDbf.setNumeradorInt(0);
+                            agravoDbf.setDenominadorInt(0);
+                            municipios.put(utilDbf.getString(rowObjects1, "ID_MUNICIP"), utilDbf.getString(rowObjects1, "NM_MUNICIP"));
+                            municipiosBeans.put(agravoDbf.getCodMunicipio(), agravoDbf);
+                        }
+                    }
+                }
+                temReg = false;
+                float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                getBarraStatus().setValue((int) percentual);
+                i++;
+
+            }
+        } catch (DBFException e) {
+            Master.mensagem("Erro ao carregar municipios:\n" + e);
+        }
+
+        municipios = sortHashMapByValues(municipios, false);
+        Set<String> municipiosKeys = municipios.keySet();
+        HashMap<String, Agravo> municipiosBeansRetorno = new HashMap<String, Agravo>();
+        Iterator valueIt = municipiosKeys.iterator();
+        while (valueIt.hasNext()) {
+            String key = (String) valueIt.next();
+            municipiosBeansRetorno.put(key, municipiosBeans.get(key));
+
+        }
+        return municipiosBeansRetorno;
+
+    }
+
     public HashMap<String, Agravo> populaMunicipiosBeansMAL(String sgUfResidencia, String codRegiao, String regiao) {
         DBFUtil utilDbf = new DBFUtil();
         HashMap<String, String> municipios = new HashMap<String, String>();
@@ -1082,6 +1198,7 @@ public class Agravo {
         Boolean sgUF = false;
         Boolean reg = false;
         Boolean temReg = false;
+        Boolean temMunicipio = false;
         int i = 1;
 
         try {
@@ -1090,9 +1207,6 @@ public class Agravo {
             while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
                 if (utilDbf.getString(rowObjects1, "SG_UF") != null && sgUfResidencia != "TODAS") {
                     sgUF = (utilDbf.getString(rowObjects1, "SG_UF").equals(sgUfResidencia));
-                }
-                if (utilDbf.getString(rowObjects1, "SG_UF").equals("TO")) {
-                    System.out.println("");
                 }
                 if (regiao.equals("true")) {
                     if (utilDbf.getString(rowObjects1, "ID_REGIAO") != null) {
@@ -1115,6 +1229,9 @@ public class Agravo {
                     }
                 }
 
+                if (temMunicipio) {
+
+                }
                 if (temReg || (sgUF && codRegiao.length() == 0) || (reg && !(codRegiao.length() == 0))) {
                     if (!utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
                         Agravo agravoDbf = new Agravo();
@@ -1602,7 +1719,7 @@ public class Agravo {
         }
         return municipiosBeansRetorno;
     }
-    
+
     public HashMap<String, HanseniaseCoorteCura> populaMunicipiosBeansHansCura(String sgUfResidencia, String codRegional) {
         DBFUtil utilDbf = new DBFUtil();
         HashMap<String, String> municipios = new HashMap<String, String>();

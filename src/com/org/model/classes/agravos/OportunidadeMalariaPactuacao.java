@@ -256,6 +256,12 @@ public class OportunidadeMalariaPactuacao extends Agravo {
         parametros.put("denominadorTotal", 0);
         String dataInicio = (String) parametros.get("parDataInicio");
         String dataFim = (String) parametros.get("parDataFim");
+        String idMunicipio;
+        if (parametros.get("parMunicipio") != null) {
+            idMunicipio = (String) parametros.get("parMunicipio");
+        } else {
+            idMunicipio = "TODOS";
+        }
 
         if (codRegional == null) {
             codRegional = "";
@@ -265,9 +271,9 @@ public class OportunidadeMalariaPactuacao extends Agravo {
         }
 
         if ((Boolean) parametros.get("parIsRegiao")) {
-            municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, parametros.get("parIsRegiao").toString());
+            municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, idMunicipio, parametros.get("parIsRegiao").toString());
         } else {
-            municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, parametros.get("parIsRegiao").toString());
+            municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, idMunicipio, parametros.get("parIsRegiao").toString());
         }
         //municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
         //inicia o calculo
@@ -342,12 +348,14 @@ public class OportunidadeMalariaPactuacao extends Agravo {
         // HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
         String ufResidencia = (String) parametros.get("parUf");
         String sgUfResidencia = (String) parametros.get("parSgUf");
-
-        if (sgUfResidencia.equals("TODAS")) {
-            sgUfResidencia = "BR";
+        String idMunicipio;
+        if (parametros.get("parMunicipio") != null) {
+            idMunicipio = (String) parametros.get("parMunicipio");
+        } else {
+            idMunicipio = "TODOS";
         }
 
-        municipiosBeans = populaMunicipiosBeansPactuacao(sgUfResidencia, "");
+        municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, "", idMunicipio, "false");
         //municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
         //inicia o calculo
         Object[] rowObjects;

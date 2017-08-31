@@ -83,6 +83,7 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
         Boolean CID_T659 = false;
         Boolean ID_OCUPACAO_N = false;
         Boolean DOENCA_TRA = false;
+        Boolean OCUPACAO_INVALIDA = false;
 
         int numerador = 0;
         int denominador = 0;
@@ -94,6 +95,15 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
 
         java.sql.Date dtPrimeirosSintomas = null;
         java.sql.Date dtTratamento = null;
+
+        ArrayList<String> invalidos = new ArrayList<String>();
+
+        invalidos.add("999991");
+        invalidos.add("999992");
+        invalidos.add("999993");
+        invalidos.add("999994");
+        invalidos.add("999995");
+        invalidos.add("998999");
 
         //verifica se tem o parametro de municipio de residencia
         //Critérios
@@ -108,7 +118,9 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
         }
 
         if (utilDbf.getString(rowObjects, "ID_OCUPA_N") != null) {
-            ID_OCUPACAO_N = !utilDbf.getString(rowObjects, "ID_OCUPA_N").isEmpty();
+            if (!invalidos.contains(utilDbf.getString(rowObjects, "ID_OCUPA_N"))) {
+                ID_OCUPACAO_N = !utilDbf.getString(rowObjects, "ID_OCUPA_N").isEmpty();
+            }
         }
 
         dtDiagnostico = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
@@ -226,6 +238,12 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
         String sgUfResidencia = (String) parametros.get("parSgUf");
         String codRegional = (String) parametros.get("parCodRegional");
         String codRegiao = (String) parametros.get("parCodRegiaoSaude");
+        String idMunicipio;
+        if (parametros.get("parMunicipio") != null) {
+            idMunicipio = (String) parametros.get("parMunicipio");
+        } else {
+            idMunicipio = "TODOS";
+        }
         parametros.put("numeradorTotal", 0);
         parametros.put("denominadorTotal", 0);
         String dataInicio = (String) parametros.get("parDataInicio");
@@ -239,9 +257,9 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
         }
 
         if ((Boolean) parametros.get("parIsRegiao")) {
-            municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, parametros.get("parIsRegiao").toString());
+            municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, idMunicipio, parametros.get("parIsRegiao").toString());
         } else {
-            municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, parametros.get("parIsRegiao").toString());
+            municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, idMunicipio, parametros.get("parIsRegiao").toString());
         }
         //municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
         //inicia o calculo
@@ -316,12 +334,20 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
         // HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
         String ufResidencia = (String) parametros.get("parUf");
         String sgUfResidencia = (String) parametros.get("parSgUf");
-
-        if (sgUfResidencia.equals("TODAS")) {
-            sgUfResidencia = "BR";
+        
+        String idMunicipio;
+        if (parametros.get("parMunicipio") != null) {
+            idMunicipio = (String) parametros.get("parMunicipio");
+        } else {
+            idMunicipio = "TODOS";
         }
 
-        municipiosBeans = populaMunicipiosBeansPactuacao(sgUfResidencia, "");
+
+    /*    if (sgUfResidencia.equals("TODAS")) {
+            sgUfResidencia = "BR";
+        }*/
+
+        municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, "", idMunicipio, "false");
         //municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
         //inicia o calculo
         Object[] rowObjects;

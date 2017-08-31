@@ -91,9 +91,11 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends javax.swing.JPane
             return false;
         }
 
-        if (cbRegional.getSelectedItem().toString().equals("-- Selecione --")) {
-            SinanUtil.mensagem("Selecione região de saúde");
-            return false;
+        if (!cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
+            if (cbRegional.getSelectedItem().toString().equals("-- Selecione --")) {
+                SinanUtil.mensagem("Selecione região de saúde");
+                return false;
+            }
         }
         if (cbMunicipio.getSelectedItem().toString().equals("-- Selecione --")) {
             SinanUtil.mensagem("Selecione município");
@@ -304,34 +306,31 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends javax.swing.JPane
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblRegional)
-                                    .addComponent(jLabel4)
-                                    .addComponent(lblDesagregacao)
-                                    .addComponent(lblUF))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(cbMunicipio, javax.swing.GroupLayout.Alignment.LEADING, 0, 225, Short.MAX_VALUE)
-                                        .addComponent(cbRegional, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(cbDesagregacao, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbUf, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(83, 83, 83)
-                                .addComponent(btCalcular)
-                                .addGap(87, 87, 87)
-                                .addComponent(btLimpar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(panelOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(prbStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblRegional)
+                            .addComponent(jLabel4)
+                            .addComponent(lblDesagregacao)
+                            .addComponent(lblUF))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(cbMunicipio, javax.swing.GroupLayout.Alignment.LEADING, 0, 225, Short.MAX_VALUE)
+                                .addComponent(cbRegional, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(cbDesagregacao, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbUf, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addComponent(btCalcular)
+                        .addGap(87, 87, 87)
+                        .addComponent(btLimpar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(panelOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(prbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,12 +370,11 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends javax.swing.JPane
     private void cbRegionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRegionalActionPerformed
         ComboBoxModel modelo;
         if (cbRegional.getSelectedItem() != null) {
-            Vector<String> municipiosPactuacao = this.session.retornaMunicipiosPQAVS(this.cbDesagregacao.getSelectedIndex(), this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString());
+            Vector<String> municipiosPactuacao = this.session.retornaMunicipiosPQAVS(2, this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString());
             if (!cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
                 municipiosPactuacao.add(2, "NENHUM");
             }
             modelo = new DefaultComboBoxModel(municipiosPactuacao);
-
             this.cbMunicipio.setModel(modelo);
         }
 }//GEN-LAST:event_cbRegionalActionPerformed
@@ -422,7 +420,6 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends javax.swing.JPane
         cbDesagregacao.setSelectedIndex(0);
         cbRegional.removeAllItems();
         cbMunicipio.removeAllItems();
-
         this.chkExportarDbf.setSelected(false);
 
 
@@ -507,7 +504,6 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends javax.swing.JPane
 //        modelo = new DefaultComboBoxModel(this.session.retornaUFs());
 //        this.cbUf.setModel(modelo);
 //        if (cbDesagregacao.getSelectedItem().equals("UF subdividida por Regiões de Saúde")) {
-
         if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")) {
             lblRegional.setText("Região de Residência");
             lblRegional.setVisible(true);
@@ -521,10 +517,13 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends javax.swing.JPane
             cbRegional.setVisible(true);
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));
             this.cbRegional.setModel(modelo);
+        } else if (this.cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
+            cbRegional.addItem("TODAS");
+        } else if (this.cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
+            cbRegional.addItem("TODAS");
         } else {
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(""));
             this.cbRegional.setModel(modelo);
-
         }
 
 //        modelo = new DefaultComboBoxModel(this.session.retornaRegioes(this.cbUf.getSelectedItem().toString()));

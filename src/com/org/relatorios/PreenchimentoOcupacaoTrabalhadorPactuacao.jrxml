@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.2"/>
-	<property name="ireport.x" value="378"/>
-	<property name="ireport.y" value="168"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="280"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Java\\sinan_relatorios\\src\\com\\org\\relatorios\\"]]></defaultValueExpression>
 	</parameter>
@@ -55,7 +55,7 @@
 			<band height="50">
 				<printWhenExpression><![CDATA[!$F{nomeMunicipio}.equals("TOTAL")]]></printWhenExpression>
 				<rectangle>
-					<reportElement x="-2" y="0" width="548" height="45" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#CCCCCC"/>
+					<reportElement x="1" y="0" width="545" height="45" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#CCCCCC"/>
 				</rectangle>
 				<textField>
 					<reportElement x="0" y="0" width="100" height="20"/>
@@ -72,20 +72,19 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Nº de Contatos Identificados]]></text>
+					<text><![CDATA[Total de casos Notificados]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="0" y="30" width="134" height="20"/>
+					<reportElement x="0" y="30" width="221" height="20"/>
 					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$P{parNenhum}?"Regional de Residência":"Município de Residência "]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$P{parNenhum}?"Regional de notificação":"Município de notificação "]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="443" y="20" width="71" height="25"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Nº de Contatos 
-Examinados]]></text>
+					<text><![CDATA[Campo ocupação preenchido]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="514" y="20" width="29" height="24"/>
@@ -173,7 +172,7 @@ Examinados]]></text>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[Município de residência:]]></text>
+				<text><![CDATA[Município de notificação:]]></text>
 			</staticText>
 			<line>
 				<reportElement x="316" y="50" width="1" height="56"/>
@@ -190,7 +189,7 @@ Examinados]]></text>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Proporção de contatos examinados de casos novos de tuberculose pulmonar com confirmação laboratorial]]></text>
+				<text><![CDATA[Proporção depreenchimento do campo “ocupação” nas notificações de agravos relacionados ao trabalho.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="321" y="68" width="118" height="14"/>

@@ -1169,7 +1169,8 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                     "Proporção de notificações de Violência interpessoal e autoprovocada com o campo raça/cor preenchido com informação válida",
                     "Proporção de casos de malária que iniciaram tratamento em tempo oportuno",
                     "Proporção de contatos examinados de casos novos de hanseníase",
-                    "Proporção de contatos examinados de casos novos de tuberculose"
+                    "Proporção de contatos examinados de casos novos de tuberculose",
+                    "Proporção de preenchimento do campo ocupação"
 
                 };
             }
