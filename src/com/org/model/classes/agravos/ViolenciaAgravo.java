@@ -224,7 +224,7 @@ public class ViolenciaAgravo extends Agravo {
             if ((Boolean)parametros.get("parIsRegiao")) {
                municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia,codRegiao, parametros.get("parIsRegiao").toString());
             }else {
-               municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, parametros.get("parIsRegional").toString());
+               municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, parametros.get("parIsRegiao").toString());
             }
 
             //inicia o calculo
