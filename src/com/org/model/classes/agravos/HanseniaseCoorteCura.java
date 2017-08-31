@@ -152,6 +152,7 @@ public class HanseniaseCoorteCura extends com.org.model.classes.Agravo {
                         classificacaoOperacionalAtual = utilDbf.getString(rowObjects, "CLASSATUAL", 1);
                         dtDiagnostico = utilDbf.getDate(rowObjects, "DT_DIAG");
                         esquemaDeTratamentoAtual = utilDbf.getString(rowObjects, "ESQ_ATU_N");
+                        esquemaDeTratamentoAtual = esquemaDeTratamentoAtual != null ? esquemaDeTratamentoAtual : "0";
                         
                         if (hanseniaseUfResidencia != null) {
                             if (modoEntrada.equals("1")) {
@@ -271,6 +272,7 @@ public class HanseniaseCoorteCura extends com.org.model.classes.Agravo {
                         classificacaoOperacionalAtual = utilDbf.getString(rowObjects, "CLASSATUAL", 1);
                         dtDiagnostico = utilDbf.getDate(rowObjects, "DT_DIAG");
                         esquemaDeTratamentoAtual = utilDbf.getString(rowObjects, "ESQ_ATU_N");
+                        esquemaDeTratamentoAtual = esquemaDeTratamentoAtual != null ? esquemaDeTratamentoAtual : "0";
                         
                         if (municipioResidencia != null && modoEntrada.equals("1")) {
                             if (isBetweenDates(dtDiagnostico, dataInicio1, dataFim1)
@@ -368,6 +370,7 @@ public class HanseniaseCoorteCura extends com.org.model.classes.Agravo {
                                     classificacaoOperacionalAtual = utilDbf.getString(rowObjects, "CLASSATUAL", 1);
                                     dtDiagnostico = utilDbf.getDate(rowObjects, "DT_DIAG");
                                     esquemaDeTratamentoAtual = utilDbf.getString(rowObjects, "ESQ_ATU_N");
+                                    esquemaDeTratamentoAtual = esquemaDeTratamentoAtual != null ? esquemaDeTratamentoAtual : "0";
                                     
                                     if (verificaMunicipio(municipioResidencia, utilDbf.getString(rowObjects, "MUNIRESAT"))) {
                                         //calcula PB
@@ -418,7 +421,7 @@ public class HanseniaseCoorteCura extends com.org.model.classes.Agravo {
             String municipio, noMunicipio = null;
             List beans = new ArrayList();
             Hanseniase d1 = null;
-            DecimalFormat df = new DecimalFormat("0.0");
+            DecimalFormat df = new DecimalFormat("0.00");
 
             municipio = parametros.get("parMunicipio").toString();
             noMunicipio = parametros.get("parNomeMunicipio").toString();
@@ -645,7 +648,7 @@ public class HanseniaseCoorteCura extends com.org.model.classes.Agravo {
 
     public HanseniaseCoorteCura insereNoBean(HanseniaseCoorteCura beanHans) {
 
-        DecimalFormat df = new DecimalFormat("0.0");
+        DecimalFormat df = new DecimalFormat("0.00");
         if (beanHans.getSubTotal().equals("-1")) {
             beanHans.setSubTotal("0");
         }
@@ -662,7 +665,7 @@ public class HanseniaseCoorteCura extends com.org.model.classes.Agravo {
 
     public HanseniaseCoorteCura insereNoBean(String municipio, String noMunicipio) {
 
-        DecimalFormat df = new DecimalFormat("0.0");
+        DecimalFormat df = new DecimalFormat("0.00");
         double taxa;
         HanseniaseCoorteCura d1 = new HanseniaseCoorteCura(true);
         d1.setCodMunicipio(municipio);
@@ -763,7 +766,7 @@ public class HanseniaseCoorteCura extends com.org.model.classes.Agravo {
         String uf, noUF = null;
         List beans = new ArrayList();
         Hanseniase d1 = null;
-        DecimalFormat df = new DecimalFormat("0.0");
+        DecimalFormat df = new DecimalFormat("0.00");
 
         uf = parametros.get("parUf").toString();
         noUF = parametros.get("parSgUf").toString();

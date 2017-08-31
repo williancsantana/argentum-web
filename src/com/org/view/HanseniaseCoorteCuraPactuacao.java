@@ -19,11 +19,11 @@ import javax.swing.JFileChooser;
  *
  * @author joao
  */
-public class Violencia extends javax.swing.JPanel {
+public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
 
     SessionFacadeImpl session = new SessionFacadeImpl();
 
-    public Violencia() {
+    public HanseniaseCoorteCuraPactuacao() {
         initComponents();
         ComboBoxModel modelo;
         this.session.setTodosMunicipios(true);
@@ -423,10 +423,12 @@ public class Violencia extends javax.swing.JPanel {
             session.setRegional(cbRegional.getSelectedItem().toString());
         }
         
-        if(cbMunicipio.getSelectedItem().toString().isEmpty() 
-                || cbMunicipio.getSelectedItem().toString().equals("TODOS")
-                || cbMunicipio.getSelectedItem().toString().equals("NENHUM")){
+        if(cbMunicipio.getSelectedItem().toString().isEmpty()){
             parametros.put("municipioEspecifico", "");
+        }else if(cbMunicipio.getSelectedItem().toString().equals("TODOS")){
+            parametros.put("municipioEspecifico", "TODOS");
+        }else if(cbMunicipio.getSelectedItem().toString().equals("NENHUM")){
+            parametros.put("municipioEspecifico", "NENHUM");
         }else{
             parametros.put("municipioEspecifico", cbMunicipio.getSelectedItem().toString());
         }
@@ -438,7 +440,7 @@ public class Violencia extends javax.swing.JPanel {
         session.setMunicipio(cbMunicipio.getSelectedItem().toString());
         if(cbRegional.getSelectedItem() != null){
             session.setRegional(cbRegional.getSelectedItem().toString());
-            parametros.put("parMunicipio", cbRegional.getSelectedItem().toString());
+            parametros.put("parRegiaoSaude", cbRegional.getSelectedItem().toString());
         }
 
         session.setUf(cbUf.getSelectedItem().toString());
