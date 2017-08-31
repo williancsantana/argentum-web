@@ -520,10 +520,11 @@ public class SifilisCongenitaIncidenciaPactuacao extends javax.swing.JPanel {
             cbRegional.setVisible(true);
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));
             this.cbRegional.setModel(modelo);
+        } else if (this.cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
+            cbRegional.addItem("TODAS");
         } else {
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(""));
             this.cbRegional.setModel(modelo);
-
         }
 
 //        modelo = new DefaultComboBoxModel(this.session.retornaRegioes(this.cbUf.getSelectedItem().toString()));
