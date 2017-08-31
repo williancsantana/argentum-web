@@ -19,11 +19,11 @@ import javax.swing.JFileChooser;
  *
  * @author joao
  */
-public class Violencia extends javax.swing.JPanel {
+public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
 
     SessionFacadeImpl session = new SessionFacadeImpl();
 
-    public Violencia() {
+    public HanseniaseCoorteCuraPactuacao() {
         initComponents();
         ComboBoxModel modelo;
         this.session.setTodosMunicipios(true);

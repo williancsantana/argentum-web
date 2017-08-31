@@ -32,7 +32,7 @@ import org.apache.commons.collections.comparators.ComparatorChain;
  *
  * @author joao
  */
-public class ViolenciaAgravo extends Agravo {
+public class HanseniaseCoorteCuraPactuacao extends Agravo {
     
     static String ANO;
     private final int BRANCO = 1;
@@ -41,7 +41,7 @@ public class ViolenciaAgravo extends Agravo {
     private final int PARDO = 4;
     private final int INDIGENA = 5;
 
-    public ViolenciaAgravo(boolean isDbf) {
+    public HanseniaseCoorteCuraPactuacao(boolean isDbf) {
         this.setDBF(isDbf);
         setPeriodo("de Diagnóstico");
         setTipoAgregacao("de Residência");
@@ -197,7 +197,7 @@ public class ViolenciaAgravo extends Agravo {
                 municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ViolenciaAgravo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HanseniaseCoorteCuraPactuacao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return municipioResidencia;
     }

@@ -629,6 +629,9 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         } else if (relatorio.equals("Número de semanas epidemiológicas com informação")) {
             panel = new SemEpidPQAVS();
             this.relatorio = "SemEpidPQAVS";
+        }if (relatorio.equals("Proporção de cura dos casos novos de hanseníase diagnosticados nos anos das coortes")) {
+            panel = new HanseniaseCoorteCura();
+            this.relatorio = "HanseniaseCoorteCura";
         } else if (relatorio.equals("Proporção de contatos examinados de casos novos de hanseníase")) {
             panel = new com.org.view.ContatosExaminadosHanseniasePactuacao();
             this.relatorio = "ExaminadosHanseniasePactuacao";
@@ -943,6 +946,9 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         if (relatorio.equals("HanseniaseCoorte")) {
             agravo = new com.org.model.classes.agravos.HanseniaseCoorte(isDbf());
         }
+        if (relatorio.equals("HanseniaseCoorteCura")) {
+            agravo = new com.org.model.classes.agravos.HanseniaseCoorteCura(isDbf());
+        }
         if (relatorio.equals("TuberculoseCoorte")) {
             agravo = new com.org.model.classes.agravos.TuberculoseCoorte(isDbf(), isAuxiliar());
         }
@@ -1116,15 +1122,24 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 };
             }
             if (grupo.equals("Pactuação Interfederativa 2017 a 2021")) {
-                relatorios = new String[]{"Selecione o Relatório", "Número de casos novos de AIDS em menores de 5 anos",
+                relatorios = new String[]{"Selecione o Relatório", 
+                    "Número de casos novos de AIDS em menores de 5 anos",
                     "Número de casos novos de sífilis congênita em menores de 1 ano de idade",
                     "Proporção de casos DNCI encerrados em até 60 dias após notificação",
                     "Número de casos autóctones de malária",
+                    "Proporção de cura dos casos novos de hanseníase diagnosticados nos anos das coortes",
                     "Proporção de preenchimento do campo ocupação"
                 };
             }
             if (grupo.equals("PACTO 2008/2009")) {
-                relatorios = new String[]{"Selecione o Relatório", "Situação da coorte de casos novos de Tuberculose", "Taxa de notificação de casos de PFA em menores de 15 anos", "Percentual de casos de hepatites B e C", "Proporção de doenças exantemáticas investigados oportunamente", "Taxa de letalidade por Febre Hemorrágica Dengue", "Taxa de incidência de aids em menores de 5 anos de idade", "Situação da coorte de casos novos de hanseníase"};
+                relatorios = new String[]{"Selecione o Relatório", 
+                    "Situação da coorte de casos novos de Tuberculose", 
+                    "Taxa de notificação de casos de PFA em menores de 15 anos", 
+                    "Percentual de casos de hepatites B e C", 
+                    "Proporção de doenças exantemáticas investigados oportunamente", 
+                    "Taxa de letalidade por Febre Hemorrágica Dengue", 
+                    "Taxa de incidência de aids em menores de 5 anos de idade", 
+                    "Situação da coorte de casos novos de hanseníase"};
             }
             if (grupo.equals("Regularidade na alimentação do Sinan")) {
                 relatorios = new String[]{"Selecione o Relatório", "Regularidade na alimentação do Sinan"};
