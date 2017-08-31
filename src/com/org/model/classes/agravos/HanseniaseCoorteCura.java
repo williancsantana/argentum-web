@@ -71,13 +71,6 @@ public class HanseniaseCoorteCura extends com.org.model.classes.Agravo {
         this.setMultiplicador(100000);
         this.setTipo("hans");
         this.setTitulo1("Proporção de cura dos casos novos de hanseníase diagnosticados nos anos das coortes");
-//        this.setRodape("Método de cálculo: \na)  Seleção das coortes: Selecionar a coorte de novos ( mod de entrada = 1-caso novo) paucibacilares ( classificação operacional atual)  diagnosticados no ano anterior ao ano de avaliação. Para os multibacilares selecionar os casos novos diagnosticados 2  anos anteriores ao ano de avaliação. Para a emissão do relatório caberá ao usuário digitar o ano ou o período de diagnóstico em separado para os PB e MB. O Programa que emite o relatório somará os PB e os MB identificados na base de dados do Sinan\n" +
-//                "b) Colunas: Após selecionar os casos segundo critérios da Coorte de Paucibacilares e de Multibacilares, selecionar por tipo de saida e colocar nas colunas corrspondentes.\n" +
-//                "c)  Cálculo do percentual de cura: dividir o número de casos com \"tipo de saida\" igual a \"alta por cura\" pelo subtotal e multiplicar por 100.\n" +
-//                "d)  Cálculo do percentual de abandono de tratamento: dividir o número de casos com \"tipo de saida\" igual a \"abandono\" pelo subtotal e multiplicar por 100. \n" +
-//                "e)  Cálculo do percentual de Não Preenchido: dividir o número de casos com campo \"tipo de saida\" não preenchido pelo subtotal e multiplicar por 100.\n" +
-//                "f) Será considerado o local de residência atual dos casos novos.\n" +
-//                "g) Nível de Seleção –  Para o local  de residência atual dos casos,  o sistema oferece as seguintes opções: Brasil (total e por UF) ; UF (por regional ou por município); Regional (por município); Município (por distrito); Distrito (por bairro), Bairro.");
         this.setRodape("OBS. sobre método de cálculo: \nSeleção das coortes: " 
                 + "Casos novos (modo de entrada = 1-Caso novo) paucibacilares " 
                 + "(classificação operacional atual) diagnosticados no ano anterior ao ano " 

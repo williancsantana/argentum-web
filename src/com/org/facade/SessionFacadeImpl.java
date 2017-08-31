@@ -151,7 +151,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             }
         }
         parametros.put("parDataInicio", semanas);
-        parametros.put("parDataFim", "1");
+        parametros.put("f", "1");
         return parametros;
     }
 
@@ -630,7 +630,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             panel = new SemEpidPQAVS();
             this.relatorio = "SemEpidPQAVS";
         }if (relatorio.equals("Proporção de cura dos casos novos de hanseníase diagnosticados nos anos das coortes")) {
-            panel = new HanseniaseCoorteCura();
+            panel = new HanseniaseCoorteCuraPactuacao();
             this.relatorio = "HanseniaseCoorteCura";
         } else if (relatorio.equals("Proporção de contatos examinados de casos novos de hanseníase")) {
             panel = new com.org.view.ContatosExaminadosHanseniasePactuacao();
@@ -947,7 +947,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             agravo = new com.org.model.classes.agravos.HanseniaseCoorte(isDbf());
         }
         if (relatorio.equals("HanseniaseCoorteCura")) {
-            agravo = new com.org.model.classes.agravos.HanseniaseCoorteCura(isDbf());
+            agravo = new com.org.model.classes.agravos.HanseniaseCoorteCuraPactuacao(isDbf());
         }
         if (relatorio.equals("TuberculoseCoorte")) {
             agravo = new com.org.model.classes.agravos.TuberculoseCoorte(isDbf(), isAuxiliar());

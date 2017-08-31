@@ -123,7 +123,6 @@ public class ViolenciaAgravo extends Agravo {
                             if(municipioNotificacao != null ){
                                 municipioNotificacao.setTaxa("0");
                             }
-                            int contador = 0;
 
                             if (municipioNotificacao != null && isBetweenDates(dataNotificacao, dataInicio, dataFim)){
                                 if(raca >= BRANCO && raca <= INDIGENA) {
@@ -137,9 +136,6 @@ public class ViolenciaAgravo extends Agravo {
                                 denominadorRegiao++;
                                 municipioNotificacao.setDenominador(String.valueOf(denominadorMunicipio));
                                 calcularTaxaIndividual(df, municipioNotificacao);
-                            }else{
-                                contador++;
-                                System.out.println(contador);
                             }
                         }
                         setStatusBarra(indexDoRegistroEmLeitura, TotalRegistros);
@@ -385,10 +381,10 @@ public class ViolenciaAgravo extends Agravo {
         boolean estadoEMunicipio = municipios.equals("sim") && !filtroUF.equals("brasil");
         
         //filtro municipios = TODOS e 7UF selecionado algum estado
-        if (municipios.equals("sim")) {
-            calculaMunicipios(reader, parametros);
-        } else if ((isRegionalSelecionada || isRegiaoSelecionada) && municipioEspecifico == "") {
+        if ((isRegionalSelecionada || isRegiaoSelecionada) && municipioEspecifico == "NENHUM") {
             calculaRegiao(reader, parametros);
+        } else if (municipios.equals("sim")) {
+            calculaMunicipios(reader, parametros);
         } else {
             calculaMunicipioIndividual(municipios, filtroUF, reader, parametros);
         }
