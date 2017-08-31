@@ -31,7 +31,7 @@
 	<parameter name="parDataAtual" class="java.lang.String"/>
 	<parameter name="parDescricaoReg" class="java.lang.String"/>
 	<parameter name="parRegionalSaude" class="java.lang.String"/>
-	<parameter name="numeradorTotal" class="java.lang.String"/>
+	<parameter name="numeradorTotal" class="java.lang.Integer"/>
 	<field name="nomeMunicipio" class="java.lang.String"/>
 	<field name="codRegiaoSaude" class="java.lang.String"/>
 	<field name="regiaoSaude" class="java.lang.String"/>
@@ -47,7 +47,7 @@
 		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
 	</variable>
 	<group name="Regiao">
-		<groupExpression><![CDATA[$P{parNenhum}?$F{uf}:$P{parIsRegiao}?$F{codRegiaoSaude}:$F{codRegional}]]></groupExpression>
+		<groupExpression><![CDATA[$P{parDesagregacao}.equals("Somente municípios")?$F{uf}:$P{parNenhum}?$F{uf}:$P{parIsRegiao}?$F{codRegiaoSaude}:$F{codRegional}]]></groupExpression>
 		<groupHeader>
 			<band height="50">
 				<printWhenExpression><![CDATA[!$F{nomeMunicipio}.equals("TOTAL")]]></printWhenExpression>
@@ -62,7 +62,7 @@
 				<textField>
 					<reportElement x="99" y="0" width="220" height="20"/>
 					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$P{parNenhum}?"":$P{parIsRegiao}?$P{parRegiaoSaude}:$P{parRegionalSaude}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$P{parDesagregacao}.equals("Somente municípios")?"":$P{parNenhum}?"":$P{parIsRegiao}?$F{regiaoSaude}:$F{regional}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="475" y="25" width="67" height="20"/>
@@ -85,7 +85,7 @@
 				<textField>
 					<reportElement x="475" y="0" width="71" height="20"/>
 					<textElement textAlignment="Center"/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$P{numeradorTotal}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$P{numeradorTotal}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="0" y="0" width="220" height="20"/>
@@ -169,7 +169,7 @@
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<text><![CDATA[Ano/Período de avaliação:]]></text>
+				<text><![CDATA[Ano/Período de notificação:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="106" y="53" width="209" height="15"/>

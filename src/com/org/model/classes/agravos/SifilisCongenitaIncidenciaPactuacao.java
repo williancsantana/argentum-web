@@ -101,7 +101,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
             CID_A509 = utilDbf.getString(rowObjects, "ID_AGRAVO").equals("A509");
         }
         if (utilDbf.getString(rowObjects, "EVO_DIAG_N") != null) {
-            DIAGNOSTICO_FINAL = utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 1 ||utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 3 || utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 2 || utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 4;
+            DIAGNOSTICO_FINAL = utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 1 || utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 3 || utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 2 || utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 4;
         }
         if (utilDbf.getString(rowObjects, "NU_IDADE_N") != null) {
             IDADE = utilDbf.getInt(rowObjects, "NU_IDADE_N") >= 0 && utilDbf.getInt(rowObjects, "NU_IDADE_N") < 4001;
@@ -293,31 +293,97 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
         }
     }
 
+    private void calculaSomenteMunicipios(DBFReader reader, Map parametros) throws ParseException {
+        //buscar os municipios que vao para o resultado
+
+        // HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
+        String ufResidencia = (String) parametros.get("parUf");
+        String sgUfResidencia = (String) parametros.get("parSgUf");
+        
+        if (sgUfResidencia.equals("TODAS")){
+            sgUfResidencia = "BR";
+        }
+
+        municipiosBeans = populaMunicipiosBeansPactuacao(sgUfResidencia, "");
+        //municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
+        //inicia o calculo
+        Object[] rowObjects;
+
+        String dataInicio = (String) parametros.get("parDataInicio");
+        String dataFim = (String) parametros.get("parDataFim");
+        parametros.put("numeradorTotal", 0);
+        parametros.put("denominadorTotal", 0);
+
+        //loop para ler os arquivos selecionados
+        String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
+        for (int k = 0; k < arquivos.length; k++) {
+            int i = 1;
+            try {
+                reader = Util.retornaObjetoDbfCaminhoArquivo(arquivos[k].substring(0, arquivos[k].length() - 4), Configuracao.getPropriedade("caminho"));
+                utilDbf.mapearPosicoes(reader);
+                double TotalRegistros = Double.parseDouble(String.valueOf(reader.getRecordCount()));
+                while ((rowObjects = reader.nextRecord()) != null) {
+                    //cálculo da taxa estadual
+                    //verifica a uf de residencia
+
+                    municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MN_RESI"));
+                    calculaIndicador(rowObjects, parametros);
+
+                    float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setValue((int) percentual);
+                    i++;
+                }
+
+            } catch (DBFException ex) {
+                Master.mensagem("Erro:\n" + ex);
+            }
+        }
+        String ano = dataInicio.substring(0, 4);
+
+        //CALCULA A TAXA PARA TODOS OS MUNICIPIOS
+        this.setBeans(new ArrayList());
+        Collection<Agravo> municipioBean = municipiosBeans.values();
+
+        for (Iterator<Agravo> it = municipioBean.iterator(); it.hasNext();) {
+            Agravo agravoDBF = it.next();
+            this.getBeans().add(agravoDBF);
+            getBarraStatus().setString("Calculando indicador para: " + agravoDBF.getNomeMunicipio());
+        }
+        getBarraStatus().setString(null);
+        ComparatorChain chain;
+        chain = new ComparatorChain(Arrays.asList(
+                new BeanComparator("uf"),
+                new BeanComparator("nomeMunicipio")));
+        Collections.sort(this.getBeans(), chain);
+        //calcular o total
+        this.getBeans().add(adicionaTotal(municipioBean, ""));
+    }
+
     @Override
     public void calcula(DBFReader reader, Map parametros) {
 
-        Boolean municipios = ((Boolean) parametros.get("parNenhum")) ? false : true;
-        String brasil = (String) parametros.get("parUf");
-        if (municipios) {
-            try {
+        Boolean municipios = (Boolean) parametros.get("parNenhum") ? false : true;
+        Boolean somenteMunicipios = parametros.get("parDesagregacao").equals("Somente municípios");
+
+        try {
+            if (somenteMunicipios) {
+                calculaSomenteMunicipios(reader, parametros);
+            } else if (municipios) {
                 calculaMunicipios(reader, parametros);
-            } catch (ParseException ex) {
-                System.out.println(ex);
+            } else {
+                calculaRegiao(reader, parametros);
             }
-        } else {
-            try {
-                if (brasil.equals("brasil")) {
-                    //calculaBrasil(reader, parametros);
-                    calculaRegiao(reader, parametros);
-                } else if (!parametros.get("parUf").equals("Todos")) {
-                    calculaRegiao(reader, parametros);
-                }
-            } catch (NumberFormatException ex) {
-                System.out.println(ex);
-            } catch (ParseException ex) {
-                System.out.println(ex);
-            }
+        } catch (ParseException ex) {
+            System.out.println(ex);
+
         }
+        /*  else {
+            try {
+                calculaRegiao(reader, parametros);
+            } catch (ParseException ex) {
+                System.out.println(ex);
+            }
+        }*/
     }
 
     @Override
