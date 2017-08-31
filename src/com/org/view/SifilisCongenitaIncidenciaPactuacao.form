@@ -355,7 +355,7 @@
             <StringItem index="0" value="-- Selecione --"/>
             <StringItem index="1" value="UF subdividida por Regi&#xf5;es de Sa&#xfa;de"/>
             <StringItem index="2" value="UF subdividida por Regionais de Sa&#xfa;de"/>
-            <StringItem index="3" value=""/>
+            <StringItem index="3" value="Somente munic&#xed;pios"/>
           </StringArray>
         </Property>
       </Properties>

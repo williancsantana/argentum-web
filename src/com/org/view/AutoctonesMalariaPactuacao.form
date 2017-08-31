@@ -271,7 +271,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Per&#xed;odo de avalia&#xe7;&#xe3;o"/>
+            <Property name="text" type="java.lang.String" value="Per&#xed;odo de notifica&#xe7;&#xe3;o"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -351,11 +351,12 @@
     <Component class="javax.swing.JComboBox" name="cbDesagregacao">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
+          <StringArray count="5">
             <StringItem index="0" value="-- Selecione --"/>
             <StringItem index="1" value="UF subdividida por Regi&#xf5;es de Sa&#xfa;de"/>
             <StringItem index="2" value="UF subdividida por Regionais de Sa&#xfa;de"/>
-            <StringItem index="3" value=" "/>
+            <StringItem index="3" value="Somente munic&#xed;pios"/>
+            <StringItem index="4" value=" "/>
           </StringArray>
         </Property>
       </Properties>

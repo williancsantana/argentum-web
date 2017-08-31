@@ -43,14 +43,14 @@ import javax.swing.JFileChooser;
  *
  * @author geraldo
  */
-public class AutoctonesMalaria extends javax.swing.JPanel {
+public class AutoctonesMalariaPactuacao extends javax.swing.JPanel {
 
     SessionFacadeImpl session = new SessionFacadeImpl();
 
     /**
      * Creates new form Oportunidade
      */
-    public AutoctonesMalaria() {
+    public AutoctonesMalariaPactuacao() {
         initComponents();
         //    iniciaCombo(cbAgravo);
         //   dtAvaliacaoOportunidade.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
@@ -203,7 +203,7 @@ public class AutoctonesMalaria extends javax.swing.JPanel {
 
         chkExportarDbf.setText("Salvar resultado em DBF");
 
-        jLabel1.setText("Período de avaliação");
+        jLabel1.setText("Período de notificação");
 
         javax.swing.GroupLayout panelOportunidadeLayout = new javax.swing.GroupLayout(panelOportunidade);
         panelOportunidade.setLayout(panelOportunidadeLayout);
@@ -287,7 +287,7 @@ public class AutoctonesMalaria extends javax.swing.JPanel {
             }
         });
 
-        cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "UF subdividida por Regiões de Saúde", "UF subdividida por Regionais de Saúde", " " }));
+        cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "UF subdividida por Regiões de Saúde", "UF subdividida por Regionais de Saúde", "Somente municípios", " " }));
         cbDesagregacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbDesagregacaoActionPerformed(evt);
@@ -372,7 +372,9 @@ public class AutoctonesMalaria extends javax.swing.JPanel {
         ComboBoxModel modelo;
         if (cbRegional.getSelectedItem() != null) {
             Vector<String> municipiosPactuacao = this.session.retornaMunicipiosPQAVS(this.cbDesagregacao.getSelectedIndex(), this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString());
-            municipiosPactuacao.add(2, "NENHUM");
+            if (!cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
+                municipiosPactuacao.add(2, "NENHUM");
+            }
             modelo = new DefaultComboBoxModel(municipiosPactuacao);
 
             this.cbMunicipio.setModel(modelo);
@@ -433,7 +435,7 @@ public class AutoctonesMalaria extends javax.swing.JPanel {
         session = new SessionFacadeImpl();
         session.setTodosMunicipios(true);
         SessionFacadeImpl.setNomeDbf("MALAN");
-        
+
         this.prbStatus.setStringPainted(true);
         this.prbStatus.setValue(0);
 
@@ -518,7 +520,7 @@ public class AutoctonesMalaria extends javax.swing.JPanel {
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));
             this.cbRegional.setModel(modelo);
         } else {
-            modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));
+            modelo = new DefaultComboBoxModel(this.session.retornaRegionais(""));
             this.cbRegional.setModel(modelo);
 
         }
