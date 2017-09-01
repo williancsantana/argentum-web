@@ -110,8 +110,8 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
             CID_A309 = utilDbf.getString(rowObjects, "ID_AGRAVO").equals("A309");
         }
 
-        if (utilDbf.getString(rowObjects, "CLASSATUAL") != null) {
-            if (utilDbf.getString(rowObjects, "CLASSATUAL").equals("2")) {
+        if (utilDbf.getString(rowObjects, "CLASSATUAL") != null && utilDbf.getString(rowObjects, "ESQ_ATU_N") != null )  {
+            if (utilDbf.getString(rowObjects, "CLASSATUAL").equals("2") && utilDbf.getString(rowObjects, "ESQ_ATU_N").equals("2")  ) {
                 dataInicio = (String) parametros.get("parDataInicioCoorteMB");
                 dataFim = (String) parametros.get("parDataFimCoorteMB");
             }
