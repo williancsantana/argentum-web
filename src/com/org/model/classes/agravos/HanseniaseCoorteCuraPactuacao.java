@@ -115,7 +115,7 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             String codRegiao = (String) parametros.get("parCodRegiaoSaude");
             Object[] rowObjects;
             DecimalFormat df = new DecimalFormat("0.00");
-            Agravo municipioNotificacao;
+            Agravo regiaoNotificacao;
             String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
             
             String esquemaDeTratamentoAtual;
@@ -147,9 +147,9 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
                         //verifica a uf de residencia
                         if (utilDbf.getString(rowObjects, "UFRESAT") != null) {
                             //verifica se existe a referencia do municipio no bean
-                            municipioNotificacao = getMunicipioPelaRegiaoOuRegional(parametros, municipiosBeans, utilDbf, rowObjects);
-                            if(municipioNotificacao != null ){
-                                municipioNotificacao.setTaxa("0");
+                            regiaoNotificacao = getMunicipioPelaRegiaoOuRegional(parametros, municipiosBeans, utilDbf, rowObjects);
+                            if(regiaoNotificacao != null ){
+                                regiaoNotificacao.setTaxa("0");
                             }
                             
                             modoEntrada = utilDbf.getString(rowObjects, "MODOENTR", 1);
@@ -157,19 +157,19 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
                             dtDiagnostico = utilDbf.getDate(rowObjects, "DT_DIAG");
                             esquemaDeTratamentoAtual = utilDbf.getString(rowObjects, "ESQ_ATU_N");
                             esquemaDeTratamentoAtual = esquemaDeTratamentoAtual != null ? esquemaDeTratamentoAtual : "0";
-                            
-                            if (municipioNotificacao != null) {
+                        
+                            if (regiaoNotificacao != null) {
                                 if (modoEntrada.equals("1")) {
                                     if (isBetweenDates(dtDiagnostico, dataInicio1, dataFim1) 
                                         && classificacaoOperacionalAtual.equals("1")
                                         && esquemaDeTratamentoAtual.equals("1")) {
                                         //PB
-                                        validaCriterios(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, municipioNotificacao);
+                                        validaCriterios(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, regiaoNotificacao);
                                     }else if (isBetweenDates(dtDiagnostico, dataInicio2, dataFim2) 
                                         && classificacaoOperacionalAtual.equals("2")
                                         && esquemaDeTratamentoAtual.equals("2")) {
                                         //MB
-                                        validaCriterios(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, municipioNotificacao);
+                                        validaCriterios(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, regiaoNotificacao);
                                     }
                                 }
                             }
@@ -248,17 +248,17 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
     }
     
     private Agravo getMunicipioPelaRegiaoOuRegional(Map parametros, HashMap<String, Agravo> municipiosBeans, DBFUtil utilDbf, Object[] rowObjects){
-        Agravo municipioResidencia = new Agravo();
+        Agravo regiaoResidencia = new Agravo();
         try {
             if ((Boolean) parametros.get("parIsRegiao")) {
-                    municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
+                regiaoResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "MUNIRESAT")));
             } else {
-                municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
+                regiaoResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "MUNIRESAT")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ViolenciaAgravo.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return municipioResidencia;
+        return regiaoResidencia;
     }
 
     /**
@@ -731,7 +731,7 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
     public String getSubTotal() {
         return subTotal;
     }
-
+    
     public void setSubTotal(String subTotal) {
         this.subTotal = subTotal;
     }
