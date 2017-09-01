@@ -8,6 +8,7 @@ import com.org.model.classes.Agravo;
 import com.org.model.classes.ColunasDbf;
 import com.org.negocio.Configuracao;
 import com.org.negocio.Util;
+import com.org.util.SinanDateUtil;
 import com.org.view.Master;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -20,7 +21,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -35,27 +35,10 @@ import org.apache.commons.collections.comparators.ComparatorChain;
 public class HanseniaseCoorteCuraPactuacao extends Agravo {
     
     static String ANO;
-    private final int BRANCO = 1;
-    private final int PRETA = 2;
-    private final int AMARELO = 3;
-    private final int PARDO = 4;
-    private final int INDIGENA = 5;
-    
     private String cura;
-    private String abandono;
-    private String transfMesmoMunicipio;
-    private String transfOutroMunicipio;
-    private String transfOutroUf;
-    private String naoPreenchido;
-    private String erroDiagnostico;
-    private String perNaoPreenchido;
     private String subTotal;
     private String total;
-    private String perAbandono;
     private String perCura;
-    private String transfOutroPais;
-    private String obito;
-    private String transfNaoEspecificada;
     static String dtPbInicial;
     static String dtPbFinal;
     static String dtMbInicial;
@@ -85,14 +68,6 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
                 + "\nNão são consierados no cálculo desse indicador na avaliação estadual: transferência para outro estado,"
                 + "tranferência para outro país e erro de diagnóstico e transferência não especificada.");
         this.setCura("0");
-        this.setAbandono("0");
-        this.setTransfMesmoMunicipio("0");
-        this.setTransfOutroMunicipio("0");
-        this.setTransfOutroPais("0");
-        this.setTransfOutroUf("0");
-        this.setErroDiagnostico("0");
-        this.setObito("0");
-        this.setNaoPreenchido("0");
         this.setSubTotal("0");
         this.setTotal("0");
         this.setTransfNaoEspecificada("0");
@@ -119,10 +94,12 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
             
             String esquemaDeTratamentoAtual;
-            String dataInicio1 = (String) parametros.get("dataInicio1");
-            String dataFim1 = (String) parametros.get("dataFim1");
-            String dataInicio2 = (String) parametros.get("dataInicio2");
-            String dataFim2 = (String) parametros.get("dataFim2");
+            
+            String dataInicioPB = (String) parametros.get("parDataInicioCoortePB");
+            String dataFimPB = (String) parametros.get("parDataFimCoortePB");
+            String dataInicioMB = (String) parametros.get("parDataInicioCoorteMB");
+            String dataFimMB = (String) parametros.get("parDataFimCoorteMB");
+            
             String modoEntrada;
             Date dtDiagnostico;
             String classificacaoOperacionalAtual;
@@ -160,15 +137,13 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
                         
                             if (regiaoNotificacao != null) {
                                 if (modoEntrada.equals("1")) {
-                                    if (isBetweenDates(dtDiagnostico, dataInicio1, dataFim1) 
-                                        && classificacaoOperacionalAtual.equals("1")
-                                        && esquemaDeTratamentoAtual.equals("1")) {
-                                        //PB
+                                    if (isBetweenDates(dtDiagnostico, dataInicioPB, dataFimPB) 
+                                            && classificacaoOperacionalAtual.equals("1")
+                                            && esquemaDeTratamentoAtual.equals("1")) {
                                         validaCriterios(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, regiaoNotificacao);
-                                    }else if (isBetweenDates(dtDiagnostico, dataInicio2, dataFim2) 
-                                        && classificacaoOperacionalAtual.equals("2")
-                                        && esquemaDeTratamentoAtual.equals("2")) {
-                                        //MB
+                                    }else if (isBetweenDates(dtDiagnostico, dataInicioMB, dataFimMB) 
+                                            && classificacaoOperacionalAtual.equals("2")
+                                            && esquemaDeTratamentoAtual.equals("2")) {
                                         validaCriterios(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, regiaoNotificacao);
                                     }
                                 }
@@ -279,21 +254,16 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             String codRegiao = (String) parametros.get("parCodRegiaoSaude");
             String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
             String esquemaDeTratamentoAtual;
-            String dataInicio1 = (String) parametros.get("dataInicio1");
-            String dataFim1 = (String) parametros.get("dataFim1");
-            String dataInicio2 = (String) parametros.get("dataInicio2");
-            String dataFim2 = (String) parametros.get("dataFim2");
+            String dataInicioPB = (String) parametros.get("parDataInicioCoortePB");
+            String dataFimPB = (String) parametros.get("parDataFimCoortePB");
+            String dataInicioMB = (String) parametros.get("parDataInicioCoorteMB");
+            String dataFimMB = (String) parametros.get("parDataFimCoorteMB");
             String modoEntrada;
             String classificacaoOperacionalAtual;
             Date dtDiagnostico;
-            Date dataNotificacao;
-            String racaCor, total;
             DecimalFormat df = new DecimalFormat("0");
             DecimalFormat df2 = new DecimalFormat("0.00");
             Agravo municipioResidencia;
-            String dataInicio = (String) parametros.get("parDataInicio");
-            String ano = dataInicio.substring(0, 4);
-            String dataFim = (String) parametros.get("parDataFim");
             
             if (codRegional == null) {
                 codRegional = "";
@@ -330,15 +300,13 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
 
                             if (municipioResidencia != null) {
                                 if (modoEntrada.equals("1")) {
-                                    if (isBetweenDates(dtDiagnostico, dataInicio1, dataFim1) 
-                                        && classificacaoOperacionalAtual.equals("1")
-                                        && esquemaDeTratamentoAtual.equals("1")) {
-                                        //PB
+                                    if (isBetweenDates(dtDiagnostico, dataInicioPB, dataFimPB) 
+                                            && classificacaoOperacionalAtual.equals("1")
+                                            && esquemaDeTratamentoAtual.equals("1")) {
                                         validaCriterios(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, municipioResidencia);
-                                    }else if (isBetweenDates(dtDiagnostico, dataInicio2, dataFim2) 
-                                        && classificacaoOperacionalAtual.equals("2")
-                                        && esquemaDeTratamentoAtual.equals("2")) {
-                                        //MB
+                                    }else if (isBetweenDates(dtDiagnostico, dataInicioMB, dataFimMB) 
+                                            && classificacaoOperacionalAtual.equals("2")
+                                            && esquemaDeTratamentoAtual.equals("2")) {
                                         validaCriterios(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, municipioResidencia);
                                     }
                                 }
@@ -476,10 +444,10 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             String municipioResidencia = (String) parametros.get("parMunicipio");
             String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
             String esquemaDeTratamentoAtual;
-            String dataInicio1 = (String) parametros.get("dataInicio1");
-            String dataFim1 = (String) parametros.get("dataFim1");
-            String dataInicio2 = (String) parametros.get("dataInicio2");
-            String dataFim2 = (String) parametros.get("dataFim2");
+            String dataInicioPB = (String) parametros.get("parDataInicioCoortePB");
+            String dataFimPB = (String) parametros.get("parDataFimCoortePB");
+            String dataInicioMB = (String) parametros.get("parDataInicioCoorteMB");
+            String dataFimMB = (String) parametros.get("parDataFimCoorteMB");
             String modoEntrada;
             String classificacaoOperacionalAtual;
             Date dtDiagnostico;
@@ -507,15 +475,13 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
 
                         if (verificaMunicipio(municipioResidencia, utilDbf.getString(rowObjects, "MUNIRESAT"))) {
                             if (modoEntrada.equals("1")) {
-                                if (isBetweenDates(dtDiagnostico, dataInicio1, dataFim1) 
+                                if (isBetweenDates(dtDiagnostico, dataInicioPB, dataFimPB) 
                                         && classificacaoOperacionalAtual.equals("1")
                                         && esquemaDeTratamentoAtual.equals("1")) {
-                                    //PB
                                     validaCriteriosSemReferenciaDeMunicipio(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, this);
-                                }else if(isBetweenDates(dtDiagnostico, dataInicio2, dataFim2)
+                                }else if(isBetweenDates(dtDiagnostico, dataInicioMB, dataFimMB)
                                         && classificacaoOperacionalAtual.equals("2")
                                         && esquemaDeTratamentoAtual.equals("2")){
-                                    //MB
                                     validaCriteriosSemReferenciaDeMunicipio(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, this);
                                 }
                             }
@@ -584,6 +550,16 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         Map parametros = new HashMap();
         parametros.put("parDataInicio", Util.formataData(this.getDataInicio()));
         parametros.put("parDataFim", Util.formataData(this.getDataFim()));
+        
+        parametros.put("parDataInicioCoortePB", Util.formataData(SinanDateUtil.subtrairAno(this.getDataInicio(), -1)));
+        parametros.put("parDataFimCoortePB", Util.formataData(SinanDateUtil.subtrairAno(this.getDataFim(), -1)));
+        parametros.put("parPeriodoCoortePB", SinanDateUtil.subtrairAno(this.getDataInicio(), -1) + " a " + SinanDateUtil.subtrairAno(this.getDataFim(), -1)+" (PB)");
+
+        parametros.put("parDataInicioCoorteMB", Util.formataData(SinanDateUtil.subtrairAno(this.getDataInicio(), -2)));
+        parametros.put("parDataFimCoorteMB", Util.formataData(SinanDateUtil.subtrairAno(this.getDataFim(), -2)));
+        parametros.put("parPeriodoCoorteMB", SinanDateUtil.subtrairAno(this.getDataInicio(), -2)+ " a " + SinanDateUtil.subtrairAno(this.getDataFim(), -2)+" (MB)" );
+        
+        
         parametros.put("parPeriodo", "de " + this.getDataInicio() + " a " + this.getDataFim());
         parametros.put("parTituloColuna", this.getTituloColuna());
         parametros.put("parFator", String.valueOf(this.getMultiplicador()));
@@ -672,62 +648,6 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         this.cura = cura;
     }
 
-    public String getAbandono() {
-        return abandono;
-    }
-
-    public void setAbandono(String abandono) {
-        this.abandono = abandono;
-    }
-
-    public String getTransfMesmoMunicipio() {
-        return transfMesmoMunicipio;
-    }
-
-    public void setTransfMesmoMunicipio(String transfMesmoMunicipio) {
-        this.transfMesmoMunicipio = transfMesmoMunicipio;
-    }
-
-    public String getTransfOutroMunicipio() {
-        return transfOutroMunicipio;
-    }
-
-    public void setTransfOutroMunicipio(String transfOutroMunicipio) {
-        this.transfOutroMunicipio = transfOutroMunicipio;
-    }
-
-    public String getTransfOutroUf() {
-        return transfOutroUf;
-    }
-
-    public void setTransfOutroUf(String transfOutroUf) {
-        this.transfOutroUf = transfOutroUf;
-    }
-
-    public String getNaoPreenchido() {
-        return naoPreenchido;
-    }
-
-    public void setNaoPreenchido(String naoPreenchido) {
-        this.naoPreenchido = naoPreenchido;
-    }
-
-    public String getErroDiagnostico() {
-        return erroDiagnostico;
-    }
-
-    public void setErroDiagnostico(String erroDiagnostico) {
-        this.erroDiagnostico = erroDiagnostico;
-    }
-
-    public String getPerNaoPreenchido() {
-        return perNaoPreenchido;
-    }
-
-    public void setPerNaoPreenchido(String perNaoPreenchido) {
-        this.perNaoPreenchido = perNaoPreenchido;
-    }
-
     public String getSubTotal() {
         return subTotal;
     }
@@ -744,44 +664,12 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         this.total = total;
     }
 
-    public String getPerAbandono() {
-        return perAbandono;
-    }
-
-    public void setPerAbandono(String perAbandono) {
-        this.perAbandono = perAbandono;
-    }
-
     public String getPerCura() {
         return perCura;
     }
 
     public void setPerCura(String perCura) {
         this.perCura = perCura;
-    }
-
-    public String getTransfOutroPais() {
-        return transfOutroPais;
-    }
-
-    public void setTransfOutroPais(String transfOutroPais) {
-        this.transfOutroPais = transfOutroPais;
-    }
-
-    public String getObito() {
-        return obito;
-    }
-
-    public void setObito(String obito) {
-        this.obito = obito;
-    }
-
-    public String getTransfNaoEspecificada() {
-        return transfNaoEspecificada;
-    }
-
-    public void setTransfNaoEspecificada(String transfNaoEspecificada) {
-        this.transfNaoEspecificada = transfNaoEspecificada;
     }
 
     public static String getDtPbInicial() {
