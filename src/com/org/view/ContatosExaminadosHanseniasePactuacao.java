@@ -102,6 +102,14 @@ public class ContatosExaminadosHanseniasePactuacao extends javax.swing.JPanel {
         if (lblArquivosSelecionados.getText().equals("Nenhum arquivo selecionado")) {
             SinanUtil.mensagem("Nenhum arquivo foi selecionado");
             return false;
+        }if (dtInicioAvaliacao.getDate() != null && dtFimAvaliacao.getDate() != null ){
+             if (SinanDateUtil.calculaDiferencaDias(dtInicioAvaliacao.getDate(), dtFimAvaliacao.getDate())< 0){
+                 SinanUtil.mensagem("A data inicial não pode ser maior que a data final");
+                return false;
+             }else if (SinanDateUtil.checkDateMajorCurrentDate(dtFimAvaliacao.getDate())){
+                 SinanUtil.mensagem("A data final não pode ser maior que data corrente");
+                 return false;
+             }
         }
         return true;
     }

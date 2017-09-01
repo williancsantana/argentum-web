@@ -12,6 +12,7 @@ import com.org.model.classes.Agravo;
 import com.org.model.classes.ColunasDbf;
 import com.org.negocio.Configuracao;
 import com.org.negocio.Util;
+import com.org.util.SinanDateUtil;
 import com.org.util.SinanUtil;
 import com.org.view.Master;
 import java.io.IOException;
@@ -19,11 +20,14 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -92,8 +96,8 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
         int numeradorEstadual = 0;
         int denominadorEstadual = 0;
 
-        String dataInicio = (String) parametros.get("parDataInicio");
-        String dataFim = (String) parametros.get("parDataFim");
+        String dataInicio = (String) parametros.get("parDataInicioCoortePB");
+        String dataFim = (String) parametros.get("parDataFimCoortePB");
 
         // if (utilDbf.getString(rowObjects, "SG_UF") != null) {
         //verifica se existe a referencia do municipio no bean
@@ -105,6 +109,14 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
         if (utilDbf.getString(rowObjects, "ID_AGRAVO") != null) {
             CID_A309 = utilDbf.getString(rowObjects, "ID_AGRAVO").equals("A309");
         }
+
+        if (utilDbf.getString(rowObjects, "CLASSATUAL") != null) {
+            if (utilDbf.getString(rowObjects, "CLASSATUAL").equals("2")) {
+                dataInicio = (String) parametros.get("parDataInicioCoorteMB");
+                dataFim = (String) parametros.get("parDataFimCoorteMB");
+            }
+        }
+
         if (utilDbf.getString(rowObjects, "MODOENTR") != null) {
             MODOENTR = utilDbf.getString(rowObjects, "MODOENTR").equals("1");
         }
@@ -460,6 +472,16 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
         Map parametros = new HashMap();
         parametros.put("parDataInicio", Util.formataData(this.getDtInicioAvaliacao()));
         parametros.put("parDataFim", Util.formataData(this.getDtFimAvaliacao()));
+        parametros.put("parDataInicioCoortePB", Util.formataData(SinanDateUtil.subtrairAno(this.getDtInicioAvaliacao(), -1)));
+        parametros.put("parDataFimCoortePB", Util.formataData(SinanDateUtil.subtrairAno(this.getDtFimAvaliacao(), -1)));
+        parametros.put("parPeriodoCoortePB", SinanDateUtil.subtrairAno(this.getDtInicioAvaliacao(), -1) + " a " + SinanDateUtil.subtrairAno(this.getDtFimAvaliacao(), -1)+" (PB)");
+
+        parametros.put("parDataInicioCoorteMB", Util.formataData(SinanDateUtil.subtrairAno(this.getDtInicioAvaliacao(), -2)));
+        parametros.put("parDataFimCoorteMB", Util.formataData(SinanDateUtil.subtrairAno(this.getDtFimAvaliacao(), -2)));
+        parametros.put("parPeriodoCoorteMB", SinanDateUtil.subtrairAno(this.getDtInicioAvaliacao(), -2)+ " a " + SinanDateUtil.subtrairAno(this.getDtFimAvaliacao(), -2)+" (MB)" );
+        
+        
+        
         parametros.put("parPeriodo", "de " + this.getDtInicioAvaliacao() + " a " + this.getDtFimAvaliacao());
         parametros.put("parTituloColuna", this.getTituloColuna());
         parametros.put("parFator", String.valueOf(this.getMultiplicador()));
