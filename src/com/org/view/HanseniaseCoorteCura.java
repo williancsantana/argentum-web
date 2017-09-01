@@ -557,19 +557,9 @@ public class HanseniaseCoorteCura extends javax.swing.JPanel {
         session.setBrasil(true);
         session.setTodosMunicipios(true);
         SessionFacadeImpl.setNomeDbf("HANSN");
-//        if (SessionFacadeImpl.isDbf()) {
-//            if (!Master.escolherDBF()) //gerar o relatorio
-//            {
-//                return;
-//            }
-//        }
         //verifica se vai exportar para dbf o resultado
         if (chkExportarDbf.isSelected()) {
             session.setExportarDbf(true);
-            //abrir janela para definir o nome do arquivo para exportação
-            //            if (!Master.setNomeArquivoDBF()) {
-            //                return;
-            //            }
         } else {
             session.setExportarDbf(false);
         }
@@ -591,7 +581,6 @@ public class HanseniaseCoorteCura extends javax.swing.JPanel {
                         JOptionPane.ERROR_MESSAGE);
             } else {
                 //datas completas
-
                 parametros.put("parDataInicio1", Util.formataData(dataInicio1));
                 parametros.put("parDataFim1", Util.formataData(dataFim1));
                 parametros.put("parDataInicio2", Util.formataData(dataInicio2));

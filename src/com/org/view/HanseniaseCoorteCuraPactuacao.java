@@ -4,6 +4,7 @@ import com.org.facade.SessionFacadeImpl;
 import com.org.model.classes.Agravo;
 import com.org.negocio.Configuracao;
 import com.org.negocio.FiltroArquivo;
+import com.org.negocio.Util;
 import com.org.util.SinanDateUtil;
 import com.org.util.SinanUtil;
 import java.io.File;
@@ -55,21 +56,21 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
             SinanUtil.mensagem("Selecione o Município de residência");
             return false;
         }
-        if (SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy").equals("")) {
+        if (SinanDateUtil.dateToStringException(dataInicio2.getDate(), "dd/MM/yyyy").equals("")) {
             SinanUtil.mensagem("Informe o período inicial");
             return false;
         }
-        if (SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy").equals("")) {
+        if (SinanDateUtil.dateToStringException(dataFim2.getDate(), "dd/MM/yyyy").equals("")) {
             SinanUtil.mensagem("Informe o período final");
             return false;
         }
-        if (Integer.parseInt(SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy").substring(6, 10)) < 2007) {
+        if (Integer.parseInt(SinanDateUtil.dateToStringException(dataInicio2.getDate(), "dd/MM/yyyy").substring(6, 10)) < 2007) {
             SinanUtil.mensagem("O período inicial deve ser maior que 2007");
             return false;
         }
         try {
-            Date dtInicio = Agravo.converterParaData(SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy"));
-            Date dtFim = Agravo.converterParaData(SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy"));
+            Date dtInicio = Agravo.converterParaData(SinanDateUtil.dateToStringException(dataInicio2.getDate(), "dd/MM/yyyy"));
+            Date dtFim = Agravo.converterParaData(SinanDateUtil.dateToStringException(dataFim2.getDate(), "dd/MM/yyyy"));
             if (dtFim.before(dtInicio)) {
                 SinanUtil.mensagem("Data final deve ser maior que inicial");
                 return false;
@@ -97,21 +98,27 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         jLabel = new javax.swing.JLabel();
         cbDesagregacao = new javax.swing.JComboBox();
         cbRegional = new javax.swing.JComboBox();
-        btCalcular = new javax.swing.JButton();
         jpDataPrimeiroSintomas = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         lblAviso = new javax.swing.JLabel();
-        dataInicio = new com.toedter.calendar.JDateChooser("dd/MM/yyyy", "##/##/#####", '_');
-        dataFim = new com.toedter.calendar.JDateChooser("dd/MM/yyyy", "##/##/#####", '_');
-        btLimpar = new javax.swing.JButton();
+        dataInicio2 = new com.toedter.calendar.JDateChooser("dd/MM/yyyy", "##/##/#####", '_');
+        dataFim2 = new com.toedter.calendar.JDateChooser("dd/MM/yyyy", "##/##/#####", '_');
         lblUF = new javax.swing.JLabel();
-        prbStatus = new javax.swing.JProgressBar();
         cbMunicipio = new javax.swing.JComboBox();
         pnlArquivos = new javax.swing.JPanel();
         btnSelecionarArquivos = new javax.swing.JButton();
         btnLimparSelecao = new javax.swing.JButton();
         lblArquivosSelecionados = new javax.swing.JLabel();
+        btLimpar = new javax.swing.JButton();
+        btCalcular = new javax.swing.JButton();
+        prbStatus = new javax.swing.JProgressBar();
+        jpDataPrimeiroSintomas1 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        lblAviso1 = new javax.swing.JLabel();
+        dataInicio1 = new com.toedter.calendar.JDateChooser("dd/MM/yyyy", "##/##/#####", '_');
+        dataFim1 = new com.toedter.calendar.JDateChooser("dd/MM/yyyy", "##/##/#####", '_');
 
         lblRegional.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblRegional.setText("Regional de Notificação:"); // NOI18N
@@ -143,14 +150,7 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
             }
         });
 
-        btCalcular.setLabel("Calcular");
-        btCalcular.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btCalcularActionPerformed(evt);
-            }
-        });
-
-        jpDataPrimeiroSintomas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data de Notificação", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        jpDataPrimeiroSintomas.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de diagnóstico MB", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         jLabel9.setText("De"); // NOI18N
 
@@ -159,9 +159,9 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         lblAviso.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblAviso.setForeground(new java.awt.Color(255, 0, 0));
 
-        dataInicio.getJCalendar().setWeekOfYearVisible(false);
+        dataInicio2.getJCalendar().setWeekOfYearVisible(false);
 
-        dataFim.getJCalendar().setWeekOfYearVisible(false);
+        dataFim2.getJCalendar().setWeekOfYearVisible(false);
 
         javax.swing.GroupLayout jpDataPrimeiroSintomasLayout = new javax.swing.GroupLayout(jpDataPrimeiroSintomas);
         jpDataPrimeiroSintomas.setLayout(jpDataPrimeiroSintomasLayout);
@@ -173,11 +173,11 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
                     .addGroup(jpDataPrimeiroSintomasLayout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dataInicio2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(52, 52, 52)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(dataFim2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblAviso))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -186,8 +186,8 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
             .addGroup(jpDataPrimeiroSintomasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jpDataPrimeiroSintomasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dataFim2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dataInicio2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jpDataPrimeiroSintomasLayout.createSequentialGroup()
                         .addGroup(jpDataPrimeiroSintomasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
@@ -196,13 +196,6 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
                         .addComponent(lblAviso)))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
-
-        btLimpar.setText("Limpar");
-        btLimpar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btLimparActionPerformed(evt);
-            }
-        });
 
         lblUF.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblUF.setText("UF de Notificação:"); // NOI18N
@@ -233,11 +226,31 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         lblArquivosSelecionados.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         lblArquivosSelecionados.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        btLimpar.setText("Limpar");
+        btLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLimparActionPerformed(evt);
+            }
+        });
+
+        btCalcular.setLabel("Calcular");
+        btCalcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCalcularActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlArquivosLayout = new javax.swing.GroupLayout(pnlArquivos);
         pnlArquivos.setLayout(pnlArquivosLayout);
         pnlArquivosLayout.setHorizontalGroup(
             pnlArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(prbStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlArquivosLayout.createSequentialGroup()
+                .addGap(134, 134, 134)
+                .addComponent(btCalcular)
+                .addGap(26, 26, 26)
+                .addComponent(btLimpar)
+                .addContainerGap(69, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(pnlArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlArquivosLayout.createSequentialGroup()
                     .addContainerGap()
@@ -251,7 +264,14 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         );
         pnlArquivosLayout.setVerticalGroup(
             pnlArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 71, Short.MAX_VALUE)
+            .addGroup(pnlArquivosLayout.createSequentialGroup()
+                .addGap(66, 66, 66)
+                .addComponent(prbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btCalcular, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btLimpar))
+                .addGap(21, 21, 21))
             .addGroup(pnlArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlArquivosLayout.createSequentialGroup()
                     .addGap(1, 1, 1)
@@ -260,28 +280,60 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
                         .addComponent(btnLimparSelecao))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(lblArquivosSelecionados)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(80, Short.MAX_VALUE)))
+        );
+
+        jpDataPrimeiroSintomas1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de diagnóstico PB", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        jLabel11.setText("De"); // NOI18N
+
+        jLabel12.setText("até"); // NOI18N
+
+        lblAviso1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblAviso1.setForeground(new java.awt.Color(255, 0, 0));
+
+        dataInicio2.getJCalendar().setWeekOfYearVisible(false);
+
+        dataFim2.getJCalendar().setWeekOfYearVisible(false);
+
+        javax.swing.GroupLayout jpDataPrimeiroSintomas1Layout = new javax.swing.GroupLayout(jpDataPrimeiroSintomas1);
+        jpDataPrimeiroSintomas1.setLayout(jpDataPrimeiroSintomas1Layout);
+        jpDataPrimeiroSintomas1Layout.setHorizontalGroup(
+            jpDataPrimeiroSintomas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpDataPrimeiroSintomas1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpDataPrimeiroSintomas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpDataPrimeiroSintomas1Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dataInicio1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dataFim1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblAviso1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jpDataPrimeiroSintomas1Layout.setVerticalGroup(
+            jpDataPrimeiroSintomas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpDataPrimeiroSintomas1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpDataPrimeiroSintomas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dataFim1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dataInicio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jpDataPrimeiroSintomas1Layout.createSequentialGroup()
+                        .addGroup(jpDataPrimeiroSintomas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel12))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblAviso1)))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jpDataPrimeiroSintomas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlArquivos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(prbStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(11, 11, 11))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(134, 134, 134)
-                        .addComponent(btCalcular)
-                        .addGap(26, 26, 26)
-                        .addComponent(btLimpar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -298,6 +350,13 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
                         .addComponent(cbRegional, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cbDesagregacao, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(444, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpDataPrimeiroSintomas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlArquivos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpDataPrimeiroSintomas1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -320,17 +379,13 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
                     .addComponent(cbMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(chkExportarDbf)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jpDataPrimeiroSintomas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jpDataPrimeiroSintomas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlArquivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(prbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btCalcular, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btLimpar))
-                .addContainerGap())
+                .addGap(102, 102, 102))
         );
 
         jpDataPrimeiroSintomas.getAccessibleContext().setAccessibleName("Data de Notificação\n");
@@ -387,9 +442,13 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         if (!this.preencheuFormulario()) {
             return;
         }
+        String dataInicio1 = SinanDateUtil.dateToStringException(this.dataInicio1.getDate(), "dd/MM/yyyy");
+        String dataFim1 = SinanDateUtil.dateToStringException(this.dataFim1.getDate(), "dd/MM/yyyy");
+        String dataInicio2 = SinanDateUtil.dateToStringException(this.dataInicio2.getDate(), "dd/MM/yyyy");
+        String dataFim2 = SinanDateUtil.dateToStringException(this.dataFim2.getDate(), "dd/MM/yyyy");
         session = new SessionFacadeImpl();
         session.setBrasil(true);
-        SessionFacadeImpl.setNomeDbf("VIOLENET");
+        SessionFacadeImpl.setNomeDbf("HANSNET");
         session.setTodosMunicipios(true);
         //verifica se vai exportar para dbf o resultado
         if (chkExportarDbf.isSelected()) {
@@ -410,9 +469,11 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         parametros.put("parSgUf", cbUf.getSelectedItem().toString());
         parametros.put("parRegionalSaude","");
         parametros.put("parRegiaoSaude","");
-        parametros.put("parAnoPeriodoAvaliacao", 
-                SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy") 
-                + " a "+ SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy"));
+        parametros.put("dataInicio1", Util.formataData(dataInicio1));
+        parametros.put("dataInicio2", Util.formataData(dataInicio2));
+        parametros.put("dataFim1", Util.formataData(dataFim1));
+        parametros.put("dataFim2", Util.formataData(dataFim2));
+        parametros.put("parAnoPeriodoAvaliacao", dataInicio1 + " a " + dataFim1 + "\n" + dataInicio2 + " a " + dataFim2);
 
         if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")){
             parametros.put("parIsRegiao", true);
@@ -434,8 +495,8 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         }
         //parametros.put("parAnoPeriodoAvaliacao", SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy") + " a " + SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy"));
         session.setParametros(parametros);
-        session.setDataFim(SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy"));
-        session.setDataInicio(SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy"));
+        session.setDataFim(dataFim2);
+        session.setDataInicio(dataInicio2);
         session.setJprogress(prbStatus);
         session.setMunicipio(cbMunicipio.getSelectedItem().toString());
         if(cbRegional.getSelectedItem() != null){
@@ -444,7 +505,7 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         }
 
         session.setUf(cbUf.getSelectedItem().toString());
-        session.setRelatorio("Violencia");
+        session.setRelatorio("HanseniaseCoorteCura");
         session.execute();
     }//GEN-LAST:event_btCalcularActionPerformed
 
@@ -502,14 +563,20 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
     private javax.swing.JComboBox cbRegional;
     private javax.swing.JComboBox cbUf;
     private javax.swing.JCheckBox chkExportarDbf;
-    private com.toedter.calendar.JDateChooser dataFim;
-    private com.toedter.calendar.JDateChooser dataInicio;
+    private com.toedter.calendar.JDateChooser dataFim1;
+    private com.toedter.calendar.JDateChooser dataFim2;
+    private com.toedter.calendar.JDateChooser dataInicio1;
+    private com.toedter.calendar.JDateChooser dataInicio2;
     private javax.swing.JLabel jLabel;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jpDataPrimeiroSintomas;
+    private javax.swing.JPanel jpDataPrimeiroSintomas1;
     private javax.swing.JLabel lblArquivosSelecionados;
     private javax.swing.JLabel lblAviso;
+    private javax.swing.JLabel lblAviso1;
     private javax.swing.JLabel lblDesagregacao;
     private javax.swing.JLabel lblRegional;
     private javax.swing.JLabel lblUF;
