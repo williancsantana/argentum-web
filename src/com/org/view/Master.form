@@ -48,11 +48,14 @@
                   <Component id="pnlFitroTipoRelatorio" alignment="0" max="32767" attributes="1"/>
                   <Group type="102" attributes="0">
                       <Component id="jTabbedPane1" min="-2" pref="588" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lblVersaoRodape" min="-2" pref="52" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="lblVersaoRodape" min="-2" pref="52" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -62,9 +65,9 @@
               <Component id="pnlFitroTipoRelatorio" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jTabbedPane1" min="-2" pref="453" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="lblVersaoRodape" min="-2" pref="20" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="lblVersaoRodape" min="-2" pref="20" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -89,9 +92,7 @@
                   <Component id="rbtDBF" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="rbtPostgres" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="lblVersao" min="-2" pref="37" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="249" max="-2" attributes="0"/>
+                  <EmptySpace min="249" max="32767" attributes="0"/>
               </Group>
               <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
           </Group>
@@ -99,13 +100,10 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblBaseDados" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="rbtDBF" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="rbtPostgres" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="lblVersao" min="-2" pref="10" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblBaseDados" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbtDBF" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbtPostgres" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel1" min="-2" pref="112" max="-2" attributes="0"/>
@@ -136,8 +134,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Base de dados:"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="lblVersao">
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel1">
 
@@ -178,9 +174,13 @@
                               <Component id="cmbFiltroRelatorio" min="-2" max="-2" attributes="0"/>
                               <Component id="cmbFiltroAgravo" min="-2" max="-2" attributes="0"/>
                               <Component id="cmbFiltroGrupoRelatorios" min="-2" max="-2" attributes="0"/>
-                              <Component id="cmbFiltroSubgrupoRelatorios" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="cmbFiltroSubgrupoRelatorios" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="118" max="-2" attributes="0"/>
+                                  <Component id="lblVersao" min="-2" pref="37" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace pref="425" max="32767" attributes="0"/>
+                          <EmptySpace pref="270" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -198,9 +198,12 @@
                               <Component id="lblFiltroAgravo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="cmbFiltroSubgrupoRelatorios" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblSubgrupoRelatórios" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="cmbFiltroSubgrupoRelatorios" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblSubgrupoRelatórios" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="lblVersao" min="-2" pref="10" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -279,6 +282,8 @@
                     <Property name="text" type="java.lang.String" value="Agravo:"/>
                   </Properties>
                 </Component>
+                <Component class="javax.swing.JLabel" name="lblVersao">
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>
@@ -290,11 +295,6 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
     </Container>
     <Component class="javax.swing.JLabel" name="lblVersaoRodape">
-      <Properties>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="33" green="cc" red="0" type="rgb"/>
-        </Property>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>
