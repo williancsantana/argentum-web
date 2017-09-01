@@ -178,6 +178,7 @@ public class ViolenciaAgravo extends Agravo {
             Agravo finalAgravo = new Agravo();
             finalAgravo.setNomeMunicipio("TOTAL");
             this.getBeans().add(finalAgravo);
+            setParametroRegiaoOuRegional(parametros);
             
         }catch (ParseException ex) {
             ex.printStackTrace();
@@ -319,9 +320,18 @@ public class ViolenciaAgravo extends Agravo {
             Agravo finalAgravo = new Agravo();
             finalAgravo.setNomeMunicipio("TOTAL");
             this.getBeans().add(finalAgravo);
+            setParametroRegiaoOuRegional(parametros);
             
         } catch (ParseException ex) {
             ex.printStackTrace();
+        }
+    }
+    
+    private void setParametroRegiaoOuRegional(Map parametros){
+        if ((Boolean) parametros.get("parIsRegiao")) {
+            parametros.put("parDescricaoRegional","Região de notificação:");
+        }else{
+            parametros.put("parDescricaoRegional","Regional de notificação:");
         }
     }
     
@@ -471,6 +481,8 @@ public class ViolenciaAgravo extends Agravo {
             }
             this.setBeans(new ArrayList());
             this.getBeans().add(violenciaMunicipio);
+            setParametroRegiaoOuRegional(parametros);
+            
         } catch (NumberFormatException | ParseException | DBFException ex) {
             ex.printStackTrace();
         }

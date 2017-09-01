@@ -124,7 +124,7 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         dataFim2 = new com.toedter.calendar.JDateChooser("dd/MM/yyyy", "##/##/#####", '_');
 
         lblRegional.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblRegional.setText("Regional de Notificação:"); // NOI18N
+        lblRegional.setText("Regional de Residência Atual:"); // NOI18N
 
         chkExportarDbf.setText("Salvar resultado em DBF");
 
@@ -138,7 +138,7 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         lblDesagregacao.setText("Desagregação:");
 
         jLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel.setText("Município de Notificação:"); // NOI18N
+        jLabel.setText("Município  de Residência Atual:"); // NOI18N
 
         cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "Somente municípios", "UF subdividida por Regiões de Saúde", "UF subdividida por Regional de Saúde" }));
         cbDesagregacao.addActionListener(new java.awt.event.ActionListener() {
@@ -154,7 +154,7 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         });
 
         lblUF.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblUF.setText("UF de Notificação:"); // NOI18N
+        lblUF.setText("UF de Residência Atual:"); // NOI18N
 
         cbMunicipio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -239,7 +239,7 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
                     .addContainerGap(80, Short.MAX_VALUE)))
         );
 
-        jpDataPrimeiroSintomas1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de diagnóstico", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        jpDataPrimeiroSintomas1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Período de avaliação", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         jLabel11.setText("De"); // NOI18N
 
@@ -305,7 +305,7 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
                         .addComponent(cbMunicipio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cbRegional, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cbDesagregacao, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(444, Short.MAX_VALUE))
+                .addContainerGap(409, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
