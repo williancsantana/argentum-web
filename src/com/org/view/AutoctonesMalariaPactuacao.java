@@ -259,7 +259,7 @@ public class AutoctonesMalariaPactuacao extends javax.swing.JPanel {
         });
 
         lblUF.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblUF.setText("UF de Residência:"); // NOI18N
+        lblUF.setText("UF de Infecção:"); // NOI18N
 
         cbUf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,10 +268,10 @@ public class AutoctonesMalariaPactuacao extends javax.swing.JPanel {
         });
 
         lblRegional.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblRegional.setText("Região de Saúde:"); // NOI18N
+        lblRegional.setText("Região de Infecção:"); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setText("Município de Residência:"); // NOI18N
+        jLabel4.setText("Município de Infecção:"); // NOI18N
 
         btCalcular.setLabel("Calcular");
         btCalcular.addActionListener(new java.awt.event.ActionListener() {
@@ -507,14 +507,14 @@ public class AutoctonesMalariaPactuacao extends javax.swing.JPanel {
 //        if (cbDesagregacao.getSelectedItem().equals("UF subdividida por Regiões de Saúde")) {
 
         if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")) {
-            lblRegional.setText("Região de Residência");
+            lblRegional.setText("Região de Infecção");
             lblRegional.setVisible(true);
             cbRegional.setVisible(true);
             modelo = new DefaultComboBoxModel(this.session.retornaRegioes(this.cbUf.getSelectedItem().toString()));
             this.cbRegional.setModel(modelo);
 
         } else if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regionais de Saúde")) {
-            lblRegional.setText("Regional de Residência");
+            lblRegional.setText("Regional de Infecção");
             lblRegional.setVisible(true);
             cbRegional.setVisible(true);
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));

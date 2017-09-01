@@ -347,13 +347,13 @@ public class Violencia extends javax.swing.JPanel {
             lblRegional.setVisible(false);
             cbRegional.setVisible(false);
         } else if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")) {
-            lblRegional.setText("Região de Residência");
+            lblRegional.setText("Região de Notificação");
             lblRegional.setVisible(true);
             cbRegional.setVisible(true);
             modelo = new DefaultComboBoxModel(this.session.retornaRegioes(this.cbUf.getSelectedItem().toString()));
             this.cbRegional.setModel(modelo);
         } else if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regional de Saúde")) {
-            lblRegional.setText("Regional de Residência");
+            lblRegional.setText("Regional de Notificação");
             lblRegional.setVisible(true);
             cbRegional.setVisible(true);
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));

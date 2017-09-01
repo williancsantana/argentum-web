@@ -301,7 +301,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="11" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="UF de Resid&#xea;ncia:" noResource="true"/>
+        <Property name="text" type="java.lang.String" value="UF de Infec&#xe7;&#xe3;o:" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="cbUf">
@@ -319,7 +319,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="11" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Regi&#xe3;o de Sa&#xfa;de:" noResource="true"/>
+        <Property name="text" type="java.lang.String" value="Regi&#xe3;o de Infec&#xe7;&#xe3;o:" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
@@ -327,7 +327,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="11" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Munic&#xed;pio de Resid&#xea;ncia:" noResource="true"/>
+        <Property name="text" type="java.lang.String" value="Munic&#xed;pio de Infec&#xe7;&#xe3;o:" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JProgressBar" name="prbStatus">
