@@ -85,6 +85,8 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
         Boolean CID_A309 = false;
         Boolean MODOENTR = false;
         Boolean CLASSATUAL = false;
+        Boolean MB = false;
+        Boolean PB = false;
         Boolean ESQ_ATU_N = false;
         Boolean TP_ALTA_MUNICIPAL = false;
         Boolean TP_ALTA_ESTADUAL = false;
@@ -110,21 +112,23 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
             CID_A309 = utilDbf.getString(rowObjects, "ID_AGRAVO").equals("A309");
         }
 
-        if (utilDbf.getString(rowObjects, "CLASSATUAL") != null && utilDbf.getString(rowObjects, "ESQ_ATU_N") != null )  {
-            if (utilDbf.getString(rowObjects, "CLASSATUAL").equals("2") && utilDbf.getString(rowObjects, "ESQ_ATU_N").equals("2")  ) {
+        if (utilDbf.getString(rowObjects, "CLASSATUAL") != null && utilDbf.getString(rowObjects, "ESQ_ATU_N") != null) {
+
+            if (utilDbf.getString(rowObjects, "CLASSATUAL").equals("2") && utilDbf.getString(rowObjects, "ESQ_ATU_N").equals("2")) {
                 dataInicio = (String) parametros.get("parDataInicioCoorteMB");
                 dataFim = (String) parametros.get("parDataFimCoorteMB");
+                MB = true;
             }
+            if (utilDbf.getString(rowObjects, "CLASSATUAL").equals("1") && utilDbf.getString(rowObjects, "ESQ_ATU_N").equals("1")) {
+                dataInicio = (String) parametros.get("parDataInicioCoortePB");
+                dataFim = (String) parametros.get("parDataFimCoortePB");
+                PB = true;
+            }
+
         }
 
         if (utilDbf.getString(rowObjects, "MODOENTR") != null) {
             MODOENTR = utilDbf.getString(rowObjects, "MODOENTR").equals("1");
-        }
-        if (utilDbf.getString(rowObjects, "CLASSATUAL") != null) {
-            CLASSATUAL = utilDbf.getString(rowObjects, "CLASSATUAL").equals("1") || utilDbf.getString(rowObjects, "CLASSATUAL").equals("2");
-        }
-        if (utilDbf.getString(rowObjects, "ESQ_ATU_N") != null) {
-            ESQ_ATU_N = utilDbf.getString(rowObjects, "ESQ_ATU_N").equals("1") || utilDbf.getString(rowObjects, "ESQ_ATU_N").equals("2");
         }
         if (utilDbf.getString(rowObjects, "TPALTA_N") != null) {
             TP_ALTA_MUNICIPAL = utilDbf.getString(rowObjects, "TPALTA_N").equals("1")
@@ -146,52 +150,70 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
             TP_ALTA_ESTADUAL = true;
         }
 
-        if (municipioResidencia != null && CID_A309 && MODOENTR && CLASSATUAL && ESQ_ATU_N) {
+        if (municipioResidencia != null && CID_A309 && MODOENTR && (MB || PB)) {
 
             if (isBetweenDates(dtDiagnostico, dataInicio, dataFim)) {
-                if (utilDbf.getString(rowObjects, "CONTREG") != null) {
 
-                    if (!(Boolean) parametros.get("parNenhum")) {
-                        if (TP_ALTA_MUNICIPAL) {
+                if (municipioResidencia != null) {
+                    if (municipioResidencia.getCodMunicipio().equals("312770")) {
+                        System.out.println (utilDbf.getString(rowObjects, "NU_NOTIFIC")+" "+
+                                            utilDbf.getString(rowObjects, "MODOENTR") +" "+  
+                                            utilDbf.getString(rowObjects, "CLASSATUAL") +" "+
+                                            utilDbf.getString(rowObjects, "ESQ_ATU_N") +" "+
+                                             utilDbf.getString(rowObjects, "TPALTA_N") +" "+
+                                             dataInicio +" "+dataFim +" "+
+                                             utilDbf.getString(rowObjects, "CONTREG")+" "+
+                                             utilDbf.getString(rowObjects, "CONTEXAM")
+                        );
+                    }
+                }
+
+                if (utilDbf.getString(rowObjects, "CONTREG") != null) {
+                    if (!utilDbf.getString(rowObjects, "CONTREG").isEmpty()) {
+
+                        if (!(Boolean) parametros.get("parNenhum")) {
+                            if (TP_ALTA_MUNICIPAL) {
+                                numerador = Integer.parseInt(municipioResidencia.getNumerador());
+                                numerador += (utilDbf.getInt(rowObjects, "CONTREG"));
+                                municipioResidencia.setNumerador(String.valueOf(numerador));
+                                municipioResidencia.setNumeradorInt(numerador);
+                            }
+                        } else if (TP_ALTA_ESTADUAL) {
                             numerador = Integer.parseInt(municipioResidencia.getNumerador());
                             numerador += (utilDbf.getInt(rowObjects, "CONTREG"));
                             municipioResidencia.setNumerador(String.valueOf(numerador));
                             municipioResidencia.setNumeradorInt(numerador);
-                        }
-                    } else if (TP_ALTA_ESTADUAL) {
-                        numerador = Integer.parseInt(municipioResidencia.getNumerador());
-                        numerador += (utilDbf.getInt(rowObjects, "CONTREG"));
-                        municipioResidencia.setNumerador(String.valueOf(numerador));
-                        municipioResidencia.setNumeradorInt(numerador);
 
-                    }
-                    if (TP_ALTA_ESTADUAL) {
-                        numeradorEstadual = (Integer) parametros.get("numeradorTotal");
-                        numeradorEstadual += utilDbf.getInt(rowObjects, "CONTREG");
-                        parametros.put("numeradorTotal", numeradorEstadual);
+                        }
+                        if (TP_ALTA_ESTADUAL) {
+                            numeradorEstadual = (Integer) parametros.get("numeradorTotal");
+                            numeradorEstadual += utilDbf.getInt(rowObjects, "CONTREG");
+                            parametros.put("numeradorTotal", numeradorEstadual);
+                        }
                     }
                 }
                 if (utilDbf.getString(rowObjects, "CONTEXAM") != null) {
-
-                    if (!(Boolean) parametros.get("parNenhum")) {
-                        if (TP_ALTA_MUNICIPAL) {
+                    if (!utilDbf.getString(rowObjects, "CONTEXAM").isEmpty()) {
+                        if (!(Boolean) parametros.get("parNenhum")) {
+                            if (TP_ALTA_MUNICIPAL) {
+                                denominador = Integer.parseInt(municipioResidencia.getDenominador());
+                                denominador += utilDbf.getInt(rowObjects, "CONTEXAM");
+                                municipioResidencia.setDenominador(String.valueOf(denominador));
+                                municipioResidencia.setDenominadorInt(denominador);
+                            }
+                        } else if (TP_ALTA_ESTADUAL) {
                             denominador = Integer.parseInt(municipioResidencia.getDenominador());
                             denominador += utilDbf.getInt(rowObjects, "CONTEXAM");
                             municipioResidencia.setDenominador(String.valueOf(denominador));
                             municipioResidencia.setDenominadorInt(denominador);
+
                         }
-                    } else if (TP_ALTA_ESTADUAL) {
-                        denominador = Integer.parseInt(municipioResidencia.getDenominador());
-                        denominador += utilDbf.getInt(rowObjects, "CONTEXAM");
-                        municipioResidencia.setDenominador(String.valueOf(denominador));
-                        municipioResidencia.setDenominadorInt(denominador);
 
-                    }
-
-                    if (TP_ALTA_ESTADUAL) {
-                        denominadorEstadual = (Integer) parametros.get("denominadorTotal");
-                        denominadorEstadual += utilDbf.getInt(rowObjects, "CONTEXAM");
-                        parametros.put("denominadorTotal", denominadorEstadual);
+                        if (TP_ALTA_ESTADUAL) {
+                            denominadorEstadual = (Integer) parametros.get("denominadorTotal");
+                            denominadorEstadual += utilDbf.getInt(rowObjects, "CONTEXAM");
+                            parametros.put("denominadorTotal", denominadorEstadual);
+                        }
                     }
 
                 }
@@ -472,16 +494,15 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
         Map parametros = new HashMap();
         parametros.put("parDataInicio", Util.formataData(this.getDtInicioAvaliacao()));
         parametros.put("parDataFim", Util.formataData(this.getDtFimAvaliacao()));
+
         parametros.put("parDataInicioCoortePB", Util.formataData(SinanDateUtil.subtrairAno(this.getDtInicioAvaliacao(), -1)));
         parametros.put("parDataFimCoortePB", Util.formataData(SinanDateUtil.subtrairAno(this.getDtFimAvaliacao(), -1)));
-        parametros.put("parPeriodoCoortePB", SinanDateUtil.subtrairAno(this.getDtInicioAvaliacao(), -1) + " a " + SinanDateUtil.subtrairAno(this.getDtFimAvaliacao(), -1)+" (PB)");
+        parametros.put("parPeriodoCoortePB", SinanDateUtil.subtrairAno(this.getDtInicioAvaliacao(), -1) + " a " + SinanDateUtil.subtrairAno(this.getDtFimAvaliacao(), -1) + " (PB)");
 
         parametros.put("parDataInicioCoorteMB", Util.formataData(SinanDateUtil.subtrairAno(this.getDtInicioAvaliacao(), -2)));
         parametros.put("parDataFimCoorteMB", Util.formataData(SinanDateUtil.subtrairAno(this.getDtFimAvaliacao(), -2)));
-        parametros.put("parPeriodoCoorteMB", SinanDateUtil.subtrairAno(this.getDtInicioAvaliacao(), -2)+ " a " + SinanDateUtil.subtrairAno(this.getDtFimAvaliacao(), -2)+" (MB)" );
-        
-        
-        
+        parametros.put("parPeriodoCoorteMB", SinanDateUtil.subtrairAno(this.getDtInicioAvaliacao(), -2) + " a " + SinanDateUtil.subtrairAno(this.getDtFimAvaliacao(), -2) + " (MB)");
+
         parametros.put("parPeriodo", "de " + this.getDtInicioAvaliacao() + " a " + this.getDtFimAvaliacao());
         parametros.put("parTituloColuna", this.getTituloColuna());
         parametros.put("parFator", String.valueOf(this.getMultiplicador()));
@@ -502,7 +523,7 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_TBREG", "N_TBEXAM", "P_TBEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_HANSREG", "N_HANSEXAM", "P_HANSEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
     }
 
     @Override
@@ -513,9 +534,9 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
         hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
         hashColunas.put("NOME_CIR", new ColunasDbf(30));
-        hashColunas.put("D_TBREG", new ColunasDbf(30));
-        hashColunas.put("N_TBEXAM", new ColunasDbf(30));
-        hashColunas.put("P_TBEXAM", new ColunasDbf(30));
+        hashColunas.put("D_HANSREG", new ColunasDbf(30));
+        hashColunas.put("N_HANSEXAM", new ColunasDbf(30));
+        hashColunas.put("P_HANSEXAM", new ColunasDbf(30));
         hashColunas.put("ANO_DIAG", new ColunasDbf(30));
         hashColunas.put("DT_DIAGIN", new ColunasDbf(30));
         hashColunas.put("DT_DIAGFI", new ColunasDbf(30));
