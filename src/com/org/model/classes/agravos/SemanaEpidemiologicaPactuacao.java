@@ -65,9 +65,9 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         this.setMultiplicador(100000);
         this.setTipo("");
         this.setTipo("populacao");
-        this.setTitulo1("Proporção de contatos examinados de casos novos de hanseníase.");
+        this.setTitulo1("Número de semanas epidemiológicas com informação.");
         this.setTituloColuna("Indicador");
-        this.setRodape("Indicador: Proporção de contatos examinados de casos novos de hanseníase.  \n");
+        this.setRodape("Indicador: Número de semanas epidemiológicas com informação.  \n");
         this.setSqlNumeradorCompletitude("");
         if (!isDBF()) {
             this.setSqlNumeradorMunicipioEspecifico("select count(*) as numerador from dbsinan.tb_notificacao as t1, " + "dbsinan.tb_investiga_aids_crianca as t2 " + "where  t1.nu_notificacao=t2.nu_notificacao and " + "t1.dt_notificacao=t2.dt_notificacao and " + "t1.co_municipio_notificacao=t2.co_municipio_notificacao" + " and nu_idade < 4005 and tp_criterio_definicao not in (900,901) and (t1.dt_diagnostico_sintoma BETWEEN ?  " + "AND ?) and " + "t1.co_uf_residencia= ? and " + "t1.co_municipio_residencia = ?");
@@ -88,12 +88,13 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         String anoEdpid;
 
         String anoAvaliacao = (String) parametros.get("parAnoAvaliacao");
-
-        String total;
-        DecimalFormat df = new DecimalFormat("0.00");
+        int semanaIniAval = 0;
+        int semanaFimAval = 0;
+        Boolean semanaValida = false;
+        int totalSemanas = (Integer.valueOf(parametros.get("parSemanaFinal").toString()) - Integer.valueOf(parametros.get("parSemanaInicial").toString())) + 1;
 
         int numerador = 0;
-        int denominador;
+        int denominador = 0;
         int numeradorEstadual = 0;
         int denominadorEstadual = 0;
 
@@ -108,6 +109,29 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
             anoEdpid = "0";
         }
 
+        if (Integer.valueOf(parametros.get("parSemanaFinal").toString()) < 10) {
+            semanaFimAval = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaFinal").toString());
+
+        } else {
+            semanaFimAval = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaFinal").toString());
+        }
+
+        if (Integer.valueOf(parametros.get("parSemanaInicial").toString()) < 10) {
+            semanaIniAval = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaInicial").toString());
+
+        } else {
+            semanaIniAval = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaInicial").toString());
+        }
+
+        if (municipioResidencia != null) {
+            municipioResidencia.setNumerador(String.valueOf(totalSemanas));
+            municipioResidencia.setNumeradorInt(totalSemanas);
+        }
+
+        if (semEpidemilogica != null && semEpidemilogica.length() >= 4) {
+            semanaValida = (Integer.valueOf(semEpidemilogica) >= semanaIniAval) && (Integer.valueOf(semEpidemilogica) <= semanaFimAval);
+        }
+
         // if (utilDbf.getString(rowObjects, "SG_UF") != null) {
         //verifica se existe a referencia do municipio no bean
         //municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MN_RESI"));
@@ -116,25 +140,25 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         dtDiagnostico = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
         ArrayList<String> WeekAtual = new ArrayList<String>();
 
-        if (municipioResidencia != null && anoEdpid.equals(anoAvaliacao)) {
+        if (municipioResidencia != null && anoEdpid.equals(anoAvaliacao) && semanaValida) {
 
             if (semanas.get(municipioResidencia.getCodMunicipio()) != null) {
                 WeekAtual = semanas.get(municipioResidencia.getCodMunicipio());
                 if (!WeekAtual.contains(semEpidemilogica)) {
-                    numerador = Integer.parseInt(municipioResidencia.getNumerador());
-                    numerador++;
-                    municipioResidencia.setNumerador(String.valueOf(numerador));
-                    municipioResidencia.setNumeradorInt(numerador);
+                    denominador = Integer.parseInt(municipioResidencia.getDenominador());
+                    denominador++;
+                    municipioResidencia.setDenominador(String.valueOf(denominador));
+                    municipioResidencia.setDenominadorInt(denominador);
                     semanas.get(municipioResidencia.getCodMunicipio()).add(semEpidemilogica);
                 }
             } else {
                 WeekAtual.add(semEpidemilogica);
                 semanas.put(municipioResidencia.getCodMunicipio(), WeekAtual);
-                    numerador = Integer.parseInt(municipioResidencia.getNumerador());
-                    numerador++;
-                    municipioResidencia.setNumerador(String.valueOf(numerador));
-                    municipioResidencia.setNumeradorInt(numerador);
-                    semanas.get(municipioResidencia.getCodMunicipio()).add(semEpidemilogica);
+                numerador = Integer.parseInt(municipioResidencia.getDenominador());
+                denominador++;
+                municipioResidencia.setDenominador(String.valueOf(denominador));
+                municipioResidencia.setDenominadorInt(denominador);
+                semanas.get(municipioResidencia.getCodMunicipio()).add(semEpidemilogica);
             }
 
         }
@@ -367,6 +391,7 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
                 Master.mensagem("Erro:\n" + ex);
             }
         }
+
         String ano = dataInicio.substring(0, 4);
 
         //CALCULA A TAXA PARA TODOS OS MUNICIPIOS
@@ -503,7 +528,7 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
             rowData[8] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
             rowData[9] = getDataInicio();
             rowData[10] = getDataFim();
-            rowData[11] = "HANSENIASE-SINANNET";
+            rowData[11] = "SINANNET";
             writer.addRecord(rowData);
         }
         return writer;
@@ -511,6 +536,6 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
 
     @Override
     public String getCaminhoJasper() {
-        return "/com/org/relatorios/ContatosExaminadoHanseniasePactuacao.jasper";
+        return "/com/org/relatorios/SemanaEpidemiologicaPactuacao.jasper";
     }
 }

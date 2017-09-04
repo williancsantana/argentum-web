@@ -91,6 +91,8 @@ public class OportunidadeMalariaPactuacao extends Agravo {
         int denominador = 0;
         int numeradorEstadual = 0;
         int denominadorEstadual = 0;
+        
+        
 
         String dataInicio = (String) parametros.get("parDataInicio");
         String dataFim = (String) parametros.get("parDataFim");
@@ -120,6 +122,7 @@ public class OportunidadeMalariaPactuacao extends Agravo {
 
         if (municipioResidencia != null && CID_B54 && AT_LAMINA && RESULT && AT_SINTOMA) {
             MUNIC_NOTIFICACAO = utilDbf.getString(rowObjects, "ID_MUNICIP").equals(utilDbf.getString(rowObjects, "COMUNINF"));
+
             if (isBetweenDates(dtDiagnostico, dataInicio, dataFim)) {
                 numerador = Integer.parseInt(municipioResidencia.getNumerador());
                 numerador++;
@@ -132,31 +135,31 @@ public class OportunidadeMalariaPactuacao extends Agravo {
                 if (utilDbf.getDate(rowObjects, "DT_SIN_PRI") != null && utilDbf.getDate(rowObjects, "DTRATA") != null) {
                     dtPrimeirosSintomas = utilDbf.getDate(rowObjects, "DT_SIN_PRI");
                     dtTratamento = utilDbf.getDate(rowObjects, "DTRATA");
+
+                    if (MUNIC_NOTIFICACAO) {
+                        if (dataDiff(dtPrimeirosSintomas, dtTratamento) <= 2) {
+                            denominador = Integer.parseInt(municipioResidencia.getDenominador());
+                            denominador++;
+                            municipioResidencia.setDenominador(String.valueOf(denominador));
+                            municipioResidencia.setDenominadorInt(denominador);
+                            denominadorEstadual = (Integer) parametros.get("denominadorTotal");
+                            denominadorEstadual++;
+                            parametros.put("denominadorTotal", denominadorEstadual);
+
+                        }
+                    } else {
+                        if (dataDiff(dtPrimeirosSintomas, dtTratamento) <= 4) {
+                            denominador = Integer.parseInt(municipioResidencia.getDenominador());
+                            denominador++;
+                            municipioResidencia.setDenominador(String.valueOf(denominador));
+                            municipioResidencia.setDenominadorInt(denominador);
+                            denominadorEstadual = (Integer) parametros.get("denominadorTotal");
+                            denominadorEstadual++;
+                            parametros.put("denominadorTotal", denominadorEstadual);
+                        }
+                    }
                 }
 
-                if (MUNIC_NOTIFICACAO) {
-                    if (dataDiff(dtPrimeirosSintomas, dtTratamento) <= 2) {
-                        denominador = Integer.parseInt(municipioResidencia.getDenominador());
-                        denominador++;
-                        municipioResidencia.setDenominador(String.valueOf(denominador));
-                        municipioResidencia.setDenominadorInt(denominador);
-                        denominadorEstadual = (Integer) parametros.get("denominadorTotal");
-                        denominadorEstadual++;
-                        parametros.put("denominadorTotal", denominadorEstadual);
-
-                    }
-                } else {
-                    if (dataDiff(dtPrimeirosSintomas, dtTratamento) <= 4) {
-                        denominador = Integer.parseInt(municipioResidencia.getDenominador());
-                        denominador++;
-                        municipioResidencia.setDenominador(String.valueOf(denominador));
-                        municipioResidencia.setDenominadorInt(denominador);
-                        denominadorEstadual = (Integer) parametros.get("denominadorTotal");
-                        denominadorEstadual++;
-                        parametros.put("denominadorTotal", denominadorEstadual);
-
-                    }
-                }
             }
         }
 

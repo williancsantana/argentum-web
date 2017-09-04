@@ -35,10 +35,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.regex.Pattern;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 
 /**
  *
@@ -99,6 +104,20 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
             SinanUtil.mensagem("Nenhum arquivo foi selecionado");
             return false;
         }
+        if (semanaInicial.getText() == null || semanaInicial.getText().isEmpty()){
+            SinanUtil.mensagem("Digite o número da semana epidemiológica");
+            return false;
+        }
+        if (semanaFinal.getText() == null || semanaFinal.getText().isEmpty()){
+            SinanUtil.mensagem("Digite o número da semana epidemiológica");
+            return false;
+        }
+        if (Integer.parseInt(semanaInicial.getText()) > Integer.parseInt(semanaFinal.getText()) ){
+            SinanUtil.mensagem("A semana Inicial não ser maior que semana final");
+            return false;
+            
+        }
+
         return true;
     }
 
@@ -193,8 +212,22 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
 
         jLabel1.setText("Ano da avaliação");
 
+        // Adicionando um filtro ao campo para permitir somente numeros
+        //    Retirado de: https://stackoverflow.com/questions/32625186/allow-textfield-to-input-only-number-java
+        ((AbstractDocument) semanaInicial.getDocument()).setDocumentFilter(new CustomDocumentFilter());
         semanaInicial.setColumns(6);
+        semanaInicial.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                semanaInicialKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                semanaInicialKeyReleased(evt);
+            }
+        });
 
+        // Adicionando um filtro ao campo para permitir somente numeros
+        //    Retirado de: https://stackoverflow.com/questions/32625186/allow-textfield-to-input-only-number-java
+        ((AbstractDocument) semanaFinal.getDocument()).setDocumentFilter(new CustomDocumentFilter());
         semanaFinal.setColumns(6);
 
         jLabel2.setText("Semanas Epidemiológica");
@@ -406,7 +439,16 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
         FiltroArquivo filtro = new FiltroArquivo();
         filtro.addExtension("dbf");
         filtro.setDescription("Arquivo DBF");
-        filtro.addInicioNome("HANSN");
+        filtro.addInicioNome("NINDI");
+        filtro.addInicioNome("NNEGA");
+        filtro.addInicioNome("DENGO");
+        filtro.addInicioNome("CHIKO");
+        filtro.addInicioNome("EPIZO");
+        filtro.addInicioNome("INFLG");
+        filtro.addInicioNome("NSURT");
+        filtro.addInicioNome("NTRAC");
+        filtro.addInicioNome("TRACO");
+        
 
         //fileopen.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileopen.addChoosableFileFilter(filtro);
@@ -489,7 +531,7 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
         }
         parametros.put("parAnoAvaliacao",anoAvaliadoOportunidade.getSelectedItem().toString());
         parametros.put("parSemanaInicial",semanaInicial.getText());
-        parametros.put("parSemanaInicial",semanaFinal.getText());
+        parametros.put("parSemanaFinal",semanaFinal.getText());
         
         parametros.put("parNenhum", false);
         if (cbMunicipio.getSelectedItem().toString().equals("NENHUM")) {
@@ -557,7 +599,42 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
             this.chkExportarDbf.setVisible(true);
         }*/
     }//GEN-LAST:event_cbDesagregacaoActionPerformed
+    
+    
+//    classe para fazer o filtro na instanciação de algumas textfields
+//    Retirado de: https://stackoverflow.com/questions/32625186/allow-textfield-to-input-only-number-java
+    private class CustomDocumentFilter extends DocumentFilter{
+        private Pattern regexCheck = Pattern.compile("[0-9]+");
+        
+        @Override
+        public void insertString(FilterBypass fb, int offs, String str, AttributeSet a) throws BadLocationException{
+            if(str == null){
+                return;
+            }
+            if(regexCheck.matcher(str).matches()){
+                super.insertString(fb, offs, str, a);
+            }
+        }
+        
+        @Override
+        public void replace(FilterBypass fb, int offset, int length, String str, AttributeSet a) throws BadLocationException{
+            if(str == null)
+                return;            
+            if(regexCheck.matcher(str).matches()){
+                fb.replace(offset,length,str,a);
+            }
+        }        
+    }
+    
+    private void semanaInicialKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_semanaInicialKeyPressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_semanaInicialKeyPressed
 
+    private void semanaInicialKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_semanaInicialKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_semanaInicialKeyReleased
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> anoAvaliadoOportunidade;
     private javax.swing.JButton btCalcular;
