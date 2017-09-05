@@ -1,6 +1,6 @@
 /*
  * To change this template, choose Tools | Templates
- * and open the template in the editor. jj
+ * and open the template in the editor. gg
  */
 package com.org.model.classes.agravos;
 
