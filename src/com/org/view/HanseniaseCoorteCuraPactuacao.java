@@ -472,7 +472,7 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         FiltroArquivo filtro = new FiltroArquivo();
         filtro.addExtension("dbf");
         filtro.setDescription("Arquivo DBF");
-        filtro.addInicioNome("VIOLE");
+        filtro.addInicioNome("HANSN");
 
         fileopen.addChoosableFileFilter(filtro);
 
