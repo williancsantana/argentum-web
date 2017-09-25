@@ -175,7 +175,8 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             parametros = new HashMap();
         }
         parametros.putAll(agravo.getParametros());
-
+        
+        
         parametros.put("parConfig", "");
         parametros.put("parVersao", getVersao());
         parametros.put("municipios", "nao");
@@ -595,6 +596,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                     viewerListagem.setVisible(true);
                 }
             }
+
 
         } catch (Exception exception) {
             exception.printStackTrace();

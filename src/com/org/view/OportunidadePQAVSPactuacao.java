@@ -608,7 +608,9 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
 //      parametros.put("parDiscriminarPorAgravo", chkDiscriminarPorAgravo.isSelected());
 
         session.setDataAvaliacao(SinanDateUtil.dateToStringException(dtAvaliacaoOportunidade.getDate(), "dd/MM/yyyy"));
+        parametros.put("parDataAvaliacao",SinanDateUtil.dateToStringException(dtAvaliacaoOportunidade.getDate(), "dd/MM/yyyy"));
         session.setNomeAgravo(cbAgravo.getSelectedItem().toString());
+        parametros.put("parAgravo",cbAgravo.getSelectedItem().toString());
         session.setAnoAvaliado(anoAvaliadoOportunidade.getSelectedItem().toString());
         if (rbPeriodoAvaliacao.isSelected()) {
             session.setDtInicioAvaliacao(SinanDateUtil.dateToStringException(dtInicioAvaliacao.getDate(), "dd/MM/yyyy"));
@@ -638,7 +640,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         } else {
             parametros.put("parMunic", cbMunicipio.getSelectedItem().toString());
         }
-
+        
         session.setParametros(parametros);
 //      session.setTemListagem(cbGerarListagem.isSelected());
         session.setJprogress(prbStatus);
