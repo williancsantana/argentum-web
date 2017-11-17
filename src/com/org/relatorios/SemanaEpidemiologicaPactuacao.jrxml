@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="2.2"/>
-	<property name="ireport.x" value="347"/>
-	<property name="ireport.y" value="152"/>
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="431"/>
+	<property name="ireport.y" value="56"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Java\\sinan_relatorios\\src\\com\\org\\relatorios\\"]]></defaultValueExpression>
 	</parameter>
@@ -79,7 +79,7 @@
 				<textField>
 					<reportElement x="0" y="30" width="134" height="20"/>
 					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$P{parNenhum}?"Regional de Residência atual":"Município de Residência atual "]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$P{parNenhum}?"Regional de Notificação":"Município de Notificação"]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="443" y="20" width="71" height="25"/>
@@ -154,32 +154,32 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{TITULO}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="5" y="52" width="99" height="14"/>
-				<textElement>
+				<reportElement x="5" y="54" width="99" height="14"/>
+				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Nível de desagregação:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="65" width="100" height="14"/>
-				<textElement>
-					<font size="8"/>
+				<reportElement x="5" y="67" width="100" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
 				</textElement>
-				<text><![CDATA[UF de residência atual:]]></text>
+				<text><![CDATA[UF de notificação:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="90" width="115" height="11"/>
-				<textElement>
-					<font size="8"/>
+				<reportElement x="5" y="94" width="125" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
 				</textElement>
-				<text><![CDATA[Município de residência atual:]]></text>
+				<text><![CDATA[Município de notificação:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="315" y="50" width="1" height="77"/>
+				<reportElement x="315" y="52" width="1" height="75"/>
 			</line>
 			<staticText>
 				<reportElement x="321" y="54" width="91" height="14"/>
-				<textElement textAlignment="Right">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Data da avaliação:]]></text>
@@ -192,88 +192,67 @@
 				<text><![CDATA[Número de semanas epidemiológicas com informação]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="321" y="68" width="91" height="11"/>
-				<textElement textAlignment="Right">
-					<font size="8"/>
+				<reportElement x="321" y="67" width="91" height="12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Período de avaliação:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="106" y="53" width="209" height="15"/>
-				<textElement>
+				<reportElement x="106" y="54" width="209" height="14"/>
+				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parDesagregacao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="105" y="67" width="100" height="12"/>
-				<textElement>
+				<reportElement x="105" y="67" width="100" height="14"/>
+				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parSgUf}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="89" y="78" width="153" height="12"/>
-				<textElement>
+				<reportElement x="89" y="80" width="153" height="14"/>
+				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parNenhum}?"":$P{parIsRegiao}?$P{parRegiaoSaude}:$P{parRegionalSaude}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="414" y="54" width="117" height="14"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parDataAtual}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="414" y="68" width="117" height="11"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parAnoPeriodoAvaliacao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="120" y="90" width="175" height="11"/>
-				<textElement>
+				<reportElement x="130" y="94" width="175" height="14"/>
+				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parMunic}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="319" y="101" width="220" height="26"/>
+				<reportElement x="321" y="81" width="220" height="40"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parArquivos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="5" y="78" width="84" height="12"/>
-				<textElement>
-					<font size="8"/>
+				<reportElement x="5" y="80" width="84" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parDescricaoReg}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="321" y="79" width="91" height="11"/>
-				<textElement textAlignment="Right">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Período de coorte:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="414" y="79" width="117" height="11"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{parPeriodoCoortePB}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="414" y="90" width="117" height="11"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{parPeriodoCoorteMB}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -281,8 +260,8 @@
 		<band height="21" splitType="Stretch">
 			<printWhenExpression><![CDATA[!$F{nomeMunicipio}.equals("TOTAL")]]></printWhenExpression>
 			<textField pattern="###0.0;-###0.0">
-				<reportElement x="1" y="0" width="220" height="18"/>
-				<textElement>
+				<reportElement x="1" y="0" width="220" height="20"/>
+				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{nomeMunicipio}]]></textFieldExpression>

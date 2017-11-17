@@ -309,7 +309,7 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
         });
 
         lblUF.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblUF.setText("UF de Residência Atual:"); // NOI18N
+        lblUF.setText("UF de Notificação:"); // NOI18N
 
         cbUf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -318,10 +318,10 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
         });
 
         lblRegional.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblRegional.setText("Região de Saúde Atual:"); // NOI18N
+        lblRegional.setText("Região de Saúde:"); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setText("Município de Residência Atual:"); // NOI18N
+        jLabel4.setText("Município de Notificação:"); // NOI18N
 
         btCalcular.setLabel("Calcular");
         btCalcular.addActionListener(new java.awt.event.ActionListener() {
@@ -487,6 +487,10 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
         if (!this.preencheuFormulario()) {
             return;
         }
+        if(Integer.parseInt(semanaFinal.getText()) > 53){
+            Master.mensagem("O número de semanas não pode ser maior do que 53!");
+            return;
+        }
         btCalcular.setEnabled(false);
         session = new SessionFacadeImpl();
         session.setTodosMunicipios(true);
@@ -515,7 +519,9 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
         
         session.setDtInicioAvaliacao(SinanDateUtil.dateToStringException(SinanDateUtil.currentDate(), "dd/MM/yyyy"));
         session.setDtFimAvaliacao(SinanDateUtil.dateToStringException(SinanDateUtil.currentDate(), "dd/MM/yyyy"));
-        parametros.put("parAnoPeriodoAvaliacao", SinanDateUtil.dateToStringException(SinanDateUtil.currentDate(), "dd/MM/yyyy"));
+        parametros.put("parAnoPeriodoAvaliacao", SinanDateUtil.getIntervaloDatas(
+                Integer.parseInt(anoAvaliadoOportunidade.getSelectedItem().toString()), Integer.parseInt(semanaInicial.getText()), Integer.parseInt(semanaFinal.getText())));
+        //parametros.put("parAnoPeriodoAvaliacao", SinanDateUtil.dateToStringException(SinanDateUtil.currentDate(), "dd/MM/yyyy"));
         //adaptação para resolver situação para cálculo da Malária
         // session.setAnoAvaliado(dtInicioAvaliacao.toString().split("/")[2]);
         parametros.put("parDesagregacao", cbDesagregacao.getSelectedItem().toString());
@@ -532,6 +538,7 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
         parametros.put("parAnoAvaliacao",anoAvaliadoOportunidade.getSelectedItem().toString());
         parametros.put("parSemanaInicial",semanaInicial.getText());
         parametros.put("parSemanaFinal",semanaFinal.getText());
+        //parametros.put("parSemanaFinal",(Integer.parseInt(semanaFinal.getText()) > 50)? "50":semanaFinal.getText());
         
         parametros.put("parNenhum", false);
         if (cbMunicipio.getSelectedItem().toString().equals("NENHUM")) {
@@ -567,14 +574,14 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
 //        if (cbDesagregacao.getSelectedItem().equals("UF subdividida por Regiões de Saúde")) {
 
         if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")) {
-            lblRegional.setText("Região de Residência");
+            lblRegional.setText("Região de Notificação");
             lblRegional.setVisible(true);
             cbRegional.setVisible(true);
             modelo = new DefaultComboBoxModel(this.session.retornaRegioes(this.cbUf.getSelectedItem().toString()));
             this.cbRegional.setModel(modelo);
 
         } else if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regionais de Saúde")) {
-            lblRegional.setText("Regional de Residência");
+            lblRegional.setText("Regional de Notificação");
             lblRegional.setVisible(true);
             cbRegional.setVisible(true);
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));

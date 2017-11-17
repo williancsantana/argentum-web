@@ -533,8 +533,8 @@ public class ViolenciaAgravo extends Agravo {
         hashColunas.put("D_RACATO", new ColunasDbf(10));
         hashColunas.put("P_RACPRE", new ColunasDbf(10));
         hashColunas.put("ANO_NOTI", new ColunasDbf(4));
-        hashColunas.put("DT_NOTIN", new ColunasDbf(8));
-        hashColunas.put("DT_NOTIFI", new ColunasDbf(8));
+        hashColunas.put("DT_NOTIN", new ColunasDbf(10));
+        hashColunas.put("DT_NOTIFI", new ColunasDbf(10));
         hashColunas.put("ORIGEM", new ColunasDbf(10));
         this.setColunas(hashColunas);
         return hashColunas;
@@ -554,13 +554,12 @@ public class ViolenciaAgravo extends Agravo {
             }
             rowData[1] = agravo.getNomeMunicipio();
             rowData[3] = agravo.getNumerador();
-            rowData[5] = agravo.getDenominador();
-            rowData[4] = agravo.getTaxa();
+            rowData[4] = agravo.getDenominador();
+            rowData[5] = agravo.getTaxa();
             rowData[6] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
             rowData[7] = getDataInicio();
             rowData[8] = getDataFim();
             rowData[9] = "VIOLENET";
-
             writer.addRecord(rowData);
         }
         return writer;

@@ -71,6 +71,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
@@ -584,7 +585,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                         parametros.put("parArquivos", "");
                     }
                 }
-
+                                
                 impressao = JasperFillManager.fillReport(arquivo.openStream(), parametros, jrds);
                 viewer = new JasperViewer(impressao, false);
                 if (this.isTemListagem()) {
@@ -593,7 +594,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                     URL arquivoListagem = getClass().getResource("/com/org/relatorios/listagemOportunidade.jasper");
                     JasperPrint imprimirListagem = JasperFillManager.fillReport(arquivoListagem.openStream(), parametros, jrdsListagem);
                     JasperViewer viewerListagem = new JasperViewer(imprimirListagem, false);
-                    viewerListagem.setVisible(true);
+                    viewerListagem.setVisible(true);                    
                 }
             }
 
@@ -1408,6 +1409,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 if (reader == null) {
                     Logger.getLogger(SessionFacadeImpl.class.getName()).log(Level.SEVERE, null,
                             "Erro ao carregar as UFs. Verifique se existe a pasta DBF e se os arquivo UF.DBF está lá:\n");
+                    throw new NullPointerException("Não foi possível carregar as UFs. Verifique se a pasta DBF existe e se o arquivo UF.DBF está lá!\n");
                 }
                 Object[] rowObjects;
                 DBFUtil utilDbf = new DBFUtil();

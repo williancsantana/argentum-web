@@ -419,17 +419,17 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "NOT_M1ANO", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+        return new String[]{"ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "ID_UF_RES", "NOT_M1ANO", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
     }
 
     @Override
     public HashMap<String, ColunasDbf> getColunas() {
         HashMap<String, ColunasDbf> hashColunas = new HashMap<String, ColunasDbf>();
-        hashColunas.put("COUUFINF", new ColunasDbf(30));
         hashColunas.put("ID_LOCRES", new ColunasDbf(30));
         hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
         hashColunas.put("NOME_CIR", new ColunasDbf(30));
+        hashColunas.put("ID_UF_RES", new ColunasDbf(30));
         hashColunas.put("NOT_M1ANO", new ColunasDbf(30));
         hashColunas.put("ANO_DIAG", new ColunasDbf(30));
         hashColunas.put("DT_DIAGIN", new ColunasDbf(30));
@@ -447,25 +447,25 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
             Agravo agravo = (Agravo) bean.get(i);
             if (agravo.getNomeMunicipio().equals("BRASIL") || agravo.getNomeMunicipio().equals("TOTAL")) {
                 rowData[0] = null;
-                rowData[1] = null;
+                rowData[2] = null;
                 rowData[3] = null;
                 rowData[4] = null;
 
             } else {
-                rowData[0] = agravo.getCodMunicipio().substring(0, 2);
-                rowData[1] = agravo.getCodMunicipio();
+                rowData[4] = agravo.getCodMunicipio().substring(0, 2);
+                rowData[0] = agravo.getCodMunicipio();
 
                 if (agravo.getRegional() != null && agravo.getRegional() != null) {
                     if (!agravo.getRegional().isEmpty()) {
-                        rowData[3] = agravo.getCodRegional();
-                        rowData[4] = agravo.getRegional();
+                        rowData[2] = agravo.getCodRegional();
+                        rowData[3] = agravo.getRegional();
                     } else if (!agravo.getRegiaoSaude().isEmpty()) {
-                        rowData[3] = agravo.getCodRegiaoSaude();
-                        rowData[4] = agravo.getRegiaoSaude();
+                        rowData[2] = agravo.getCodRegiaoSaude();
+                        rowData[3] = agravo.getRegiaoSaude();
                     }
                 }
             }
-            rowData[2] = agravo.getNomeMunicipio();
+            rowData[1] = agravo.getNomeMunicipio();
             rowData[5] = agravo.getNumerador();
 
             rowData[6] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));

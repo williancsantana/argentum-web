@@ -467,7 +467,8 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_HANSREG", "N_HANSEXAM", "P_HANSEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+        //return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_HANSREG", "N_HANSEXAM", "P_HANSEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "DENOMINAD", "NUMERADOR", "RESULTADO", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
     }
 
     @Override
@@ -478,9 +479,12 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
         hashColunas.put("NOME_CIR", new ColunasDbf(30));
-        hashColunas.put("D_HANSREG", new ColunasDbf(30));
-        hashColunas.put("N_HANSEXAM", new ColunasDbf(30));
-        hashColunas.put("P_HANSEXAM", new ColunasDbf(30));
+        //hashColunas.put("D_HANSREG", new ColunasDbf(30));
+        //hashColunas.put("N_HANSEXAM", new ColunasDbf(30));
+        //hashColunas.put("P_HANSEXAM", new ColunasDbf(30));
+        hashColunas.put("DENOMINAD",new ColunasDbf(30));
+        hashColunas.put("NUMERADOR",new ColunasDbf(30));
+        hashColunas.put("RESULTADO",new ColunasDbf(30));
         hashColunas.put("ANO_DIAG", new ColunasDbf(30));
         hashColunas.put("DT_DIAGIN", new ColunasDbf(30));
         hashColunas.put("DT_DIAGFI", new ColunasDbf(30));
