@@ -97,9 +97,14 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
         //Critérios
         dtDiagnostico = utilDbf.getDate(rowObjects, "DT_DIAG");
 
+        if (utilDbf.getString(rowObjects, "NU_NOTIFIC").equals("1705712")) {
+            System.out.println("");
+        }
+
         if (utilDbf.getString(rowObjects, "ID_AGRAVO") != null) {
             CID_A509 = utilDbf.getString(rowObjects, "ID_AGRAVO").equals("A509");
         }
+
         if (utilDbf.getString(rowObjects, "EVO_DIAG_N") != null) {
             DIAGNOSTICO_FINAL = utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 1 || utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 3 || utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 2 || utilDbf.getInt(rowObjects, "EVO_DIAG_N") == 4;
         }
@@ -110,6 +115,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
         if (municipioResidencia != null && CID_A509 && DIAGNOSTICO_FINAL && IDADE) {
             //AUTOCTONE = utilDbf.getString(rowObjects, "ID_MN_RESI").equals(utilDbf.getString(rowObjects, "COMUNINF"));
             if (isBetweenDates(dtDiagnostico, dataInicio, dataFim)) {
+
                 numerador = Integer.parseInt(municipioResidencia.getNumerador());
                 numerador++;
                 municipioResidencia.setNumerador(String.valueOf(numerador));

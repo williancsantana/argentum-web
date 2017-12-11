@@ -120,9 +120,9 @@ public class ViolenciaAgravo extends Agravo {
                             dataNotificacao = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
                             racaCor = utilDbf.getString(rowObjects, "CS_RACA", 1);
                             raca = racaCor != null ? Integer.parseInt(racaCor) : 0;
-                            if(municipioNotificacao != null ){
-                                municipioNotificacao.setTaxa("0");
-                            }
+                          //  if(municipioNotificacao != null ){
+                          //      municipioNotificacao.setTaxa("0");
+                          //  }
 
                             if (municipioNotificacao != null && isBetweenDates(dataNotificacao, dataInicio, dataFim)){
                                 if(raca >= BRANCO && raca <= INDIGENA) {
@@ -134,6 +134,7 @@ public class ViolenciaAgravo extends Agravo {
                                 denominadorMunicipio = Integer.parseInt(municipioNotificacao.getDenominador());
                                 denominadorMunicipio++;
                                 denominadorRegiao++;
+                                municipioNotificacao.setTaxa("0");
                                 municipioNotificacao.setDenominador(String.valueOf(denominadorMunicipio));
                                 calcularTaxaIndividual(df, municipioNotificacao);
                             }
@@ -250,9 +251,9 @@ public class ViolenciaAgravo extends Agravo {
                         if (utilDbf.getString(rowObjects, "SG_UF_NOT") != null) {
                             //verifica se existe a referencia do municipio no bean
                             municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
-                            if(municipioResidencia != null ){
-                                municipioResidencia.setTaxa("0");
-                            }
+                          //  if(municipioResidencia != null ){
+                          //      municipioResidencia.setTaxa("0");
+                          //  }
                             //municipioResidencia.setTaxa(String.valueOf(0));
                             dataNotificacao = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
                             racaCor = utilDbf.getString(rowObjects, "CS_RACA", 1);
@@ -268,7 +269,8 @@ public class ViolenciaAgravo extends Agravo {
                                         denominadorMunicipal = Integer.parseInt(municipioResidencia.getDenominador());
                                         denominadorMunicipal++;
                                         municipioResidencia.setDenominador(String.valueOf(denominadorMunicipal));
-                                        calcularTaxaIndividual(df2, municipioResidencia);
+                                        municipioResidencia.setTaxa("0");
+                                        municipioResidencia.setTaxa(calcularTaxaIndividual(df2, municipioResidencia));
                                 }
                             } 
                         }
@@ -364,7 +366,7 @@ public class ViolenciaAgravo extends Agravo {
         return agravo;
     }
     
-    private void calcularTaxaIndividual(DecimalFormat df, Agravo municipioResidencia){
+    private String calcularTaxaIndividual(DecimalFormat df, Agravo municipioResidencia){
         if((null != municipioResidencia.getNumerador() && Double.parseDouble(municipioResidencia.getNumerador()) != 0l)
                 && (null != municipioResidencia.getDenominador() && Double.parseDouble(municipioResidencia.getDenominador()) != 0l)){
             
@@ -374,6 +376,7 @@ public class ViolenciaAgravo extends Agravo {
         }else{
             municipioResidencia.setTaxa("0");
         }
+        return municipioResidencia.getTaxa();
     }
 
     /**
