@@ -153,7 +153,7 @@ public class SinanUtil {
          * @return 
          */
         public static String getVersaoSinanRelatorios(){
-            return "4.8";
+            return "5.0";
         }
         
         /**
@@ -381,6 +381,14 @@ public class SinanUtil {
     public static boolean verificaDBDengueOnLine(String[] arquivos){
         for(int i = 0; i < arquivos.length; i++){
             if(arquivos[i].substring(0, 6).equals("DENGON")){
+                return true;
+            }
+        }
+        return false;
+    }
+    public static boolean verificaDBChikoOnLine(String[] arquivos){
+        for(int i = 0; i < arquivos.length; i++){
+            if(arquivos[i].substring(0, 6).equals("CHIKON")){
                 return true;
             }
         }
@@ -768,7 +776,11 @@ public class SinanUtil {
         DBFReader reader = null;
         InputStream inputStream = null;
         try {
-            inputStream = new FileInputStream(caminho + arquivo + ".DBF"); // take dbf file as program argument
+            if(System.getProperty("os.name").compareTo("Linux") == 0){
+                inputStream = new FileInputStream(caminho.replace("\\","/") + arquivo + ".DBF"); // take dbf file as program argument
+            }else{
+                inputStream = new FileInputStream(caminho + arquivo + ".DBF"); // take dbf file as program argument
+            }
 
         } catch (FileNotFoundException e) {
             Logger.getLogger(SessionFacadeImpl.class.getName()).log(Level.SEVERE, null, "Erro: tabela " + arquivo + ".dbf nao encontrada.\n" + e);

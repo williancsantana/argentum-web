@@ -10,6 +10,7 @@ import com.org.bd.Conexao;
 import com.org.bd.DBFUtil;
 import com.org.model.classes.GrupoRelatorio;
 import com.org.model.classes.Relatorio;
+import com.org.util.SinanDateUtil;
 import com.org.view.Master;
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,7 +20,10 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Vector;
@@ -47,7 +51,8 @@ public class Util {
             String nomeDB = "";
             String host = "";
             String usuario = "postgres";
-            String senha = "oiretsinimadeduas1953";
+            //String senha = "oiretsinimadeduas1953";
+            String senha = "*Dtspg.112233*";
             while (!linha.equals("Drivername")) {
                 linha = leitor.readLine();
                 String s[] = linha.split("\\=");
@@ -94,8 +99,8 @@ public class Util {
         grupo = new GrupoRelatorio("PACTO 2009");
         grupo.setHasAgravos(true);
         //cria relatorios
-        grupo.getRelatorios().add(new Relatorio("Encerramento Oportuno da Investigação",""));
-        grupo.getRelatorios().add(new Relatorio("Taxa de letalidade por Febre Hemorrágica Dengue","Dengue"));
+        grupo.getRelatorios().add(new Relatorio("Encerramento Oportuno da Investigação", ""));
+        grupo.getRelatorios().add(new Relatorio("Taxa de letalidade por Febre Hemorrágica Dengue", "Dengue"));
         grupos.add(grupo);
 
         grupo = new GrupoRelatorio("Regularidade na alimentação do Sinan");
@@ -116,8 +121,6 @@ public class Util {
     public void setTipoBanco(String tipoBanco) {
         this.tipoBanco = tipoBanco;
     }
-
-    
 
     public static DBFReader retornaObjetoDbf(String path) {
         DBFReader reader = null;
@@ -153,7 +156,6 @@ public class Util {
         return d[2] + "-" + d[1] + "-" + d[0];
     }
 
-   
 
     public HashMap<String, Municipio> getMunicipios(int UF, String regional, String sgUf) {
         DBFReader reader = retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
@@ -174,13 +176,17 @@ public class Util {
             System.out.println("Erro ao carregar municipios: " + e);
         }
         return municipios;
-    }   
+    }
 
     public static DBFReader retornaObjetoDbfCaminhoArquivo(String arquivo, String caminho) {
         DBFReader reader = null;
         InputStream inputStream = null;
         try {
-            inputStream = new FileInputStream(caminho + arquivo + ".DBF"); // take dbf file as program argument
+            if (System.getProperty("os.name").compareTo("Linux") == 0) {
+                inputStream = new FileInputStream(caminho.replace("\\", "/") + arquivo + ".DBF"); // take dbf file as program argument
+            } else {
+                inputStream = new FileInputStream(caminho + arquivo + ".DBF"); // take dbf file as program argument
+            }
 
         } catch (FileNotFoundException e) {
             Master.mensagem("Erro: tabela " + arquivo + ".dbf nao encontrada.\n" + e);
@@ -196,4 +202,3 @@ public class Util {
         return reader;
     }
 }
-

@@ -230,6 +230,52 @@ taidson
 
 20248
 
+hanseniaseCura.jasper
+file
+
+
+
+add
+
+35da339dcaf62712a000f036962bf0cd
+
+
+
+
+
+
+
+
+
+
+
+copied
+http://subversion.assembla.com/svn/tdn_svn/trunk/src/com/org/relatorios/hanseniase.jasper
+129
+
+hanseniaseCura.jrxml
+file
+
+
+
+add
+
+09d1a030a1774ac6238dd3d03f095fd5
+
+
+
+
+
+
+
+
+
+
+
+copied
+http://subversion.assembla.com/svn/tdn_svn/trunk/src/com/org/relatorios/hanseniase.jrxml
+129
+
 hanseniase_listagem.jasper
 file
 
@@ -705,6 +751,52 @@ taidson
 
 
 16375
+
+oportunidadePQAVSPactuacao.jrxml
+file
+
+
+
+add
+
+31c7592054c921ef37fc37311fae76c3
+
+
+
+
+
+
+
+
+
+
+
+copied
+http://subversion.assembla.com/svn/tdn_svn/trunk/src/com/org/relatorios/oportunidadePQAVS.jrxml
+158
+
+oportunidadePQAVSPactuacao_sub.jrxml
+file
+
+
+
+add
+
+5e6595174ea589f2706e3766bcdac34d
+
+
+
+
+
+
+
+
+
+
+
+copied
+http://subversion.assembla.com/svn/tdn_svn/trunk/src/com/org/relatorios/oportunidadePQAVS_sub.jrxml
+158
 
 oportunidadePQAVS_sub.jasper
 file
@@ -1249,6 +1341,29 @@ taidson
 
 
 12322
+
+sifilisCongenita.jrxml
+file
+
+
+
+add
+
+59318aa4201f6e502999e433112e063b
+
+
+
+
+
+
+
+
+
+
+
+copied
+http://subversion.assembla.com/svn/tdn_svn/trunk/src/com/org/relatorios/agravo1.jrxml
+129
 
 tuberculose.jasper
 file

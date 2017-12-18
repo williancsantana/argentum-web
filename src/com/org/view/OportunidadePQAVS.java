@@ -568,6 +568,7 @@ public class OportunidadePQAVS extends javax.swing.JPanel {
             parametros.put("exportarDBF", true);
         else
             parametros.put("exportarDBF", false);
+        
         if(cbDesagregacao.getSelectedItem().toString().equals("Discriminar por Agravo")){
             parametros.put("parDiscriminarPorAgravo", true);
         }else{

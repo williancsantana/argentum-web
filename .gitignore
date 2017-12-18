@@ -1,2 +1,9 @@
 build/
 dist/
+.svn/
+nbproject
+.classpath
+.project
+.~*
+bin
+dbf/
