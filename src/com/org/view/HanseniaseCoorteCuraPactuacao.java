@@ -475,6 +475,7 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         filtro.addInicioNome("HANSN");
 
         fileopen.addChoosableFileFilter(filtro);
+fileopen.setFileFilter(filtro);
 
         File file2 = new File(new Configuracao().getCaminho());
         fileopen.setCurrentDirectory(file2);

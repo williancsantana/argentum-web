@@ -630,6 +630,7 @@ public class Master extends javax.swing.JFrame {
             filtro.setDescription("Arquivo DBF");
             filtro.addInicioNome(SessionFacadeImpl.getNomeDbf());
             fileopen.addChoosableFileFilter(filtro);
+            fileopen.setFileFilter(filtro);
             fileopen.setMultiSelectionEnabled(true);
             Configuracao conf = new Configuracao();
             File file2 = new File(conf.getCaminho());

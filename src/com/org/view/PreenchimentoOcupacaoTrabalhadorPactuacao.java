@@ -396,6 +396,8 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends javax.swing.JPane
 
         //fileopen.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileopen.addChoosableFileFilter(filtro);
+fileopen.setFileFilter(filtro);
+        fileopen.setFileFilter(filtro);
 
         File file2 = new File(new Configuracao().getCaminho());
         fileopen.setCurrentDirectory(file2);
