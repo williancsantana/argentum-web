@@ -497,7 +497,8 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_TBREG", "N_TBEXAM", "P_TBEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+//        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_TBREG", "N_TBEXAM", "P_TBEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_SAUTRA", "N_OCPRE", "P_RACPRE", "ANO_NOTI", "DT_NOTIN", "DT_NOTIFI", "ORIGEM"};
     }
 
     @Override
@@ -508,12 +509,15 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
         hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
         hashColunas.put("NOME_CIR", new ColunasDbf(30));
-        hashColunas.put("D_TBREG", new ColunasDbf(30));
-        hashColunas.put("N_TBEXAM", new ColunasDbf(30));
-        hashColunas.put("P_TBEXAM", new ColunasDbf(30));
-        hashColunas.put("ANO_DIAG", new ColunasDbf(30));
-        hashColunas.put("DT_DIAGIN", new ColunasDbf(30));
-        hashColunas.put("DT_DIAGFI", new ColunasDbf(30));
+//        hashColunas.put("D_TBREG", new ColunasDbf(30));
+//        hashColunas.put("N_TBEXAM", new ColunasDbf(30));
+//        hashColunas.put("P_TBEXAM", new ColunasDbf(30));
+        hashColunas.put("D_SAUTRA", new ColunasDbf(30));
+        hashColunas.put("N_OCPRE", new ColunasDbf(30));        
+        hashColunas.put("P_RACPRE", new ColunasDbf(30));
+        hashColunas.put("ANO_NOTI", new ColunasDbf(30));
+        hashColunas.put("DT_NOTIN", new ColunasDbf(30));
+        hashColunas.put("DT_NOTIFI", new ColunasDbf(30));
         hashColunas.put("ORIGEM", new ColunasDbf(30));
         this.setColunas(hashColunas);
         return hashColunas;

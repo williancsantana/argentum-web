@@ -1,6 +1,6 @@
 /*
  * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * and open the template in the editor. push
  */
 
  /*
@@ -29,36 +29,41 @@ import com.org.negocio.FiltroArquivo;
 import com.org.negocio.Util;
 import com.org.util.SinanDateUtil;
 import com.org.util.SinanUtil;
+import static com.org.view.SemEpidPQAVS.preencheAnos;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.regex.Pattern;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 
 /**
  *
  * @author geraldo
  */
-public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
+public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
 
     SessionFacadeImpl session = new SessionFacadeImpl();
 
     /**
      * Creates new form Oportunidade
      */
-    public OportunidadePQAVSPactuacao() {
+    public SemanaEpidemiologicaPactuacao() {
         initComponents();
         //    iniciaCombo(cbAgravo);
         //   dtAvaliacaoOportunidade.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
-        dtAvaliacaoOportunidade.setDate(SinanDateUtil.currentDate());
-        preencheAnos(anoAvaliadoOportunidade, 2007);
         ComboBoxModel modelo;
         modelo = new DefaultComboBoxModel(this.session.retornaUFs());
         this.cbUf.setModel(modelo);
+        preencheAnos(anoAvaliadoOportunidade, 2007);
 
         //    this.session.setBrasil(true);
         this.session.setTodosMunicipios(true);
@@ -75,6 +80,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         }
     }
 
+    
     private boolean preencheuFormulario() {
 
         if (cbDesagregacao.getSelectedItem().toString().equals("-- Selecione --")) {
@@ -84,19 +90,6 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         if (cbUf.getSelectedItem().toString().equals("-- Selecione --")) {
             Master.mensagem("Selecione a UF de residência");
             return false;
-        }
-        if (SinanDateUtil.dateToStringException(dtAvaliacaoOportunidade.getDate(), "dd/MM/yyyy").equals("")) {
-            Master.mensagem("Informe a data de avaliação");
-            return false;
-        }
-        if (rbPeriodoAvaliacao.isSelected()) {
-            if (dtInicioAvaliacao.getDate() == null) {
-                SinanUtil.mensagem("Informe o período de início de avaliação");
-                return false;
-            } else if (dtFimAvaliacao.getDate() == null) {
-                SinanUtil.mensagem("Informe o período fim de avaliação");
-                return false;
-            }
         }
 
         if (cbRegional.getSelectedItem().toString().equals("-- Selecione --")) {
@@ -111,42 +104,21 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
             SinanUtil.mensagem("Nenhum arquivo foi selecionado");
             return false;
         }
-        return true;
-    }
-
-    private void iniciaCombo(JComboBox cbAgravo) {
-        cbAgravo.removeAllItems();
-        cbAgravo.addItem("TODOS");
-        if (!cbDesagregacao.getSelectedItem().equals("Discriminar por Agravo")) {
-        } else {
-            cbAgravo.addItem("ANTRAZ PNEUMONICO");
-            cbAgravo.addItem("ARENAVIRUS");
-            cbAgravo.addItem("BOTULISMO");
-            cbAgravo.addItem("COLERA");
-            cbAgravo.addItem("DENGUE (OBITOS)");
-            cbAgravo.addItem("EBOLA");
-           // cbAgravo.addItem("EVENTOS ADVERSOS GRAVES OU OBITOS POS-VACINACAO");
-            cbAgravo.addItem("FEBRE AMARELA");
-            cbAgravo.addItem("FEBRE DE CHIKUNGUNYA");
-            cbAgravo.addItem("FEBRE DO NILO OCIDENTAL");
-            cbAgravo.addItem("FEBRE MACULOSA E OUTRAS RIQUETISIOSES");
-            cbAgravo.addItem("FEBRE PURPURICA BRASILEIRA");
-            cbAgravo.addItem("HANTAVIROSE");
-            cbAgravo.addItem("INFLUENZA HUMANA PRODUZIDA POR NOVO SUBTIPO VIRAL");
-            cbAgravo.addItem("LASSA");
-            cbAgravo.addItem("MALARIA NA REGIAO EXTRA AMAZONICA");
-            cbAgravo.addItem("MARBURG");
-            cbAgravo.addItem("PARALISIA FLACIDA AGUDA");
-            cbAgravo.addItem("PESTE");
-            cbAgravo.addItem("ZIKA");
-            cbAgravo.addItem("RAIVA HUMANA");
-            cbAgravo.addItem("RUBEOLA");
-            cbAgravo.addItem("SARAMPO");
-            //cbAgravo.addItem("SINDROME DA RUBEOLA CONGENITA");
-            //cbAgravo.addItem("SINDROME RESPIRAT. AGUDA GRAVE ASSOC. A CORONAVIRUS");
-            cbAgravo.addItem("TULAREMIA");
-            cbAgravo.addItem("VARIOLA");
+        if (semanaInicial.getText() == null || semanaInicial.getText().isEmpty()){
+            SinanUtil.mensagem("Digite o número da semana epidemiológica");
+            return false;
         }
+        if (semanaFinal.getText() == null || semanaFinal.getText().isEmpty()){
+            SinanUtil.mensagem("Digite o número da semana epidemiológica");
+            return false;
+        }
+        if (Integer.parseInt(semanaInicial.getText()) > Integer.parseInt(semanaFinal.getText()) ){
+            SinanUtil.mensagem("A semana Inicial não ser maior que semana final");
+            return false;
+            
+        }
+
+        return true;
     }
 
     /**
@@ -160,75 +132,34 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         panelOportunidade = new javax.swing.JPanel();
-        jLabel23 = new javax.swing.JLabel();
-        anoAvaliadoOportunidade = new javax.swing.JComboBox();
-        dtAvaliacaoOportunidade = new com.toedter.calendar.JDateChooser("dd/MM/yyyy", "##/##/#####", '_');
-        dtInicioAvaliacao = new com.toedter.calendar.JDateChooser("dd/MM/yyyy", "##/##/#####", '_');
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        dtFimAvaliacao = new com.toedter.calendar.JDateChooser("dd/MM/yyyy", "##/##/#####", '_');
-        rbPeriodoAvaliacao = new javax.swing.JRadioButton();
-        jRadioButton7 = new javax.swing.JRadioButton();
         pnlArquivos = new javax.swing.JPanel();
         btnSelecionarArquivos = new javax.swing.JButton();
         btnLimparSelecao = new javax.swing.JButton();
         lblArquivosSelecionados = new javax.swing.JLabel();
+        chkExportarDbf = new javax.swing.JCheckBox();
+        jLabel1 = new javax.swing.JLabel();
+        anoAvaliadoOportunidade = new javax.swing.JComboBox<>();
+        semanaInicial = new javax.swing.JTextField();
+        semanaFinal = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         cbMunicipio = new javax.swing.JComboBox();
         cbRegional = new javax.swing.JComboBox();
         lblUF = new javax.swing.JLabel();
         cbUf = new javax.swing.JComboBox();
-        chkExportarDbf = new javax.swing.JCheckBox();
         lblRegional = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         prbStatus = new javax.swing.JProgressBar();
         btCalcular = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
-        cbAgravo = new javax.swing.JComboBox();
         cbDesagregacao = new javax.swing.JComboBox();
         lblDesagregacao = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(800, 373));
 
         panelOportunidade.setPreferredSize(new java.awt.Dimension(561, 99));
-
-        jLabel23.setText("Data Avaliação:");
-
-        anoAvaliadoOportunidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008" }));
-        anoAvaliadoOportunidade.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                anoAvaliadoOportunidadeActionPerformed(evt);
-            }
-        });
-
-        dtAvaliacaoOportunidade.getJCalendar().setWeekOfYearVisible(false);
-
-        dtInicioAvaliacao.getJCalendar().setWeekOfYearVisible(false);
-        dtInicioAvaliacao.setEnabled(false);
-
-        jLabel7.setText("De"); // NOI18N
-
-        jLabel8.setText("até"); // NOI18N
-
-        dtFimAvaliacao.getJCalendar().setWeekOfYearVisible(false);
-        dtFimAvaliacao.setEnabled(false);
-
-        buttonGroup1.add(rbPeriodoAvaliacao);
-        rbPeriodoAvaliacao.setText("Período de avaliação");
-        rbPeriodoAvaliacao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbPeriodoAvaliacaoActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(jRadioButton7);
-        jRadioButton7.setSelected(true);
-        jRadioButton7.setText("Ano de avaliação");
-        jRadioButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton7ActionPerformed(evt);
-            }
-        });
 
         pnlArquivos.setBorder(javax.swing.BorderFactory.createTitledBorder("Selecione os DBF "));
 
@@ -260,75 +191,109 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(btnLimparSelecao)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(pnlArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlArquivosLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(lblArquivosSelecionados, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlArquivosLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblArquivosSelecionados, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         pnlArquivosLayout.setVerticalGroup(
             pnlArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlArquivosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblArquivosSelecionados)
+                .addGap(18, 18, 18)
                 .addGroup(pnlArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSelecionarArquivos)
                     .addComponent(btnLimparSelecao))
                 .addContainerGap(38, Short.MAX_VALUE))
-            .addGroup(pnlArquivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlArquivosLayout.createSequentialGroup()
-                    .addGap(30, 30, 30)
-                    .addComponent(lblArquivosSelecionados)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
+
+        chkExportarDbf.setText("Salvar resultado em DBF");
+
+        jLabel1.setText("Ano da avaliação");
+
+        // Adicionando um filtro ao campo para permitir somente numeros
+        //    Retirado de: https://stackoverflow.com/questions/32625186/allow-textfield-to-input-only-number-java
+        ((AbstractDocument) semanaInicial.getDocument()).setDocumentFilter(new CustomDocumentFilter());
+        semanaInicial.setColumns(6);
+        semanaInicial.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                semanaInicialKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                semanaInicialKeyReleased(evt);
+            }
+        });
+
+        // Adicionando um filtro ao campo para permitir somente numeros
+        //    Retirado de: https://stackoverflow.com/questions/32625186/allow-textfield-to-input-only-number-java
+        ((AbstractDocument) semanaFinal.getDocument()).setDocumentFilter(new CustomDocumentFilter());
+        semanaFinal.setColumns(6);
+
+        jLabel2.setText("Semanas Epidemiológica");
+
+        jLabel3.setText("Da");
+
+        jLabel5.setText("jLabel5");
+
+        jLabel6.setText("até");
 
         javax.swing.GroupLayout panelOportunidadeLayout = new javax.swing.GroupLayout(panelOportunidade);
         panelOportunidade.setLayout(panelOportunidadeLayout);
         panelOportunidadeLayout.setHorizontalGroup(
             panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlArquivos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panelOportunidadeLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(anoAvaliadoOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(24, 24, 24)
+                .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
                     .addGroup(panelOportunidadeLayout.createSequentialGroup()
-                        .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(dtAvaliacaoOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton7)
-                            .addComponent(anoAvaliadoOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(semanaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelOportunidadeLayout.createSequentialGroup()
-                                .addComponent(jLabel7)
+                                .addGap(81, 81, 81)
+                                .addComponent(jLabel5))
+                            .addGroup(panelOportunidadeLayout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(dtInicioAvaliacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(dtFimAvaliacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(rbPeriodoAvaliacao)))
-                    .addComponent(pnlArquivos, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(semanaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelOportunidadeLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(chkExportarDbf)
+                .addGap(109, 109, 109))
         );
         panelOportunidadeLayout.setVerticalGroup(
             panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelOportunidadeLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel23)
-                    .addComponent(jRadioButton7)
-                    .addComponent(rbPeriodoAvaliacao))
-                .addGap(2, 2, 2)
-                .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(dtInicioAvaliacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7)
-                        .addComponent(jLabel8)
-                        .addComponent(dtFimAvaliacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(dtAvaliacaoOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(anoAvaliadoOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(pnlArquivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(chkExportarDbf)
+                .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelOportunidadeLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5))
+                    .addGroup(panelOportunidadeLayout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(anoAvaliadoOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(semanaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(semanaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel6))
+                        .addGap(2, 2, 2)
+                        .addComponent(pnlArquivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(215, 215, 215))
         );
 
         cbMunicipio.addActionListener(new java.awt.event.ActionListener() {
@@ -344,7 +309,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         });
 
         lblUF.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblUF.setText("UF de Residência:"); // NOI18N
+        lblUF.setText("UF de Notificação:"); // NOI18N
 
         cbUf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -352,13 +317,11 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
             }
         });
 
-        chkExportarDbf.setText("Salvar resultado em DBF");
-
         lblRegional.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblRegional.setText("Região de Saúde:"); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setText("Município de Residência:"); // NOI18N
+        jLabel4.setText("Município de Notificação:"); // NOI18N
 
         btCalcular.setLabel("Calcular");
         btCalcular.addActionListener(new java.awt.event.ActionListener() {
@@ -374,16 +337,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
             }
         });
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel9.setText("Agravo:"); // NOI18N
-
-        cbAgravo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbAgravoActionPerformed(evt);
-            }
-        });
-
-        cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "UF subdividida por Regiões de Saúde", "UF subdividida por Regionais de Saúde", "Discriminar por Agravo" }));
+        cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "UF subdividida por Regiões de Saúde", "UF subdividida por Regionais de Saúde", "Somente municípios" }));
         cbDesagregacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbDesagregacaoActionPerformed(evt);
@@ -398,41 +352,33 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
+                        .addComponent(prbStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblRegional)
+                            .addComponent(jLabel4)
+                            .addComponent(lblDesagregacao)
+                            .addComponent(lblUF))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblRegional)
-                                    .addComponent(jLabel4)
-                                    .addComponent(lblDesagregacao)
-                                    .addComponent(lblUF)
-                                    .addComponent(jLabel9))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(cbMunicipio, javax.swing.GroupLayout.Alignment.LEADING, 0, 225, Short.MAX_VALUE)
-                                        .addComponent(cbRegional, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(cbAgravo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbDesagregacao, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbUf, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(prbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(panelOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(197, 197, 197)
-                        .addComponent(chkExportarDbf))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
+                            .addComponent(cbUf, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(cbMunicipio, javax.swing.GroupLayout.Alignment.LEADING, 0, 225, Short.MAX_VALUE)
+                                .addComponent(cbRegional, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(cbDesagregacao, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(83, 83, 83)
                         .addComponent(btCalcular)
-                        .addGap(18, 18, 18)
-                        .addComponent(btLimpar)))
-                .addContainerGap(327, Short.MAX_VALUE))
+                        .addGap(87, 87, 87)
+                        .addComponent(btLimpar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(panelOportunidade, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -453,21 +399,15 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(cbMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(cbAgravo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7)
-                .addComponent(chkExportarDbf)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(prbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btCalcular)
+                    .addComponent(btCalcular, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                     .addComponent(btLimpar))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -479,30 +419,14 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         ComboBoxModel modelo;
         if (cbRegional.getSelectedItem() != null) {
             Vector<String> municipiosPactuacao = this.session.retornaMunicipiosPQAVS(this.cbDesagregacao.getSelectedIndex(), this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString());
-            municipiosPactuacao.add(2, "NENHUM");
+            if (!cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
+                municipiosPactuacao.add(2, "NENHUM");
+            }
             modelo = new DefaultComboBoxModel(municipiosPactuacao);
 
             this.cbMunicipio.setModel(modelo);
         }
 }//GEN-LAST:event_cbRegionalActionPerformed
-
-    private void jRadioButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton7ActionPerformed
-        dtInicioAvaliacao.setEnabled(false);
-        dtFimAvaliacao.setEnabled(false);
-        anoAvaliadoOportunidade.setEnabled(true);
-        dtInicioAvaliacao.setDate(null);
-        dtFimAvaliacao.setDate(null);
-}//GEN-LAST:event_jRadioButton7ActionPerformed
-
-    private void rbPeriodoAvaliacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbPeriodoAvaliacaoActionPerformed
-        dtInicioAvaliacao.setEnabled(true);
-        dtFimAvaliacao.setEnabled(true);
-        anoAvaliadoOportunidade.setEnabled(false);
-}//GEN-LAST:event_rbPeriodoAvaliacaoActionPerformed
-
-    private void anoAvaliadoOportunidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anoAvaliadoOportunidadeActionPerformed
-
-}//GEN-LAST:event_anoAvaliadoOportunidadeActionPerformed
 
     private void btnLimparSelecaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparSelecaoActionPerformed
         lblArquivosSelecionados.setText("Nenhum arquivo selecionado");
@@ -516,8 +440,15 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         filtro.addExtension("dbf");
         filtro.setDescription("Arquivo DBF");
         filtro.addInicioNome("NINDI");
+        filtro.addInicioNome("NNEGA");
         filtro.addInicioNome("DENGO");
         filtro.addInicioNome("CHIKO");
+        filtro.addInicioNome("EPIZO");
+        filtro.addInicioNome("INFLG");
+        filtro.addInicioNome("NSURT");
+        filtro.addInicioNome("NTRAC");
+        filtro.addInicioNome("TRACO");
+        
 
         //fileopen.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileopen.addChoosableFileFilter(filtro);
@@ -546,7 +477,6 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         cbRegional.removeAllItems();
         cbMunicipio.removeAllItems();
 
-        iniciaCombo(cbAgravo);        // TODO add your handling code here:
         this.chkExportarDbf.setSelected(false);
 
 
@@ -557,39 +487,28 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         if (!this.preencheuFormulario()) {
             return;
         }
+        if(Integer.parseInt(semanaFinal.getText()) > 53){
+            Master.mensagem("O número de semanas não pode ser maior do que 53!");
+            return;
+        }
         btCalcular.setEnabled(false);
         session = new SessionFacadeImpl();
-        //       session.setBrasil(true);
         session.setTodosMunicipios(true);
-        SessionFacadeImpl.setNomeDbf("NINDI");
-        //        if (SessionFacadeImpl.isDbf()) {
-        //            if (!Master.escolherDBF()) //gerar o relatorio
-        //            {
-        //                return;
-        //            }
-        //        }
-        //verifica se vai exportar para dbf o resultado
-        /*
-        if (chkExportarDbf.isSelected()) {
-            session.setExportarDbf(true);
-            //abrir janela para definir o nome do arquivo para exportação
-            //            if (!Master.setNomeArquivoDBF()) {
-            //                return;
-            //            }
-        } else {
-            session.setExportarDbf(false);
-        }*/
-        session.setExportarDbf(false);
+        SessionFacadeImpl.setNomeDbf("HANSN");
+
         this.prbStatus.setStringPainted(true);
         this.prbStatus.setValue(0);
+
         //passa as datas selecionadas
         Map parametros = new HashMap();
         parametros.put("parArquivos", this.lblArquivosSelecionados.getText());
         parametros.put("parVariosArquivos", "sim");
         if (chkExportarDbf.isSelected()) {
             parametros.put("exportarDBF", true);
+            session.setExportarDbf(true);
         } else {
             parametros.put("exportarDBF", false);
+            session.setExportarDbf(false);
         }
 
         /**
@@ -597,41 +516,30 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
          * criado um checkbox para que o usuário selecione caso queira
          * discriminar por agravo
          */
-        if (cbDesagregacao.getSelectedItem().equals("Discriminar por Agravo")) {
-            parametros.put("parDiscriminarPorAgravo", true);
-        } else {
-            parametros.put("parDiscriminarPorAgravo", false);
-        }
-        /**
-         *
-         */
-//      parametros.put("parDiscriminarPorAgravo", chkDiscriminarPorAgravo.isSelected());
-
-        session.setDataAvaliacao(SinanDateUtil.dateToStringException(dtAvaliacaoOportunidade.getDate(), "dd/MM/yyyy"));
-        parametros.put("parDataAvaliacao",SinanDateUtil.dateToStringException(dtAvaliacaoOportunidade.getDate(), "dd/MM/yyyy"));
-        session.setNomeAgravo(cbAgravo.getSelectedItem().toString());
-        parametros.put("parAgravo",cbAgravo.getSelectedItem().toString());
-        session.setAnoAvaliado(anoAvaliadoOportunidade.getSelectedItem().toString());
-        if (rbPeriodoAvaliacao.isSelected()) {
-            session.setDtInicioAvaliacao(SinanDateUtil.dateToStringException(dtInicioAvaliacao.getDate(), "dd/MM/yyyy"));
-            session.setDtFimAvaliacao(SinanDateUtil.dateToStringException(dtFimAvaliacao.getDate(), "dd/MM/yyyy"));
-            parametros.put("parAnoPeriodoAvaliacao", SinanDateUtil.dateToStringException(dtInicioAvaliacao.getDate(), "dd/MM/yyyy") + " a " + SinanDateUtil.dateToStringException(dtFimAvaliacao.getDate(), "dd/MM/yyyy"));
-            //adaptação para resolver situação para cálculo da Malária
-            // session.setAnoAvaliado(dtInicioAvaliacao.toString().split("/")[2]);
-        } else {
-            parametros.put("parAnoPeriodoAvaliacao", anoAvaliadoOportunidade.getSelectedItem().toString());
-        }
+        
+        session.setDtInicioAvaliacao(SinanDateUtil.dateToStringException(SinanDateUtil.currentDate(), "dd/MM/yyyy"));
+        session.setDtFimAvaliacao(SinanDateUtil.dateToStringException(SinanDateUtil.currentDate(), "dd/MM/yyyy"));
+        parametros.put("parAnoPeriodoAvaliacao", SinanDateUtil.getIntervaloDatas(
+                Integer.parseInt(anoAvaliadoOportunidade.getSelectedItem().toString()), Integer.parseInt(semanaInicial.getText()), Integer.parseInt(semanaFinal.getText())));
+        //parametros.put("parAnoPeriodoAvaliacao", SinanDateUtil.dateToStringException(SinanDateUtil.currentDate(), "dd/MM/yyyy"));
+        //adaptação para resolver situação para cálculo da Malária
+        // session.setAnoAvaliado(dtInicioAvaliacao.toString().split("/")[2]);
         parametros.put("parDesagregacao", cbDesagregacao.getSelectedItem().toString());
 
         parametros.put("parIsRegiao", true);
         if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regionais de Saúde")) {
-            //parametros.put("parRegionalSaude", cbRegional.getSelectedItem().toString());
+            parametros.put("parRegionalSaude", cbRegional.getSelectedItem().toString());
             session.setRegional(cbRegional.getSelectedItem().toString());
             parametros.put("parIsRegiao", false);
         } else {
             parametros.put("parRegiaoSaude", cbRegional.getSelectedItem().toString());
+            session.setRegional(cbRegional.getSelectedItem().toString());
         }
-
+        parametros.put("parAnoAvaliacao",anoAvaliadoOportunidade.getSelectedItem().toString());
+        parametros.put("parSemanaInicial",semanaInicial.getText());
+        parametros.put("parSemanaFinal",semanaFinal.getText());
+        //parametros.put("parSemanaFinal",(Integer.parseInt(semanaFinal.getText()) > 50)? "50":semanaFinal.getText());
+        
         parametros.put("parNenhum", false);
         if (cbMunicipio.getSelectedItem().toString().equals("NENHUM")) {
             cbMunicipio.setSelectedItem("TODOS");
@@ -640,16 +548,17 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         } else {
             parametros.put("parMunic", cbMunicipio.getSelectedItem().toString());
         }
-        
+
         session.setParametros(parametros);
 //      session.setTemListagem(cbGerarListagem.isSelected());
         session.setJprogress(prbStatus);
         session.setMunicipio(cbMunicipio.getSelectedItem().toString());
         session.setRegional(cbRegional.getSelectedItem().toString());
         session.setUf(cbUf.getSelectedItem().toString());
-        session.setRelatorio("OportunidadePQAVSPactuacao");
+        session.setRelatorio("SemanaEpidemiologicaPactuacao");
         session.execute();
         btCalcular.setEnabled(true);
+
 }//GEN-LAST:event_btCalcularActionPerformed
 
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
@@ -665,31 +574,30 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
 //        if (cbDesagregacao.getSelectedItem().equals("UF subdividida por Regiões de Saúde")) {
 
         if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")) {
-            lblRegional.setText("Região de Residência");
+            lblRegional.setText("Região de Notificação");
             lblRegional.setVisible(true);
             cbRegional.setVisible(true);
             modelo = new DefaultComboBoxModel(this.session.retornaRegioes(this.cbUf.getSelectedItem().toString()));
             this.cbRegional.setModel(modelo);
 
         } else if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regionais de Saúde")) {
-            lblRegional.setText("Regional de Residência");
+            lblRegional.setText("Regional de Notificação");
             lblRegional.setVisible(true);
             cbRegional.setVisible(true);
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));
             this.cbRegional.setModel(modelo);
-        }else {
-            modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));
+        } else if (this.cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
+            cbRegional.addItem("TODAS");
+        } else {
+            modelo = new DefaultComboBoxModel(this.session.retornaRegionais(""));
             this.cbRegional.setModel(modelo);
-           
         }
 
-
 //        modelo = new DefaultComboBoxModel(this.session.retornaRegioes(this.cbUf.getSelectedItem().toString()));
- //       this.cbRegional.setModel(modelo);
+        //       this.cbRegional.setModel(modelo);
         modelo = new DefaultComboBoxModel(this.session.retornaMunicipios(this.cbUf.getSelectedItem().toString()));
-       this.cbMunicipio.setModel(modelo);
+        this.cbMunicipio.setModel(modelo);
 //        }
-        iniciaCombo(cbAgravo);        // TODO add your handling code here:
         this.chkExportarDbf.setSelected(false);
         /*
         if(this.cbDesagregacao.getSelectedIndex() != 2){
@@ -698,33 +606,60 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
             this.chkExportarDbf.setVisible(true);
         }*/
     }//GEN-LAST:event_cbDesagregacaoActionPerformed
-
-    private void cbAgravoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAgravoActionPerformed
+    
+    
+//    classe para fazer o filtro na instanciação de algumas textfields
+//    Retirado de: https://stackoverflow.com/questions/32625186/allow-textfield-to-input-only-number-java
+    private class CustomDocumentFilter extends DocumentFilter{
+        private Pattern regexCheck = Pattern.compile("[0-9]+");
+        
+        @Override
+        public void insertString(FilterBypass fb, int offs, String str, AttributeSet a) throws BadLocationException{
+            if(str == null){
+                return;
+            }
+            if(regexCheck.matcher(str).matches()){
+                super.insertString(fb, offs, str, a);
+            }
+        }
+        
+        @Override
+        public void replace(FilterBypass fb, int offset, int length, String str, AttributeSet a) throws BadLocationException{
+            if(str == null)
+                return;            
+            if(regexCheck.matcher(str).matches()){
+                fb.replace(offset,length,str,a);
+            }
+        }        
+    }
+    
+    private void semanaInicialKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_semanaInicialKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbAgravoActionPerformed
+        
+    }//GEN-LAST:event_semanaInicialKeyPressed
 
+    private void semanaInicialKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_semanaInicialKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_semanaInicialKeyReleased
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox anoAvaliadoOportunidade;
+    private javax.swing.JComboBox<String> anoAvaliadoOportunidade;
     private javax.swing.JButton btCalcular;
     private javax.swing.JButton btLimpar;
     private javax.swing.JButton btnLimparSelecao;
     private javax.swing.JButton btnSelecionarArquivos;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox cbAgravo;
     private javax.swing.JComboBox cbDesagregacao;
     private javax.swing.JComboBox cbMunicipio;
     private javax.swing.JComboBox cbRegional;
     private javax.swing.JComboBox cbUf;
     private javax.swing.JCheckBox chkExportarDbf;
-    private com.toedter.calendar.JDateChooser dtAvaliacaoOportunidade;
-    private com.toedter.calendar.JDateChooser dtFimAvaliacao;
-    private com.toedter.calendar.JDateChooser dtInicioAvaliacao;
-    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JRadioButton jRadioButton7;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel lblArquivosSelecionados;
     private javax.swing.JLabel lblDesagregacao;
     private javax.swing.JLabel lblRegional;
@@ -732,6 +667,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
     private javax.swing.JPanel panelOportunidade;
     private javax.swing.JPanel pnlArquivos;
     private javax.swing.JProgressBar prbStatus;
-    private javax.swing.JRadioButton rbPeriodoAvaliacao;
+    private javax.swing.JTextField semanaFinal;
+    private javax.swing.JTextField semanaInicial;
     // End of variables declaration//GEN-END:variables
 }

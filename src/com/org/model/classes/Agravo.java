@@ -1,10 +1,9 @@
 /*
  * To change this template, choose Tools | Templates
- * and open the template in the editor.k
+ * and open the template in the editor.
  */
 package com.org.model.classes;
 //teste
-
 import com.linuxense.javadbf.DBFException;
 import com.linuxense.javadbf.DBFReader;
 import com.linuxense.javadbf.DBFWriter;

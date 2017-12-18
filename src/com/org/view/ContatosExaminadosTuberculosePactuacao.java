@@ -521,6 +521,10 @@ public class ContatosExaminadosTuberculosePactuacao extends javax.swing.JPanel {
             this.cbRegional.setModel(modelo);
         } else if (this.cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
             cbRegional.addItem("TODAS");
+            cbRegional.setSelectedItem("TODAS");
+            lblRegional.setVisible(false);
+            cbRegional.setVisible(false);
+            
         } else {
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(""));
             this.cbRegional.setModel(modelo);

@@ -71,6 +71,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
@@ -175,7 +176,8 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             parametros = new HashMap();
         }
         parametros.putAll(agravo.getParametros());
-
+        
+        
         parametros.put("parConfig", "");
         parametros.put("parVersao", getVersao());
         parametros.put("municipios", "nao");
@@ -583,7 +585,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                         parametros.put("parArquivos", "");
                     }
                 }
-
+                
                 impressao = JasperFillManager.fillReport(arquivo.openStream(), parametros, jrds);
                 viewer = new JasperViewer(impressao, false);
                 if (this.isTemListagem()) {
@@ -592,9 +594,10 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                     URL arquivoListagem = getClass().getResource("/com/org/relatorios/listagemOportunidade.jasper");
                     JasperPrint imprimirListagem = JasperFillManager.fillReport(arquivoListagem.openStream(), parametros, jrdsListagem);
                     JasperViewer viewerListagem = new JasperViewer(imprimirListagem, false);
-                    viewerListagem.setVisible(true);
+                    viewerListagem.setVisible(true);                    
                 }
             }
+
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -627,8 +630,8 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             panel = new Violencia();
             this.relatorio = "Violencia";
         } else if (relatorio.equals("Número de semanas epidemiológicas com informação")) {
-            panel = new SemEpidPQAVS();
-            this.relatorio = "SemEpidPQAVS";
+            panel = new SemanaEpidemiologicaPactuacao();
+            this.relatorio = "SemanaEpidemiologicaPactuacao";
         }if (relatorio.equals("Proporção de cura dos casos novos de hanseníase diagnosticados nos anos das coortes")) {
             panel = new HanseniaseCoorteCuraPactuacao();
             this.relatorio = "HanseniaseCoorteCura";
@@ -804,6 +807,18 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 
         if (relatorio.equals("AutoctonesMalariaPactuacao")) {
             agravo = new com.org.model.classes.agravos.AutoctoneMalariaPactuacao(isDbf());
+            agravo.setAnoAvaliado(this.anoAvaliado);
+
+            agravo.setDtInicioAvaliacao(this.dtInicioAvaliacao);
+            agravo.setDtFimAvaliacao(this.dtFimAvaliacao);
+            agravo.setDataAvaliacao(dataAvaliacao);
+            agravo.setUf(uf);
+            agravo.setMunicipio(municipio);
+            agravo.setRegional(regional);
+            agravo.setTemListagem(this.temListagem);
+        }
+        if (relatorio.equals("SemanaEpidemiologicaPactuacao")) {
+            agravo = new com.org.model.classes.agravos.SemanaEpidemiologicaPactuacao(isDbf());
             agravo.setAnoAvaliado(this.anoAvaliado);
 
             agravo.setDtInicioAvaliacao(this.dtInicioAvaliacao);
@@ -1394,6 +1409,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 if (reader == null) {
                     Logger.getLogger(SessionFacadeImpl.class.getName()).log(Level.SEVERE, null,
                             "Erro ao carregar as UFs. Verifique se existe a pasta DBF e se os arquivo UF.DBF está lá:\n");
+                    throw new NullPointerException("Não foi possível carregar as UFs. Verifique se a pasta DBF existe e se o arquivo UF.DBF está lá!\n");
                 }
                 Object[] rowObjects;
                 DBFUtil utilDbf = new DBFUtil();
