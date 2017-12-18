@@ -504,6 +504,7 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
         parametros.put("parPeriodoCoorteMB", SinanDateUtil.subtrairAno(this.getDtInicioAvaliacao(), -2) + " a " + SinanDateUtil.subtrairAno(this.getDtFimAvaliacao(), -2) + " (MB)");
 
         parametros.put("parPeriodo", "de " + this.getDtInicioAvaliacao() + " a " + this.getDtFimAvaliacao());
+        //parametros.put("parAnoPeriodoAvaliacao", (Integer.parseInt(Util.getAno(this.getDtFimAvaliacao())) - 1));
         parametros.put("parTituloColuna", this.getTituloColuna());
         parametros.put("parFator", String.valueOf(this.getMultiplicador()));
         parametros.put("parAno", Util.getAno(this.getDtFimAvaliacao()));
