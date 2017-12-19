@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2db8cf1a-6d0e-4884-95ca-e83268d0cf34">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="474"/>
+	<property name="ireport.y" value="111"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Java\\sinan_relatorios\\src\\com\\org\\relatorios\\"]]></defaultValueExpression>
 	</parameter>
@@ -35,286 +35,286 @@
 	<title>
 		<band height="160" splitType="Stretch">
 			<rectangle>
-				<reportElement x="2" y="50" width="552" height="109"/>
+				<reportElement x="2" y="50" width="552" height="109" uuid="d86a6306-7d7a-45fb-9a60-7f268d8b9e35"/>
 			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1" y="0" width="306" height="14"/>
+				<reportElement x="1" y="0" width="306" height="14" uuid="b5b31a35-b6c9-4700-a3f0-e240af151aeb"/>
 				<textElement>
 					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{CABECALHO1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{CABECALHO1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="347" y="0" width="207" height="14"/>
+				<reportElement x="347" y="0" width="207" height="14" uuid="22780a48-6ae7-40ae-91f7-4372d300982e"/>
 				<textElement>
 					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{CABECALHO2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{CABECALHO2}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2" y="19" width="529" height="14"/>
+				<reportElement x="2" y="19" width="529" height="14" uuid="f2f8b312-8c82-4eae-ae75-b43fb722b767"/>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{TITULO}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{TITULO}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="5" y="52" width="99" height="14"/>
+				<reportElement x="5" y="52" width="99" height="14" uuid="b1884882-06a8-485f-a7f3-5c1ea478ca0a"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Nível de desagregação:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="65" width="100" height="14"/>
+				<reportElement x="5" y="65" width="100" height="14" uuid="a2350cba-3126-4d31-8379-84459af55988"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[UF de residência:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="78" width="100" height="14"/>
+				<reportElement x="5" y="78" width="100" height="14" uuid="e28fcf32-8d35-4d81-b3cf-ac9a39fd59ec"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[Região de Saúde:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="90" width="100" height="14"/>
+				<reportElement x="5" y="90" width="100" height="14" uuid="4a22bb49-4f83-431f-9ec7-452a47593a30"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[Município de residência:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="316" y="50" width="1" height="56"/>
+				<reportElement x="316" y="50" width="1" height="56" uuid="70033007-7f7b-4ec9-8ee7-253b079c393b"/>
 			</line>
 			<staticText>
-				<reportElement x="321" y="63" width="118" height="14"/>
+				<reportElement x="321" y="63" width="118" height="14" uuid="83b72424-6dad-47be-9a0a-215a93f02412"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Data da avaliação:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="2" y="106" width="552" height="1"/>
+				<reportElement x="2" y="106" width="552" height="1" uuid="f1e0d5a6-f907-4f56-8b99-a6d0b462db0c"/>
 			</line>
 			<staticText>
-				<reportElement x="3" y="34" width="550" height="14" forecolor="#666666" backcolor="#666666"/>
+				<reportElement x="3" y="34" width="550" height="14" forecolor="#666666" backcolor="#666666" uuid="f6f58d0d-23ee-4d5d-a988-a25c894c20cd"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Proporção de casos de doenças de notificação compulsória imediata (DNCI) encerradas em até 60 dias após notificação]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="321" y="52" width="100" height="14"/>
+				<reportElement x="321" y="52" width="100" height="14" uuid="57e01c63-8761-4785-8035-2b46a3ee64dc"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[Agravo:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="321" y="76" width="118" height="14"/>
+				<reportElement x="321" y="76" width="118" height="14" uuid="0e3191ba-f07d-418b-b69d-849c69aa5a72"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Ano/Período de avaliação:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="4" y="107" width="548" height="53" forecolor="#666666"/>
+				<reportElement x="4" y="107" width="548" height="53" forecolor="#666666" uuid="3e6d88ab-bc98-41be-a835-a37aaa72d62f"/>
 				<textElement textAlignment="Justified">
 					<font size="8" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<text><![CDATA[Para monitoramento, foram definidas, em virtude de sua magnitude e relevância, 25 doenças de notificação imediata nacional. São elas: Antraz pneumônico, Arenavírus, Botulismo, Cólera, Dengue (óbitos), Ebola, Eventos adversos graves ou óbitos pós-vacinação, Febre amarela, Febre de chikungunya, Febre do nilo ocidental e outras arboviroses de importância em saúde pública, Febre maculosa e outras riquetisioses, Febre purpúrica brasileira, Influenza humana produzida por novo subtipo viral, Lassa, Malária na região extra Amazônica, Marburg, Paralisia flácida aguda, Peste, Raiva humana, Rubéola, Sarampo, SRC, SRAG associada a coronavírus, Tularemia e Varíola.]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="106" y="53" width="209" height="15"/>
+				<reportElement x="106" y="53" width="209" height="15" uuid="5933bf61-577e-4915-8913-bab090f18fbc"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{parDesagregacao}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{parDesagregacao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="76" y="66" width="100" height="12"/>
+				<reportElement x="76" y="66" width="100" height="12" uuid="422138bc-dd4b-47d6-8b7c-f9dac16f318f"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{parSgUf}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{parSgUf}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="76" y="78" width="136" height="12"/>
+				<reportElement x="76" y="78" width="136" height="12" uuid="fa32caae-1e9b-4959-8fd9-b059ee1af356"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{parRegiaoSaude}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{parRegiaoSaude}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="354" y="52" width="192" height="12"/>
+				<reportElement x="354" y="52" width="192" height="12" uuid="f87fb56e-d518-4cb0-aa84-997a463fc318"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{parAgravo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{parAgravo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="400" y="64" width="100" height="11"/>
+				<reportElement x="415" y="64" width="100" height="11" uuid="c9ef20dc-004d-4747-a0d8-f70001bd2c39"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{parDataAvaliacao}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{parDataAvaliacao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="432" y="77" width="110" height="11"/>
+				<reportElement x="432" y="77" width="110" height="11" uuid="16c7d0ac-bbc6-4bf9-b9de-a966cb2b51ab"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{parAnoPeriodoAvaliacao}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{parAnoPeriodoAvaliacao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="100" y="90" width="203" height="11"/>
+				<reportElement x="100" y="90" width="203" height="11" uuid="3ba06ef3-e8aa-446e-918e-f48b33a8a050"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{parMunic}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{parMunic}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="321" y="89" width="100" height="14"/>
+				<reportElement x="321" y="89" width="100" height="14" uuid="69ff0687-40c5-45a0-a331-2b796f21a8f1"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Período de notificação:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="418" y="90" width="100" height="14"/>
+				<reportElement x="418" y="90" width="100" height="14" uuid="23074ca3-71d4-4bb5-b523-d8d24afeb590"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{parPeriodo60}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{parPeriodo60}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<detail>
 		<band height="89" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement x="0" y="0" width="554" height="38"/>
+				<reportElement x="0" y="0" width="554" height="38" uuid="1de75c50-032a-4cec-a1fd-946e7f921e1a"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="380" y="2" width="77" height="12"/>
+				<reportElement x="460" y="2" width="77" height="12" uuid="711a1a1f-2945-4d1f-a50d-68e94b1c6d35"/>
 				<textElement textAlignment="Center">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Oportuno]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="393" y="14" width="16" height="14"/>
+				<reportElement x="473" y="14" width="16" height="14" uuid="2e224044-d322-4a04-a991-18e65bdddcc0"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[(n)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="433" y="14" width="18" height="14"/>
+				<reportElement x="513" y="14" width="18" height="14" uuid="04571211-b7f4-48fc-a59b-ebf9b5d8ad8d"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[%]]></text>
 			</staticText>
 			<subreport>
-				<reportElement x="0" y="39" width="554" height="50"/>
+				<reportElement x="0" y="39" width="554" height="50" uuid="bb385842-8e98-4c48-ab80-65360641946d"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{lista})]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "oportunidadePQAVS_sub.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "oportunidadePQAVS_sub.jasper"]]></subreportExpression>
 			</subreport>
 			<textField isBlankWhenNull="true">
-				<reportElement x="16" y="23" width="188" height="15">
+				<reportElement x="16" y="23" width="188" height="15" uuid="4a32b1f6-750f-49c4-b4aa-b5ba400d2a89">
 					<printWhenExpression><![CDATA[!$F{nmAgravo}.equals("null       null")]]></printWhenExpression>
 				</reportElement>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{nmAgravo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nmAgravo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="268" y="26" width="57" height="12"/>
+				<reportElement x="268" y="26" width="57" height="12" uuid="a5751874-b2e1-4a31-a094-41d0d2e64a84"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{lista}.size()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{lista}.size()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="480" y="12" width="77" height="12"/>
+				<reportElement x="380" y="2" width="77" height="12" uuid="0187d9f6-47b5-46b0-a9c7-8683904f02e2"/>
 				<textElement textAlignment="Center">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Notificações]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="396" y="26" width="34" height="13"/>
+				<reportElement x="476" y="26" width="34" height="13" uuid="cadef40c-98bf-450a-8650-5e49b173fdef"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{qtdOportuno}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{qtdOportuno}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="519" y="26" width="44" height="13"/>
+				<reportElement x="411" y="16" width="44" height="13" uuid="52ca0fb9-4977-4d21-b31c-5f9a2245aa87"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{total}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.0;-###0.0">
-				<reportElement x="427" y="28" width="40" height="11"/>
+				<reportElement x="507" y="26" width="40" height="11" uuid="50058c36-2d4c-4e7c-901b-7bfb5d849bbf"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Float"><![CDATA[$F{qtdOportuno} > 0 ? new Float(($F{qtdOportuno}.floatValue()/$F{total}.floatValue())*100) :0]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{qtdOportuno} > 0 ? new Float(($F{qtdOportuno}.floatValue()/$F{total}.floatValue())*100) :0]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="14" y="6" width="229" height="20"/>
+				<reportElement x="14" y="6" width="229" height="20" uuid="e3753277-885c-4221-a88e-7e40429198b1"/>
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{TITULO_COLUNA}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{TITULO_COLUNA}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="254" y="6" width="126" height="20"/>
+				<reportElement x="254" y="6" width="126" height="20" uuid="4a14287a-c35b-47f4-b482-229cd50b93a7"/>
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{QTDE_REG_MUNIC_AGR}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{QTDE_REG_MUNIC_AGR}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<pageFooter>
 		<band height="39" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="419" y="20" width="134" height="14"/>
+				<reportElement x="419" y="20" width="134" height="14" uuid="c4d8029d-4d79-4e9c-9132-3df545168795"/>
 				<textElement textAlignment="Right" verticalAlignment="Bottom">
 					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{RODAPE1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{RODAPE1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="195" y="21" width="80" height="12"/>
+				<reportElement x="195" y="21" width="80" height="12" uuid="37475062-d433-4bb4-90b9-dabfbff3de47"/>
 				<textElement textAlignment="Right" verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Pág. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Pág. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="275" y="21" width="40" height="12"/>
+				<reportElement x="275" y="21" width="40" height="12" uuid="c42cd701-e3bb-42c1-8313-c432d15614d8"/>
 				<textElement verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="78" y="20" width="77" height="14"/>
+				<reportElement x="78" y="20" width="77" height="14" uuid="287977c2-f0b7-4078-b343-0d1db992e9b0"/>
 				<textElement verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="2" y="20" width="76" height="14"/>
+				<reportElement x="2" y="20" width="76" height="14" uuid="86977507-1551-4b2d-a371-95f658dec946"/>
 				<textElement verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
@@ -326,75 +326,74 @@
 		<band height="53">
 			<printWhenExpression><![CDATA[!$P{QTDE_REG_MUNIC_AGR}.equals("Agravos")]]></printWhenExpression>
 			<rectangle radius="10">
-				<reportElement x="0" y="6" width="554" height="37"/>
+				<reportElement x="0" y="6" width="554" height="37" uuid="3be5d582-25b8-4c6a-b35d-1b2147f7a4cd"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="11" y="20" width="41" height="16"/>
+				<reportElement x="11" y="20" width="41" height="16" uuid="7af47049-f01c-4635-b6a1-8db03db9ab47"/>
 				<textElement>
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TOTAL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="284" y="6" width="178" height="14"/>
+				<reportElement x="284" y="6" width="178" height="14" uuid="9b13ec58-ed76-4d81-9e57-dac06badc4e5"/>
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Oportuno]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="400" y="19" width="18" height="14"/>
+				<reportElement x="400" y="19" width="18" height="14" uuid="ebee2f91-cc89-4537-a28d-ab799d00b29c"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[%]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="340" y="16" width="31" height="14"/>
+				<reportElement x="340" y="16" width="31" height="14" uuid="b5974f1e-e2a1-491b-8ed1-acc5bcacec1b"/>
 				<textElement>
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[(n)]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="92" y="25" width="100" height="18"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{TOTAL1}]]></textFieldExpression>
+				<reportElement x="92" y="25" width="100" height="18" uuid="53f5b988-1b28-4870-9832-71ff1c33482c"/>
+				<textFieldExpression><![CDATA[$P{TOTAL1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="467" y="8" width="64" height="14"/>
+				<reportElement x="467" y="8" width="64" height="14" uuid="6af4ee90-f9f8-4232-abe5-d610affecbca"/>
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Notificações]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="341" y="28" width="72" height="14"/>
+				<reportElement x="341" y="28" width="72" height="14" uuid="14e1bc0a-7576-4b06-b575-801a23040292"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{TOTAL2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{TOTAL2}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="493" y="25" width="64" height="16"/>
+				<reportElement x="493" y="25" width="64" height="16" uuid="6332b929-4739-4b37-be5c-5207f1107e4a"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{TOTAL3}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{TOTAL3}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.0;-###0.0">
-				<reportElement x="393" y="28" width="100" height="20"/>
+				<reportElement x="393" y="28" width="100" height="20" uuid="9731163b-a591-4d00-b23a-a65c0cf74c83"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[new Double(Double.parseDouble($P{TOTAL2})) > 0 ? (new Double(Double.parseDouble($P{TOTAL2}))/new Double(Double.parseDouble($P{TOTAL3})))*100 : 0]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new Double(Double.parseDouble($P{TOTAL2})) > 0 ? (new Double(Double.parseDouble($P{TOTAL2}))/new Double(Double.parseDouble($P{TOTAL3})))*100 : 0]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="81" y="9" width="144" height="20"/>
+				<reportElement x="81" y="9" width="144" height="20" uuid="51706035-a27f-43eb-a37a-3a8a45b3629f"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{QTDE_REG_MUNIC_AGR}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{QTDE_REG_MUNIC_AGR}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>
