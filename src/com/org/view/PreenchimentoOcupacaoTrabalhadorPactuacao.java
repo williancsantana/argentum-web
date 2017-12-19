@@ -261,7 +261,7 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends javax.swing.JPane
         });
 
         lblUF.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblUF.setText("UF de Residência:"); // NOI18N
+        lblUF.setText("UF de Notificação:"); // NOI18N
 
         cbUf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -273,7 +273,7 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends javax.swing.JPane
         lblRegional.setText("Região de Saúde:"); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setText("Município de Residência:"); // NOI18N
+        jLabel4.setText("Município de Notificação:"); // NOI18N
 
         btCalcular.setLabel("Calcular");
         btCalcular.addActionListener(new java.awt.event.ActionListener() {
@@ -507,14 +507,14 @@ fileopen.setFileFilter(filtro);
 //        this.cbUf.setModel(modelo);
 //        if (cbDesagregacao.getSelectedItem().equals("UF subdividida por Regiões de Saúde")) {
         if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")) {
-            lblRegional.setText("Região de Residência");
+            lblRegional.setText("Região de Notificação");
             lblRegional.setVisible(true);
             cbRegional.setVisible(true);
             modelo = new DefaultComboBoxModel(this.session.retornaRegioes(this.cbUf.getSelectedItem().toString()));
             this.cbRegional.setModel(modelo);
 
         } else if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regionais de Saúde")) {
-            lblRegional.setText("Regional de Residência");
+            lblRegional.setText("Regional de Notificação");
             lblRegional.setVisible(true);
             cbRegional.setVisible(true);
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));

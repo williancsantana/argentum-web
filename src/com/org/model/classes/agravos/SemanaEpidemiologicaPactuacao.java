@@ -335,6 +335,7 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
                     municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
                     calculaIndicador(rowObjects, anoAvaliacao, semanaIni, semanaFim);
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Preparando arquivos... ");
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }

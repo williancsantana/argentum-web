@@ -498,22 +498,19 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
     @Override
     public String[] getOrdemColunas() {
 //        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_TBREG", "N_TBEXAM", "P_TBEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
-        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_SAUTRA", "N_OCPRE", "P_RACPRE", "ANO_NOTI", "DT_NOTIN", "DT_NOTIFI", "ORIGEM"};
+        return new String[]{"COUFNOT", "ID_LOCNOT", "DS_LOCNOT", "COD_CIR", "NOME_CIR", "N_OCPRE", "D_SAUTRA", "P_RACPRE", "ANO_NOTI", "DT_NOTIN", "DT_NOTIFI", "ORIGEM"};
     }
 
     @Override
     public HashMap<String, ColunasDbf> getColunas() {
         HashMap<String, ColunasDbf> hashColunas = new HashMap<String, ColunasDbf>();
-        hashColunas.put("COUUFINF", new ColunasDbf(30));
-        hashColunas.put("ID_LOCRES", new ColunasDbf(30));
-        hashColunas.put("DS_LOCRES", new ColunasDbf(30));
+        hashColunas.put("COUFNOT", new ColunasDbf(30));
+        hashColunas.put("ID_LOCNOT", new ColunasDbf(30));
+        hashColunas.put("DS_LOCNOT", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
         hashColunas.put("NOME_CIR", new ColunasDbf(30));
-//        hashColunas.put("D_TBREG", new ColunasDbf(30));
-//        hashColunas.put("N_TBEXAM", new ColunasDbf(30));
-//        hashColunas.put("P_TBEXAM", new ColunasDbf(30));
+        hashColunas.put("N_OCPRE", new ColunasDbf(30)); 
         hashColunas.put("D_SAUTRA", new ColunasDbf(30));
-        hashColunas.put("N_OCPRE", new ColunasDbf(30));        
         hashColunas.put("P_RACPRE", new ColunasDbf(30));
         hashColunas.put("ANO_NOTI", new ColunasDbf(30));
         hashColunas.put("DT_NOTIN", new ColunasDbf(30));
@@ -549,8 +546,9 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
                 }
             }
             rowData[2] = agravo.getNomeMunicipio();
-            rowData[5] = agravo.getNumerador();
-            rowData[6] = agravo.getDenominador();
+            rowData[5] = agravo.getDenominador();
+            rowData[6] = agravo.getNumerador();
+             
             if (Integer.valueOf(agravo.getNumerador()) <= 0) {
                 rowData[7] = "0.0";
             } else {
@@ -558,7 +556,7 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
                 rowData[7] = String.format("%.1f", percentual);
             }
 
-            rowData[8] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
+            rowData[8] = String.format("%.0f",preencheAno(getDataInicio(), getDataFim()));
             rowData[9] = getDataInicio();
             rowData[10] = getDataFim();
             rowData[11] = "SaudeTrabalhador-SINANNET";
