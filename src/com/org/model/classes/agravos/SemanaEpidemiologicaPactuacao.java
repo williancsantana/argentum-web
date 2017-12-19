@@ -47,6 +47,7 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
     static String ANO;
     Agravo municipioResidencia;
     HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
+
     HashMap<String, ArrayList<String>> semanas = new HashMap<String, ArrayList<String>>();
     DBFUtil utilDbf = new DBFUtil();
 
@@ -60,7 +61,7 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
     @Override
 
     public void init(String tipoBanco) {
-        this.setArquivo("HANSNET");
+        this.setArquivo("NINDINET");
         this.setTextoCompletitude("");
         this.setMultiplicador(100000);
         this.setTipo("");
@@ -80,23 +81,13 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         }
     }
 
-    private void calculaIndicador(Object[] rowObjects, Map parametros) throws ParseException {
+    private void calculaIndicador(Object[] rowObjects, String anoAvaliacao, Integer semanaIni, Integer semanaFim) throws ParseException {
 
-        Date dtDiagnostico;
-
+        // Date dtDiagnostico;
         String semEpidemilogica;
         String anoEdpid;
-
-        String anoAvaliacao = (String) parametros.get("parAnoAvaliacao");
-        int semanaIniAval = 0;
-        int semanaFimAval = 0;
         Boolean semanaValida = false;
-        int totalSemanas = (Integer.valueOf(parametros.get("parSemanaFinal").toString()) - Integer.valueOf(parametros.get("parSemanaInicial").toString())) + 1;
-
-        int numerador = 0;
         int denominador = 0;
-        int numeradorEstadual = 0;
-        int denominadorEstadual = 0;
 
         if (utilDbf.getString(rowObjects, "SEM_NOT") != null) {
             semEpidemilogica = utilDbf.getString(rowObjects, "SEM_NOT");
@@ -109,35 +100,10 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
             anoEdpid = "0";
         }
 
-        if (Integer.valueOf(parametros.get("parSemanaFinal").toString()) < 10) {
-            semanaFimAval = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaFinal").toString());
-
-        } else {
-            semanaFimAval = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaFinal").toString());
-        }
-
-        if (Integer.valueOf(parametros.get("parSemanaInicial").toString()) < 10) {
-            semanaIniAval = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaInicial").toString());
-
-        } else {
-            semanaIniAval = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaInicial").toString());
-        }
-
-        if (municipioResidencia != null) {
-            municipioResidencia.setNumerador(String.valueOf(totalSemanas));
-            municipioResidencia.setNumeradorInt(totalSemanas);
-        }
-
         if (semEpidemilogica != null && semEpidemilogica.length() >= 4) {
-            semanaValida = (Integer.valueOf(semEpidemilogica) >= semanaIniAval) && (Integer.valueOf(semEpidemilogica) <= semanaFimAval);
+            semanaValida = (Integer.valueOf(semEpidemilogica) >= semanaIni) && (Integer.valueOf(semEpidemilogica) <= semanaFim);
         }
 
-        // if (utilDbf.getString(rowObjects, "SG_UF") != null) {
-        //verifica se existe a referencia do municipio no bean
-        //municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MN_RESI"));
-        //verifica se tem o parametro de municipio de residencia
-        //Critérios
-        dtDiagnostico = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
         ArrayList<String> WeekAtual = new ArrayList<String>();
 
         if (municipioResidencia != null && anoEdpid.equals(anoAvaliacao) && semanaValida) {
@@ -154,7 +120,7 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
             } else {
                 WeekAtual.add(semEpidemilogica);
                 semanas.put(municipioResidencia.getCodMunicipio(), WeekAtual);
-                numerador = Integer.parseInt(municipioResidencia.getDenominador());
+                denominador = Integer.parseInt(municipioResidencia.getDenominador());
                 denominador++;
                 municipioResidencia.setDenominador(String.valueOf(denominador));
                 municipioResidencia.setDenominadorInt(denominador);
@@ -172,16 +138,30 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         String sgUfResidencia = (String) parametros.get("parSgUf");
         String codRegional = (String) parametros.get("parCodRegional");
         String codRegiao = (String) parametros.get("parCodRegiaoSaude");
+        HashMap<String, Agravo> regiaoBeans = new HashMap<String, Agravo>();
+        Agravo regiaoResidencia;
         parametros.put("numeradorTotal", 0);
         parametros.put("denominadorTotal", 0);
-
         if (codRegional == null) {
             codRegional = "";
         }
+        if (codRegiao == null) {
+            codRegiao = "";
+        }
+
+        String idMunicipio;
+        if (parametros.get("parMunicipio") != null) {
+            idMunicipio = (String) parametros.get("parMunicipio");
+        } else {
+            idMunicipio = "TODOS";
+        }
+
         if ((Boolean) parametros.get("parIsRegiao")) {
             municipiosBeans = populaRegiaoBeans(sgUfResidencia, codRegiao);
+            regiaoBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, idMunicipio, parametros.get("parIsRegiao").toString());
         } else {
             municipiosBeans = populaRegionalBeans(sgUfResidencia, codRegional);
+            regiaoBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, idMunicipio, parametros.get("parIsRegiao").toString());
         }
         //municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
         //inicia o calculo
@@ -193,6 +173,25 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         String dataFim = (String) parametros.get("parDataFim");
         //loop para ler os arquivos selecionados
         String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
+        int semanaIni = 0;
+        int semanaFim = 0;
+        String anoAvaliacao = (String) parametros.get("parAnoAvaliacao");
+
+        if (Integer.valueOf(parametros.get("parSemanaFinal").toString()) < 10) {
+            semanaFim = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaFinal").toString());
+
+        } else {
+            semanaFim = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaFinal").toString());
+        }
+
+        if (Integer.valueOf(parametros.get("parSemanaInicial").toString()) < 10) {
+            semanaIni = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaInicial").toString());
+
+        } else {
+            semanaIni = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaInicial").toString());
+        }
+        int totalSemanas = (Integer.valueOf(parametros.get("parSemanaFinal").toString()) - Integer.valueOf(parametros.get("parSemanaInicial").toString())) + 1;
+
         for (int k = 0; k < arquivos.length; k++) {
             int i = 1;
             try {
@@ -200,21 +199,20 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
                 utilDbf.mapearPosicoes(reader);
                 double TotalRegistros = Double.parseDouble(String.valueOf(reader.getRecordCount()));
                 while ((rowObjects = reader.nextRecord()) != null) {
-                    //cálculo da taxa estadual
-                    //verifica a uf de residencia
-                    try {
-                        //verifica se existe a referencia do municipio no bean
-                        if ((Boolean) parametros.get("parIsRegiao")) {
-                            municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
-                        } else {
-                            municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
+
+                    if ((Boolean) parametros.get("parIsRegiao")) {
+                        regiaoResidencia = regiaoBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
+                        if (regiaoResidencia != null) {
+                            municipioResidencia = municipiosBeans.get(regiaoResidencia.getCodRegiaoSaude());
                         }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(SemanaEpidemiologicaPactuacao.class.getName()).log(Level.SEVERE, null, ex);
+                    } else {
+                        regiaoResidencia = regiaoBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
+                        if (regiaoResidencia != null) {
+                            municipioResidencia = municipiosBeans.get(regiaoResidencia.getCodRegional());
+                        }
                     }
-                    calculaIndicador(rowObjects, parametros);
-                    //verifica se tem o parametro de municipio de residencia
-                    //Critérios
+                    calculaIndicador(rowObjects, anoAvaliacao, semanaIni, semanaFim);
+
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
                     getBarraStatus().setValue((int) percentual);
                     i++;
@@ -233,6 +231,8 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         for (Iterator<Agravo> it = municipioBean.iterator(); it.hasNext();) {
             Agravo agravoDBF = it.next();
             this.getBeans().add(agravoDBF);
+            agravoDBF.setNumerador(String.valueOf(totalSemanas));
+            agravoDBF.setNumeradorInt(totalSemanas);
             getBarraStatus().setString("Calculando indicador para: " + agravoDBF.getNomeMunicipio());
         }
         getBarraStatus().setString(null);
@@ -264,7 +264,6 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         } else {
             idMunicipio = "TODOS";
         }
-
         if (codRegional == null) {
             codRegional = "";
         }
@@ -286,6 +285,25 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         parametros.put("numeradorTotal", 0);
         parametros.put("denominadorTotal", 0);
 
+        int semanaIni = 0;
+        int semanaFim = 0;
+        String anoAvaliacao = (String) parametros.get("parAnoAvaliacao");
+
+        if (Integer.valueOf(parametros.get("parSemanaFinal").toString()) < 10) {
+            semanaFim = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaFinal").toString());
+
+        } else {
+            semanaFim = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaFinal").toString());
+        }
+
+        if (Integer.valueOf(parametros.get("parSemanaInicial").toString()) < 10) {
+            semanaIni = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaInicial").toString());
+
+        } else {
+            semanaIni = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaInicial").toString());
+        }
+        int totalSemanas = (Integer.valueOf(parametros.get("parSemanaFinal").toString()) - Integer.valueOf(parametros.get("parSemanaInicial").toString())) + 1;
+
         //loop para ler os arquivos selecionados
         String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
         for (int k = 0; k < arquivos.length; k++) {
@@ -297,12 +315,11 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
                 while ((rowObjects = reader.nextRecord()) != null) {
                     //cálculo da taxa estadual
                     //verifica a uf de residencia
-
                     municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
-                    calculaIndicador(rowObjects, parametros);
-
+                    calculaIndicador(rowObjects, anoAvaliacao, semanaIni, semanaFim);
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
                     getBarraStatus().setValue((int) percentual);
+                    getBarraStatus().setString("Text");
                     i++;
                 }
 
@@ -319,6 +336,8 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         for (Iterator<Agravo> it = municipioBean.iterator(); it.hasNext();) {
             Agravo agravoDBF = it.next();
             this.getBeans().add(agravoDBF);
+            agravoDBF.setNumerador(String.valueOf(totalSemanas));
+            agravoDBF.setNumeradorInt(totalSemanas);
             getBarraStatus().setString("Calculando indicador para: " + agravoDBF.getNomeMunicipio());
         }
         getBarraStatus().setString(null);
@@ -369,6 +388,26 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
 
         //loop para ler os arquivos selecionados
         String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
+
+        int semanaIni = 0;
+        int semanaFim = 0;
+        String anoAvaliacao = (String) parametros.get("parAnoAvaliacao");
+
+        if (Integer.valueOf(parametros.get("parSemanaFinal").toString()) < 10) {
+            semanaFim = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaFinal").toString());
+
+        } else {
+            semanaFim = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaFinal").toString());
+        }
+
+        if (Integer.valueOf(parametros.get("parSemanaInicial").toString()) < 10) {
+            semanaIni = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaInicial").toString());
+
+        } else {
+            semanaIni = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaInicial").toString());
+        }
+        int totalSemanas = (Integer.valueOf(parametros.get("parSemanaFinal").toString()) - Integer.valueOf(parametros.get("parSemanaInicial").toString())) + 1;
+
         for (int k = 0; k < arquivos.length; k++) {
             int i = 1;
             try {
@@ -378,10 +417,10 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
                 while ((rowObjects = reader.nextRecord()) != null) {
                     //cálculo da taxa estadual
                     //verifica a uf de residencia
-
                     municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
-                    calculaIndicador(rowObjects, parametros);
-
+                    if (municipioResidencia != null) {
+                        calculaIndicador(rowObjects, anoAvaliacao, semanaIni, semanaFim);
+                    }
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
                     getBarraStatus().setValue((int) percentual);
                     i++;
@@ -400,6 +439,9 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
 
         for (Iterator<Agravo> it = municipioBean.iterator(); it.hasNext();) {
             Agravo agravoDBF = it.next();
+            agravoDBF.setNumerador(String.valueOf(totalSemanas));
+            agravoDBF.setNumeradorInt(totalSemanas);
+
             this.getBeans().add(agravoDBF);
             getBarraStatus().setString("Calculando indicador para: " + agravoDBF.getNomeMunicipio());
         }
@@ -482,9 +524,9 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         //hashColunas.put("D_HANSREG", new ColunasDbf(30));
         //hashColunas.put("N_HANSEXAM", new ColunasDbf(30));
         //hashColunas.put("P_HANSEXAM", new ColunasDbf(30));
-        hashColunas.put("DENOMINAD",new ColunasDbf(30));
-        hashColunas.put("NUMERADOR",new ColunasDbf(30));
-        hashColunas.put("RESULTADO",new ColunasDbf(30));
+        hashColunas.put("DENOMINAD", new ColunasDbf(30));
+        hashColunas.put("NUMERADOR", new ColunasDbf(30));
+        hashColunas.put("RESULTADO", new ColunasDbf(30));
         hashColunas.put("ANO_DIAG", new ColunasDbf(30));
         hashColunas.put("DT_DIAGIN", new ColunasDbf(30));
         hashColunas.put("DT_DIAGFI", new ColunasDbf(30));

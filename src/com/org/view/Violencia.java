@@ -470,6 +470,7 @@ public class Violencia extends javax.swing.JPanel {
         filtro.addInicioNome("VIOLE");
 
         fileopen.addChoosableFileFilter(filtro);
+fileopen.setFileFilter(filtro);
 
         File file2 = new File(new Configuracao().getCaminho());
         fileopen.setCurrentDirectory(file2);
