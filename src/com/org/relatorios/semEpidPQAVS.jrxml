@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6744a249-07b4-40bc-873c-3c8b4764abfa">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" >
 	<property name="ireport.zoom" value="1.4641000000000006"/>
 	<property name="ireport.x" value="79"/>
 	<property name="ireport.y" value="0"/>
@@ -35,90 +35,90 @@
 	<title>
 		<band height="81" splitType="Stretch">
 			<rectangle>
-				<reportElement x="2" y="50" width="552" height="30" uuid="c2957999-456f-4eba-a6ae-a2bfa0b076e8"/>
+				<reportElement x="2" y="50" width="552" height="30" />
 			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1" y="0" width="306" height="14" uuid="1345d1fe-43d8-4390-95eb-9153b9c2c5de"/>
+				<reportElement x="1" y="0" width="306" height="14" />
 				<textElement>
 					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{CABECALHO1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="347" y="0" width="207" height="14" uuid="fdeb738a-c8a3-4c96-8189-3c5f84179106"/>
+				<reportElement x="347" y="0" width="207" height="14" />
 				<textElement>
 					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{CABECALHO2}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2" y="19" width="529" height="14" uuid="8c52e7a9-46b2-42db-8c41-d71d75bc8681"/>
+				<reportElement x="2" y="19" width="529" height="14" />
 				<textElement>
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{TITULO}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="5" y="53" width="100" height="14" uuid="ccf2e8ae-19e7-4fcb-8884-0c0993c3b17f"/>
+				<reportElement x="5" y="53" width="100" height="14" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[UF de notificação:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="66" width="100" height="14" uuid="2489a39d-aef4-403a-9a6d-0c88c5fe9698"/>
+				<reportElement x="5" y="66" width="100" height="14" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[Região de Saúde:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="281" y="53" width="100" height="14" uuid="bea70dd6-af85-4c59-bb2c-4b79c3ec8050"/>
+				<reportElement x="281" y="53" width="100" height="14" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[Município de notificação:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="278" y="50" width="1" height="30" uuid="36f40800-b1b6-424c-9aa6-8c50adfaef7e"/>
+				<reportElement x="278" y="50" width="1" height="30" />
 			</line>
 			<staticText>
-				<reportElement x="3" y="34" width="550" height="14" forecolor="#666666" backcolor="#666666" uuid="c7c474cb-d7f2-4897-b1f0-9b18f2ec057d"/>
+				<reportElement x="3" y="34" width="550" height="14" forecolor="#666666" backcolor="#666666" />
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Número de semanas epidemiológicas com pelo menos uma informação de notificação (positiva, negativa ou surto)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="281" y="66" width="86" height="14" uuid="dca52646-8597-43eb-91d4-79ddad17d42e"/>
+				<reportElement x="281" y="66" width="86" height="14" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[Ano epidemiológico:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="76" y="53" width="100" height="12" uuid="e0ef76fd-323b-4fe2-a026-bae7b33f2000"/>
+				<reportElement x="76" y="53" width="100" height="12" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{parSgUf}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="76" y="66" width="136" height="12" uuid="7be35f02-c0ed-47eb-a86c-fcc5d96e29b2"/>
+				<reportElement x="76" y="66" width="136" height="12" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{parRegiaoSaude}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="376" y="53" width="176" height="14" uuid="bb7ff6e3-d80d-44cc-8d79-152c6edf7353"/>
+				<reportElement x="376" y="53" width="176" height="14" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{parMunic}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="376" y="66" width="100" height="14" uuid="5ccf6737-8c87-4886-ab22-b1e7f8a5ed7a"/>
+				<reportElement x="376" y="66" width="100" height="14" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -129,15 +129,15 @@
 	<detail>
 		<band height="89" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement x="0" y="0" width="554" height="38" uuid="15ddb212-c991-4e06-a3e5-d61f7574667e"/>
+				<reportElement x="0" y="0" width="554" height="38" />
 			</rectangle>
 			<subreport>
-				<reportElement x="0" y="39" width="554" height="50" uuid="67159f47-93c4-49a7-8d6f-5196cab72040"/>
+				<reportElement x="0" y="39" width="554" height="50" />
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{lista})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "semEpidPQAVS_sub.jasper"]]></subreportExpression>
 			</subreport>
 			<textField isBlankWhenNull="true">
-				<reportElement x="16" y="23" width="188" height="15" uuid="43d33ca7-e6ea-48f1-820b-81fa7d71a271">
+				<reportElement x="16" y="23" width="188" height="15" >
 					<printWhenExpression><![CDATA[!$F{nmAgravo}.equals("null       null")]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -146,35 +146,35 @@
 				<textFieldExpression><![CDATA[$F{nmAgravo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="272" y="23" width="57" height="12" uuid="bb74ce7b-af74-4fac-a265-29494cc1daca"/>
+				<reportElement x="272" y="23" width="57" height="12" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{lista}.size()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="376" y="7" width="173" height="15" uuid="c15505ea-7bb9-416e-b75c-cba8f037be53"/>
+				<reportElement x="376" y="7" width="173" height="15" />
 				<textElement textAlignment="Center">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Semanas epidemiológicas com informação]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="14" y="6" width="229" height="20" uuid="6a131e7c-3e2b-4ffe-92f8-a806b43af8b5"/>
+				<reportElement x="14" y="6" width="229" height="20" />
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{TITULO_COLUNA}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="254" y="6" width="126" height="20" uuid="d34157da-08da-4507-a67a-b36aea0a0769"/>
+				<reportElement x="254" y="6" width="126" height="20" />
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{QTDE_REG_MUNIC_AGR}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="376" y="21" width="173" height="15" uuid="cd66e2ac-b3cb-4366-aeb2-8fc93ee092fb"/>
+				<reportElement x="376" y="21" width="173" height="15" />
 				<textElement textAlignment="Center">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -185,35 +185,35 @@
 	<pageFooter>
 		<band height="39" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="419" y="20" width="134" height="14" uuid="97494c15-9e81-48e5-bb7c-aef96487c623"/>
+				<reportElement x="419" y="20" width="134" height="14" />
 				<textElement textAlignment="Right" verticalAlignment="Bottom">
 					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{RODAPE1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="195" y="21" width="80" height="12" uuid="a26414cc-9300-42ed-9dcc-6750d9d4cfd8"/>
+				<reportElement x="195" y="21" width="80" height="12" />
 				<textElement textAlignment="Right" verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Pág. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="275" y="21" width="40" height="12" uuid="bea9db0f-da4a-4fe0-ae5d-78ce5c13b08f"/>
+				<reportElement x="275" y="21" width="40" height="12" />
 				<textElement verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="79" y="20" width="77" height="14" uuid="1a5a887e-8ba4-42d6-b479-7e4cb7f8fbe6"/>
+				<reportElement x="79" y="20" width="77" height="14" />
 				<textElement verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="2" y="20" width="76" height="14" uuid="8aa78181-32d9-4744-a205-c963ac965055"/>
+				<reportElement x="2" y="20" width="76" height="14" />
 				<textElement verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
@@ -225,21 +225,21 @@
 		<band height="53">
 			<printWhenExpression><![CDATA[!$P{QTDE_REG_MUNIC_AGR}.equals("Agravos")]]></printWhenExpression>
 			<rectangle radius="10">
-				<reportElement x="0" y="6" width="554" height="37" uuid="6fa13634-83cc-41fb-9bf5-163e2b8ea877"/>
+				<reportElement x="0" y="6" width="554" height="37" />
 			</rectangle>
 			<staticText>
-				<reportElement x="11" y="19" width="41" height="16" uuid="146e9024-66eb-4453-8c2a-48dc2ec0f187"/>
+				<reportElement x="11" y="19" width="41" height="16" />
 				<textElement>
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TOTAL]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="272" y="25" width="100" height="18" uuid="2d5247bd-62da-4911-b6a3-a6d53f0a2ed4"/>
+				<reportElement x="272" y="25" width="100" height="18" />
 				<textFieldExpression><![CDATA[$P{TOTAL1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="254" y="9" width="144" height="20" uuid="4b640276-709f-4913-966f-5add1ab9de61"/>
+				<reportElement x="254" y="9" width="144" height="20" />
 				<textElement>
 					<font isBold="true"/>
 				</textElement>

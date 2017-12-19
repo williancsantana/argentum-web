@@ -80,7 +80,6 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
         }
     }
 
-    
     private boolean preencheuFormulario() {
 
         if (cbDesagregacao.getSelectedItem().toString().equals("-- Selecione --")) {
@@ -104,18 +103,18 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
             SinanUtil.mensagem("Nenhum arquivo foi selecionado");
             return false;
         }
-        if (semanaInicial.getText() == null || semanaInicial.getText().isEmpty()){
+        if (semanaInicial.getText() == null || semanaInicial.getText().isEmpty()) {
             SinanUtil.mensagem("Digite o número da semana epidemiológica");
             return false;
         }
-        if (semanaFinal.getText() == null || semanaFinal.getText().isEmpty()){
+        if (semanaFinal.getText() == null || semanaFinal.getText().isEmpty()) {
             SinanUtil.mensagem("Digite o número da semana epidemiológica");
             return false;
         }
-        if (Integer.parseInt(semanaInicial.getText()) > Integer.parseInt(semanaFinal.getText()) ){
+        if (Integer.parseInt(semanaInicial.getText()) > Integer.parseInt(semanaFinal.getText())) {
             SinanUtil.mensagem("A semana Inicial não ser maior que semana final");
             return false;
-            
+
         }
 
         return true;
@@ -378,7 +377,7 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(panelOportunidade, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -417,13 +416,13 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
 
     private void cbRegionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRegionalActionPerformed
         ComboBoxModel modelo;
+        int isRegiao = this.cbDesagregacao.getSelectedIndex();
         if (cbRegional.getSelectedItem() != null) {
-            Vector<String> municipiosPactuacao = this.session.retornaMunicipiosPQAVS(this.cbDesagregacao.getSelectedIndex(), this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString());
+            Vector<String> municipiosPactuacao = this.session.retornaMunicipiosPactuacao(isRegiao, this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString());
             if (!cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
                 municipiosPactuacao.add(2, "NENHUM");
             }
             modelo = new DefaultComboBoxModel(municipiosPactuacao);
-
             this.cbMunicipio.setModel(modelo);
         }
 }//GEN-LAST:event_cbRegionalActionPerformed
@@ -458,10 +457,10 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
         filtro.addInicioNome("INFLR");
         filtro.addInicioNome("INFLS");
         filtro.addInicioNome("INFLT");
-        
+
         //fileopen.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileopen.addChoosableFileFilter(filtro);
-fileopen.setFileFilter(filtro);
+        fileopen.setFileFilter(filtro);
 
         File file2 = new File(new Configuracao().getCaminho());
         fileopen.setCurrentDirectory(file2);
@@ -497,7 +496,7 @@ fileopen.setFileFilter(filtro);
         if (!this.preencheuFormulario()) {
             return;
         }
-        if(Integer.parseInt(semanaFinal.getText()) > 53){
+        if (Integer.parseInt(semanaFinal.getText()) > 53) {
             Master.mensagem("O número de semanas não pode ser maior do que 53!");
             return;
         }
@@ -526,7 +525,6 @@ fileopen.setFileFilter(filtro);
          * criado um checkbox para que o usuário selecione caso queira
          * discriminar por agravo
          */
-        
         session.setDtInicioAvaliacao(SinanDateUtil.dateToStringException(SinanDateUtil.currentDate(), "dd/MM/yyyy"));
         session.setDtFimAvaliacao(SinanDateUtil.dateToStringException(SinanDateUtil.currentDate(), "dd/MM/yyyy"));
         parametros.put("parAnoPeriodoAvaliacao", SinanDateUtil.getIntervaloDatas(
@@ -545,11 +543,11 @@ fileopen.setFileFilter(filtro);
             parametros.put("parRegiaoSaude", cbRegional.getSelectedItem().toString());
             session.setRegional(cbRegional.getSelectedItem().toString());
         }
-        parametros.put("parAnoAvaliacao",anoAvaliadoOportunidade.getSelectedItem().toString());
-        parametros.put("parSemanaInicial",semanaInicial.getText());
-        parametros.put("parSemanaFinal",semanaFinal.getText());
+        parametros.put("parAnoAvaliacao", anoAvaliadoOportunidade.getSelectedItem().toString());
+        parametros.put("parSemanaInicial", semanaInicial.getText());
+        parametros.put("parSemanaFinal", semanaFinal.getText());
         //parametros.put("parSemanaFinal",(Integer.parseInt(semanaFinal.getText()) > 50)? "50":semanaFinal.getText());
-        
+
         parametros.put("parNenhum", false);
         if (cbMunicipio.getSelectedItem().toString().equals("NENHUM")) {
             //cbMunicipio.setSelectedItem("TODOS");
@@ -564,7 +562,7 @@ fileopen.setFileFilter(filtro);
         session.setParametros(parametros);
 //      session.setTemListagem(cbGerarListagem.isSelected());
         session.setJprogress(prbStatus);
-        
+
         session.setRegional(cbRegional.getSelectedItem().toString());
         session.setUf(cbUf.getSelectedItem().toString());
         session.setRelatorio("SemanaEpidemiologicaPactuacao");
@@ -581,6 +579,7 @@ fileopen.setFileFilter(filtro);
 
     private void cbDesagregacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDesagregacaoActionPerformed
         ComboBoxModel modelo;
+        cbMunicipio.removeAllItems();
 //        modelo = new DefaultComboBoxModel(this.session.retornaUFs());
 //        this.cbUf.setModel(modelo);
 //        if (cbDesagregacao.getSelectedItem().equals("UF subdividida por Regiões de Saúde")) {
@@ -618,42 +617,43 @@ fileopen.setFileFilter(filtro);
             this.chkExportarDbf.setVisible(true);
         }*/
     }//GEN-LAST:event_cbDesagregacaoActionPerformed
-    
-    
+
 //    classe para fazer o filtro na instanciação de algumas textfields
 //    Retirado de: https://stackoverflow.com/questions/32625186/allow-textfield-to-input-only-number-java
-    private class CustomDocumentFilter extends DocumentFilter{
+    private class CustomDocumentFilter extends DocumentFilter {
+
         private Pattern regexCheck = Pattern.compile("[0-9]+");
-        
+
         @Override
-        public void insertString(FilterBypass fb, int offs, String str, AttributeSet a) throws BadLocationException{
-            if(str == null){
+        public void insertString(FilterBypass fb, int offs, String str, AttributeSet a) throws BadLocationException {
+            if (str == null) {
                 return;
             }
-            if(regexCheck.matcher(str).matches()){
+            if (regexCheck.matcher(str).matches()) {
                 super.insertString(fb, offs, str, a);
             }
         }
-        
+
         @Override
-        public void replace(FilterBypass fb, int offset, int length, String str, AttributeSet a) throws BadLocationException{
-            if(str == null)
-                return;            
-            if(regexCheck.matcher(str).matches()){
-                fb.replace(offset,length,str,a);
+        public void replace(FilterBypass fb, int offset, int length, String str, AttributeSet a) throws BadLocationException {
+            if (str == null) {
+                return;
             }
-        }        
+            if (regexCheck.matcher(str).matches()) {
+                fb.replace(offset, length, str, a);
+            }
+        }
     }
-    
+
     private void semanaInicialKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_semanaInicialKeyPressed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_semanaInicialKeyPressed
 
     private void semanaInicialKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_semanaInicialKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_semanaInicialKeyReleased
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> anoAvaliadoOportunidade;
     private javax.swing.JButton btCalcular;

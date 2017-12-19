@@ -176,16 +176,25 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         int semanaIni = 0;
         int semanaFim = 0;
         String anoAvaliacao = (String) parametros.get("parAnoAvaliacao");
+        setAnoAvaliado(anoAvaliacao);
 
         if (Integer.valueOf(parametros.get("parSemanaFinal").toString()) < 10) {
-            semanaFim = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaFinal").toString());
+            if (parametros.get("parSemanaFinal").toString().length() < 2) {
+                semanaFim = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaFinal").toString());
+            } else {
+                semanaFim = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaFinal").toString());
+            }
 
         } else {
             semanaFim = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaFinal").toString());
         }
 
         if (Integer.valueOf(parametros.get("parSemanaInicial").toString()) < 10) {
-            semanaIni = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaInicial").toString());
+            if (parametros.get("parSemanaInicial").toString().length() < 2) {
+                semanaIni = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaInicial").toString());
+            } else {
+                semanaIni = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaInicial").toString());
+            }
 
         } else {
             semanaIni = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaInicial").toString());
@@ -288,17 +297,25 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         int semanaIni = 0;
         int semanaFim = 0;
         String anoAvaliacao = (String) parametros.get("parAnoAvaliacao");
+        setAnoAvaliado(anoAvaliacao);
 
         if (Integer.valueOf(parametros.get("parSemanaFinal").toString()) < 10) {
-            semanaFim = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaFinal").toString());
+            if (parametros.get("parSemanaFinal").toString().length() < 2) {
+                semanaFim = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaFinal").toString());
+            } else {
+                semanaFim = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaFinal").toString());
+            }
 
         } else {
             semanaFim = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaFinal").toString());
         }
 
         if (Integer.valueOf(parametros.get("parSemanaInicial").toString()) < 10) {
-            semanaIni = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaInicial").toString());
-
+            if (parametros.get("parSemanaInicial").toString().length() < 2) {
+                semanaIni = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaInicial").toString());
+            } else {
+                semanaIni = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaInicial").toString());
+            }
         } else {
             semanaIni = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaInicial").toString());
         }
@@ -319,7 +336,6 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
                     calculaIndicador(rowObjects, anoAvaliacao, semanaIni, semanaFim);
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
                     getBarraStatus().setValue((int) percentual);
-                    getBarraStatus().setString("Text");
                     i++;
                 }
 
@@ -392,16 +408,26 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         int semanaIni = 0;
         int semanaFim = 0;
         String anoAvaliacao = (String) parametros.get("parAnoAvaliacao");
+        setAnoAvaliado(anoAvaliacao);
 
         if (Integer.valueOf(parametros.get("parSemanaFinal").toString()) < 10) {
-            semanaFim = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaFinal").toString());
+            
+            if (parametros.get("parSemanaFinal").toString().length() < 2) {
+                semanaFim = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaFinal").toString());
+            } else {
+                semanaFim = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaFinal").toString());
+            }
 
         } else {
             semanaFim = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaFinal").toString());
         }
 
         if (Integer.valueOf(parametros.get("parSemanaInicial").toString()) < 10) {
-            semanaIni = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaInicial").toString());
+            if (parametros.get("parSemanaInicial").toString().length() < 2) {
+                semanaIni = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaInicial").toString());
+            } else {
+                semanaIni = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaInicial").toString());
+            }
 
         } else {
             semanaIni = Integer.valueOf(anoAvaliacao + parametros.get("parSemanaInicial").toString());
@@ -510,7 +536,7 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
     @Override
     public String[] getOrdemColunas() {
         //return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_HANSREG", "N_HANSEXAM", "P_HANSEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
-        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "DENOMINAD", "NUMERADOR", "RESULTADO", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "DENOMINAD", "NUMERADOR", "RESULTADO", "ANO_DIAG", "ORIGEM"};
     }
 
     @Override
@@ -521,15 +547,10 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
         hashColunas.put("NOME_CIR", new ColunasDbf(30));
-        //hashColunas.put("D_HANSREG", new ColunasDbf(30));
-        //hashColunas.put("N_HANSEXAM", new ColunasDbf(30));
-        //hashColunas.put("P_HANSEXAM", new ColunasDbf(30));
         hashColunas.put("DENOMINAD", new ColunasDbf(30));
         hashColunas.put("NUMERADOR", new ColunasDbf(30));
         hashColunas.put("RESULTADO", new ColunasDbf(30));
         hashColunas.put("ANO_DIAG", new ColunasDbf(30));
-        hashColunas.put("DT_DIAGIN", new ColunasDbf(30));
-        hashColunas.put("DT_DIAGFI", new ColunasDbf(30));
         hashColunas.put("ORIGEM", new ColunasDbf(30));
 
         this.setColunas(hashColunas);
@@ -571,10 +592,8 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
                 rowData[7] = String.format("%.1f", percentual);
             }
 
-            rowData[8] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
-            rowData[9] = getDataInicio();
-            rowData[10] = getDataFim();
-            rowData[11] = "SINANNET";
+            rowData[8] =  getAnoAvaliado() ; 
+            rowData[9] = "SINANNET";
             writer.addRecord(rowData);
         }
         return writer;

@@ -176,8 +176,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             parametros = new HashMap();
         }
         parametros.putAll(agravo.getParametros());
-        
-        
+
         parametros.put("parConfig", "");
         parametros.put("parVersao", getVersao());
         parametros.put("municipios", "nao");
@@ -585,7 +584,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                         parametros.put("parArquivos", "");
                     }
                 }
-                
+
                 impressao = JasperFillManager.fillReport(arquivo.openStream(), parametros, jrds);
                 viewer = new JasperViewer(impressao, false);
                 if (this.isTemListagem()) {
@@ -594,10 +593,9 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                     URL arquivoListagem = getClass().getResource("/com/org/relatorios/listagemOportunidade.jasper");
                     JasperPrint imprimirListagem = JasperFillManager.fillReport(arquivoListagem.openStream(), parametros, jrdsListagem);
                     JasperViewer viewerListagem = new JasperViewer(imprimirListagem, false);
-                    viewerListagem.setVisible(true);                    
+                    viewerListagem.setVisible(true);
                 }
             }
-
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -632,13 +630,14 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         } else if (relatorio.equals("Número de semanas epidemiológicas com informação")) {
             panel = new SemanaEpidemiologicaPactuacao();
             this.relatorio = "SemanaEpidemiologicaPactuacao";
-        }if (relatorio.equals("Proporção de cura dos casos novos de hanseníase diagnosticados nos anos das coortes")) {
+        }
+        if (relatorio.equals("Proporção de cura dos casos novos de hanseníase diagnosticados nos anos das coortes")) {
             panel = new HanseniaseCoorteCuraPactuacao();
             this.relatorio = "HanseniaseCoorteCura";
         } else if (relatorio.equals("Proporção de contatos examinados de casos novos de hanseníase")) {
             panel = new com.org.view.ContatosExaminadosHanseniasePactuacao();
             this.relatorio = "ExaminadosHanseniasePactuacao";
-        }else if (relatorio.equals("Proporção de preenchimento do campo ocupação")) {
+        } else if (relatorio.equals("Proporção de preenchimento do campo ocupação")) {
             panel = new com.org.view.PreenchimentoOcupacaoTrabalhadorPactuacao();
             this.relatorio = "PreenchimentoOcupacaoTrabalhadorPactuacao";
         }
@@ -829,7 +828,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             agravo.setRegional(regional);
             agravo.setTemListagem(this.temListagem);
         }
-        
+
         if (relatorio.equals("PreenchimentoOcupacaoTrabalhadorPactuacao")) {
             agravo = new com.org.model.classes.agravos.PreenchimentoOcupacaoTrabalhadorPactuacao(isDbf());
             agravo.setAnoAvaliado(this.anoAvaliado);
@@ -841,8 +840,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             agravo.setRegional(regional);
             agravo.setTemListagem(this.temListagem);
         }
-        
-        
+
         if (relatorio.equals("ExaminadosTuberculosePactuacao")) {
             agravo = new com.org.model.classes.agravos.ContatosExaminadosTuberculosePactuacao(isDbf());
             agravo.setAnoAvaliado(this.anoAvaliado);
@@ -1137,7 +1135,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 };
             }
             if (grupo.equals("Pactuação Interfederativa 2017 a 2021")) {
-                relatorios = new String[]{"Selecione o Relatório", 
+                relatorios = new String[]{"Selecione o Relatório",
                     "Número de casos novos de AIDS em menores de 5 anos",
                     "Número de casos novos de sífilis congênita em menores de 1 ano de idade",
                     "Proporção de casos DNCI encerrados em até 60 dias após notificação",
@@ -1147,13 +1145,13 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 };
             }
             if (grupo.equals("PACTO 2008/2009")) {
-                relatorios = new String[]{"Selecione o Relatório", 
-                    "Situação da coorte de casos novos de Tuberculose", 
-                    "Taxa de notificação de casos de PFA em menores de 15 anos", 
-                    "Percentual de casos de hepatites B e C", 
-                    "Proporção de doenças exantemáticas investigados oportunamente", 
-                    "Taxa de letalidade por Febre Hemorrágica Dengue", 
-                    "Taxa de incidência de aids em menores de 5 anos de idade", 
+                relatorios = new String[]{"Selecione o Relatório",
+                    "Situação da coorte de casos novos de Tuberculose",
+                    "Taxa de notificação de casos de PFA em menores de 15 anos",
+                    "Percentual de casos de hepatites B e C",
+                    "Proporção de doenças exantemáticas investigados oportunamente",
+                    "Taxa de letalidade por Febre Hemorrágica Dengue",
+                    "Taxa de incidência de aids em menores de 5 anos de idade",
                     "Situação da coorte de casos novos de hanseníase"};
             }
             if (grupo.equals("Regularidade na alimentação do Sinan")) {
@@ -1298,6 +1296,60 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                     while ((rowObjects = reader.nextRecord()) != null) {
                         if (regional.equals(utilDbf.getString(rowObjects, "NM_REGIONA"))) {
                             return utilDbf.getString(rowObjects, "ID_REGIONA");
+                        }
+                    }
+                } catch (DBFException e) {
+                    Master.mensagem("Erro: regional nao encontrada.Verifique se existe a pasta DBF e se os arquivo REGIONET.DBF está lá:\n" + e);
+                }
+            } else {
+                return getCodRegionalCOAP(regional, uf);
+            }
+            return "";
+        }
+        String config = null;
+        String sql = "select co_seq_regional from dblocalidade.tb_regional_svs where no_regional = '" + regional + "'";
+        Util util = new Util();
+        Conexao con = util.conectarSiceb();
+        con.conect();
+        java.sql.Statement stm = con.getC().createStatement();
+        ResultSet rs;
+        try {
+            rs = stm.executeQuery(sql);
+        } catch (Exception exception) {
+            sql = "select co_seq_regional from tb_regional_svs where no_regional = '" + regional + "'";
+            rs = stm.executeQuery(sql);
+        }
+        rs.next();
+        try {
+            config = rs.getString("co_seq_regional");
+        } catch (Exception exception) {
+            try {
+                config = rs.getString("co_regional_saude");
+            } catch (Exception exception1) {
+                config = "";
+            }
+
+        }
+
+        return config;
+    }
+    public String getCodRegiao(String regional, String uf, String relatorio) throws SQLException {
+        if (regional == null) {
+            return "";
+        }
+        if (regional.equals("TODAS") || regional.isEmpty()) {
+            return "";
+        }
+        if (isDbf()) {
+            if (relatorio == null || !relatorio.equals("OportunidadeCOAP")) {
+                DBFReader reader = retornaObjetoDbfCaminhoArquivo("REGIAO", "dbf\\");
+                Object[] rowObjects;
+                DBFUtil utilDbf = new DBFUtil();
+                try {
+                    utilDbf.mapearPosicoes(reader);
+                    while ((rowObjects = reader.nextRecord()) != null) {
+                        if (regional.equals(utilDbf.getString(rowObjects, "NM_REGIAO"))) {
+                            return utilDbf.getString(rowObjects, "ID_REGIAO");
                         }
                     }
                 } catch (DBFException e) {
@@ -1734,6 +1786,72 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                         utilDbf.mapearPosicoes(reader);
                         while ((rowObjects = reader.nextRecord()) != null) {
                             if (codRegional.equals(utilDbf.getString(rowObjects, "ID_REGIAO"))) {
+                                if (!utilDbf.getString(rowObjects, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1) {
+                                    if ((utilDbf.getString(rowObjects, "SG_UF").equals("DF") && utilDbf.getString(rowObjects, "NM_MUNICIP").equals("BRASILIA")) || !utilDbf.getString(rowObjects, "SG_UF").equals("DF")) {
+                                        municipios.add(utilDbf.getString(rowObjects, "NM_MUNICIP"));
+                                    }
+                                }
+                            }
+                        }
+                        Collections.sort(municipios);
+                    } catch (DBFException e) {
+                        Logger.getLogger(SessionFacadeImpl.class.getName()).log(Level.SEVERE, null, "Erro ao carregar municipios:\n" + e);
+                    }
+                }
+            } else {
+                this.retornaMunicipios(UF);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionFacadeImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (isTodosMunicipios()) {
+            municipios.add(1, "TODOS");
+        }
+        return municipios;
+    }
+
+    public Vector<String> retornaMunicipiosPactuacao(int isRegiao, String UF, String regional) {
+        String codUf = String.valueOf(this.getCodigoUf(UF));
+        String codReg = "";
+        String nomeVar = "ID_REGIONA";
+        try {
+            //se isRegiao for 1 a consulta é para regiao, se 0 a consulta é para regional
+            if (isRegiao == 1) {
+                codReg = String.valueOf(this.getCodRegiao(regional, UF, "Pactuacao"));
+                nomeVar = "ID_REGIAO";
+            } else if(isRegiao == 2) {
+                codReg = String.valueOf(this.getCodRegional(regional, UF, "Pactuacao"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        Vector<String> municipios = new Vector<String>();
+        municipios.add(0, "-- Selecione --");
+        try {
+            Util util = new Util();
+            if (!regional.equals("-- Selecione --") && !regional.equals("TODAS") && !codReg.isEmpty() ) {
+                //verifica qual banco
+                if (!isDbf()) {
+                    Conexao con = util.conectarSiceb();
+                    con.conect();
+                    String sql = "select no_municipio from dbgeral.tb_municipio as t1, dblocalidade.rl_regional_municipio_svs as t2 where t2.co_uf_ibge=" + codUf + " and t1.co_municipio_ibge=t2.co_municipio_ibge and co_regional = '" + codReg + "' and (no_municipio not like '%Ignorado%' and no_municipio not like '%IGNORADO%')  order by no_municipio";
+                    ResultSet rs = null;
+                    java.sql.Statement stm = con.getC().createStatement();
+                    rs = stm.executeQuery(sql);
+                    while (rs.next()) {
+                        municipios.add(rs.getString("no_municipio"));
+                    }
+                    con.disconect();
+                } else {
+                    DBFReader reader = retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
+                    Object[] rowObjects;
+                    DBFUtil utilDbf = new DBFUtil();
+                    try {
+                        utilDbf.mapearPosicoes(reader);
+                        while ((rowObjects = reader.nextRecord()) != null) {
+                            if (codReg.equals(utilDbf.getString(rowObjects, nomeVar ))) {
                                 if (!utilDbf.getString(rowObjects, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1) {
                                     if ((utilDbf.getString(rowObjects, "SG_UF").equals("DF") && utilDbf.getString(rowObjects, "NM_MUNICIP").equals("BRASILIA")) || !utilDbf.getString(rowObjects, "SG_UF").equals("DF")) {
                                         municipios.add(utilDbf.getString(rowObjects, "NM_MUNICIP"));
