@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f9b99462-b08e-4455-a1f7-53fa143ff7a5">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" >
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="474"/>
 	<property name="ireport.y" value="234"/>
@@ -35,156 +35,156 @@
 	<title>
 		<band height="173" splitType="Stretch">
 			<rectangle>
-				<reportElement x="2" y="50" width="552" height="123" uuid="91c145e4-6675-4b1f-bd65-8c86758713c3"/>
+				<reportElement x="2" y="50" width="552" height="123" />
 			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1" y="0" width="306" height="14" uuid="985f7898-5887-41eb-9c3c-18dfce4a64b2"/>
+				<reportElement x="1" y="0" width="306" height="14" />
 				<textElement>
 					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{CABECALHO1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="347" y="0" width="207" height="14" uuid="a785aa26-0c52-497b-9379-bc7361dc4ce7"/>
+				<reportElement x="347" y="0" width="207" height="14" />
 				<textElement>
 					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{CABECALHO2}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2" y="19" width="529" height="14" uuid="34f9f31e-9ee0-47b6-962e-d29d7ca6d170"/>
+				<reportElement x="2" y="19" width="529" height="14" />
 				<textElement>
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{TITULO}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="5" y="52" width="99" height="14" uuid="0ff8c22d-ff4a-481b-87dd-1c3bb1a10738"/>
+				<reportElement x="5" y="52" width="99" height="14" />
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Nível de desagregação:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="65" width="100" height="14" uuid="fd1c5619-e04e-4b24-828b-b5f8e2ea1ad7"/>
+				<reportElement x="5" y="65" width="100" height="14" />
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[UF de residência:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="78" width="100" height="14" uuid="85a0a11a-e169-42bb-a2c6-e5d7cc4abac9"/>
+				<reportElement x="5" y="78" width="100" height="14" />
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Região de Saúde:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="90" width="100" height="14" uuid="228e51fd-6116-45ea-8928-34f268d3f20e"/>
+				<reportElement x="5" y="90" width="100" height="14" />
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Município de residência:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="316" y="50" width="1" height="56" uuid="75e0eeee-d5d6-434d-a05d-efc5f162e5bb"/>
+				<reportElement x="316" y="50" width="1" height="56" />
 			</line>
 			<staticText>
-				<reportElement x="321" y="63" width="118" height="14" uuid="5eebf240-f95b-4788-8f81-1573b99d7b47"/>
+				<reportElement x="321" y="63" width="118" height="14" />
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Data da avaliação:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="2" y="106" width="552" height="1" uuid="dd4b6e8c-40fa-449d-a87f-2424acbb5596"/>
+				<reportElement x="2" y="106" width="552" height="1" />
 			</line>
 			<staticText>
-				<reportElement x="3" y="34" width="550" height="14" forecolor="#666666" backcolor="#666666" uuid="b2edf25b-58a6-4110-b533-47b788239eab"/>
+				<reportElement x="3" y="34" width="550" height="14" forecolor="#666666" backcolor="#666666" />
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Proporção de casos de doenças de notificação compulsória imediata (DNCI) encerradas em até 60 dias após notificação]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="321" y="52" width="100" height="14" uuid="09f6b526-9911-4b2d-a1ee-5008d3addf8c"/>
+				<reportElement x="321" y="52" width="100" height="14" />
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Agravo:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="321" y="76" width="118" height="14" uuid="67ab030a-bfbf-4d99-8e8c-bac97eadfd0d"/>
+				<reportElement x="321" y="76" width="118" height="14" />
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Ano/Período de avaliação:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="4" y="107" width="548" height="66" forecolor="#666666" uuid="5eed9e13-2a16-4a0d-9cc2-825b06144e0e"/>
+				<reportElement x="4" y="107" width="548" height="66" forecolor="#666666" />
 				<textElement textAlignment="Justified">
 					<font size="8" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<text><![CDATA[Para este indicador, foram definidas, em virtude de sua magnitude e relevância, os seguintes eventos e doenças de notificação imediata nacional, listados na Portaria nº 204/GM/MS, de 17 de fevereiro de 2016: Antraz pneumônico, Arenavírus, Botulismo, Cólera, Dengue (óbitos), Ebola, Febre amarela, Febre do Nilo ocidental e outras arboviroses de importância em saúde pública, Febre maculosa e outras riquetisioses, Febre purpúrica brasileira, Hantavirose, Influenza humana produzida por novo subtipo viral, Lassa, Malária na região extra Amazônica, Marburg, Poliomielite por poliovírus selvagem, Peste, Óbito com suspeita de doença pelo vírus Zika, Óbito com suspeita de Febre de Chikungunya, Raiva humana, Rubéola, Sarampo, Síndrome de paralisia flácida aguda, Tularemia, Varíola e outras emergências de saúde pública.]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="106" y="53" width="209" height="15" uuid="08940f68-b4e7-43ca-b48f-6a52f4ce0023"/>
+				<reportElement x="106" y="53" width="209" height="15" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{parDesagregacao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="76" y="66" width="100" height="12" uuid="a929056a-fae8-4549-a25f-7933516d3425"/>
+				<reportElement x="76" y="66" width="100" height="12" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{parSgUf}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="78" y="78" width="136" height="12" uuid="f94e3073-8cc6-4ea0-9946-ea861bdad424"/>
+				<reportElement x="78" y="78" width="136" height="12" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{parRegiaoSaude}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="354" y="52" width="192" height="12" uuid="f70fa9ad-5836-4741-9c25-be35acacee03"/>
+				<reportElement x="354" y="52" width="192" height="12" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{parAgravo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="400" y="64" width="100" height="11" uuid="3c0f2974-1bd8-4307-b510-7f23f276ad4f"/>
+				<reportElement x="400" y="64" width="100" height="11" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{parDataAvaliacao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="432" y="77" width="110" height="11" uuid="cf8c4acb-040f-4203-a9e2-28e66154c2d9"/>
+				<reportElement x="432" y="77" width="110" height="11" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{parAnoPeriodoAvaliacao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="105" y="90" width="203" height="11" uuid="f4564156-f69a-48b3-9584-f0a73849d05a"/>
+				<reportElement x="105" y="90" width="203" height="11" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{parMunic}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="321" y="89" width="100" height="14" uuid="08c604e4-364f-4825-b3e3-57bb18ecf942"/>
+				<reportElement x="321" y="89" width="100" height="14" />
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Período de notificação:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="418" y="90" width="100" height="14" uuid="f6b1b516-1f72-452f-8cd1-4fdfabaf1ef5"/>
+				<reportElement x="418" y="90" width="100" height="14" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -195,36 +195,36 @@
 	<detail>
 		<band height="89" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement x="0" y="0" width="554" height="38" uuid="2942d0ff-a56d-4d50-a789-563fbb5c1534"/>
+				<reportElement x="0" y="0" width="554" height="38" />
 			</rectangle>
 			<staticText>
-				<reportElement x="463" y="2" width="77" height="12" uuid="73ebae8b-0b49-4cce-8696-8a71dc884d84"/>
+				<reportElement x="463" y="2" width="77" height="12" />
 				<textElement textAlignment="Center">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Oportuno]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="515" y="14" width="16" height="14" uuid="322b9b61-8588-44c6-bf92-e83b826e1ec1"/>
+				<reportElement x="515" y="14" width="16" height="14" />
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[(n)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="476" y="14" width="18" height="14" uuid="418339eb-6d7d-4378-85f6-95a52997ba74"/>
+				<reportElement x="476" y="14" width="18" height="14" />
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[%]]></text>
 			</staticText>
 			<subreport>
-				<reportElement x="0" y="39" width="554" height="50" uuid="086ddeea-5c1c-4141-840d-1b471619ff94"/>
+				<reportElement x="0" y="39" width="554" height="50" />
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{lista})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "oportunidadePQAVSPactuacao_sub.jasper"]]></subreportExpression>
 			</subreport>
 			<textField isBlankWhenNull="true">
-				<reportElement x="16" y="23" width="188" height="15" uuid="42aee1c1-83ca-4e8f-b4d8-94b5cbca4dd4">
+				<reportElement x="16" y="23" width="188" height="15" >
 					<printWhenExpression><![CDATA[!$F{nmAgravo}.equals("null       null")]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -233,49 +233,49 @@
 				<textFieldExpression><![CDATA[$F{nmAgravo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="268" y="26" width="57" height="12" uuid="333bbc32-e03f-49fa-a878-0f4fb549622c"/>
+				<reportElement x="268" y="26" width="57" height="12" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{lista}.size()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="379" y="2" width="77" height="12" uuid="7437bfe6-955d-49cc-871b-67ddf2fb96c4"/>
+				<reportElement x="379" y="2" width="77" height="12" />
 				<textElement textAlignment="Center">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Notificações]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="518" y="26" width="34" height="13" uuid="7eb2032a-13ab-41ab-92ee-d84dcc8001b6"/>
+				<reportElement x="518" y="26" width="34" height="13" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{qtdOportuno}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="399" y="18" width="44" height="13" uuid="f3ffe8f0-9091-46e9-bd64-976c1414a06c"/>
+				<reportElement x="399" y="18" width="44" height="13" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.0;-###0.0">
-				<reportElement x="478" y="26" width="40" height="11" uuid="32978082-30c8-4f26-b6fa-ab9149f05c8a"/>
+				<reportElement x="478" y="26" width="40" height="11" />
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{qtdOportuno} > 0 ? new Float(($F{qtdOportuno}.floatValue()/$F{total}.floatValue())*100) :0]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="14" y="6" width="229" height="20" uuid="aeb80504-1b9e-4f89-ae26-9596004a9db2"/>
+				<reportElement x="14" y="6" width="229" height="20" />
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{TITULO_COLUNA}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="254" y="6" width="126" height="20" uuid="bb8a5636-9ca4-4872-8da7-6199d2caf553"/>
+				<reportElement x="254" y="6" width="126" height="20" />
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
@@ -286,35 +286,35 @@
 	<pageFooter>
 		<band height="39" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="419" y="20" width="134" height="14" uuid="9c59163b-a6d9-4f12-a422-4737d4e67bb5"/>
+				<reportElement x="419" y="20" width="134" height="14" />
 				<textElement textAlignment="Right" verticalAlignment="Bottom">
 					<font fontName="Arial" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{RODAPE1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="195" y="21" width="80" height="12" uuid="8ef7871c-ed7a-4884-ba42-3cea71f11199"/>
+				<reportElement x="195" y="21" width="80" height="12" />
 				<textElement textAlignment="Right" verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Pág. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="275" y="21" width="40" height="12" uuid="ea392552-613c-4ac3-b391-832098341b92"/>
+				<reportElement x="275" y="21" width="40" height="12" />
 				<textElement verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="78" y="20" width="77" height="14" uuid="c4fb2348-53c5-4bdd-ae5e-c8fd926deb74"/>
+				<reportElement x="78" y="20" width="77" height="14" />
 				<textElement verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="2" y="20" width="76" height="14" uuid="f3340c85-a984-4292-8187-7a3063731821"/>
+				<reportElement x="2" y="20" width="76" height="14" />
 				<textElement verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
@@ -326,70 +326,70 @@
 		<band height="53">
 			<printWhenExpression><![CDATA[!$P{QTDE_REG_MUNIC_AGR}.equals("Agravos")]]></printWhenExpression>
 			<rectangle radius="10">
-				<reportElement x="0" y="6" width="554" height="37" uuid="fbe78fc6-263a-4166-bb1b-25cd354d8308"/>
+				<reportElement x="0" y="6" width="554" height="37" />
 			</rectangle>
 			<staticText>
-				<reportElement x="11" y="20" width="41" height="16" uuid="b5585683-ae56-4bae-9652-e1bcc700ece4"/>
+				<reportElement x="11" y="20" width="41" height="16" />
 				<textElement>
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TOTAL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="284" y="6" width="178" height="14" uuid="68c9dd87-ac64-428f-a037-a8d4a80f63b7"/>
+				<reportElement x="284" y="6" width="178" height="14" />
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Oportuno]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="400" y="19" width="18" height="14" uuid="35001e02-08a7-4d38-b2ce-6387fe2f103f"/>
+				<reportElement x="400" y="19" width="18" height="14" />
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[%]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="340" y="16" width="31" height="14" uuid="39e527bb-598b-4c54-ab8a-be5ce39526dd"/>
+				<reportElement x="340" y="16" width="31" height="14" />
 				<textElement>
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[(n)]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="92" y="25" width="100" height="18" uuid="e208db51-27e2-4b23-bc91-269560c59fcf"/>
+				<reportElement x="92" y="25" width="100" height="18" />
 				<textFieldExpression><![CDATA[$P{TOTAL1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="467" y="8" width="64" height="14" uuid="ad173406-586e-4855-b96a-47b297a74347"/>
+				<reportElement x="467" y="8" width="64" height="14" />
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Notificações]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="341" y="28" width="72" height="14" uuid="c454e85d-c429-4688-b3d8-c8f43dfd10d3"/>
+				<reportElement x="341" y="28" width="72" height="14" />
 				<textElement>
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{TOTAL2}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="493" y="25" width="64" height="16" uuid="a82a2edb-0aa7-4b5b-be45-b4c942e4dcd5"/>
+				<reportElement x="493" y="25" width="64" height="16" />
 				<textElement>
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{TOTAL3}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.0;-###0.0">
-				<reportElement x="393" y="28" width="100" height="20" uuid="cded1b38-85b1-4a0e-8f1b-f0e0b709dd5b"/>
+				<reportElement x="393" y="28" width="100" height="20" />
 				<textElement>
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new Double(Double.parseDouble($P{TOTAL2})) > 0 ? (new Double(Double.parseDouble($P{TOTAL2}))/new Double(Double.parseDouble($P{TOTAL3})))*100 : 0]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="81" y="9" width="144" height="20" uuid="073756d5-7713-4100-8632-a7e79252d59a"/>
+				<reportElement x="81" y="9" width="144" height="20" />
 				<textElement>
 					<font isBold="true"/>
 				</textElement>

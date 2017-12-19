@@ -661,6 +661,7 @@ public class HanseniaseCoorte extends javax.swing.JPanel {
 
         //        fileopen.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileopen.addChoosableFileFilter(filtro);
+fileopen.setFileFilter(filtro);
 
         File file2 = new File(new Configuracao().getCaminho());
         fileopen.setCurrentDirectory(file2);
