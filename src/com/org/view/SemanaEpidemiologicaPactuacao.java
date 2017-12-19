@@ -447,9 +447,18 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
         filtro.addInicioNome("INFLG");
         filtro.addInicioNome("NSURT");
         filtro.addInicioNome("NTRAC");
-        filtro.addInicioNome("TRACO");
+        filtro.addInicioNome("INFLA");
+        filtro.addInicioNome("INFLB");
+        filtro.addInicioNome("INFLC");
+        filtro.addInicioNome("INFLD");
+        filtro.addInicioNome("INFLE");
+        filtro.addInicioNome("INFLG");
+        filtro.addInicioNome("INFLM");
+        filtro.addInicioNome("INFLP");
+        filtro.addInicioNome("INFLR");
+        filtro.addInicioNome("INFLS");
+        filtro.addInicioNome("INFLT");
         
-
         //fileopen.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileopen.addChoosableFileFilter(filtro);
 fileopen.setFileFilter(filtro);
@@ -543,17 +552,19 @@ fileopen.setFileFilter(filtro);
         
         parametros.put("parNenhum", false);
         if (cbMunicipio.getSelectedItem().toString().equals("NENHUM")) {
-            cbMunicipio.setSelectedItem("TODOS");
-            parametros.put("parMunic", cbMunicipio.getSelectedItem().toString());
+            //cbMunicipio.setSelectedItem("TODOS");
+            parametros.put("parMunic", "TODOS");
+            session.setMunicipio("TODOS");
             parametros.put("parNenhum", true);
         } else {
             parametros.put("parMunic", cbMunicipio.getSelectedItem().toString());
+            session.setMunicipio(cbMunicipio.getSelectedItem().toString());
         }
 
         session.setParametros(parametros);
 //      session.setTemListagem(cbGerarListagem.isSelected());
         session.setJprogress(prbStatus);
-        session.setMunicipio(cbMunicipio.getSelectedItem().toString());
+        
         session.setRegional(cbRegional.getSelectedItem().toString());
         session.setUf(cbUf.getSelectedItem().toString());
         session.setRelatorio("SemanaEpidemiologicaPactuacao");
