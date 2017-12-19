@@ -524,13 +524,13 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"COUUFRESAT", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_HANREG", "N_HANSEXAM", "P_CONEXA", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+        return new String[]{"COUFRESAT", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_HANREG", "N_HANSEXAM", "P_CONEXA", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
     }
 
     @Override
     public HashMap<String, ColunasDbf> getColunas() {
         HashMap<String, ColunasDbf> hashColunas = new HashMap<String, ColunasDbf>();
-        hashColunas.put("COUUFRESAT", new ColunasDbf(30));
+        hashColunas.put("COUFRESAT", new ColunasDbf(30));
         hashColunas.put("ID_LOCRES", new ColunasDbf(30));
         hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
