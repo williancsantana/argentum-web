@@ -572,15 +572,15 @@ public class ViolenciaAgravo extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"ID_LOCRES", "DS_LOCRES", "ID_UFRES", "N_RACA", "D_RACATO", "P_RACPRE", "ANO_NOTI", "DT_NOTIN", "DT_NOTIFI", "ORIGEM"};
+        return new String[]{"ID_LOCNOT", "DS_LOCNOT", "ID_UFNOT", "N_RACA", "D_RACATO", "P_RACPRE", "ANO_NOTI", "DT_NOTIN", "DT_NOTIFI", "ORIGEM"};
     }
 
     @Override
     public HashMap<String, ColunasDbf> getColunas() {
         HashMap<String, ColunasDbf> hashColunas = new HashMap<String, ColunasDbf>();
-        hashColunas.put("ID_LOCRES", new ColunasDbf(7));
-        hashColunas.put("DS_LOCRES", new ColunasDbf(30));
-        hashColunas.put("ID_UFRES", new ColunasDbf(2));
+        hashColunas.put("ID_LOCNOT", new ColunasDbf(7));
+        hashColunas.put("DS_LOCNOT", new ColunasDbf(30));
+        hashColunas.put("ID_UFNOT", new ColunasDbf(2));
         hashColunas.put("N_RACA", new ColunasDbf(10));
         hashColunas.put("D_RACATO", new ColunasDbf(10));
         hashColunas.put("P_RACPRE", new ColunasDbf(10));
