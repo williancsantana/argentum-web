@@ -537,7 +537,7 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
     @Override
     public String[] getOrdemColunas() {
         //return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_HANSREG", "N_HANSEXAM", "P_HANSEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
-        return new String[]{"COUFNOT", "ID_LOCNOT", "DS_LOCNOT", "COD_CIR", "NOME_CIR", "DENOMINAD", "NUMERADOR", "RESULTADO", "ANO_NOTI", "ORIGEM"};
+        return new String[]{"COUFNOT", "ID_LOCNOT", "DS_LOCNOT", "COD_CIR", "NOME_CIR", "DENOMINAD", "NUMERADOR", "RESULTADO", "ANO_DIAG", "ORIGEM"};
     }
 
     @Override
