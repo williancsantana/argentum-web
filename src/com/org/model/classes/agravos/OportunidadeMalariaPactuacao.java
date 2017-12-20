@@ -509,15 +509,15 @@ public class OportunidadeMalariaPactuacao extends Agravo {
     @Override
     public String[] getOrdemColunas() {
         //return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_TBREG", "N_TBEXAM", "P_TBEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
-        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_MALSIN", "N_MALOP", "P_MALOP", "ANO_NOTI", "DT_NOTIN", "DT_NOTIFI", "ORIGEM"};
+        return new String[]{"COUFNOT", "ID_LOCNOT", "DS_LOCNOT", "COD_CIR", "NOME_CIR", "D_MALSIN", "N_MALOP", "P_MALOP", "ANO_NOTI", "DT_NOTIN", "DT_NOTIFI", "ORIGEM"};
     }
 
     @Override
     public HashMap<String, ColunasDbf> getColunas() {
         HashMap<String, ColunasDbf> hashColunas = new HashMap<String, ColunasDbf>();
-        hashColunas.put("COUUFINF", new ColunasDbf(30));
-        hashColunas.put("ID_LOCRES", new ColunasDbf(30));
-        hashColunas.put("DS_LOCRES", new ColunasDbf(30));
+        hashColunas.put("COUFNOT", new ColunasDbf(30));
+        hashColunas.put("ID_LOCNOT", new ColunasDbf(30));
+        hashColunas.put("DS_LOCNOT", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
         hashColunas.put("NOME_CIR", new ColunasDbf(30));
 //        hashColunas.put("D_TBREG", new ColunasDbf(30));
@@ -571,8 +571,10 @@ public class OportunidadeMalariaPactuacao extends Agravo {
                 Double percentual = (Double.valueOf(agravo.getDenominador()) / Double.valueOf(agravo.getNumerador())) * 100;
                 rowData[7] = String.format("%.1f", percentual);
             }
-
-            rowData[8] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
+            String ano = String.valueOf(preencheAno(getDataInicio(), getDataFim())).replace(".0","");
+            if(ano.contains(".0"))
+                ano = ano.replace(".0","");
+            rowData[8] = ano;
             rowData[9] = getDataInicio();
             rowData[10] = getDataFim();
             rowData[11] = "MALAR-SINANNET";
