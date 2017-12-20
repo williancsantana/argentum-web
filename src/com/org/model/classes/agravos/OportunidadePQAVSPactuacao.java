@@ -95,7 +95,6 @@ public class OportunidadePQAVSPactuacao extends Agravo {
             try {
                 if (isDBF()) {
                     this.setBeans(getCalculaResultado(reader, parametros));
-                    System.out.println("");
                 } else {
                     Conexao con = new Util().conectarSiceb();
                     con.conect();
@@ -352,8 +351,12 @@ public class OportunidadePQAVSPactuacao extends Agravo {
                                 if (!isSomenteMunicipio) {
                                     //    agravoDbf.setRegionalSaude(buscaRegionalSaude(utilDbf.getString(rowObjects1, "ID_REGIONA")));
                                     //    agravoDbf.setRegiaoSaude(buscaRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO")));
-                                    agravoDbf.setRegionalSaude(regionalBeans.get(utilDbf.getString(rowObjects1, "ID_REGIONA")).getNomeMunicipio() );
-                                    agravoDbf.setRegiaoSaude(regiaoBeans.get(utilDbf.getString(rowObjects1, "ID_REGIAO")).getNomeMunicipio());
+                                    if (regionalBeans.get(utilDbf.getString(rowObjects1, "ID_REGIONA")) != null) {
+                                        agravoDbf.setRegionalSaude(regionalBeans.get(utilDbf.getString(rowObjects1, "ID_REGIONA")).getNomeMunicipio());
+                                    }
+                                    if (regiaoBeans.get(utilDbf.getString(rowObjects1, "ID_REGIAO")) != null) {
+                                        agravoDbf.setRegiaoSaude(regiaoBeans.get(utilDbf.getString(rowObjects1, "ID_REGIAO")).getNomeMunicipio());
+                                    }
 
                                 } else {
                                     agravoDbf.setRegionalSaude("");
@@ -391,8 +394,12 @@ public class OportunidadePQAVSPactuacao extends Agravo {
                                 if (!isSomenteMunicipio) {
                                     //     agravoDbf.setRegionalSaude(buscaRegionalSaude(utilDbf.getString(rowObjects1, "ID_REGIONA")));
                                     //     agravoDbf.setRegiaoSaude(buscaRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO")));
-                                    agravoDbf.setRegionalSaude(regionalBeans.get(utilDbf.getString(rowObjects1, "ID_REGIONA")).getNomeMunicipio() );
-                                    agravoDbf.setRegiaoSaude(regiaoBeans.get(utilDbf.getString(rowObjects1, "ID_REGIAO")).getNomeMunicipio());
+                                    if (regionalBeans.get(utilDbf.getString(rowObjects1, "ID_REGIONA")) != null) {
+                                        agravoDbf.setRegionalSaude(regionalBeans.get(utilDbf.getString(rowObjects1, "ID_REGIONA")).getNomeMunicipio());
+                                    }
+                                    if (regiaoBeans.get(utilDbf.getString(rowObjects1, "ID_REGIAO")) != null) {
+                                        agravoDbf.setRegiaoSaude(regiaoBeans.get(utilDbf.getString(rowObjects1, "ID_REGIAO")).getNomeMunicipio());
+                                    }
 
                                 } else {
                                     agravoDbf.setRegionalSaude("");
@@ -442,27 +449,31 @@ public class OportunidadePQAVSPactuacao extends Agravo {
                             agravoDbf.setCodAgravo(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
                             agravoDbf.setRegiao(buscaRegiao(agravoDbf.getNmAgravo()));
                             agravoDbf.setUf(utilDbf.getString(rowObjects1, "SG_UF"));
-                            if (isSomenteMunicipio) {
+                            if (!isSomenteMunicipio) {
                                 agravoDbf.setCodRegionalSaude(utilDbf.getString(rowObjects1, "ID_REGIONA"));
                                 agravoDbf.setCodRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO"));
                             } else {
                                 agravoDbf.setCodRegiaoSaude("");
                                 agravoDbf.setCodRegionalSaude("");
                             }
-                        //    try {
-                                if (isSomenteMunicipio) {
+                            //    try {
+                            if (!isSomenteMunicipio) {
                                 //    agravoDbf.setRegionalSaude(buscaRegionalSaude(utilDbf.getString(rowObjects1, "ID_REGIONA")));
-                               //     agravoDbf.setRegiaoSaude(buscaRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO")));
-                                    agravoDbf.setRegionalSaude(regionalBeans.get(utilDbf.getString(rowObjects1, "ID_REGIONA")).getNomeMunicipio() );
-                                    agravoDbf.setRegiaoSaude(regiaoBeans.get(utilDbf.getString(rowObjects1, "ID_REGIAO")).getNomeMunicipio());
+                                //     agravoDbf.setRegiaoSaude(buscaRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO")));
+                                    if (regionalBeans.get(utilDbf.getString(rowObjects1, "ID_REGIONA")) != null) {
+                                        agravoDbf.setRegionalSaude(regionalBeans.get(utilDbf.getString(rowObjects1, "ID_REGIONA")).getNomeMunicipio());
+                                    }
+                                    if (regiaoBeans.get(utilDbf.getString(rowObjects1, "ID_REGIAO")) != null) {
+                                        agravoDbf.setRegiaoSaude(regiaoBeans.get(utilDbf.getString(rowObjects1, "ID_REGIAO")).getNomeMunicipio());
+                                    }
 
-                                } else {
-                                    agravoDbf.setRegionalSaude("");
-                                    agravoDbf.setRegiaoSaude("");
-                                }
-                        //    } catch (SQLException ex) {
-                        //        Logger.getLogger(OportunidadePQAVSPactuacao.class.getName()).log(Level.SEVERE, null, ex);
-                        //    }
+                            } else {
+                                agravoDbf.setRegionalSaude("");
+                                agravoDbf.setRegiaoSaude("");
+                            }
+                            //    } catch (SQLException ex) {
+                            //        Logger.getLogger(OportunidadePQAVSPactuacao.class.getName()).log(Level.SEVERE, null, ex);
+                            //    }
                             agravoDbf.setQtdDataInvalida(0);
                             agravoDbf.setQtdInoportuno(0);
                             agravoDbf.setQtdNaoEncerrado(0);

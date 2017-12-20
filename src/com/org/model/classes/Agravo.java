@@ -1165,6 +1165,7 @@ public class Agravo {
                 }
                 temReg = false;
                 float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                getBarraStatus().setString("Preparando arquivos... "+(int) percentual+"%");
                 getBarraStatus().setValue((int) percentual);
                 i++;
 
@@ -1172,7 +1173,7 @@ public class Agravo {
         } catch (DBFException e) {
             Master.mensagem("Erro ao carregar municipios:\n" + e);
         }
-
+         getBarraStatus().setString(null);
         municipios = sortHashMapByValues(municipios, false);
         Set<String> municipiosKeys = municipios.keySet();
         HashMap<String, Agravo> municipiosBeansRetorno = new HashMap<String, Agravo>();

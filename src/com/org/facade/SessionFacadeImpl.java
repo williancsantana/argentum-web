@@ -410,91 +410,105 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 OportunidadePQAVSServicePactuacao oportunidadePQAVSService = new OportunidadePQAVSServicePactuacao();
                 List<RegiaoSaudePQAVS> listaRegiaoSaude = new ArrayList<RegiaoSaudePQAVS>();
                 List<UFPQAVS> listaUF = new ArrayList<UFPQAVS>();
+                if (!parametros.get("parDiscriminarPorAgravo").equals(true)) {
+                    if (parametros.get("parDesagregacao").equals("UF subdividida por Regiões de Saúde")) {
 
-                if (parametros.get("parDesagregacao").equals("UF subdividida por Regiões de Saúde")) {
+                        if (parametros.get("parNenhum").toString().equals("true")) {
+                            parametros.put("TITULO_COLUNA", "UF       Região de Saúde");
+                            parametros.put("QTDE_REG_MUNIC_AGR", "Regiões");
+                            listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegiaoSaudeEmLista(oportunidadePQAVSService.agruparRegiaoSaude2(beans), parametros);
+                            listaUF = oportunidadePQAVSService.converterMapaUFRegiaoSaudeEmLista(oportunidadePQAVSService.agruparUFRegiaoSaude2(listaRegiaoSaude), parametros);
+                            oportunidadePQAVSService.gerarRelatorioPQAVSUFRegiaoSaude(listaUF, parametros, 0, null);
 
-                    if (parametros.get("parNenhum").toString().equals("true")) {
-                        parametros.put("TITULO_COLUNA", "UF       Região de Saúde");
-                        parametros.put("QTDE_REG_MUNIC_AGR", "Regiões");
-                        listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegiaoSaudeEmLista(oportunidadePQAVSService.agruparRegiaoSaude2(beans), parametros);
-                        listaUF = oportunidadePQAVSService.converterMapaUFRegiaoSaudeEmLista(oportunidadePQAVSService.agruparUFRegiaoSaude2(listaRegiaoSaude), parametros);
-                        oportunidadePQAVSService.gerarRelatorioPQAVSUFRegiaoSaude(listaUF, parametros, 0, null);
-
-                        if (parametros.get("exportarDBF").equals(true)) {
-                            OportunidadeAgravoPQAVS bean;
-                            List<OportunidadeAgravoPQAVS> listaBean = new ArrayList<OportunidadeAgravoPQAVS>();
-                            for (UFPQAVS item : listaUF) {
-                                for (RegiaoSaudePQAVS regiao : item.getLista()) {
-                                    bean = new OportunidadeAgravoPQAVS();
-                                    bean.setUf(regiao.getUf());
-                                    bean.setCodRegiaoSaude(regiao.getCodRegiaoSaude());
-                                    bean.setRegiaoSaude(regiao.getNmAgravo());// VERIFICAR ESTE TRECHO
-                                    bean.setNmAgravo("");
-                                    bean.setQtdOportuno(regiao.getQtdOportuno());
-                                    bean.setTotal(regiao.getTotal());
-                                    listaBean.add(bean);
+                            if (parametros.get("exportarDBF").equals(true)) {
+                                OportunidadeAgravoPQAVS bean;
+                                List<OportunidadeAgravoPQAVS> listaBean = new ArrayList<OportunidadeAgravoPQAVS>();
+                                for (UFPQAVS item : listaUF) {
+                                    for (RegiaoSaudePQAVS regiao : item.getLista()) {
+                                        bean = new OportunidadeAgravoPQAVS();
+                                        bean.setUf(regiao.getUf());
+                                        bean.setCodRegiaoSaude(regiao.getCodRegiaoSaude());
+                                        bean.setRegiaoSaude(regiao.getNmAgravo());// VERIFICAR ESTE TRECHO
+                                        bean.setNmAgravo("");
+                                        bean.setQtdOportuno(regiao.getQtdOportuno());
+                                        bean.setTotal(regiao.getTotal());
+                                        listaBean.add(bean);
+                                    }
                                 }
+                                oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(listaBean, parametros);
                             }
-                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(listaBean, parametros);
+                        } else {
+                            parametros.put("TITULO_COLUNA", "UF       Região de Saúde");
+                            parametros.put("QTDE_REG_MUNIC_AGR", "Municípios");
+
+                            listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegiaoSaudeEmLista(oportunidadePQAVSService.agruparRegiaoSaude(beans), parametros);
+                            oportunidadePQAVSService.gerarRelatorioPQAVS(listaRegiaoSaude, parametros, 0);
+                            if (parametros.get("exportarDBF").equals(true)) {
+                                beans.remove(beans.size() - 1);
+                                oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans, parametros);
+                                // CHAMAR EXPORTAR PASSA beans como parâmetro
+                            }
                         }
-                    } else {
-                        parametros.put("TITULO_COLUNA", "UF       Região de Saúde");
-                        parametros.put("QTDE_REG_MUNIC_AGR", "Municípios");
 
-                        listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegiaoSaudeEmLista(oportunidadePQAVSService.agruparRegiaoSaude(beans), parametros);
-                        oportunidadePQAVSService.gerarRelatorioPQAVS(listaRegiaoSaude, parametros, 0);
-                        if (parametros.get("exportarDBF").equals(true)) {
-                            beans.remove(beans.size() - 1);
-                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans, parametros);
-                            // CHAMAR EXPORTAR PASSA beans como parâmetro
-                        }
-                    }
+                    } else if (parametros.get("parDesagregacao").equals("UF subdividida por Regionais de Saúde")) {
 
-                } else if (parametros.get("parDesagregacao").equals("UF subdividida por Regionais de Saúde")) {
+                        if (parametros.get("parNenhum").toString().equals("true")) {
+                            parametros.put("TITULO_COLUNA", "UF       Regionais de Saúde");
+                            parametros.put("QTDE_REG_MUNIC_AGR", "Regionais");
+                            listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegionalSaudeEmLista(oportunidadePQAVSService.agruparRegionalSaude2(beans), parametros);
+                            listaUF = oportunidadePQAVSService.converterMapaUFRegiaoSaudeEmLista(oportunidadePQAVSService.agruparUFRegiaoSaude2(listaRegiaoSaude), parametros);
+                            oportunidadePQAVSService.gerarRelatorioPQAVSUFRegiaoSaude(listaUF, parametros, 0, null);
 
-                    if (parametros.get("parNenhum").toString().equals("true")) {
-                        parametros.put("TITULO_COLUNA", "UF       Regionais de Saúde");
-                        parametros.put("QTDE_REG_MUNIC_AGR", "Regionais");
-                        listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegionalSaudeEmLista(oportunidadePQAVSService.agruparRegionalSaude2(beans), parametros);
-                        listaUF = oportunidadePQAVSService.converterMapaUFRegiaoSaudeEmLista(oportunidadePQAVSService.agruparUFRegiaoSaude2(listaRegiaoSaude), parametros);
-                        oportunidadePQAVSService.gerarRelatorioPQAVSUFRegiaoSaude(listaUF, parametros, 0, null);
-
-                        if (parametros.get("exportarDBF").equals(true)) {
-                            OportunidadeAgravoPQAVS bean;
-                            List<OportunidadeAgravoPQAVS> listaBean = new ArrayList<OportunidadeAgravoPQAVS>();
-                            for (UFPQAVS item : listaUF) {
-                                for (RegiaoSaudePQAVS regiao : item.getLista()) {
-                                    bean = new OportunidadeAgravoPQAVS();
-                                    bean.setUf(regiao.getUf());
-                                    bean.setCodRegiaoSaude(regiao.getCodRegiaoSaude());
-                                    bean.setRegiaoSaude(regiao.getNmAgravo());// VERIFICAR ESTE TRECHO
-                                    bean.setNmAgravo("");
-                                    bean.setQtdOportuno(regiao.getQtdOportuno());
-                                    bean.setTotal(regiao.getTotal());
-                                    listaBean.add(bean);
+                            if (parametros.get("exportarDBF").equals(true)) {
+                                OportunidadeAgravoPQAVS bean;
+                                List<OportunidadeAgravoPQAVS> listaBean = new ArrayList<OportunidadeAgravoPQAVS>();
+                                for (UFPQAVS item : listaUF) {
+                                    for (RegiaoSaudePQAVS regiao : item.getLista()) {
+                                        bean = new OportunidadeAgravoPQAVS();
+                                        bean.setUf(regiao.getUf());
+                                        bean.setCodRegiaoSaude(regiao.getCodRegiaoSaude());
+                                        bean.setRegiaoSaude(regiao.getNmAgravo());// VERIFICAR ESTE TRECHO
+                                        bean.setNmAgravo("");
+                                        bean.setQtdOportuno(regiao.getQtdOportuno());
+                                        bean.setTotal(regiao.getTotal());
+                                        listaBean.add(bean);
+                                    }
                                 }
+                                oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(listaBean, parametros);
                             }
-                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(listaBean, parametros);
-                        }
-                    } else {
-                        parametros.put("TITULO_COLUNA", "UF       Regional de Saúde");
-                        parametros.put("QTDE_REG_MUNIC_AGR", "Municípios");
+                        } else {
+                            parametros.put("TITULO_COLUNA", "UF       Regional de Saúde");
+                            parametros.put("QTDE_REG_MUNIC_AGR", "Municípios");
 
+                            listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegiaoSaudeEmLista(oportunidadePQAVSService.agruparRegionalSaude(beans), parametros);
+                            oportunidadePQAVSService.gerarRelatorioPQAVS(listaRegiaoSaude, parametros, 0);
+                            if (parametros.get("exportarDBF").equals(true)) {
+                                beans.remove(beans.size() - 1);
+                                oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans, parametros);
+                                // CHAMAR EXPORTAR PASSA beans como parâmetro
+                            }
+                        }
+
+                    } else if (parametros.get("parDesagregacao").equals("Somente municípios")) {
+                        parametros.put("TITULO_COLUNA", "UF       Municípios");
+                        parametros.put("QTDE_REG_MUNIC_AGR", "Quantidade");
                         listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegiaoSaudeEmLista(oportunidadePQAVSService.agruparRegionalSaude(beans), parametros);
                         oportunidadePQAVSService.gerarRelatorioPQAVS(listaRegiaoSaude, parametros, 0);
-                        if (parametros.get("exportarDBF").equals(true)) {
-                            beans.remove(beans.size() - 1);
-                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans, parametros);
-                            // CHAMAR EXPORTAR PASSA beans como parâmetro
-                        }
+                    }
+                } else {
+                    parametros.put("TITULO_COLUNA", "                Agravo");
+                    parametros.put("QTDE_REG_MUNIC_AGR", "Agravos");
+                    listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegiaoSaudeEmLista(oportunidadePQAVSService.agruparRegiaoSaude(beans), parametros);
+                    oportunidadePQAVSService.gerarRelatorioPQAVS(listaRegiaoSaude, parametros, 0);
+                    if (parametros.get("exportarDBF").equals(true)) {
+                        beans.remove(beans.size() - 1);
+                        oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans, parametros);
+                        // CHAMAR EXPORTAR PASSA beans como parâmetro
                     }
 
-                } else if (parametros.get("parDesagregacao").equals("Somente municípios")) {
-                    parametros.put("TITULO_COLUNA", "UF       Municípios");
-                    parametros.put("QTDE_REG_MUNIC_AGR", "Quantidade");
-                    listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegiaoSaudeEmLista(oportunidadePQAVSService.agruparRegionalSaude(beans), parametros);
-                    oportunidadePQAVSService.gerarRelatorioPQAVS(listaRegiaoSaude, parametros, 0);
-                } else {
+                }
+
+                /* else {
                     if (parametros.get("parDiscriminarPorAgravo").equals(true)) {
                         parametros.put("TITULO_COLUNA", "                Agravo");
                         parametros.put("QTDE_REG_MUNIC_AGR", "Agravos");
@@ -508,8 +522,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                         oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans, parametros);
                         // CHAMAR EXPORTAR PASSA beans como parâmetro
                     }
-
-                }
+                }*/
             }
 
             if (relatorio != null && relatorio.equals("OportunidadeCOAP")) {

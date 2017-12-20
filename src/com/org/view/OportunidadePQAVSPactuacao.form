@@ -31,25 +31,6 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="lblRegional" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="1"/>
-                                  <Component id="lblDesagregacao" alignment="1" min="-2" max="-2" attributes="1"/>
-                                  <Component id="lblUF" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="cbMunicipio" alignment="0" pref="225" max="32767" attributes="1"/>
-                                      <Component id="cbRegional" alignment="0" max="32767" attributes="1"/>
-                                  </Group>
-                                  <Component id="cbAgravo" alignment="0" min="-2" max="-2" attributes="1"/>
-                                  <Component id="cbDesagregacao" alignment="0" min="-2" pref="226" max="-2" attributes="1"/>
-                                  <Component id="cbUf" alignment="0" min="-2" pref="225" max="-2" attributes="1"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
@@ -59,11 +40,29 @@
                                   <Component id="panelOportunidade" min="-2" pref="453" max="-2" attributes="1"/>
                               </Group>
                           </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="lblRegional" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="1"/>
+                                  <Component id="lblDesagregacao" alignment="1" min="-2" max="-2" attributes="1"/>
+                                  <Component id="lblUF" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="cbAgravo" min="-2" max="-2" attributes="1"/>
+                                  <Component id="cbDesagregacao" alignment="0" min="-2" pref="226" max="-2" attributes="1"/>
+                                  <Component id="cbUf" alignment="0" min="-2" pref="225" max="-2" attributes="1"/>
+                                  <Component id="cbMunicipio" min="-2" pref="225" max="-2" attributes="1"/>
+                                  <Component id="cbRegional" min="-2" pref="225" max="-2" attributes="1"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="chkDiscriminarAgravo" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="chkExportarDbf" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
                       </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="197" max="-2" attributes="0"/>
-                      <Component id="chkExportarDbf" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
@@ -95,17 +94,20 @@
                   <Component id="lblRegional" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cbMunicipio" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                  <Component id="cbMunicipio" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="chkDiscriminarAgravo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="chkExportarDbf" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cbAgravo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-              <Component id="chkExportarDbf" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panelOportunidade" min="-2" pref="164" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -115,7 +117,7 @@
                   <Component id="btCalcular" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btLimpar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="12" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -450,12 +452,11 @@
     <Component class="javax.swing.JComboBox" name="cbDesagregacao">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="5">
+          <StringArray count="4">
             <StringItem index="0" value="-- Selecione --"/>
             <StringItem index="1" value="UF subdividida por Regi&#xf5;es de Sa&#xfa;de"/>
             <StringItem index="2" value="UF subdividida por Regionais de Sa&#xfa;de"/>
-            <StringItem index="3" value="Discriminar por Agravo"/>
-            <StringItem index="4" value="Somente munic&#xed;pios"/>
+            <StringItem index="3" value="Somente munic&#xed;pios"/>
           </StringArray>
         </Property>
       </Properties>
@@ -470,6 +471,14 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Desagrega&#xe7;&#xe3;o:" noResource="true"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="chkDiscriminarAgravo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Discriminar por agravo"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkDiscriminarAgravoActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
