@@ -634,11 +634,20 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
         field = new CampoDBF("REGIAO", "String", 80, 0);
         fields[2] = field;
         
-        field = new CampoDBF("COD_IBGE", "String", 6, 0);
-        fields[3] = field;
-
-        field = new CampoDBF("MUNICIPIO", "String", 80, 0);
-        fields[4] = field;
+        
+        if((Boolean)parametros.get("parDiscriminarPorAgravo")){
+            field = new CampoDBF("CID10", "String", 6, 0);
+            fields[3] = field;
+            
+            field = new CampoDBF("AGRAVO", "String", 80, 0);
+            fields[4] = field;
+        }else{
+            field = new CampoDBF("COD_IBGE", "String", 6, 0);
+            fields[3] = field;
+            
+            field = new CampoDBF("MUNICIPIO", "String", 80, 0);
+            fields[4] = field;
+        }
         
         field = new CampoDBF("AUSEN_CASO", "String", 1, 0);
         fields[5] = field;        
