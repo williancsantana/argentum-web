@@ -5,6 +5,7 @@
 
 package com.org.model.classes.agravos.oportunidade;
 
+import com.org.model.classes.Agravo;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  *
  * @author geraldo
  */
-public class OportunidadeAgravoPQAVS {
+public class OportunidadeAgravoPQAVS  extends Agravo{
     private String nmAgravo;
     private Integer qtdNaoEncerrado;
     private Integer qtdInoportuno;

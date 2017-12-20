@@ -15,6 +15,7 @@ import com.org.beans.RegiaoSaude;
 import com.org.beans.RegiaoSaudePQAVS;
 import com.org.beans.UFPQAVS;
 import com.org.facade.SessionFacadeImpl;
+import com.org.model.classes.Agravo;
 import com.org.model.classes.Municipio;
 import com.org.model.classes.UF;
 import com.org.model.classes.agravos.oportunidade.OportunidadeAgravoPQAVS;
@@ -49,7 +50,7 @@ import net.sf.jasperreports.view.JasperViewer;
  *
  * @author Taidson
  */
-public class OportunidadePQAVSServicePactuacao {
+public class OportunidadePQAVSServicePactuacao extends Agravo{
     
     
     
@@ -619,10 +620,10 @@ public class OportunidadePQAVSServicePactuacao {
      * @throws IOException 
      * @autor Taidson
      */ 
-   public void gerarDBFPQAVSDefineCampos(List<OportunidadeAgravoPQAVS> lista) throws IOException{
+   public void gerarDBFPQAVSDefineCampos(List<OportunidadeAgravoPQAVS> lista, Map parametros) throws IOException{
        
         CampoDBF field;
-        DBFField fields[] = new DBFField[9];
+        DBFField fields[] = new DBFField[12];
 
         field = new CampoDBF("UF", "String", 2, 0);
         fields[0] = field;
@@ -651,10 +652,19 @@ public class OportunidadePQAVSServicePactuacao {
         field = new CampoDBF("RESULTADO", "String", 12, 0);
         fields[8] = field;
         
-        this.prepareDataToDBFPQAVS(lista, fields, 9);
+        field = new CampoDBF("ANO_NOTI", "String", 4, 0);
+        fields[9] = field;
+        
+        field = new CampoDBF("DT_NOTIN", "String", 12, 0);
+        fields[10] = field;
+        
+        field = new CampoDBF("DT_NOTIFI", "String", 12, 0);
+        fields[11] = field;
+        
+        this.prepareDataToDBFPQAVS(lista, fields, parametros, 12);
     }
    
-      private void prepareDataToDBFPQAVS(List<OportunidadeAgravoPQAVS> lista, DBFField fields[], int countFields) throws IOException{
+      private void prepareDataToDBFPQAVS(List<OportunidadeAgravoPQAVS> lista, DBFField fields[], Map parametros, int countFields) throws IOException{
           
         DBFWriter writer = new DBFWriter();
         Double oportuno;
@@ -677,7 +687,6 @@ public class OportunidadePQAVSServicePactuacao {
             }
             
             rowData[6] = item.getQtdOportuno().toString();
-            
             rowData[7] = item.getTotal().toString();
             
             if(item.getQtdOportuno() > 0 && item.getTotal() > 0){
@@ -685,8 +694,22 @@ public class OportunidadePQAVSServicePactuacao {
                 total = new Double(item.getTotal()).doubleValue();
                 
                 rowData[8] = String.valueOf(SinanUtil.converterDoubleUmaCasaDecimal((oportuno/total)*100));
+                
                 SinanUtil.imprimirConsole("Resultado sem converter"+(oportuno/total)*100);
+            }else{
+                rowData[8] = "0";
             }
+            
+            String dt_notin = parametros.get("parDataAvaliacao").toString();
+            String dt_notifi = alteraDataParaPadrao(parametros.get("parDataInicio").toString());
+            if(parametros.get("parAnoPeriodoAvaliacao").toString().length() > 4){
+                dt_notin = alteraDataParaPadrao(parametros.get("parDataInicio").toString());
+                dt_notifi = alteraDataParaPadrao(parametros.get("parDataFim60").toString());
+            }
+            
+            rowData[9] = String.valueOf(preencheAno(dt_notin, dt_notifi));
+            rowData[10] = dt_notin;
+            rowData[11] = dt_notifi;
                 /*
             if(item.getQtdOportuno() > 0)
                 rowData[6] = String.valueOf(SinanUtil.converterDoubleUmaCasaDecimal(new Double((item.getQtdOportuno()/ item.getTotal())*100).doubleValue())) ;
@@ -698,6 +721,11 @@ public class OportunidadePQAVSServicePactuacao {
         }
         SinanUtil.setNomeArquivoDBF();
         SinanUtil.gerarDBF(writer);
+   }
+   
+   private String alteraDataParaPadrao(String data){
+       String [] dataPadrao = data.split("-");
+       return dataPadrao[2] + "/" + dataPadrao[1] + "/" + dataPadrao[0];
    }
 
    @Deprecated

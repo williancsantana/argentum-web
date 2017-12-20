@@ -434,7 +434,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                                     listaBean.add(bean);
                                 }
                             }
-                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(listaBean);
+                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(listaBean, parametros);
                         }
                     } else {
                         parametros.put("TITULO_COLUNA", "UF       Região de Saúde");
@@ -444,7 +444,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                         oportunidadePQAVSService.gerarRelatorioPQAVS(listaRegiaoSaude, parametros, 0);
                         if (parametros.get("exportarDBF").equals(true)) {
                             beans.remove(beans.size() - 1);
-                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans);
+                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans, parametros);
                             // CHAMAR EXPORTAR PASSA beans como parâmetro
                         }
                     }
@@ -473,7 +473,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                                     listaBean.add(bean);
                                 }
                             }
-                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(listaBean);
+                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(listaBean, parametros);
                         }
                     } else {
                         parametros.put("TITULO_COLUNA", "UF       Regional de Saúde");
@@ -483,7 +483,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                         oportunidadePQAVSService.gerarRelatorioPQAVS(listaRegiaoSaude, parametros, 0);
                         if (parametros.get("exportarDBF").equals(true)) {
                             beans.remove(beans.size() - 1);
-                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans);
+                            oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans, parametros);
                             // CHAMAR EXPORTAR PASSA beans como parâmetro
                         }
                     }
@@ -499,7 +499,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 
                     if (parametros.get("exportarDBF").equals(true)) {
                         beans.remove(beans.size() - 1);
-                        oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans);
+                        oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans, parametros);
                         // CHAMAR EXPORTAR PASSA beans como parâmetro
                     }
 
