@@ -33,7 +33,7 @@ import org.apache.commons.collections.comparators.ComparatorChain;
  * @author joao
  */
 public class ViolenciaAgravo extends Agravo {
-    
+
     static String ANO;
     private final int BRANCO = 1;
     private final int PRETA = 2;
@@ -69,14 +69,14 @@ public class ViolenciaAgravo extends Agravo {
             this.setSqlDenominadorBeanMunicipios(this.getSqlDenominadorMunicipioEspecifico());
         }
     }
-    
-    private void setStatusBarra(int indexDoRegistroEmLeitura, double TotalRegistros){
+
+    private void setStatusBarra(int indexDoRegistroEmLeitura, double TotalRegistros) {
         float percentual = Float.parseFloat(String.valueOf(indexDoRegistroEmLeitura)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
         getBarraStatus().setValue((int) percentual);
     }
 
     private void calculaRegiao(DBFReader reader, Map parametros) {
-        try{
+        try {
             //buscar os municipios que vao para o resultado
             HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
             DBFUtil utilDbf = new DBFUtil();
@@ -85,24 +85,44 @@ public class ViolenciaAgravo extends Agravo {
             String sgUfResidencia = (String) parametros.get("parSgUf");
             String codRegional = (String) parametros.get("parCodRegional");
             String codRegiao = (String) parametros.get("parCodRegiaoSaude");
+            HashMap<String, Agravo> regiaoBeans = new HashMap<String, Agravo>();
+            Agravo regiaoResidencia;
+
             Object[] rowObjects;
             Date dataNotificacao;
             DecimalFormat df = new DecimalFormat("0.00");
-            int completitude = 0, numeradorMunicipio = 0, denominadorMunicipio = 0, 
-                denominadorBrasil = 0, raca = 0, numeradorEstadual = 0, denominadorRegiao = 0;
-            Agravo municipioNotificacao;
+            int completitude = 0, numeradorMunicipio = 0, denominadorMunicipio = 0,
+                    denominadorBrasil = 0, raca = 0, numeradorEstadual = 0, denominadorRegiao = 0;
+            Agravo municipioNotificacao = null;
             String racaCor;
             String dataInicio = (String) parametros.get("parDataInicio");
             String dataFim = (String) parametros.get("parDataFim");
             String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
-            
+
             if (codRegional == null) {
                 codRegional = "";
             }
+            if (codRegiao == null) {
+                codRegiao = "";
+            }
+
+            String idMunicipio;
+            if (parametros.get("parMunicipio") != null) {
+                if (parametros.get("parMunicipio").toString().isEmpty()) {
+                    idMunicipio = "TODOS";
+                } else {
+                    idMunicipio = (String) parametros.get("parMunicipio");
+                }
+            } else {
+                idMunicipio = "TODOS";
+            }
+
             if ((Boolean) parametros.get("parIsRegiao")) {
                 municipiosBeans = populaRegiaoBeans(sgUfResidencia, codRegiao);
+                regiaoBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, idMunicipio, parametros.get("parIsRegiao").toString());
             } else {
                 municipiosBeans = populaRegionalBeans(sgUfResidencia, codRegional);
+                regiaoBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, idMunicipio, parametros.get("parIsRegiao").toString());
             }
             //loop para ler os arquivos selecionados
             for (String arquivo : arquivos) {
@@ -116,16 +136,28 @@ public class ViolenciaAgravo extends Agravo {
                         //verifica a uf de residencia
                         if (utilDbf.getString(rowObjects, "SG_UF_NOT") != null) {
                             //verifica se existe a referencia do municipio no bean
-                            municipioNotificacao = getMunicipioPelaRegiaoOuRegional(parametros, municipiosBeans, utilDbf, rowObjects);
+                            //municipioNotificacao = getMunicipioPelaRegiaoOuRegional(parametros, municipiosBeans, utilDbf, rowObjects);
+
+                            if ((Boolean) parametros.get("parIsRegiao")) {
+                                regiaoResidencia = regiaoBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
+                                if (regiaoResidencia != null) {
+                                    municipioNotificacao = municipiosBeans.get(regiaoResidencia.getCodRegiaoSaude());
+                                }
+                            } else {
+                                regiaoResidencia = regiaoBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
+                                if (regiaoResidencia != null) {
+                                    municipioNotificacao = municipiosBeans.get(regiaoResidencia.getCodRegional());
+                                }
+                            }
                             dataNotificacao = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
                             racaCor = utilDbf.getString(rowObjects, "CS_RACA", 1);
                             raca = racaCor != null ? Integer.parseInt(racaCor) : 0;
-                          //  if(municipioNotificacao != null ){
-                          //      municipioNotificacao.setTaxa("0");
-                          //  }
+                            //  if(municipioNotificacao != null ){
+                            //      municipioNotificacao.setTaxa("0");
+                            //  }
 
-                            if (municipioNotificacao != null && isBetweenDates(dataNotificacao, dataInicio, dataFim)){
-                                if(raca >= BRANCO && raca <= INDIGENA) {
+                            if (municipioNotificacao != null && isBetweenDates(dataNotificacao, dataInicio, dataFim)) {
+                                if (raca >= BRANCO && raca <= INDIGENA) {
                                     numeradorMunicipio = Integer.parseInt(municipioNotificacao.getNumerador());
                                     numeradorMunicipio++;
                                     municipioNotificacao.setNumerador(String.valueOf(numeradorMunicipio));
@@ -142,7 +174,7 @@ public class ViolenciaAgravo extends Agravo {
                         setStatusBarra(indexDoRegistroEmLeitura, TotalRegistros);
                         indexDoRegistroEmLeitura++;
                     }
-                }catch (DBFException ex) {
+                } catch (DBFException ex) {
                     Master.mensagem("Erro:\n" + ex);
                 }
             }
@@ -153,7 +185,7 @@ public class ViolenciaAgravo extends Agravo {
             Collection<Agravo> municipioBean = municipiosBeans.values();
 
             for (Agravo agravoDBF : municipioBean) {
-                if(null == agravoDBF.getTaxa()){
+                if (null == agravoDBF.getTaxa()) {
                     agravoDBF.setTaxa("0");
                 }
                 this.getBeans().add(agravoDBF);
@@ -162,8 +194,8 @@ public class ViolenciaAgravo extends Agravo {
             getBarraStatus().setString(null);
             ComparatorChain chain;
             chain = new ComparatorChain(Arrays.asList(
-                new BeanComparator("uf"),
-                new BeanComparator("nomeMunicipio")));
+                    new BeanComparator("uf"),
+                    new BeanComparator("nomeMunicipio")));
             Collections.sort(this.getBeans(), chain);
             //Collections.sort(this.getBeans(), new BeanComparator("nomeMunicipio"));
             //calcular o total
@@ -175,22 +207,22 @@ public class ViolenciaAgravo extends Agravo {
                 total = adicionaTotal(municipioBean, codRegional);
                 adicionaParamentrosTotais(parametros, total);
             }
-            
+
             Agravo finalAgravo = new Agravo();
             finalAgravo.setNomeMunicipio("TOTAL");
             this.getBeans().add(finalAgravo);
             setParametroRegiaoOuRegional(parametros);
-            
-        }catch (ParseException ex) {
+
+        } catch (ParseException ex) {
             ex.printStackTrace();
         }
     }
-    
-    private Agravo getMunicipioPelaRegiaoOuRegional(Map parametros, HashMap<String, Agravo> municipiosBeans, DBFUtil utilDbf, Object[] rowObjects){
+
+    private Agravo getMunicipioPelaRegiaoOuRegional(Map parametros, HashMap<String, Agravo> municipiosBeans, DBFUtil utilDbf, Object[] rowObjects) {
         Agravo municipioResidencia = new Agravo();
         try {
             if ((Boolean) parametros.get("parIsRegiao")) {
-                    municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
+                municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
             } else {
                 municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
             }
@@ -201,28 +233,39 @@ public class ViolenciaAgravo extends Agravo {
     }
 
     /**
-     * Calcula os numeradores, denominadores e indicadores filtrados por região ou regional
+     * Calcula os numeradores, denominadores e indicadores filtrados por região
+     * ou regional
+     *
      * @param reader
      * @param parametros
-     * @throws ParseException 
+     * @throws ParseException
      */
     private void calculaMunicipios(DBFReader reader, Map parametros) {
-        try{
+        try {
             //buscar os municipios que vao para o resultado
             HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
             String ufResidencia = (String) parametros.get("parUf");
             String sgUfResidencia = (String) parametros.get("parSgUf");
             String codRegional = (String) parametros.get("parCodRegional");
             String codRegiao = (String) parametros.get("parCodRegiaoSaude");
+
             DBFUtil utilDbf = new DBFUtil();
 
             if (codRegional == null) {
                 codRegional = "";
             }
-            if ((Boolean)parametros.get("parIsRegiao")) {
-               municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia,codRegiao, parametros.get("parIsRegiao").toString());
-            }else {
-               municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, parametros.get("parIsRegiao").toString());
+            String idMunicipio;
+            if (parametros.get("parMunicipio") != null) {
+                idMunicipio = (String) parametros.get("parMunicipio");
+            } else {
+                idMunicipio = "TODOS";
+            }
+            if (parametros.get("parDesagregacao").equals("Somente municípios")) {
+                municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, "", idMunicipio, "false");
+            } else if ((Boolean) parametros.get("parIsRegiao")) {
+                municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, parametros.get("parIsRegiao").toString());
+            } else {
+                municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, parametros.get("parIsRegiao").toString());
             }
 
             //inicia o calculo
@@ -251,9 +294,9 @@ public class ViolenciaAgravo extends Agravo {
                         if (utilDbf.getString(rowObjects, "SG_UF_NOT") != null) {
                             //verifica se existe a referencia do municipio no bean
                             municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
-                          //  if(municipioResidencia != null ){
-                          //      municipioResidencia.setTaxa("0");
-                          //  }
+                            //  if(municipioResidencia != null ){
+                            //      municipioResidencia.setTaxa("0");
+                            //  }
                             //municipioResidencia.setTaxa(String.valueOf(0));
                             dataNotificacao = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
                             racaCor = utilDbf.getString(rowObjects, "CS_RACA", 1);
@@ -266,18 +309,18 @@ public class ViolenciaAgravo extends Agravo {
                                         numerador++;
                                         municipioResidencia.setNumerador(String.valueOf(numerador));
                                     }
-                                        denominadorMunicipal = Integer.parseInt(municipioResidencia.getDenominador());
-                                        denominadorMunicipal++;
-                                        municipioResidencia.setDenominador(String.valueOf(denominadorMunicipal));
-                                        municipioResidencia.setTaxa("0");
-                                        municipioResidencia.setTaxa(calcularTaxaIndividual(df2, municipioResidencia));
+                                    denominadorMunicipal = Integer.parseInt(municipioResidencia.getDenominador());
+                                    denominadorMunicipal++;
+                                    municipioResidencia.setDenominador(String.valueOf(denominadorMunicipal));
+                                    municipioResidencia.setTaxa("0");
+                                    municipioResidencia.setTaxa(calcularTaxaIndividual(df2, municipioResidencia));
                                 }
-                            } 
+                            }
                         }
                         setStatusBarra(indexDoRegistroEmLeitura, TotalRegistros);
                         indexDoRegistroEmLeitura++;
                     }
-                }catch (DBFException ex) {
+                } catch (DBFException ex) {
                     Master.mensagem("Erro:\n" + ex);
                 }
             }
@@ -287,7 +330,7 @@ public class ViolenciaAgravo extends Agravo {
             Collection<Agravo> municipioBean = municipiosBeans.values();
 
             for (Agravo agravoDBF : municipioBean) {
-                if(null == agravoDBF.getTaxa()){
+                if (null == agravoDBF.getTaxa()) {
                     agravoDBF.setTaxa("0");
                 }
                 this.getBeans().add(agravoDBF);
@@ -295,8 +338,13 @@ public class ViolenciaAgravo extends Agravo {
             }
             getBarraStatus().setString(null);
             ComparatorChain chain;
-            
-            if ((Boolean) parametros.get("parIsRegiao")) {
+
+            if (parametros.get("parDesagregacao").equals("Somente municípios")) {
+                chain = new ComparatorChain(Arrays.asList(
+                        new BeanComparator("uf"),
+                        new BeanComparator("nomeMunicipio")));
+
+            } else if ((Boolean) parametros.get("parIsRegiao")) {
                 chain = new ComparatorChain(Arrays.asList(
                         new BeanComparator("uf"),
                         new BeanComparator("regiaoSaude"),
@@ -309,71 +357,71 @@ public class ViolenciaAgravo extends Agravo {
             }
 
             Collections.sort(this.getBeans(), chain);
-            Agravo totalAgravo =  new Agravo();
+            Agravo totalAgravo = new Agravo();
             //calcular o total
-            if ((Boolean)parametros.get("parIsRegiao")) {
-                totalAgravo = adicionaTotal(municipioBean,codRegiao);
+            if ((Boolean) parametros.get("parIsRegiao")) {
+                totalAgravo = adicionaTotal(municipioBean, codRegiao);
                 adicionaParamentrosTotais(parametros, totalAgravo);
-            }else{
-                totalAgravo = adicionaTotal(municipioBean,codRegional);
+            } else {
+                totalAgravo = adicionaTotal(municipioBean, codRegional);
                 adicionaParamentrosTotais(parametros, totalAgravo);
             }
-            
+
             Agravo finalAgravo = new Agravo();
             finalAgravo.setNomeMunicipio("TOTAL");
             this.getBeans().add(finalAgravo);
             setParametroRegiaoOuRegional(parametros);
-            
+
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
     }
-    
-    private void setParametroRegiaoOuRegional(Map parametros){
+
+    private void setParametroRegiaoOuRegional(Map parametros) {
         if ((Boolean) parametros.get("parIsRegiao")) {
-            parametros.put("parDescricaoRegional","Região de notificação:");
-        }else{
-            parametros.put("parDescricaoRegional","Regional de notificação:");
+            parametros.put("parDescricaoRegional", "Região de notificação:");
+        } else {
+            parametros.put("parDescricaoRegional", "Regional de notificação:");
         }
     }
-    
-    private void adicionaParamentrosTotais(Map parametros, Agravo totalAgravo){
+
+    private void adicionaParamentrosTotais(Map parametros, Agravo totalAgravo) {
         DecimalFormat df = new DecimalFormat("0.00");
         parametros.put("numeradorTotal", totalAgravo.getNumerador());
         parametros.put("denominadorTotal", totalAgravo.getDenominador());
         Double numerador = Double.parseDouble(totalAgravo.getNumerador());
         Double denominador = Double.parseDouble(totalAgravo.getDenominador());
         double taxa;
-        
-        if(numerador == 0l && denominador == 0l){
+
+        if (numerador == 0l && denominador == 0l) {
             taxa = 0l;
-        }else{
+        } else {
             taxa = (Double.parseDouble(totalAgravo.getNumerador()) / Double.parseDouble(totalAgravo.getDenominador())) * 100;
         }
-        
+
         parametros.put("taxaTotal", df.format(taxa));
     }
-    
-    private Agravo calcularTaxaTotal(DecimalFormat df){
+
+    private Agravo calcularTaxaTotal(DecimalFormat df) {
         Agravo agravo = (Agravo) this.getBeans().get(this.getBeans().size() - 1);
-        if((null != agravo.getNumerador() && Double.parseDouble(agravo.getNumerador()) != 0l)
-                && (null != agravo.getDenominador() && Double.parseDouble(agravo.getDenominador()) != 0l)){
+        if ((null != agravo.getNumerador() && Double.parseDouble(agravo.getNumerador()) != 0l)
+                && (null != agravo.getDenominador() && Double.parseDouble(agravo.getDenominador()) != 0l)) {
             agravo.setTaxa(df.format(
-                (Double.parseDouble(agravo.getNumerador())/(Double.parseDouble(agravo.getDenominador()))*100)));
-        }else{
+                    (Double.parseDouble(agravo.getNumerador()) / (Double.parseDouble(agravo.getDenominador())) * 100)));
+        } else {
             agravo.setTaxa("0");
         }
         return agravo;
     }
-    
-    private String calcularTaxaIndividual(DecimalFormat df, Agravo municipioResidencia){
-        if((null != municipioResidencia.getNumerador() && Double.parseDouble(municipioResidencia.getNumerador()) != 0l)
-                && (null != municipioResidencia.getDenominador() && Double.parseDouble(municipioResidencia.getDenominador()) != 0l)){
-            
+
+    private String calcularTaxaIndividual(DecimalFormat df, Agravo municipioResidencia) {
+        if ((null != municipioResidencia.getNumerador() && Double.parseDouble(municipioResidencia.getNumerador()) != 0l)
+                && (null != municipioResidencia.getDenominador() && Double.parseDouble(municipioResidencia.getDenominador()) != 0l)) {
+
             municipioResidencia.setTaxa(df.format(
-                Double.parseDouble(municipioResidencia.getNumerador()) / Double.parseDouble(municipioResidencia.getDenominador()) * 100));
-            
-        }else{
+                    Double.parseDouble(municipioResidencia.getNumerador()) / Double.parseDouble(municipioResidencia.getDenominador()) * 100));
+
+        } else {
             municipioResidencia.setTaxa("0");
         }
         return municipioResidencia.getTaxa();
@@ -381,8 +429,9 @@ public class ViolenciaAgravo extends Agravo {
 
     /**
      * Calcula total, denominador, numerador do municipio específico.
+     *
      * @param reader
-     * @param parametros 
+     * @param parametros
      */
     @Override
     public void calcula(DBFReader reader, Map parametros) {
@@ -392,7 +441,7 @@ public class ViolenciaAgravo extends Agravo {
         boolean isRegiaoSelecionada = (boolean) parametros.get("parIsRegiao");
         boolean isRegionalSelecionada = (boolean) parametros.get("parIsRegional");
         boolean estadoEMunicipio = municipios.equals("sim") && !filtroUF.equals("brasil");
-        
+
         //filtro municipios = TODOS e 7UF selecionado algum estado
         if ((isRegionalSelecionada || isRegiaoSelecionada) && municipioEspecifico == "NENHUM") {
             calculaRegiao(reader, parametros);
@@ -402,8 +451,8 @@ public class ViolenciaAgravo extends Agravo {
             calculaMunicipioIndividual(municipios, filtroUF, reader, parametros);
         }
     }
-    
-    private void calculaMunicipioIndividual(String municipios, String filtroUF, DBFReader reader, Map parametros){
+
+    private void calculaMunicipioIndividual(String municipios, String filtroUF, DBFReader reader, Map parametros) {
         try {
             Object[] rowObjects;
             DBFUtil utilDbf = new DBFUtil();
@@ -440,7 +489,7 @@ public class ViolenciaAgravo extends Agravo {
                         if (verificaMunicipio(municipioResidencia, utilDbf.getString(rowObjects, "ID_MUNICIP"))) {
                             //verifica se a raca/cor é branca, preta, amarela, parda, indigena
                             if (isBetweenDates(dtNotificacao, dataInicio, dataFim)) {
-                                denominadorEspecifico ++;
+                                denominadorEspecifico++;
                                 denominadorEstadual++;
                                 if ((raca >= BRANCO && raca <= INDIGENA)) {
                                     numeradorEspecifico++;
@@ -485,13 +534,13 @@ public class ViolenciaAgravo extends Agravo {
             this.setBeans(new ArrayList());
             this.getBeans().add(violenciaMunicipio);
             setParametroRegiaoOuRegional(parametros);
-            
+
         } catch (NumberFormatException | ParseException | DBFException ex) {
             ex.printStackTrace();
         }
     }
-    
-    private void preencheResultadoDaBusca(Agravo violenciaMunicipio, int numerador, int denominador, String total, DecimalFormat df){
+
+    private void preencheResultadoDaBusca(Agravo violenciaMunicipio, int numerador, int denominador, String total, DecimalFormat df) {
         violenciaMunicipio.setNumerador(String.valueOf(NumberFormat.getNumberInstance().format(Double.parseDouble(String.valueOf(numerador)))));
         violenciaMunicipio.setDenominador(String.valueOf(NumberFormat.getNumberInstance().format(Double.parseDouble(String.valueOf(denominador)))));
         total = df.format(Double.parseDouble(String.valueOf(numerador)) / Double.parseDouble(String.valueOf(denominador)) * 100);
