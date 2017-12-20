@@ -596,6 +596,7 @@ public class ViolenciaAgravo extends Agravo {
     public DBFWriter getLinhas(HashMap<String, ColunasDbf> colunas, List bean, DBFWriter writer) throws DBFException, IOException {
         Integer numeradorTotal = 0, denominadorTotal = 0;
         Double taxaTotal = 0.0;
+        String taxaFormatada="";
         DecimalFormat df = new DecimalFormat("0.00");
         for (int i = 0; i < bean.size(); i++) {
             Object rowData[] = new Object[colunas.size()];
@@ -604,14 +605,14 @@ public class ViolenciaAgravo extends Agravo {
             denominadorTotal+= Integer.parseInt((agravo.getDenominador() != null)?agravo.getDenominador():"0");            
             if(i == bean.size() - 1){
                 taxaTotal = (Double.parseDouble(numeradorTotal.toString()) / denominadorTotal) * 100;
-                taxaTotal = Double.parseDouble(df.format(taxaTotal));
+                taxaFormatada = (df.format(taxaTotal));
             }
             if (agravo.getNomeMunicipio().equals("BRASIL") || agravo.getNomeMunicipio().equals("TOTAL")) {
                 rowData[0] = null;
                 rowData[2] = null;
                 rowData[3] = numeradorTotal.toString();
                 rowData[4] = denominadorTotal.toString();
-                rowData[5] = taxaTotal.toString();
+                rowData[5] = taxaFormatada.replace(",",".");
             } else {
                 rowData[0] = agravo.getCodMunicipio();
                 rowData[2] = agravo.getCodMunicipio().substring(0, 2);
