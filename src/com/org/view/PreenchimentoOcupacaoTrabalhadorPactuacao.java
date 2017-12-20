@@ -522,8 +522,7 @@ fileopen.setFileFilter(filtro);
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));
             this.cbRegional.setModel(modelo);
         } else if (this.cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
-            cbRegional.addItem("TODAS");
-        } else if (this.cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
+            cbRegional.removeAllItems();
             cbRegional.addItem("TODAS");
         } else {
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(""));
