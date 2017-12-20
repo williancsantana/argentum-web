@@ -46,7 +46,7 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
             SinanUtil.mensagem("Selecione a Desagregação desejada");
             return false;
         }
-        if (null != cbRegional.getSelectedItem() && cbRegional.getSelectedItem().toString().equals("-- Selecione --") 
+        if (null != cbRegional.getSelectedItem() && cbRegional.getSelectedItem().toString().equals("-- Selecione --")
                 && (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")
                 || cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regional de Saúde"))) {
             SinanUtil.mensagem("Selecione a Região ou Regional de residência");
@@ -83,19 +83,19 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
             SinanUtil.mensagem("Selecione um arquivo.");
             return false;
         }
-        if (dataInicio2.getDate() != null && dataFim2.getDate() != null ){
-             if (SinanDateUtil.calculaDiferencaDias(dataInicio2.getDate(), dataFim2.getDate())< 0){
-                 SinanUtil.mensagem("A data inicial não pode ser maior que a data final");
+        if (dataInicio2.getDate() != null && dataFim2.getDate() != null) {
+            if (SinanDateUtil.calculaDiferencaDias(dataInicio2.getDate(), dataFim2.getDate()) < 0) {
+                SinanUtil.mensagem("A data inicial não pode ser maior que a data final");
                 return false;
-             }else if (SinanDateUtil.checkDateMajorCurrentDate(dataFim2.getDate())){
-                 SinanUtil.mensagem("A data final não pode ser maior que data corrente");
-                 return false;
-             }
+            } else if (SinanDateUtil.checkDateMajorCurrentDate(dataFim2.getDate())) {
+                SinanUtil.mensagem("A data final não pode ser maior que data corrente");
+                return false;
+            }
         }
 
         return true;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -140,7 +140,7 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         jLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel.setText("Município  de Residência Atual:"); // NOI18N
 
-        cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "Somente municípios", "UF subdividida por Regiões de Saúde", "UF subdividida por Regional de Saúde" }));
+        cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "UF subdividida por Regiões de Saúde", "UF subdividida por Regional de Saúde", "Somente municípios" }));
         cbDesagregacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbDesagregacaoActionPerformed(evt);
@@ -372,7 +372,17 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
 
     private void cbRegionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRegionalActionPerformed
         ComboBoxModel modelo;
-        if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regional de Saúde")) {
+        int isRegiao = this.cbDesagregacao.getSelectedIndex();
+        if (cbRegional.getSelectedItem() != null) {
+            Vector<String> municipiosPactuacao = this.session.retornaMunicipiosPactuacao(isRegiao, this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString());
+            if (!cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
+                municipiosPactuacao.add(2, "NENHUM");
+            }
+            modelo = new DefaultComboBoxModel(municipiosPactuacao);
+            this.cbMunicipio.setModel(modelo);
+        }
+
+/*        if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regional de Saúde")) {
             modelo = new DefaultComboBoxModel(this.session.retornaMunicipios(this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString()));
             this.cbMunicipio.setModel(modelo);
         } else if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")) {
@@ -380,13 +390,13 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
             modelo = new DefaultComboBoxModel(this.session.retornaMunicipiosPQAVS(this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString()));
             this.cbMunicipio.setModel(modelo);
         }
-        
+
         if (cbRegional.getSelectedItem() != null) {
             Vector<String> municipiosPactuacao = this.session.retornaMunicipiosPQAVS(this.cbDesagregacao.getSelectedIndex(), this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString());
             municipiosPactuacao.add(2, "NENHUM");
             modelo = new DefaultComboBoxModel(municipiosPactuacao);
             this.cbMunicipio.setModel(modelo);
-        }
+        }*/
     }//GEN-LAST:event_cbRegionalActionPerformed
 
     private void btCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCalcularActionPerformed
@@ -416,28 +426,28 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         parametros.put("parNenhum", false);//parametro para listar ou não os municípios
         parametros.put("parDesagregacao", cbDesagregacao.getSelectedItem().toString());
         parametros.put("parSgUf", cbUf.getSelectedItem().toString());
-        parametros.put("parRegionalSaude","");
-        parametros.put("parRegiaoSaude","");
+        parametros.put("parRegionalSaude", "");
+        parametros.put("parRegiaoSaude", "");
         parametros.put("dataInicio1", Util.formataData(dataInicio));
         parametros.put("dataFim1", Util.formataData(dataFim));
         parametros.put("parAnoPeriodoAvaliacao", dataInicio + " a " + dataFim);
 
-        if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")){
+        if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")) {
             parametros.put("parIsRegiao", true);
             parametros.put("parRegiaoSaude", cbRegional.getSelectedItem().toString());
-        } else if(cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regional de Saúde")){
+        } else if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regional de Saúde")) {
             parametros.put("parRegionalSaude", cbRegional.getSelectedItem().toString());
             parametros.put("parIsRegional", true);
             session.setRegional(cbRegional.getSelectedItem().toString());
         }
-        
-        if(cbMunicipio.getSelectedItem().toString().isEmpty()){
+
+        if (cbMunicipio.getSelectedItem().toString().isEmpty()) {
             parametros.put("municipioEspecifico", "");
-        }else if(cbMunicipio.getSelectedItem().toString().equals("TODOS")){
+        } else if (cbMunicipio.getSelectedItem().toString().equals("TODOS")) {
             parametros.put("municipioEspecifico", "TODOS");
-        }else if(cbMunicipio.getSelectedItem().toString().equals("NENHUM")){
+        } else if (cbMunicipio.getSelectedItem().toString().equals("NENHUM")) {
             parametros.put("municipioEspecifico", "NENHUM");
-        }else{
+        } else {
             parametros.put("municipioEspecifico", cbMunicipio.getSelectedItem().toString());
         }
         //parametros.put("parAnoPeriodoAvaliacao", SinanDateUtil.dateToStringException(dataInicio.getDate(), "dd/MM/yyyy") + " a " + SinanDateUtil.dateToStringException(dataFim.getDate(), "dd/MM/yyyy"));
@@ -446,7 +456,7 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         session.setDataInicio(dataInicio);
         session.setJprogress(prbStatus);
         session.setMunicipio(cbMunicipio.getSelectedItem().toString());
-        if(cbRegional.getSelectedItem() != null){
+        if (cbRegional.getSelectedItem() != null) {
             session.setRegional(cbRegional.getSelectedItem().toString());
             parametros.put("parRegiaoSaude", cbRegional.getSelectedItem().toString());
         }
@@ -475,7 +485,7 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
         filtro.addInicioNome("HANSN");
 
         fileopen.addChoosableFileFilter(filtro);
-fileopen.setFileFilter(filtro);
+        fileopen.setFileFilter(filtro);
 
         File file2 = new File(new Configuracao().getCaminho());
         fileopen.setCurrentDirectory(file2);
@@ -491,9 +501,9 @@ fileopen.setFileFilter(filtro);
                     lblArquivosSelecionados.setText(lblArquivosSelecionados.getText() + files[i].getName() + "||");
                 }
                 Configuracao.setPropriedade("caminho", files[i].getParent() + "\\\\");
-                }
-
             }
+
+        }
     }//GEN-LAST:event_btnSelecionarArquivosActionPerformed
 
     private void btnLimparSelecaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparSelecaoActionPerformed

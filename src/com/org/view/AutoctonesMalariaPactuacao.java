@@ -370,8 +370,10 @@ public class AutoctonesMalariaPactuacao extends javax.swing.JPanel {
 
     private void cbRegionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRegionalActionPerformed
         ComboBoxModel modelo;
+        int isRegiao = this.cbDesagregacao.getSelectedIndex();
         if (cbRegional.getSelectedItem() != null) {
-            Vector<String> municipiosPactuacao = this.session.retornaMunicipiosPQAVS(this.cbDesagregacao.getSelectedIndex(), this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString());
+            //Vector<String> municipiosPactuacao = this.session.retornaMunicipiosPQAVS(this.cbDesagregacao.getSelectedIndex(), this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString());
+            Vector<String> municipiosPactuacao = this.session.retornaMunicipiosPactuacao(isRegiao, this.cbUf.getSelectedItem().toString(), this.cbRegional.getSelectedItem().toString());
             if (!cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
                 municipiosPactuacao.add(2, "NENHUM");
             }
