@@ -33,7 +33,7 @@ import org.apache.commons.collections.comparators.ComparatorChain;
  * @author joao
  */
 public class HanseniaseCoorteCuraPactuacao extends Agravo {
-    
+
     static String ANO;
     private String cura;
     private String subTotal;
@@ -56,13 +56,13 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         this.setMultiplicador(100);
         this.setTipo("hans");
         this.setTitulo1("Proporção de cura dos casos novos de hanseníase diagnosticados nos anos das coortes");
-        this.setRodape("OBS. sobre método de cálculo: \nSeleção das coortes: " 
-                + "Casos novos (modo de entrada = 1-Caso novo) paucibacilares " 
-                + "(classificação operacional atual) diagnosticados no ano anterior ao ano " 
-                + "de avaliação e casos novos multibacilares diagnosticados 2 anos anteriores" 
-                + " ao ano de avaliação. No relatório são somados os PB e os MB selecionados na" 
-                + " base de dados do Sinan, segundo local de residência atual.\nCálculo do " 
-                + "percentual de cura: não são considerados no cálculo desses indicadores na avaliação municipal:" 
+        this.setRodape("OBS. sobre método de cálculo: \nSeleção das coortes: "
+                + "Casos novos (modo de entrada = 1-Caso novo) paucibacilares "
+                + "(classificação operacional atual) diagnosticados no ano anterior ao ano "
+                + "de avaliação e casos novos multibacilares diagnosticados 2 anos anteriores"
+                + " ao ano de avaliação. No relatório são somados os PB e os MB selecionados na"
+                + " base de dados do Sinan, segundo local de residência atual.\nCálculo do "
+                + "percentual de cura: não são considerados no cálculo desses indicadores na avaliação municipal:"
                 + "\ntranferência para outro município, transferência para outro estado,"
                 + "tranferência para outro país e erro de diagnóstico e transferência não especificada."
                 + "\nNão são consierados no cálculo desse indicador na avaliação estadual: transferência para outro estado,"
@@ -73,14 +73,14 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         this.setTransfNaoEspecificada("0");
         this.setSqlNumeradorCompletitude("");
     }
-    
-    private void setStatusBarra(int indexDoRegistroEmLeitura, double TotalRegistros){
+
+    private void setStatusBarra(int indexDoRegistroEmLeitura, double TotalRegistros) {
         float percentual = Float.parseFloat(String.valueOf(indexDoRegistroEmLeitura)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
         getBarraStatus().setValue((int) percentual);
     }
 
     private void calculaRegiao(DBFReader reader, Map parametros) {
-        try{
+        try {
             //buscar os municipios que vao para o resultado
             HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
             DBFUtil utilDbf = new DBFUtil();
@@ -92,18 +92,18 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             DecimalFormat df = new DecimalFormat("0.00");
             Agravo regiaoNotificacao;
             String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
-            
+
             String esquemaDeTratamentoAtual;
-            
+
             String dataInicioPB = (String) parametros.get("parDataInicioCoortePB");
             String dataFimPB = (String) parametros.get("parDataFimCoortePB");
             String dataInicioMB = (String) parametros.get("parDataInicioCoorteMB");
             String dataFimMB = (String) parametros.get("parDataFimCoorteMB");
-            
+
             String modoEntrada;
             Date dtDiagnostico;
             String classificacaoOperacionalAtual;
-            
+
             if (codRegional == null) {
                 codRegional = "";
             }
@@ -125,23 +125,23 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
                         if (utilDbf.getString(rowObjects, "UFRESAT") != null) {
                             //verifica se existe a referencia do municipio no bean
                             regiaoNotificacao = getMunicipioPelaRegiaoOuRegional(parametros, municipiosBeans, utilDbf, rowObjects);
-                            if(regiaoNotificacao != null ){
+                            if (regiaoNotificacao != null) {
                                 regiaoNotificacao.setTaxa("0");
                             }
-                            
+
                             modoEntrada = utilDbf.getString(rowObjects, "MODOENTR", 1);
                             classificacaoOperacionalAtual = utilDbf.getString(rowObjects, "CLASSATUAL", 1);
                             dtDiagnostico = utilDbf.getDate(rowObjects, "DT_DIAG");
                             esquemaDeTratamentoAtual = utilDbf.getString(rowObjects, "ESQ_ATU_N");
                             esquemaDeTratamentoAtual = esquemaDeTratamentoAtual != null ? esquemaDeTratamentoAtual : "0";
-                        
+
                             if (regiaoNotificacao != null) {
                                 if (modoEntrada.equals("1")) {
-                                    if (isBetweenDates(dtDiagnostico, dataInicioPB, dataFimPB) 
+                                    if (isBetweenDates(dtDiagnostico, dataInicioPB, dataFimPB)
                                             && classificacaoOperacionalAtual.equals("1")
                                             && esquemaDeTratamentoAtual.equals("1")) {
                                         validaCriterios(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, regiaoNotificacao);
-                                    }else if (isBetweenDates(dtDiagnostico, dataInicioMB, dataFimMB) 
+                                    } else if (isBetweenDates(dtDiagnostico, dataInicioMB, dataFimMB)
                                             && classificacaoOperacionalAtual.equals("2")
                                             && esquemaDeTratamentoAtual.equals("2")) {
                                         validaCriterios(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, regiaoNotificacao);
@@ -152,7 +152,7 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
                         setStatusBarra(indexDoRegistroEmLeitura, TotalRegistros);
                         indexDoRegistroEmLeitura++;
                     }
-                }catch (DBFException ex) {
+                } catch (DBFException ex) {
                     Master.mensagem("Erro:\n" + ex);
                 }
             }
@@ -163,10 +163,10 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             Collection<Agravo> municipioBean = municipiosBeans.values();
 
             for (Agravo agravoDBF : municipioBean) {
-                if(!agravoDBF.getNumerador().equals("0") && !agravoDBF.getDenominador().equals("0")){
+                if (!agravoDBF.getNumerador().equals("0") && !agravoDBF.getDenominador().equals("0")) {
                     agravoDBF.setTaxa(df.format(
                             (Double.parseDouble(agravoDBF.getNumerador()) / Double.parseDouble(agravoDBF.getDenominador())) * 100));
-                }else if(null == agravoDBF.getTaxa()){
+                } else if (null == agravoDBF.getTaxa()) {
                     agravoDBF.setTaxa("0");
                 }
                 this.getBeans().add(agravoDBF);
@@ -175,8 +175,8 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             getBarraStatus().setString(null);
             ComparatorChain chain;
             chain = new ComparatorChain(Arrays.asList(
-                new BeanComparator("uf"),
-                new BeanComparator("nomeMunicipio")));
+                    new BeanComparator("uf"),
+                    new BeanComparator("nomeMunicipio")));
             Collections.sort(this.getBeans(), chain);
             //Collections.sort(this.getBeans(), new BeanComparator("nomeMunicipio"));
             //calcular o total
@@ -188,28 +188,28 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
                 total = adicionaTotal(municipioBean, codRegional);
                 adicionaParamentrosTotais(parametros, total);
             }
-            
+
             Agravo finalAgravo = new Agravo();
             finalAgravo.setNomeMunicipio("TOTAL");
             this.getBeans().add(finalAgravo);
             setParametroRegiaoOuRegional(parametros);
-            
-        }catch (ParseException ex) {
+
+        } catch (ParseException ex) {
             ex.printStackTrace();
         }
     }
-    
-    private void setParametroRegiaoOuRegional(Map parametros){
+
+    private void setParametroRegiaoOuRegional(Map parametros) {
         if ((Boolean) parametros.get("parIsRegiao")) {
-            parametros.put("parDescricaoRegional","Região de residência atual:");
-        }else{
-            parametros.put("parDescricaoRegional","Regional de residência atual:");
+            parametros.put("parDescricaoRegional", "Região de residência atual:");
+        } else {
+            parametros.put("parDescricaoRegional", "Regional de residência atual:");
         }
     }
-    
-    private void validaCriterios(Object[] rowObjects, DBFUtil utilDbf, String classificacaoOperacionalAtual, 
-            String esquemaDeTratamentoAtual, Agravo municipioResidencia){
-        if((classificacaoOperacionalAtual.equals("1") || classificacaoOperacionalAtual.equals("2"))
+
+    private void validaCriterios(Object[] rowObjects, DBFUtil utilDbf, String classificacaoOperacionalAtual,
+            String esquemaDeTratamentoAtual, Agravo municipioResidencia) {
+        if ((classificacaoOperacionalAtual.equals("1") || classificacaoOperacionalAtual.equals("2"))
                 && (esquemaDeTratamentoAtual.equals("1") || esquemaDeTratamentoAtual.equals("2"))) {
             //busca o tipo de alta
             String tipoAlta = utilDbf.getString(rowObjects, "TPALTA_N", 1);
@@ -217,11 +217,11 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             municipioResidencia = classificaAlta(tipoAlta, municipioResidencia);
         }
     }
-    
+
     private Agravo classificaAlta(String tipoAlta, Agravo beanMunicipioResidencia) {
         DecimalFormat df = new DecimalFormat("0.00");
-        if(tipoAlta.equals("1") || tipoAlta.equals("2") || tipoAlta.equals("3") || tipoAlta.equals("6")
-                 || tipoAlta.equals("7") || tipoAlta.equals("")){
+        if (tipoAlta.equals("1") || tipoAlta.equals("2") || tipoAlta.equals("3") || tipoAlta.equals("6")
+                || tipoAlta.equals("7") || tipoAlta.equals("")) {
             beanMunicipioResidencia.setDenominador(String.valueOf(1 + Integer.parseInt(beanMunicipioResidencia.getDenominador())));
         }
         if (tipoAlta.equals("1")) {
@@ -230,8 +230,8 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         calcularTaxaIndividual(df, beanMunicipioResidencia);
         return beanMunicipioResidencia;
     }
-    
-    private Agravo getMunicipioPelaRegiaoOuRegional(Map parametros, HashMap<String, Agravo> municipiosBeans, DBFUtil utilDbf, Object[] rowObjects){
+
+    private Agravo getMunicipioPelaRegiaoOuRegional(Map parametros, HashMap<String, Agravo> municipiosBeans, DBFUtil utilDbf, Object[] rowObjects) {
         Agravo regiaoResidencia = new Agravo();
         try {
             if ((Boolean) parametros.get("parIsRegiao")) {
@@ -246,13 +246,15 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
     }
 
     /**
-     * Calcula os numeradores, denominadores e indicadores filtrados por região ou regional
+     * Calcula os numeradores, denominadores e indicadores filtrados por região
+     * ou regional
+     *
      * @param reader
      * @param parametros
-     * @throws ParseException 
+     * @throws ParseException
      */
     private void calculaMunicipios(DBFReader reader, Map parametros) {
-        try{
+        try {
             HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
             DBFUtil utilDbf = new DBFUtil();
             Object[] rowObjects;
@@ -273,16 +275,15 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             DecimalFormat df = new DecimalFormat("0");
             DecimalFormat df2 = new DecimalFormat("0.00");
             Agravo municipioResidencia;
-            
+
             if (codRegional == null) {
                 codRegional = "";
             }
-            if ((Boolean)parametros.get("parIsRegiao")) {
-               municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia,codRegiao, parametros.get("parIsRegiao").toString());
-            }else {
-               municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, parametros.get("parIsRegiao").toString());
+            if ((Boolean) parametros.get("parIsRegiao")) {
+                municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, parametros.get("parIsRegiao").toString());
+            } else {
+                municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, parametros.get("parIsRegiao").toString());
             }
-
 
             //loop para ler os arquivos selecionados
             for (String arquivo : arquivos) {
@@ -297,10 +298,10 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
                         if (utilDbf.getString(rowObjects, "UFRESAT") != null) {
                             //verifica se existe a referencia do municipio no bean
                             municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "MUNIRESAT"));
-                            if(municipioResidencia != null ){
+                            if (municipioResidencia != null) {
                                 municipioResidencia.setTaxa("0");
                             }
-                            
+
                             modoEntrada = utilDbf.getString(rowObjects, "MODOENTR", 1);
                             classificacaoOperacionalAtual = utilDbf.getString(rowObjects, "CLASSATUAL", 1);
                             dtDiagnostico = utilDbf.getDate(rowObjects, "DT_DIAG");
@@ -309,11 +310,11 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
 
                             if (municipioResidencia != null) {
                                 if (modoEntrada.equals("1")) {
-                                    if (isBetweenDates(dtDiagnostico, dataInicioPB, dataFimPB) 
+                                    if (isBetweenDates(dtDiagnostico, dataInicioPB, dataFimPB)
                                             && classificacaoOperacionalAtual.equals("1")
                                             && esquemaDeTratamentoAtual.equals("1")) {
                                         validaCriterios(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, municipioResidencia);
-                                    }else if (isBetweenDates(dtDiagnostico, dataInicioMB, dataFimMB) 
+                                    } else if (isBetweenDates(dtDiagnostico, dataInicioMB, dataFimMB)
                                             && classificacaoOperacionalAtual.equals("2")
                                             && esquemaDeTratamentoAtual.equals("2")) {
                                         validaCriterios(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, municipioResidencia);
@@ -324,7 +325,7 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
                         setStatusBarra(indexDoRegistroEmLeitura, TotalRegistros);
                         indexDoRegistroEmLeitura++;
                     }
-                }catch (DBFException ex) {
+                } catch (DBFException ex) {
                     Master.mensagem("Erro:\n" + ex);
                 }
             }
@@ -334,10 +335,10 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             Collection<Agravo> municipioBean = municipiosBeans.values();
 
             for (Agravo agravoDBF : municipioBean) {
-                if(!agravoDBF.getNumerador().equals("0") && !agravoDBF.getDenominador().equals("0")){
+                if (!agravoDBF.getNumerador().equals("0") && !agravoDBF.getDenominador().equals("0")) {
                     agravoDBF.setTaxa(df2.format(
                             (Double.parseDouble(agravoDBF.getNumerador()) / Double.parseDouble(agravoDBF.getDenominador())) * 100));
-                }else if(null == agravoDBF.getTaxa()){
+                } else if (null == agravoDBF.getTaxa()) {
                     agravoDBF.setTaxa("0");
                 }
                 this.getBeans().add(agravoDBF);
@@ -345,7 +346,7 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             }
             getBarraStatus().setString(null);
             ComparatorChain chain;
-            
+
             if ((Boolean) parametros.get("parIsRegiao")) {
                 chain = new ComparatorChain(Arrays.asList(
                         new BeanComparator("uf"),
@@ -359,71 +360,72 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             }
 
             Collections.sort(this.getBeans(), chain);
-            Agravo totalAgravo =  new Agravo();
+            Agravo totalAgravo = new Agravo();
             //calcular o total
-            if ((Boolean)parametros.get("parIsRegiao")) {
-                totalAgravo = adicionaTotal(municipioBean,codRegiao);
+            if ((Boolean) parametros.get("parIsRegiao")) {
+                totalAgravo = adicionaTotal(municipioBean, codRegiao);
                 adicionaParamentrosTotais(parametros, totalAgravo);
-            }else{
-                totalAgravo = adicionaTotal(municipioBean,codRegional);
+            } else {
+                totalAgravo = adicionaTotal(municipioBean, codRegional);
                 adicionaParamentrosTotais(parametros, totalAgravo);
             }
-            
+
             Agravo finalAgravo = new Agravo();
             finalAgravo.setNomeMunicipio("TOTAL");
             this.getBeans().add(finalAgravo);
             setParametroRegiaoOuRegional(parametros);
-            
+
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
     }
-    
-    private void adicionaParamentrosTotais(Map parametros, Agravo totalAgravo){
+
+    private void adicionaParamentrosTotais(Map parametros, Agravo totalAgravo) {
         DecimalFormat df = new DecimalFormat("0.00");
         parametros.put("numeradorTotal", totalAgravo.getNumerador());
         parametros.put("denominadorTotal", totalAgravo.getDenominador());
         Double numerador = Double.parseDouble(totalAgravo.getNumerador());
         Double denominador = Double.parseDouble(totalAgravo.getDenominador());
         double taxa;
-        
-        if(numerador == 0l && denominador == 0l){
+
+        if (numerador == 0l && denominador == 0l) {
             taxa = 0l;
-        }else{
+        } else {
             taxa = (Double.parseDouble(totalAgravo.getNumerador()) / Double.parseDouble(totalAgravo.getDenominador())) * 100;
         }
-        
+
         parametros.put("taxaTotal", df.format(taxa));
     }
-    
-    private Agravo calcularTaxaTotal(DecimalFormat df){
+
+    private Agravo calcularTaxaTotal(DecimalFormat df) {
         Agravo agravo = (Agravo) this.getBeans().get(this.getBeans().size() - 1);
-        if((null != agravo.getNumerador() && Double.parseDouble(agravo.getNumerador()) != 0l)
-                && (null != agravo.getDenominador() && Double.parseDouble(agravo.getDenominador()) != 0l)){
+        if ((null != agravo.getNumerador() && Double.parseDouble(agravo.getNumerador()) != 0l)
+                && (null != agravo.getDenominador() && Double.parseDouble(agravo.getDenominador()) != 0l)) {
             agravo.setTaxa(df.format(
-                (Double.parseDouble(agravo.getNumerador())/(Double.parseDouble(agravo.getDenominador()))*100)));
-        }else{
+                    (Double.parseDouble(agravo.getNumerador()) / (Double.parseDouble(agravo.getDenominador())) * 100)));
+        } else {
             agravo.setTaxa("0");
         }
         return agravo;
     }
-    
-    private void calcularTaxaIndividual(DecimalFormat df, Agravo municipioResidencia){
-        if((null != municipioResidencia.getNumerador() && Double.parseDouble(municipioResidencia.getNumerador()) != 0)
-                && (null != municipioResidencia.getDenominador() && Double.parseDouble(municipioResidencia.getDenominador()) != 0)){
-            
+
+    private void calcularTaxaIndividual(DecimalFormat df, Agravo municipioResidencia) {
+        if ((null != municipioResidencia.getNumerador() && Double.parseDouble(municipioResidencia.getNumerador()) != 0)
+                && (null != municipioResidencia.getDenominador() && Double.parseDouble(municipioResidencia.getDenominador()) != 0)) {
+
             municipioResidencia.setTaxa(df.format(
-                Double.parseDouble(municipioResidencia.getNumerador()) / Double.parseDouble(municipioResidencia.getDenominador()) * 100));
-            
-        }else{
+                    Double.parseDouble(municipioResidencia.getNumerador()) / Double.parseDouble(municipioResidencia.getDenominador()) * 100));
+
+        } else {
             municipioResidencia.setTaxa("0");
         }
     }
 
     /**
      * Calcula total, denominador, numerador do municipio específico.
+     *
      * @param reader
-     * @param parametros 
+     * @param parametros
      */
     @Override
     public void calcula(DBFReader reader, Map parametros) {
@@ -433,12 +435,12 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         boolean isRegiaoSelecionada = (boolean) parametros.get("parIsRegiao");
         boolean isRegionalSelecionada = (boolean) parametros.get("parIsRegional");
         boolean estadoEMunicipio = municipios.equals("sim") && !filtroUF.equals("brasil");
-        
-        setDtPbInicial((String)parametros.get("parDataInicioCoortePB"));
+
+        setDtPbInicial((String) parametros.get("parDataInicioCoortePB"));
         setDtPbFinal((String) parametros.get("parDataFimCoortePB"));
         setDtMbInicial((String) parametros.get("parDataInicioCoorteMB"));
         setDtMbFinal((String) parametros.get("parDataFimCoorteMB"));
-        
+
         //filtro municipios = TODOS e 7UF selecionado algum estado
         if ((isRegionalSelecionada || isRegiaoSelecionada) && municipioEspecifico == "NENHUM") {
             calculaRegiao(reader, parametros);
@@ -448,8 +450,8 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             calculaMunicipioIndividual(municipios, filtroUF, reader, parametros);
         }
     }
-    
-    private void calculaMunicipioIndividual(String municipios, String filtroUF, DBFReader reader, Map parametros){
+
+    private void calculaMunicipioIndividual(String municipios, String filtroUF, DBFReader reader, Map parametros) {
         try {
             Object[] rowObjects;
             DBFUtil utilDbf = new DBFUtil();
@@ -479,9 +481,9 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
                 double TotalRegistros = Double.parseDouble(String.valueOf(reader.getRecordCount()));
                 while ((rowObjects = reader.nextRecord()) != null) {
                     //verifica a uf de residencia
-                    if (utilDbf.getString(rowObjects, "UFRESAT") != null 
+                    if (utilDbf.getString(rowObjects, "UFRESAT") != null
                             && utilDbf.getString(rowObjects, "UFRESAT").equals(ufResidencia)) {
-                        
+
                         modoEntrada = utilDbf.getString(rowObjects, "MODOENTR", 1);
                         classificacaoOperacionalAtual = utilDbf.getString(rowObjects, "CLASSATUAL", 1);
                         dtDiagnostico = utilDbf.getDate(rowObjects, "DT_DIAG");
@@ -490,13 +492,13 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
 
                         if (verificaMunicipio(municipioResidencia, utilDbf.getString(rowObjects, "MUNIRESAT"))) {
                             if (modoEntrada.equals("1")) {
-                                if (isBetweenDates(dtDiagnostico, dataInicioPB, dataFimPB) 
+                                if (isBetweenDates(dtDiagnostico, dataInicioPB, dataFimPB)
                                         && classificacaoOperacionalAtual.equals("1")
                                         && esquemaDeTratamentoAtual.equals("1")) {
                                     validaCriteriosSemReferenciaDeMunicipio(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, this);
-                                }else if(isBetweenDates(dtDiagnostico, dataInicioMB, dataFimMB)
+                                } else if (isBetweenDates(dtDiagnostico, dataInicioMB, dataFimMB)
                                         && classificacaoOperacionalAtual.equals("2")
-                                        && esquemaDeTratamentoAtual.equals("2")){
+                                        && esquemaDeTratamentoAtual.equals("2")) {
                                     validaCriteriosSemReferenciaDeMunicipio(rowObjects, utilDbf, classificacaoOperacionalAtual, esquemaDeTratamentoAtual, this);
                                 }
                             }
@@ -511,7 +513,7 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             hanseniaseMunicipio.setUf((String) parametros.get("parSgUf"));
             hanseniaseMunicipio.setNomeMunicipio((String) parametros.get("parNomeMunicipio"));
             hanseniaseMunicipio.setCodMunicipio(municipioResidencia);
-            
+
             if (!String.valueOf(this.getTotal()).equals("0.0")) {
                 total = "";
                 preencheResultadoDaBusca(hanseniaseMunicipio, Integer.parseInt(this.getCura()), Integer.parseInt(this.getSubTotal()), total, df);
@@ -523,15 +525,15 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             this.setBeans(new ArrayList());
             this.getBeans().add(hanseniaseMunicipio);
             setParametroRegiaoOuRegional(parametros);
-            
+
         } catch (NumberFormatException | ParseException | DBFException ex) {
             ex.printStackTrace();
         }
     }
-    
-    private void validaCriteriosSemReferenciaDeMunicipio(Object[] rowObjects, DBFUtil utilDbf, String classificacaoOperacionalAtual, 
-            String esquemaDeTratamentoAtual, HanseniaseCoorteCuraPactuacao municipioResidencia){
-        if((classificacaoOperacionalAtual.equals("1") || classificacaoOperacionalAtual.equals("2"))
+
+    private void validaCriteriosSemReferenciaDeMunicipio(Object[] rowObjects, DBFUtil utilDbf, String classificacaoOperacionalAtual,
+            String esquemaDeTratamentoAtual, HanseniaseCoorteCuraPactuacao municipioResidencia) {
+        if ((classificacaoOperacionalAtual.equals("1") || classificacaoOperacionalAtual.equals("2"))
                 && (esquemaDeTratamentoAtual.equals("1") || esquemaDeTratamentoAtual.equals("2"))) {
             //busca o tipo de alta
             String tipoAlta = utilDbf.getString(rowObjects, "TPALTA_N", 1);
@@ -539,10 +541,10 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             classificaAlta(tipoAlta);
         }
     }
-    
+
     private void classificaAlta(String tipoAlta) {
-        if(tipoAlta.equals("1") || tipoAlta.equals("2") || tipoAlta.equals("6")
-                 || tipoAlta.equals("7") || tipoAlta.equals("")){
+        if (tipoAlta.equals("1") || tipoAlta.equals("2") || tipoAlta.equals("6")
+                || tipoAlta.equals("7") || tipoAlta.equals("")) {
             this.setSubTotal(String.valueOf(1 + Integer.parseInt(getSubTotal())));
         }
         if (tipoAlta.equals("1")) {
@@ -550,13 +552,13 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         }
         this.setSubTotal(String.valueOf(Integer.parseInt(getSubTotal())));
     }
-    
-    private void preencheResultadoDaBusca(Agravo hanseniaseMunicipio, int numerador, int denominador, String total, DecimalFormat df){
+
+    private void preencheResultadoDaBusca(Agravo hanseniaseMunicipio, int numerador, int denominador, String total, DecimalFormat df) {
         hanseniaseMunicipio.setNumerador(String.valueOf(NumberFormat.getNumberInstance().format(Double.parseDouble(String.valueOf(numerador)))));
         hanseniaseMunicipio.setDenominador(String.valueOf(NumberFormat.getNumberInstance().format(Double.parseDouble(String.valueOf(denominador)))));
-        if(numerador != 0 && denominador != 0){
+        if (numerador != 0 && denominador != 0) {
             total = df.format(Double.parseDouble(String.valueOf(numerador)) / Double.parseDouble(String.valueOf(denominador)) * 100);
-        }else{
+        } else {
             total = "0.00";
         }
         hanseniaseMunicipio.setTaxa(total);
@@ -567,16 +569,16 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         Map parametros = new HashMap();
         parametros.put("parDataInicio", Util.formataData(this.getDataInicio()));
         parametros.put("parDataFim", Util.formataData(this.getDataFim()));
-        
+
         parametros.put("parDataInicioCoortePB", Util.formataData(SinanDateUtil.subtrairAno(this.getDataInicio(), -1)));
         parametros.put("parDataFimCoortePB", Util.formataData(SinanDateUtil.subtrairAno(this.getDataFim(), -1)));
-        parametros.put("parPeriodoCoortePB", SinanDateUtil.subtrairAno(this.getDataInicio(), -1) + " a " + SinanDateUtil.subtrairAno(this.getDataFim(), -1)+" (PB)");
+        parametros.put("parPeriodoCoortePB", SinanDateUtil.subtrairAno(this.getDataInicio(), -1) + " a " + SinanDateUtil.subtrairAno(this.getDataFim(), -1) + " (PB)");
 
         parametros.put("parDataInicioCoorteMB", Util.formataData(SinanDateUtil.subtrairAno(this.getDataInicio(), -2)));
         parametros.put("parDataFimCoorteMB", Util.formataData(SinanDateUtil.subtrairAno(this.getDataFim(), -2)));
-        parametros.put("parPeriodoCoorteMB", SinanDateUtil.subtrairAno(this.getDataInicio(), -2)+ " a " + SinanDateUtil.subtrairAno(this.getDataFim(), -2)+" (MB)" );
+        parametros.put("parPeriodoCoorteMB", SinanDateUtil.subtrairAno(this.getDataInicio(), -2) + " a " + SinanDateUtil.subtrairAno(this.getDataFim(), -2) + " (MB)");
         parametros.put("parPeriodoAvaliacao", this.getDataInicio() + " a " + this.getDataFim());
-        
+
         parametros.put("parPeriodo", "de " + this.getDataInicio() + " a " + this.getDataFim());
         parametros.put("parTituloColuna", this.getTituloColuna());
         parametros.put("parFator", String.valueOf(this.getMultiplicador()));
@@ -597,7 +599,7 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"ID_LOCRES", "DS_LOCRES", "COUUFRESAT", "N_CURHANS", "D_SUBHANS", "I_CURHANS", 
+        return new String[]{"ID_LOCRES", "DS_LOCRES", "COUUFRESAT", "N_CURHANS", "D_SUBHANS", "I_CURHANS",
             "TOTAL_NOT", "DT_DPBINI", "DT_DPBFIN", "DT_DMBINI", "DT_DMBFIN", "ORIGEM"};
     }
 
@@ -609,7 +611,7 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         hashColunas.put("COUUFRESAT", new ColunasDbf(2));
         hashColunas.put("N_CURHANS", new ColunasDbf(10, 0));
         hashColunas.put("D_SUBHANS", new ColunasDbf(4, 0));
-        hashColunas.put("I_CURHANS", new ColunasDbf(4, 2));        
+        hashColunas.put("I_CURHANS", new ColunasDbf(4, 2));
         hashColunas.put("TOTAL_NOT", new ColunasDbf(4, 0));
         hashColunas.put("ORIGEM", new ColunasDbf(30));
         hashColunas.put("DT_DPBINI", new ColunasDbf(10));
@@ -625,15 +627,15 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         for (int i = 0; i < bean.size(); i++) {
             Object rowData[] = new Object[colunas.size()];
             Agravo agravo = (Agravo) bean.get(i);
-            if(agravo.getCodMunicipio() != null && !agravo.getCodMunicipio().equals("")){
+            if (agravo.getCodMunicipio() != null && !agravo.getCodMunicipio().equals("")) {
                 if (agravo.getNomeMunicipio().equals("BRASIL")) {
                     rowData[0] = null;
                     rowData[2] = null;
                 } else {
-                    if(agravo.getCodMunicipio() != null){
+                    if (agravo.getCodMunicipio() != null) {
                         rowData[0] = agravo.getCodMunicipio();
                         rowData[2] = agravo.getCodMunicipio().substring(0, 2);
-                    }else{
+                    } else {
                         rowData[0] = "";
                         rowData[2] = "";
                     }
@@ -671,7 +673,7 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
     public String getSubTotal() {
         return subTotal;
     }
-    
+
     public void setSubTotal(String subTotal) {
         this.subTotal = subTotal;
     }
@@ -723,6 +725,5 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
     public static void setDtMbFinal(String dtMbFinal) {
         HanseniaseCoorteCuraPactuacao.dtMbFinal = dtMbFinal;
     }
-    
-    
+
 }

@@ -91,8 +91,6 @@ public class OportunidadeMalariaPactuacao extends Agravo {
         int denominador = 0;
         int numeradorEstadual = 0;
         int denominadorEstadual = 0;
-        
-        
 
         String dataInicio = (String) parametros.get("parDataInicio");
         String dataFim = (String) parametros.get("parDataFim");
@@ -215,6 +213,7 @@ public class OportunidadeMalariaPactuacao extends Agravo {
                         //Critérios
                     }
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }
@@ -302,6 +301,7 @@ public class OportunidadeMalariaPactuacao extends Agravo {
                     }
 
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }
@@ -384,6 +384,7 @@ public class OportunidadeMalariaPactuacao extends Agravo {
                     calculaIndicador(rowObjects, parametros);
 
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }
@@ -571,9 +572,10 @@ public class OportunidadeMalariaPactuacao extends Agravo {
                 Double percentual = (Double.valueOf(agravo.getDenominador()) / Double.valueOf(agravo.getNumerador())) * 100;
                 rowData[7] = String.format("%.1f", percentual);
             }
-            String ano = String.valueOf(preencheAno(getDataInicio(), getDataFim())).replace(".0","");
-            if(ano.contains(".0"))
-                ano = ano.replace(".0","");
+            String ano = String.valueOf(preencheAno(getDataInicio(), getDataFim())).replace(".0", "");
+            if (ano.contains(".0")) {
+                ano = ano.replace(".0", "");
+            }
             rowData[8] = ano;
             rowData[9] = getDataInicio();
             rowData[10] = getDataFim();

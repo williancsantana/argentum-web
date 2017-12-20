@@ -223,6 +223,7 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
                     calculaIndicador(rowObjects, anoAvaliacao, semanaIni, semanaFim);
 
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }
@@ -335,7 +336,7 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
                     municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
                     calculaIndicador(rowObjects, anoAvaliacao, semanaIni, semanaFim);
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
-                    getBarraStatus().setString("Calculando Indicador... "+(int) percentual+"% "+(k+1)+" de "+arquivos.length+" ("+ (arquivos[k]+")"));
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }
@@ -412,7 +413,7 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         setAnoAvaliado(anoAvaliacao);
 
         if (Integer.valueOf(parametros.get("parSemanaFinal").toString()) < 10) {
-            
+
             if (parametros.get("parSemanaFinal").toString().length() < 2) {
                 semanaFim = Integer.valueOf(anoAvaliacao + "0" + parametros.get("parSemanaFinal").toString());
             } else {
@@ -449,6 +450,7 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
                         calculaIndicador(rowObjects, anoAvaliacao, semanaIni, semanaFim);
                     }
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }
@@ -593,7 +595,7 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
                 rowData[7] = String.format("%.1f", percentual);
             }
 
-            rowData[8] =  getAnoAvaliado() ; 
+            rowData[8] = getAnoAvaliado();
             rowData[9] = "SINANNET";
             writer.addRecord(rowData);
         }

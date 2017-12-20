@@ -198,6 +198,7 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
                         //Critérios
                     }
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }
@@ -285,6 +286,7 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
                     }
 
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }
@@ -334,7 +336,7 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
         // HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
         String ufResidencia = (String) parametros.get("parUf");
         String sgUfResidencia = (String) parametros.get("parSgUf");
-        
+
         String idMunicipio;
         if (parametros.get("parMunicipio") != null) {
             idMunicipio = (String) parametros.get("parMunicipio");
@@ -343,10 +345,9 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
         }
 
 
-    /*    if (sgUfResidencia.equals("TODAS")) {
+        /*    if (sgUfResidencia.equals("TODAS")) {
             sgUfResidencia = "BR";
         }*/
-
         municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, "", idMunicipio, "false");
         //municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
         //inicia o calculo
@@ -373,6 +374,7 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
                     calculaIndicador(rowObjects, parametros);
 
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }
@@ -509,7 +511,7 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
         hashColunas.put("DS_LOCNOT", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
         hashColunas.put("NOME_CIR", new ColunasDbf(30));
-        hashColunas.put("N_OCPRE", new ColunasDbf(30)); 
+        hashColunas.put("N_OCPRE", new ColunasDbf(30));
         hashColunas.put("D_SAUTRA", new ColunasDbf(30));
         hashColunas.put("P_RACPRE", new ColunasDbf(30));
         hashColunas.put("ANO_NOTI", new ColunasDbf(30));
@@ -548,7 +550,7 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
             rowData[2] = agravo.getNomeMunicipio();
             rowData[5] = agravo.getDenominador();
             rowData[6] = agravo.getNumerador();
-             
+
             if (Integer.valueOf(agravo.getNumerador()) <= 0) {
                 rowData[7] = "0.0";
             } else {
@@ -556,7 +558,7 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
                 rowData[7] = String.format("%.1f", percentual);
             }
 
-            rowData[8] = String.format("%.0f",preencheAno(getDataInicio(), getDataFim()));
+            rowData[8] = String.format("%.0f", preencheAno(getDataInicio(), getDataFim()));
             rowData[9] = getDataInicio();
             rowData[10] = getDataFim();
             rowData[11] = "SaudeTrabalhador-SINANNET";

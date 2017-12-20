@@ -156,14 +156,14 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
 
                 if (municipioResidencia != null) {
                     if (municipioResidencia.getCodMunicipio().equals("312770")) {
-                        System.out.println (utilDbf.getString(rowObjects, "NU_NOTIFIC")+" "+
-                                            utilDbf.getString(rowObjects, "MODOENTR") +" "+  
-                                            utilDbf.getString(rowObjects, "CLASSATUAL") +" "+
-                                            utilDbf.getString(rowObjects, "ESQ_ATU_N") +" "+
-                                             utilDbf.getString(rowObjects, "TPALTA_N") +" "+
-                                             dataInicio +" "+dataFim +" "+
-                                             utilDbf.getString(rowObjects, "CONTREG")+" "+
-                                             utilDbf.getString(rowObjects, "CONTEXAM")
+                        System.out.println(utilDbf.getString(rowObjects, "NU_NOTIFIC") + " "
+                                + utilDbf.getString(rowObjects, "MODOENTR") + " "
+                                + utilDbf.getString(rowObjects, "CLASSATUAL") + " "
+                                + utilDbf.getString(rowObjects, "ESQ_ATU_N") + " "
+                                + utilDbf.getString(rowObjects, "TPALTA_N") + " "
+                                + dataInicio + " " + dataFim + " "
+                                + utilDbf.getString(rowObjects, "CONTREG") + " "
+                                + utilDbf.getString(rowObjects, "CONTEXAM")
                         );
                     }
                 }
@@ -273,6 +273,7 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
                     //verifica se tem o parametro de municipio de residencia
                     //Critérios
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }
@@ -359,6 +360,7 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
                     calculaIndicador(rowObjects, parametros);
 
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }
@@ -440,6 +442,7 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
                     calculaIndicador(rowObjects, parametros);
 
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }

@@ -125,15 +125,26 @@ public class AutoctoneMalariaPactuacao extends Agravo {
         String sgUfResidencia = (String) parametros.get("parSgUf");
         String codRegional = (String) parametros.get("parCodRegional");
         String codRegiao = (String) parametros.get("parCodRegiaoSaude");
+        HashMap<String, Agravo> regiaoBeans = new HashMap<String, Agravo>();
         parametros.put("numeradorTotal", 0);
+        Agravo regiaoResidencia;
+
+        String idMunicipio;
+        if (parametros.get("parMunicipio") != null) {
+            idMunicipio = (String) parametros.get("parMunicipio");
+        } else {
+            idMunicipio = "TODOS";
+        }
 
         if (codRegional == null) {
             codRegional = "";
         }
         if ((Boolean) parametros.get("parIsRegiao")) {
             municipiosBeans = populaRegiaoBeans(sgUfResidencia, codRegiao);
+            regiaoBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, idMunicipio, parametros.get("parIsRegiao").toString());
         } else {
             municipiosBeans = populaRegionalBeans(sgUfResidencia, codRegional);
+            regiaoBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, idMunicipio, parametros.get("parIsRegiao").toString());
         }
         //municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
         //inicia o calculo
@@ -152,21 +163,28 @@ public class AutoctoneMalariaPactuacao extends Agravo {
                     //cálculo da taxa estadual
                     //verifica a uf de residencia
                     if (utilDbf.getString(rowObjects, "COUFINF") != null) {
-                        try {
-                            //verifica se existe a referencia do municipio no bean
-                            if ((Boolean) parametros.get("parIsRegiao")) {
-                                municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "COMUNINF")));
-                            } else {
-                                municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "COMUNINF")));
+                        //   try {
+                        //verifica se existe a referencia do municipio no bean
+                        if ((Boolean) parametros.get("parIsRegiao")) {
+                            regiaoResidencia = regiaoBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
+                            if (regiaoResidencia != null) {
+                                municipioResidencia = municipiosBeans.get(regiaoResidencia.getCodRegiaoSaude());
                             }
-                        } catch (SQLException ex) {
-                            Logger.getLogger(AutoctoneMalariaPactuacao.class.getName()).log(Level.SEVERE, null, ex);
+                        } else {
+                            regiaoResidencia = regiaoBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
+                            if (regiaoResidencia != null) {
+                                municipioResidencia = municipiosBeans.get(regiaoResidencia.getCodRegional());
+                            }
                         }
+                        //   } catch (SQLException ex) {
+                        //       Logger.getLogger(AutoctoneMalariaPactuacao.class.getName()).log(Level.SEVERE, null, ex);
+                        //   }
                         calculaIndicador(rowObjects, parametros);
                         //verifica se tem o parametro de municipio de residencia
                         //Critérios
                     }
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }
@@ -250,8 +268,10 @@ public class AutoctoneMalariaPactuacao extends Agravo {
                         municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "COMUNINF"));
                         //verifica se tem o parametro de municipio de residencia
                         //Critérios
+                        calculaIndicador(rowObjects, parametros);
                     }
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }

@@ -460,12 +460,12 @@ public class OportunidadePQAVSPactuacao extends Agravo {
                             if (!isSomenteMunicipio) {
                                 //    agravoDbf.setRegionalSaude(buscaRegionalSaude(utilDbf.getString(rowObjects1, "ID_REGIONA")));
                                 //     agravoDbf.setRegiaoSaude(buscaRegiaoSaude(utilDbf.getString(rowObjects1, "ID_REGIAO")));
-                                    if (regionalBeans.get(utilDbf.getString(rowObjects1, "ID_REGIONA")) != null) {
-                                        agravoDbf.setRegionalSaude(regionalBeans.get(utilDbf.getString(rowObjects1, "ID_REGIONA")).getNomeMunicipio());
-                                    }
-                                    if (regiaoBeans.get(utilDbf.getString(rowObjects1, "ID_REGIAO")) != null) {
-                                        agravoDbf.setRegiaoSaude(regiaoBeans.get(utilDbf.getString(rowObjects1, "ID_REGIAO")).getNomeMunicipio());
-                                    }
+                                if (regionalBeans.get(utilDbf.getString(rowObjects1, "ID_REGIONA")) != null) {
+                                    agravoDbf.setRegionalSaude(regionalBeans.get(utilDbf.getString(rowObjects1, "ID_REGIONA")).getNomeMunicipio());
+                                }
+                                if (regiaoBeans.get(utilDbf.getString(rowObjects1, "ID_REGIAO")) != null) {
+                                    agravoDbf.setRegiaoSaude(regiaoBeans.get(utilDbf.getString(rowObjects1, "ID_REGIAO")).getNomeMunicipio());
+                                }
 
                             } else {
                                 agravoDbf.setRegionalSaude("");
@@ -1070,7 +1070,8 @@ public class OportunidadePQAVSPactuacao extends Agravo {
                         }
                         float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
                         // ;
-                        getBarraStatus().setString((int) percentual + "%");
+                        //    getBarraStatus().setString((int) percentual + "%");
+                        getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                         getBarraStatus().setValue((int) percentual);
                         i++;
                     }
@@ -1396,7 +1397,8 @@ public class OportunidadePQAVSPactuacao extends Agravo {
                     }
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistrosInt)) * 100;
                     //getBarraStatus().setValue((int) percentual);
-                    getBarraStatus().setString((int) percentual + "%");
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
+                   //getBarraStatus().setString((int) percentual + "%");
                     getBarraStatus().setValue((int) percentual);
                     i++;
                     //System.out.println(i);

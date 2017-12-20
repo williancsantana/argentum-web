@@ -172,6 +172,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
                     //verifica se tem o parametro de municipio de residencia
                     //Critérios
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }
@@ -258,6 +259,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
                     calculaIndicador(rowObjects, parametros);
 
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }
@@ -306,7 +308,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
         // HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
         String ufResidencia = (String) parametros.get("parUf");
         String sgUfResidencia = (String) parametros.get("parSgUf");
-        
+
         String idMunicipio;
         if (parametros.get("parMunicipio") != null) {
             idMunicipio = (String) parametros.get("parMunicipio");
@@ -343,6 +345,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
                     calculaIndicador(rowObjects, parametros);
 
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;
+                    getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                     getBarraStatus().setValue((int) percentual);
                     i++;
                 }
