@@ -625,7 +625,7 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
         CampoDBF field;
         DBFField fields[] = new DBFField[12];
 
-        field = new CampoDBF("UF", "String", 2, 0);
+        field = new CampoDBF("COUFRES", "String", 2, 0);
         fields[0] = field;
         
         field = new CampoDBF("COD_CIR", "String", 5, 0);
@@ -671,6 +671,7 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
         Double total;
         writer.setFields(fields);
         lista = SinanUtil.removeMunicipiosIgnoradosPQAVS(lista);
+        lista = calculaTotal(lista);
         for (OportunidadeAgravoPQAVS item : lista) {
             
             Object rowData[] =  new Object[countFields];
@@ -700,8 +701,8 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
                 rowData[8] = "0";
             }
             
-            String dt_notin = parametros.get("parDataAvaliacao").toString();
-            String dt_notifi = alteraDataParaPadrao(parametros.get("parDataInicio").toString());
+            String dt_notin = "01/01/" + parametros.get("parAnoPeriodoAvaliacao").toString();
+            String dt_notifi = "31/12/" + parametros.get("parAnoPeriodoAvaliacao").toString();
             if(parametros.get("parAnoPeriodoAvaliacao").toString().length() > 4){
                 dt_notin = alteraDataParaPadrao(parametros.get("parDataInicio").toString());
                 dt_notifi = alteraDataParaPadrao(parametros.get("parDataFim60").toString());
@@ -721,6 +722,20 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
         }
         SinanUtil.setNomeArquivoDBF();
         SinanUtil.gerarDBF(writer);
+   }
+      
+   private List calculaTotal(List<OportunidadeAgravoPQAVS> lista){
+       int totalNotificacaoes = 0;
+       int totalNumerador = 0;
+       for(OportunidadeAgravoPQAVS elem : lista){
+           totalNotificacaoes += elem.getTotal();
+           totalNumerador += elem.getQtdOportuno();
+       }
+       OportunidadeAgravoPQAVS elemento = new OportunidadeAgravoPQAVS();
+       elemento.setQtdOportuno(totalNumerador);
+       elemento.setTotal(totalNotificacaoes);
+       lista.add(elemento);
+       return lista;
    }
    
    private String alteraDataParaPadrao(String data){

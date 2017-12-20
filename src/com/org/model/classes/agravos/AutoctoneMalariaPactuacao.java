@@ -457,7 +457,7 @@ public class AutoctoneMalariaPactuacao extends Agravo {
             rowData[2] = agravo.getNomeMunicipio();
             rowData[5] = agravo.getNumerador();
 
-            rowData[6] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
+            rowData[6] = String.valueOf(preencheAno(getDataInicio(), getDataFim()).intValue());
             rowData[7] = getDataInicio();
             rowData[8] = getDataFim();
             rowData[9] = "MALAR-SINANNET";
