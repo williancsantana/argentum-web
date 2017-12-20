@@ -727,9 +727,10 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
    private List calculaTotal(List<OportunidadeAgravoPQAVS> lista){
        OportunidadeAgravoPQAVS elemento = new OportunidadeAgravoPQAVS();
        for(OportunidadeAgravoPQAVS elem : lista){
-           elemento.setQtdOportuno(elemento.getTotal() + elem.getTotal());
+           elemento.setTotal(elemento.getTotal() + elem.getTotal());
            elemento.setQtdOportuno(elemento.getQtdOportuno() + elem.getQtdOportuno());
        }
+       elemento.setNmAgravo("TOTAL");
        lista.add(elemento);
        return lista;
    }
