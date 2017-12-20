@@ -7,6 +7,7 @@ package com.org.model.classes;
 import com.linuxense.javadbf.DBFField;
 import com.linuxense.javadbf.DBFWriter;
 import com.org.negocio.Configuracao;
+import com.org.view.Master;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -33,7 +34,8 @@ public class DBF {
             fos.close();
             System.out.println("ok");
         } catch (Exception DBFException) {
-            System.out.print(DBFException);
+            DBFException.printStackTrace();
+            Master.mensagem("Ocorreu um erro ao gerar o DBF.\n"+DBFException.getLocalizedMessage());
         }
 
     }

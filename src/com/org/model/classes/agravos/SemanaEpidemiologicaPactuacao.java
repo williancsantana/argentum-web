@@ -537,21 +537,21 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
     @Override
     public String[] getOrdemColunas() {
         //return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_HANSREG", "N_HANSEXAM", "P_HANSEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
-        return new String[]{"COUUFINF", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "DENOMINAD", "NUMERADOR", "RESULTADO", "ANO_DIAG", "ORIGEM"};
+        return new String[]{"COUFNOT", "ID_LOCNOT", "DS_LOCNOT", "COD_CIR", "NOME_CIR", "DENOMINAD", "NUMERADOR", "RESULTADO", "ANO_NOTI", "ORIGEM"};
     }
 
     @Override
     public HashMap<String, ColunasDbf> getColunas() {
         HashMap<String, ColunasDbf> hashColunas = new HashMap<String, ColunasDbf>();
-        hashColunas.put("COUUFINF", new ColunasDbf(30));
-        hashColunas.put("ID_LOCRES", new ColunasDbf(30));
-        hashColunas.put("DS_LOCRES", new ColunasDbf(30));
+        hashColunas.put("COUFNOT", new ColunasDbf(30));
+        hashColunas.put("ID_LOCNOT", new ColunasDbf(30));
+        hashColunas.put("DS_LOCNOT", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
         hashColunas.put("NOME_CIR", new ColunasDbf(30));
         hashColunas.put("DENOMINAD", new ColunasDbf(30));
         hashColunas.put("NUMERADOR", new ColunasDbf(30));
         hashColunas.put("RESULTADO", new ColunasDbf(30));
-        hashColunas.put("ANO_DIAG", new ColunasDbf(30));
+        hashColunas.put("ANO_NOTI", new ColunasDbf(30));
         hashColunas.put("ORIGEM", new ColunasDbf(30));
 
         this.setColunas(hashColunas);

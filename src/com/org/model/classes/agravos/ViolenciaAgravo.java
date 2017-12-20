@@ -594,20 +594,33 @@ public class ViolenciaAgravo extends Agravo {
 
     @Override
     public DBFWriter getLinhas(HashMap<String, ColunasDbf> colunas, List bean, DBFWriter writer) throws DBFException, IOException {
+        Integer numeradorTotal = 0, denominadorTotal = 0;
+        Double taxaTotal = 0.0;
+        DecimalFormat df = new DecimalFormat("0.00");
         for (int i = 0; i < bean.size(); i++) {
             Object rowData[] = new Object[colunas.size()];
             Agravo agravo = (Agravo) bean.get(i);
+            numeradorTotal+= Integer.parseInt((agravo.getNumerador() != null)?agravo.getNumerador():"0");
+            denominadorTotal+= Integer.parseInt((agravo.getDenominador() != null)?agravo.getDenominador():"0");            
+            if(i == bean.size() - 1){
+                taxaTotal = (Double.parseDouble(numeradorTotal.toString()) / denominadorTotal) * 100;
+                taxaTotal = Double.parseDouble(df.format(taxaTotal));
+            }
             if (agravo.getNomeMunicipio().equals("BRASIL") || agravo.getNomeMunicipio().equals("TOTAL")) {
                 rowData[0] = null;
                 rowData[2] = null;
+                rowData[3] = numeradorTotal.toString();
+                rowData[4] = denominadorTotal.toString();
+                rowData[5] = taxaTotal.toString();
             } else {
                 rowData[0] = agravo.getCodMunicipio();
                 rowData[2] = agravo.getCodMunicipio().substring(0, 2);
+                rowData[3] = agravo.getNumerador();
+                rowData[4] = agravo.getDenominador();
+                rowData[5] = agravo.getTaxa();
             }
             rowData[1] = agravo.getNomeMunicipio();
-            rowData[3] = agravo.getNumerador();
-            rowData[4] = agravo.getDenominador();
-            rowData[5] = agravo.getTaxa();
+            
             rowData[6] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
             rowData[7] = getDataInicio();
             rowData[8] = getDataFim();

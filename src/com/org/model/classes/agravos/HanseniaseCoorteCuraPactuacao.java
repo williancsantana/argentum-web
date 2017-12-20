@@ -597,7 +597,7 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"ID_LOCRES", "DS_LOCRES", "ID_UFRES", "N_CURHANS", "I_CURHANS", "D_SUBHANS", 
+        return new String[]{"ID_LOCRES", "DS_LOCRES", "COUUFRESAT", "N_CURHANS", "D_SUBHANS", "I_CURHANS", 
             "TOTAL_NOT", "DT_DPBINI", "DT_DPBFIN", "DT_DMBINI", "DT_DMBFIN", "ORIGEM"};
     }
 
@@ -606,10 +606,10 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         HashMap<String, ColunasDbf> hashColunas = new HashMap<String, ColunasDbf>();
         hashColunas.put("ID_LOCRES", new ColunasDbf(7));
         hashColunas.put("DS_LOCRES", new ColunasDbf(30));
-        hashColunas.put("ID_UFRES", new ColunasDbf(2));
+        hashColunas.put("COUUFRESAT", new ColunasDbf(2));
         hashColunas.put("N_CURHANS", new ColunasDbf(10, 0));
-        hashColunas.put("I_CURHANS", new ColunasDbf(4, 2));
         hashColunas.put("D_SUBHANS", new ColunasDbf(4, 0));
+        hashColunas.put("I_CURHANS", new ColunasDbf(4, 2));        
         hashColunas.put("TOTAL_NOT", new ColunasDbf(4, 0));
         hashColunas.put("ORIGEM", new ColunasDbf(30));
         hashColunas.put("DT_DPBINI", new ColunasDbf(10));
@@ -640,8 +640,8 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
                 }
                 rowData[1] = agravo.getNomeMunicipio();
                 rowData[3] = Double.parseDouble(agravo.getNumerador().replace(",", "."));
-                rowData[4] = Double.parseDouble(agravo.getTaxa().replace(",", "."));
-                rowData[5] = Double.parseDouble(agravo.getDenominador().replace(",", "."));
+                rowData[5] = Double.parseDouble(agravo.getTaxa().replace(",", "."));
+                rowData[4] = Double.parseDouble(agravo.getDenominador().replace(",", "."));
                 rowData[6] = Double.parseDouble(agravo.getDenominador().replace(",", "."));
                 rowData[7] = getDtPbInicial();
                 rowData[8] = getDtPbFinal();

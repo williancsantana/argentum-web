@@ -454,7 +454,7 @@ public class ContatosExaminadosTuberculosePactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"ID_UFRES", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "D_TBREG", "N_TBEXAM", "P_TBEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
+        return new String[]{"ID_UFRES", "ID_LOCRES", "DS_LOCRES", "COD_CIR", "NOME_CIR", "N_TBEXAM", "D_TBREG", "P_TBEXAM", "ANO_DIAG", "DT_DIAGIN", "DT_DIAGFI", "ORIGEM"};
     }
 
     @Override
@@ -465,8 +465,8 @@ public class ContatosExaminadosTuberculosePactuacao extends Agravo {
         hashColunas.put("DS_LOCRES", new ColunasDbf(30));
         hashColunas.put("COD_CIR", new ColunasDbf(30));
         hashColunas.put("NOME_CIR", new ColunasDbf(30));
-        hashColunas.put("D_TBREG", new ColunasDbf(30));
         hashColunas.put("N_TBEXAM", new ColunasDbf(30));
+        hashColunas.put("D_TBREG", new ColunasDbf(30));
         hashColunas.put("P_TBEXAM", new ColunasDbf(30));
         hashColunas.put("ANO_DIAG", new ColunasDbf(30));
         hashColunas.put("DT_DIAGIN", new ColunasDbf(30));
@@ -503,8 +503,8 @@ public class ContatosExaminadosTuberculosePactuacao extends Agravo {
                 }
             }
             rowData[2] = agravo.getNomeMunicipio();
-            rowData[5] = agravo.getNumerador();
-            rowData[6] = agravo.getDenominador();
+            rowData[5] = agravo.getDenominador();
+            rowData[6] = agravo.getNumerador();
             if (Integer.valueOf(agravo.getNumerador()) <= 0) {
                 rowData[7] = "0.0";
             } else {
