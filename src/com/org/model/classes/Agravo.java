@@ -4,6 +4,7 @@
  */
 package com.org.model.classes;
 //teste
+
 import com.linuxense.javadbf.DBFException;
 import com.linuxense.javadbf.DBFReader;
 import com.linuxense.javadbf.DBFWriter;
@@ -1114,7 +1115,7 @@ public class Agravo {
                                 temReg = true;
                             }
                         }
-                    }else{
+                    } else {
                         somenteMunicipios = true;
                     }
                 }
@@ -1541,6 +1542,7 @@ public class Agravo {
         try {
             utilDbf.mapearPosicoes(readerMunicipio);
             while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
+
                 if (SG_UF.equals("TODAS")) {
                     if (utilDbf.getString(rowObjects1, "ID_REGIONA") != null) {
                         temReg = true;

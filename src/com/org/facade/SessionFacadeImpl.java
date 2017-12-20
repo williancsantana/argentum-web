@@ -412,6 +412,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 List<UFPQAVS> listaUF = new ArrayList<UFPQAVS>();
 
                 if (parametros.get("parDesagregacao").equals("UF subdividida por Regiões de Saúde")) {
+
                     if (parametros.get("parNenhum").toString().equals("true")) {
                         parametros.put("TITULO_COLUNA", "UF       Região de Saúde");
                         parametros.put("QTDE_REG_MUNIC_AGR", "Regiões");
@@ -488,6 +489,11 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                         }
                     }
 
+                } else if (parametros.get("parDesagregacao").equals("Somente municípios")) {
+                    parametros.put("TITULO_COLUNA", "UF       Municípios");
+                    parametros.put("QTDE_REG_MUNIC_AGR", "Quantidade");
+                    listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegiaoSaudeEmLista(oportunidadePQAVSService.agruparRegionalSaude(beans), parametros);
+                    oportunidadePQAVSService.gerarRelatorioPQAVS(listaRegiaoSaude, parametros, 0);
                 } else {
                     if (parametros.get("parDiscriminarPorAgravo").equals(true)) {
                         parametros.put("TITULO_COLUNA", "                Agravo");
@@ -1333,6 +1339,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 
         return config;
     }
+
     public String getCodRegiao(String regional, String uf, String relatorio) throws SQLException {
         if (regional == null) {
             return "";
@@ -1820,7 +1827,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             if (isRegiao == 1) {
                 codReg = String.valueOf(this.getCodRegiao(regional, UF, "Pactuacao"));
                 nomeVar = "ID_REGIAO";
-            } else if(isRegiao == 2) {
+            } else if (isRegiao == 2) {
                 codReg = String.valueOf(this.getCodRegional(regional, UF, "Pactuacao"));
             }
         } catch (SQLException e) {
@@ -1831,7 +1838,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         municipios.add(0, "-- Selecione --");
         try {
             Util util = new Util();
-            if (!regional.equals("-- Selecione --") && !regional.equals("TODAS") && !codReg.isEmpty() ) {
+            if (!regional.equals("-- Selecione --") && !regional.equals("TODAS") && !codReg.isEmpty()) {
                 //verifica qual banco
                 if (!isDbf()) {
                     Conexao con = util.conectarSiceb();
@@ -1851,7 +1858,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                     try {
                         utilDbf.mapearPosicoes(reader);
                         while ((rowObjects = reader.nextRecord()) != null) {
-                            if (codReg.equals(utilDbf.getString(rowObjects, nomeVar ))) {
+                            if (codReg.equals(utilDbf.getString(rowObjects, nomeVar))) {
                                 if (!utilDbf.getString(rowObjects, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1) {
                                     if ((utilDbf.getString(rowObjects, "SG_UF").equals("DF") && utilDbf.getString(rowObjects, "NM_MUNICIP").equals("BRASILIA")) || !utilDbf.getString(rowObjects, "SG_UF").equals("DF")) {
                                         municipios.add(utilDbf.getString(rowObjects, "NM_MUNICIP"));

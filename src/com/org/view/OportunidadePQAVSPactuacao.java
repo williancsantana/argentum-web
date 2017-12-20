@@ -383,7 +383,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
             }
         });
 
-        cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "UF subdividida por Regiões de Saúde", "UF subdividida por Regionais de Saúde", "Discriminar por Agravo" }));
+        cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "UF subdividida por Regiões de Saúde", "UF subdividida por Regionais de Saúde", "Discriminar por Agravo", "Somente municípios" }));
         cbDesagregacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbDesagregacaoActionPerformed(evt);
@@ -467,7 +467,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCalcular)
                     .addComponent(btLimpar))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -680,7 +680,9 @@ fileopen.setFileFilter(filtro);
             cbRegional.setVisible(true);
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));
             this.cbRegional.setModel(modelo);
-        }else {
+        }else if (this.cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
+            cbRegional.addItem("TODAS");
+        } else {
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));
             this.cbRegional.setModel(modelo);
            
