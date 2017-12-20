@@ -189,9 +189,10 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
                 adicionaParamentrosTotais(parametros, total);
             }
 
-            Agravo finalAgravo = new Agravo();
-            finalAgravo.setNomeMunicipio("TOTAL");
-            this.getBeans().add(finalAgravo);
+            total.setCodMunicipio("####");
+            total.setTaxa(String.valueOf((
+                    Double.parseDouble(total.getNumerador()) / Double.parseDouble(total.getDenominador())) *100));
+            this.getBeans().add(total);
             setParametroRegiaoOuRegional(parametros);
 
         } catch (ParseException ex) {
@@ -370,9 +371,10 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
                 adicionaParamentrosTotais(parametros, totalAgravo);
             }
 
-            Agravo finalAgravo = new Agravo();
-            finalAgravo.setNomeMunicipio("TOTAL");
-            this.getBeans().add(finalAgravo);
+            totalAgravo.setCodMunicipio("####");
+            totalAgravo.setTaxa(String.valueOf((
+                    Double.parseDouble(totalAgravo.getNumerador()) / Double.parseDouble(totalAgravo.getDenominador())) *100));
+            this.getBeans().add(totalAgravo);
             setParametroRegiaoOuRegional(parametros);
 
         } catch (ParseException ex) {
