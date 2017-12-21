@@ -7,6 +7,7 @@ package com.org.model.classes;
 import com.linuxense.javadbf.DBFField;
 import com.linuxense.javadbf.DBFWriter;
 import com.org.negocio.Configuracao;
+import com.org.util.ArquivoUtils;
 import com.org.view.Master;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -33,9 +34,10 @@ public class DBF {
             writer.write(fos);
             fos.close();
             System.out.println("ok");
-        } catch (Exception DBFException) {
+        } catch (RuntimeException DBFException) {
             DBFException.printStackTrace();
-            Master.mensagem("Ocorreu um erro ao gerar o DBF.\n"+DBFException.getLocalizedMessage());
+            ArquivoUtils.gerarLogErro(DBFException);
+            Master.mensagem("Ocorreu um erro ao gerar o DBF. Consulte o arquivo de log e informe ao suporte do Sinan Relatórios.");
         }
 
     }

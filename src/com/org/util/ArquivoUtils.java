@@ -5,6 +5,10 @@
 package com.org.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.PrintStream;
+import java.util.Date;
 
 /**
  *
@@ -25,5 +29,18 @@ public class ArquivoUtils {
             ext = s.substring(i+1).toLowerCase();
         }
         return ext;
+    }
+    
+    public static void gerarLogErro(Exception e){
+        String data = SinanDateUtil.dateToString(new Date(), "dd/MM/YYYY HH:mm:ss");
+        data = data.replace("/","-").replace(":", "-");
+        File log = new File("log "+data+".txt");        
+        try{
+            PrintStream ps = new PrintStream(log);
+            e.printStackTrace(ps);
+        }
+        catch(Exception exception){
+            exception.printStackTrace();
+        }
     }
 }
