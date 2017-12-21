@@ -37,7 +37,7 @@ public class DBF {
         } catch (RuntimeException DBFException) {
             DBFException.printStackTrace();
             ArquivoUtils.gerarLogErro(DBFException);
-            Master.mensagem("Ocorreu um erro ao gerar o DBF. Consulte o arquivo de log e informe ao suporte do Sinan Relatórios.");
+            //Master.mensagem("Ocorreu um erro ao gerar o DBF. Consulte o arquivo de log e informe ao suporte do Sinan Relatórios.");
         }
 
     }
