@@ -601,15 +601,15 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"ID_LOCRESAT", "DS_LOCRESAT", "COUUFRESAT", "N_CURHANS", "D_SUBHANS", "I_CURHANS",
+        return new String[]{"IDLOCRESAT", "DSLOCRESAT", "COUUFRESAT", "N_CURHANS", "D_SUBHANS", "I_CURHANS",
             "TOTAL_NOT", "DT_DPBINI", "DT_DPBFIN", "DT_DMBINI", "DT_DMBFIN", "ORIGEM"};
     }
 
     @Override
     public HashMap<String, ColunasDbf> getColunas() {
         HashMap<String, ColunasDbf> hashColunas = new HashMap<String, ColunasDbf>();
-        hashColunas.put("ID_LOCRESAT", new ColunasDbf(7));
-        hashColunas.put("DS_LOCRESAT", new ColunasDbf(30));
+        hashColunas.put("IDLOCRESAT", new ColunasDbf(7));
+        hashColunas.put("DSLOCRESAT", new ColunasDbf(30));
         hashColunas.put("COUUFRESAT", new ColunasDbf(2));
         hashColunas.put("N_CURHANS", new ColunasDbf(10, 0));
         hashColunas.put("D_SUBHANS", new ColunasDbf(4, 0));
