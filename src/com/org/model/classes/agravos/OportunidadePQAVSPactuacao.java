@@ -1074,12 +1074,15 @@ public class OportunidadePQAVSPactuacao extends Agravo {
                         getBarraStatus().setString("Calculando Indicador... " + (int) percentual + "% " + (k + 1) + " de " + arquivos.length + " (" + (arquivos[k] + ")"));
                         getBarraStatus().setValue((int) percentual);
                         i++;
+                    }else{
+                     i++;
                     }
                 }
 
             } catch (DBFException ex) {
                 Master.mensagem("Erro:\n" + ex);
             }
+            System.out.println("");
         }
         //CALCULA A TAXA PARA TODOS OS MUNICIPIOS
         List<OportunidadeAgravoPQAVS> beans = new ArrayList();

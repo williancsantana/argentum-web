@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="264"/>
-	<property name="ireport.y" value="144"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="69"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Java\\sinan_relatorios\\src\\com\\org\\relatorios\\"]]></defaultValueExpression>
 	</parameter>
@@ -25,6 +25,10 @@
 	<parameter name="QTDE_REG_MUNIC_AGR" class="java.lang.String"/>
 	<parameter name="parPeriodo" class="java.lang.String"/>
 	<parameter name="parPeriodo60" class="java.lang.String"/>
+	<parameter name="parDescricaoReg" class="java.lang.String"/>
+	<parameter name="parNenhum" class="java.lang.Boolean"/>
+	<parameter name="parRegionalSaude" class="java.lang.String"/>
+	<parameter name="parIsRegiao" class="java.lang.Boolean"/>
 	<field name="lista" class="java.util.ArrayList"/>
 	<field name="nmAgravo" class="java.lang.String"/>
 	<field name="qtdOportuno" class="java.lang.Integer"/>
@@ -35,7 +39,7 @@
 	<title>
 		<band height="173" splitType="Stretch">
 			<rectangle>
-				<reportElement x="2" y="50" width="552" height="123"/>
+				<reportElement x="-6" y="50" width="552" height="123"/>
 			</rectangle>
 			<textField isBlankWhenNull="true">
 				<reportElement x="1" y="0" width="306" height="14"/>
@@ -71,13 +75,6 @@
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[UF de residência:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="5" y="78" width="100" height="14"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[Região de Saúde:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="90" width="100" height="14"/>
@@ -142,11 +139,11 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parSgUf}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="78" y="78" width="136" height="12"/>
+				<reportElement x="107" y="78" width="136" height="12"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{parRegiaoSaude}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{parNenhum}?"":$P{parIsRegiao}?$P{parRegiaoSaude}:$P{parRegionalSaude}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="354" y="52" width="192" height="12"/>
@@ -189,6 +186,11 @@
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parPeriodo60}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="6" y="77" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{parDescricaoReg}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

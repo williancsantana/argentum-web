@@ -259,7 +259,7 @@ public class OportunidadeMalariaPactuacao extends javax.swing.JPanel {
         });
 
         lblUF.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblUF.setText("UF de Residência:"); // NOI18N
+        lblUF.setText("UF de Notificação:"); // NOI18N
 
         cbUf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -271,7 +271,7 @@ public class OportunidadeMalariaPactuacao extends javax.swing.JPanel {
         lblRegional.setText("Região de Saúde:"); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setText("Município de Residência:"); // NOI18N
+        jLabel4.setText("Município de Notificação:"); // NOI18N
 
         btCalcular.setLabel("Calcular");
         btCalcular.addActionListener(new java.awt.event.ActionListener() {

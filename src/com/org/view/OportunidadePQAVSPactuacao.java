@@ -482,7 +482,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCalcular)
                     .addComponent(btLimpar))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -651,8 +651,11 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regionais de Saúde")) {
             //parametros.put("parRegionalSaude", cbRegional.getSelectedItem().toString());
             session.setRegional(cbRegional.getSelectedItem().toString());
+            parametros.put("parRegionalSaude", cbRegional.getSelectedItem().toString());
+
             parametros.put("parIsRegiao", false);
         } else {
+            parametros.put("parRegiaoSaude", cbRegional.getSelectedItem().toString());
             parametros.put("parRegiaoSaude", cbRegional.getSelectedItem().toString());
         }
 

@@ -477,7 +477,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
             rowData[1] = agravo.getNomeMunicipio();
             rowData[5] = agravo.getNumerador();
 
-            rowData[6] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
+            rowData[6] = String.format("%.0f", preencheAno(getDataInicio(), getDataFim()));
             rowData[7] = getDataInicio();
             rowData[8] = getDataFim();
             rowData[9] = "SIFILIS-SINANNET";

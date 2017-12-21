@@ -553,7 +553,7 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         hashColunas.put("DENOMINAD", new ColunasDbf(30));
         hashColunas.put("NUMERADOR", new ColunasDbf(30));
         hashColunas.put("RESULTADO", new ColunasDbf(30));
-        hashColunas.put("ANO_NOTI", new ColunasDbf(30));
+        hashColunas.put("ANO_DIAG", new ColunasDbf(30));
         hashColunas.put("ORIGEM", new ColunasDbf(30));
 
         this.setColunas(hashColunas);
