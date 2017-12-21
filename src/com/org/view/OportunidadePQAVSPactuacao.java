@@ -606,10 +606,10 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         parametros.put("parVariosArquivos", "sim");
         if (chkExportarDbf.isSelected()) {
             parametros.put("exportarDBF", true);
-            session.setExportarDbf(true);
+            //session.setExportarDbf(true);
         } else {
             parametros.put("exportarDBF", false);
-            session.setExportarDbf(false);
+            //session.setExportarDbf(false);
         }
 
         /**
