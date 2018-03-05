@@ -51,6 +51,7 @@ import java.awt.Dialog;
 import java.awt.Frame;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
@@ -71,6 +72,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -507,7 +509,10 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                     }
 
                 }
-
+                
+                if (this.isTemListagem()) {
+                    gerarRelatorioListagem(agravo.getListagemCasosPQAVS());
+                }
                 /* else {
                     if (parametros.get("parDiscriminarPorAgravo").equals(true)) {
                         parametros.put("TITULO_COLUNA", "                Agravo");
@@ -607,18 +612,26 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 impressao = JasperFillManager.fillReport(arquivo.openStream(), parametros, jrds);
                 viewer = new JasperViewer(impressao, false);
                 if (this.isTemListagem()) {
-                    parametros.put("parTitulo1", "Listagem de casos de doenças de notificação compulsória não encerrados ou inconclusivos");
-                    JRDataSource jrdsListagem = new JRBeanArrayDataSource(agravo.getListagemCasos().toArray());
-                    URL arquivoListagem = getClass().getResource("/com/org/relatorios/listagemOportunidade.jasper");
-                    JasperPrint imprimirListagem = JasperFillManager.fillReport(arquivoListagem.openStream(), parametros, jrdsListagem);
-                    JasperViewer viewerListagem = new JasperViewer(imprimirListagem, false);
-                    viewerListagem.setVisible(true);
+                    gerarRelatorioListagem(agravo.getListagemCasos());
                 }
             }
 
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+    }
+
+    private void gerarRelatorioListagem(List listagem) throws IOException, JRException {
+        parametros.put("parTitulo1", "Listagem de casos de doenças de notificação compulsória não encerrados ou inconclusivos");
+        JRDataSource jrdsListagem = new JRBeanArrayDataSource(listagem.toArray());
+        URL arquivoListagem = getClass().getResource("/com/org/relatorios/listagemOportunidade.jasper");
+        System.out.println(agravo.getNomeMunicipio());
+        for(Object o: parametros.entrySet()){
+            System.out.println(o);
+        }
+        JasperPrint imprimirListagem = JasperFillManager.fillReport(arquivoListagem.openStream(), parametros, jrdsListagem);
+        JasperViewer viewerListagem = new JasperViewer(imprimirListagem, false);
+        viewerListagem.setVisible(true);
     }
 
     public JPanel retornaPanelPactuacao(String relatorio) {

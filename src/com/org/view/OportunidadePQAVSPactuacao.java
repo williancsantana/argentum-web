@@ -178,6 +178,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         btnSelecionarArquivos = new javax.swing.JButton();
         btnLimparSelecao = new javax.swing.JButton();
         lblArquivosSelecionados = new javax.swing.JLabel();
+        cbGerarListagem = new javax.swing.JCheckBox();
         cbMunicipio = new javax.swing.JComboBox();
         cbRegional = new javax.swing.JComboBox();
         lblUF = new javax.swing.JLabel();
@@ -286,6 +287,8 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
+        cbGerarListagem.setText("Gerar Listagem");
+
         javax.swing.GroupLayout panelOportunidadeLayout = new javax.swing.GroupLayout(panelOportunidade);
         panelOportunidade.setLayout(panelOportunidadeLayout);
         panelOportunidadeLayout.setHorizontalGroup(
@@ -311,28 +314,33 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(dtFimAvaliacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(rbPeriodoAvaliacao)))
+                            .addComponent(rbPeriodoAvaliacao))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbGerarListagem))
                     .addComponent(pnlArquivos, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         panelOportunidadeLayout.setVerticalGroup(
             panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelOportunidadeLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel23)
-                    .addComponent(jRadioButton7)
-                    .addComponent(rbPeriodoAvaliacao))
-                .addGap(2, 2, 2)
                 .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(dtInicioAvaliacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7)
-                        .addComponent(jLabel8)
-                        .addComponent(dtFimAvaliacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(dtAvaliacaoOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(anoAvaliadoOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addGroup(panelOportunidadeLayout.createSequentialGroup()
+                        .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel23)
+                            .addComponent(jRadioButton7)
+                            .addComponent(rbPeriodoAvaliacao))
+                        .addGap(2, 2, 2)
+                        .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(panelOportunidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(dtInicioAvaliacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel8)
+                                .addComponent(dtFimAvaliacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(dtAvaliacaoOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(anoAvaliadoOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(cbGerarListagem))
+                .addGap(21, 21, 21)
                 .addComponent(pnlArquivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -416,12 +424,8 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(prbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(panelOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(20, 20, 20)
+                                .addComponent(prbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(lblRegional)
@@ -439,13 +443,16 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(chkDiscriminarAgravo)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(chkExportarDbf))))))
+                                        .addComponent(chkExportarDbf))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(panelOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(82, 82, 82)
                         .addComponent(btCalcular)
                         .addGap(18, 18, 18)
                         .addComponent(btLimpar)))
-                .addContainerGap(327, Short.MAX_VALUE))
+                .addContainerGap(205, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -671,7 +678,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         }
 
         session.setParametros(parametros);
-//      session.setTemListagem(cbGerarListagem.isSelected());
+        session.setTemListagem(cbGerarListagem.isSelected());
         session.setJprogress(prbStatus);
         session.setMunicipio(cbMunicipio.getSelectedItem().toString());
         session.setRegional(cbRegional.getSelectedItem().toString());
@@ -749,6 +756,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox cbAgravo;
     private javax.swing.JComboBox cbDesagregacao;
+    private javax.swing.JCheckBox cbGerarListagem;
     private javax.swing.JComboBox cbMunicipio;
     private javax.swing.JComboBox cbRegional;
     private javax.swing.JComboBox cbUf;
