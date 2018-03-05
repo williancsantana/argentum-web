@@ -4,10 +4,13 @@
  */
 package com.org.util;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.Date;
 
 /**
@@ -33,11 +36,18 @@ public class ArquivoUtils {
     
     public static void gerarLogErro(Exception e){
         String data = SinanDateUtil.dateToString(new Date(), "dd/MM/YYYY HH:mm:ss");
+        String dia = data.substring(0,2);
+        String mes = data.substring(3,5);
+        String ano = data.substring(6,10);
+        String separador = File.separator;
         data = data.replace("/","-").replace(":", "-");
-        File log = new File("log "+data+".txt");        
+        File logDir = new File("");
+        File log = new File(logDir.getAbsolutePath()+separador+"logs"+separador+ano+separador+mes+separador+dia+separador+"log "+data+".txt");
+        log.getParentFile().mkdirs();//Método para criar a estrutura de diretórios e evitar o FileNotFoundException
         try{
-            PrintStream ps = new PrintStream(log);
-            e.printStackTrace(ps);
+            //PrintStream ps = new PrintStream(log);         
+            PrintWriter pw = new PrintWriter(new FileWriter(log));
+            e.printStackTrace(pw);
         }
         catch(Exception exception){
             exception.printStackTrace();
