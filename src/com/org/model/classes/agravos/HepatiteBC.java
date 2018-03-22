@@ -226,7 +226,7 @@ public class HepatiteBC extends Agravo {
         //buscar os municipios que vao para o resultado
         HashMap<String, Agravo> municipiosBeans = new HashMap<String, Agravo>();
         String sgUfResidencia = (String) parametros.get("parSgUf");
-        String codRegional = (String) parametros.get("parCodRegional");
+        String codRegional = (String) parametros.get("parCodRegional"), codReg = "";
         DBFUtil utilDbf = new DBFUtil();
 
         municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
@@ -334,11 +334,13 @@ public class HepatiteBC extends Agravo {
                 agravoDBF.setTaxa(df.format(num / den * 100));
             }
             this.getBeans().add(agravoDBF);
+            codReg = agravoDBF.getCodRegional();
         }
         Collections.sort(this.getBeans(), new BeanComparator("nomeMunicipio"));
         //calcular o total
         if (codRegional.length() == 0) {
-            this.getBeans().add(adicionaBrasil(municipioBean));
+            //this.getBeans().add(adicionaBrasil(municipioBean));
+            this.getBeans().add(adicionaTotal(municipioBean,codRegional));
         }
     }
 

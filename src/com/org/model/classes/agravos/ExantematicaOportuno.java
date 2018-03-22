@@ -275,6 +275,11 @@ public class ExantematicaOportuno extends Agravo {
             this.getBeans().add(agravoDBF);
         }
         Collections.sort(this.getBeans(), new BeanComparator("nomeMunicipio"));
+        //calcular o total
+        if (codRegional.length() == 0) {
+            //this.getBeans().add(adicionaBrasil(municipioBean));
+            this.getBeans().add(adicionaTotal(municipioBean,""));
+        }        
     }
 
     @Override
@@ -481,12 +486,16 @@ public class ExantematicaOportuno extends Agravo {
 
     @Override
     public DBFWriter getLinhas(HashMap<String, ColunasDbf> colunas, List bean, DBFWriter writer) throws DBFException, IOException {
+        Double totalTaxa = 0.00;
         for (int i = 0; i < bean.size(); i++) {
             Object rowData[] = new Object[colunas.size()];
             Agravo agravo = (Agravo) bean.get(i);
-            if (agravo.getNomeMunicipio().equals("BRASIL")) {
+            if (agravo.getNomeMunicipio().equals("BRASIL") || agravo.getNomeMunicipio().equals("TOTAL")) {
                 rowData[0] = null;
                 rowData[2] = null;
+                totalTaxa = (Double.parseDouble(agravo.getNumerador()) / Double.parseDouble(agravo.getDenominador())) * 100;
+                totalTaxa = Double.parseDouble((totalTaxa.toString().replace(",",".")));
+                System.out.println(totalTaxa);
             } else {
                 if(agravo.getCodMunicipio() == null || agravo.getCodMunicipio().equals("")){
                     rowData[0] = SinanUtil.siglaUFToIDUF(agravo.getNomeMunicipio());//ID_LOCRES
@@ -495,11 +504,12 @@ public class ExantematicaOportuno extends Agravo {
                     rowData[0] = agravo.getCodMunicipio();//ID_LOCRES
                     rowData[2] = agravo.getCodMunicipio().substring(0, 2);
                 }
+                totalTaxa = Double.parseDouble(agravo.getTaxa().replace(",","."));
             }
             rowData[1] = agravo.getNomeMunicipio();
             rowData[3] = Double.parseDouble(agravo.getNumerador());
             rowData[4] = Double.parseDouble(agravo.getDenominador());
-            rowData[5] = Double.parseDouble(agravo.getTaxa().replace(",", "."));
+            rowData[5] = totalTaxa;
             rowData[6] = preencheAno(getDataInicio(),getDataFim());
             rowData[7] = getDataInicio();
             rowData[8] = getDataFim();

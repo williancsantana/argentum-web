@@ -269,7 +269,8 @@ public class PFA15anos extends Agravo {
         //calcular o total
         //falta colocar o total da regional
         if (codRegional.length() == 0) {
-            this.getBeans().add(adicionaBrasil(municipioBean));
+            //this.getBeans().add(adicionaBrasil(municipioBean));
+            this.getBeans().add(adicionaTotal(municipioBean,codRegional));
         }
     }
 

@@ -253,11 +253,11 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
                 new BeanComparator("nomeMunicipio")));
         Collections.sort(this.getBeans(), chain);
         //calcular o total
-        if ((Boolean) parametros.get("parIsRegiao")) {
-            this.getBeans().add(adicionaTotal(municipioBean, codRegiao));
-        } else {
-            this.getBeans().add(adicionaTotal(municipioBean, codRegional));
-        }
+//        if ((Boolean) parametros.get("parIsRegiao")) {
+//            this.getBeans().add(adicionaTotal(municipioBean, codRegiao));
+//        } else {
+//            this.getBeans().add(adicionaTotal(municipioBean, codRegional));
+//        }
     }
 
     private void calculaMunicipios(DBFReader reader, Map parametros) throws ParseException {
@@ -374,11 +374,11 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
         Collections.sort(this.getBeans(), chain);
 
         //calcular o total
-        if ((Boolean) parametros.get("parIsRegiao")) {
-            this.getBeans().add(adicionaTotal(municipioBean, codRegiao));
-        } else {
-            this.getBeans().add(adicionaTotal(municipioBean, codRegional));
-        }
+//        if ((Boolean) parametros.get("parIsRegiao")) {
+//            this.getBeans().add(adicionaTotal(municipioBean, codRegiao));
+//        } else {
+//            this.getBeans().add(adicionaTotal(municipioBean, codRegional));
+//        }
     }
 
     private void calculaSomenteMunicipios(DBFReader reader, Map parametros) throws ParseException {
@@ -481,7 +481,7 @@ public class SemanaEpidemiologicaPactuacao extends Agravo {
                 new BeanComparator("nomeMunicipio")));
         Collections.sort(this.getBeans(), chain);
         //calcular o total
-        this.getBeans().add(adicionaTotal(municipioBean, ""));
+        //this.getBeans().add(adicionaTotal(municipioBean, ""));
     }
 
     @Override

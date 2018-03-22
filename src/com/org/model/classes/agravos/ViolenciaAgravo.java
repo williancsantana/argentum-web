@@ -40,6 +40,8 @@ public class ViolenciaAgravo extends Agravo {
     private final int AMARELO = 3;
     private final int PARDO = 4;
     private final int INDIGENA = 5;
+    private boolean porRegiao;
+    private boolean porRegional;
 
     public ViolenciaAgravo(boolean isDbf) {
         this.setDBF(isDbf);
@@ -118,9 +120,11 @@ public class ViolenciaAgravo extends Agravo {
             }
 
             if ((Boolean) parametros.get("parIsRegiao")) {
+//                setPorRegiao(true);
                 municipiosBeans = populaRegiaoBeans(sgUfResidencia, codRegiao);
                 regiaoBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, idMunicipio, parametros.get("parIsRegiao").toString());
             } else {
+//                setPorRegional(true);
                 municipiosBeans = populaRegionalBeans(sgUfResidencia, codRegional);
                 regiaoBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, idMunicipio, parametros.get("parIsRegiao").toString());
             }
@@ -442,6 +446,10 @@ public class ViolenciaAgravo extends Agravo {
         boolean isRegionalSelecionada = (boolean) parametros.get("parIsRegional");
         boolean estadoEMunicipio = municipios.equals("sim") && !filtroUF.equals("brasil");
 
+        if(isRegiaoSelecionada)
+            setPorRegiao(true);
+        if(isRegionalSelecionada)
+            setPorRegional(true);
         //filtro municipios = TODOS e 7UF selecionado algum estado
         if ((isRegionalSelecionada || isRegiaoSelecionada) && municipioEspecifico == "NENHUM") {
             calculaRegiao(reader, parametros);
@@ -572,6 +580,12 @@ public class ViolenciaAgravo extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
+        if(isPorRegiao()){
+            return new String[]{"ID_LOCNOT", "DS_LOCNOT", "ID_UFNOT", "NOME_CIR", "COD_CIR",  "N_RACA", "D_RACATO", "P_RACPRE", "ANO_NOTI", "DT_NOTIN", "DT_NOTIFI", "ORIGEM"};
+        }
+        else if(isPorRegional()){
+            return new String[]{"ID_LOCNOT", "DS_LOCNOT", "ID_UFNOT", "REGIONAL", "ID_REGION",  "N_RACA", "D_RACATO", "P_RACPRE", "ANO_NOTI", "DT_NOTIN", "DT_NOTIFI", "ORIGEM"};
+        }
         return new String[]{"ID_LOCNOT", "DS_LOCNOT", "ID_UFNOT", "N_RACA", "D_RACATO", "P_RACPRE", "ANO_NOTI", "DT_NOTIN", "DT_NOTIFI", "ORIGEM"};
     }
 
@@ -579,8 +593,17 @@ public class ViolenciaAgravo extends Agravo {
     public HashMap<String, ColunasDbf> getColunas() {
         HashMap<String, ColunasDbf> hashColunas = new HashMap<String, ColunasDbf>();
         hashColunas.put("ID_LOCNOT", new ColunasDbf(7));
-        hashColunas.put("DS_LOCNOT", new ColunasDbf(30));
+        hashColunas.put("DS_LOCNOT", new ColunasDbf(30));        
         hashColunas.put("ID_UFNOT", new ColunasDbf(2));
+        if(isPorRegiao()){
+            hashColunas.put("NOME_CIR", new ColunasDbf(30));
+            hashColunas.put("COD_CIR", new ColunasDbf(7));
+        }
+        else if(isPorRegional()){
+            hashColunas.put("REGIONAL", new ColunasDbf(30));
+            hashColunas.put("ID_REGION", new ColunasDbf(7));
+        }
+        
         hashColunas.put("N_RACA", new ColunasDbf(10));
         hashColunas.put("D_RACATO", new ColunasDbf(10));
         hashColunas.put("P_RACPRE", new ColunasDbf(10));
@@ -607,6 +630,49 @@ public class ViolenciaAgravo extends Agravo {
                 taxaTotal = (Double.parseDouble(numeradorTotal.toString()) / denominadorTotal) * 100;
                 taxaFormatada = (df.format(taxaTotal));
             }
+            rowData = preencherCamposDbf(agravo, rowData, numeradorTotal, denominadorTotal, taxaFormatada);
+            writer.addRecord(rowData);
+            System.out.println(agravo.getNomeMunicipio() + " - " + agravo.getRegiaoSaude() + " - " + agravo.getRegional());
+        }
+        return writer;
+    }
+
+    private Object[] preencherCamposDbf(Agravo agravo, Object[] rowData, Integer numeradorTotal, Integer denominadorTotal, String taxaFormatada) {
+        if(isPorRegiao() || isPorRegional()){
+            if (agravo.getNomeMunicipio().equals("BRASIL") || agravo.getNomeMunicipio().equals("TOTAL")) {
+                rowData[0] = null;
+                rowData[2] = null;
+                rowData[5] = numeradorTotal.toString();
+                rowData[6] = denominadorTotal.toString();
+                rowData[7] = taxaFormatada.replace(",",".");
+            } else {
+
+                rowData[0] = agravo.getCodMunicipio();
+                rowData[2] = agravo.getCodMunicipio().substring(0, 2);
+
+                if(isPorRegional()){
+                    System.out.println("");
+                    rowData[3] = agravo.getRegional();
+                    rowData[4] =  agravo.getCodRegional();
+                }
+                else if(isPorRegiao()){
+                    System.out.print(agravo.getCodRegiaoSaude() + " " + agravo.getRegiaoSaude() + "\t");
+                    rowData[3] = agravo.getRegiaoSaude();
+                    rowData[4] =  agravo.getCodRegiaoSaude();
+                }
+                rowData[5] = agravo.getNumerador();
+                rowData[6] = agravo.getDenominador();
+                rowData[7] = agravo.getTaxa();
+            }
+            rowData[1] = agravo.getNomeMunicipio();
+
+            rowData[8] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
+            rowData[9] = getDataInicio();
+            rowData[10] = getDataFim();
+            rowData[11] = "VIOLENET";
+            return rowData;
+        }
+        else{
             if (agravo.getNomeMunicipio().equals("BRASIL") || agravo.getNomeMunicipio().equals("TOTAL")) {
                 rowData[0] = null;
                 rowData[2] = null;
@@ -614,6 +680,7 @@ public class ViolenciaAgravo extends Agravo {
                 rowData[4] = denominadorTotal.toString();
                 rowData[5] = taxaFormatada.replace(",",".");
             } else {
+
                 rowData[0] = agravo.getCodMunicipio();
                 rowData[2] = agravo.getCodMunicipio().substring(0, 2);
                 rowData[3] = agravo.getNumerador();
@@ -621,18 +688,35 @@ public class ViolenciaAgravo extends Agravo {
                 rowData[5] = agravo.getTaxa();
             }
             rowData[1] = agravo.getNomeMunicipio();
-            
+
             rowData[6] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
             rowData[7] = getDataInicio();
             rowData[8] = getDataFim();
             rowData[9] = "VIOLENET";
-            writer.addRecord(rowData);
-        }
-        return writer;
+            return rowData;
+        }        
     }
 
     @Override
     public String getCaminhoJasper() {
         return "/com/org/relatorios/ViolenciaPactuacao.jasper";
     }
+
+    public boolean isPorRegiao() {
+        return porRegiao;
+    }
+
+    public void setPorRegiao(boolean porRegiao) {
+        this.porRegiao = porRegiao;
+    }
+
+    public boolean isPorRegional() {
+        return porRegional;
+    }
+
+    public void setPorRegional(boolean porRegional) {
+        this.porRegional = porRegional;
+    }
+    
+    
 }

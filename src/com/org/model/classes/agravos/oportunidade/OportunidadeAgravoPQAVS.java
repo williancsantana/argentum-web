@@ -225,6 +225,9 @@ public class OportunidadeAgravoPQAVS  extends Agravo{
         this.resultado = resultado;
     }
 
-    
+    public Boolean temRegionalSaude(){
+//        return (this.codRegionalSaude != null) || (!this.codRegionalSaude.equals(""));
+        return (this.codRegionalSaude != null);
+    }
     
 }

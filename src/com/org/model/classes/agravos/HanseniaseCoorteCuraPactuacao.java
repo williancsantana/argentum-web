@@ -43,6 +43,8 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
     static String dtPbFinal;
     static String dtMbInicial;
     static String dtMbFinal;
+    private boolean porRegiao;
+    private boolean porRegional;
 
     public HanseniaseCoorteCuraPactuacao(boolean isDbf) {
         this.setDBF(isDbf);
@@ -443,6 +445,10 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         setDtMbInicial((String) parametros.get("parDataInicioCoorteMB"));
         setDtMbFinal((String) parametros.get("parDataFimCoorteMB"));
 
+        if(isRegiaoSelecionada)
+            setPorRegiao(true);
+        if(isRegionalSelecionada)
+            setPorRegional(true);
         //filtro municipios = TODOS e 7UF selecionado algum estado
         if ((isRegionalSelecionada || isRegiaoSelecionada) && municipioEspecifico == "NENHUM") {
             calculaRegiao(reader, parametros);
@@ -601,7 +607,16 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
 
     @Override
     public String[] getOrdemColunas() {
-        return new String[]{"IDLOCRESAT", "DSLOCRESAT", "COUUFRESAT", "N_CURHANS", "D_SUBHANS", "I_CURHANS",
+        if(isPorRegiao()){
+            return new String[]{"IDLOCRESAT", "DSLOCRESAT", "COUUFRESAT", "NOME_CIR", "COD_CIR", "N_CURHANS", "D_SUBHANS", "I_CURHANS",
+            "TOTAL_NOT", "DT_DPBINI", "DT_DPBFIN", "DT_DMBINI", "DT_DMBFIN", "ORIGEM"};
+        }
+        else if(isPorRegional()){
+            return new String[]{"IDLOCRESAT", "DSLOCRESAT", "COUUFRESAT", "REGIONAL", "ID_REGION", "N_CURHANS", "D_SUBHANS", "I_CURHANS",
+            "TOTAL_NOT", "DT_DPBINI", "DT_DPBFIN", "DT_DMBINI", "DT_DMBFIN", "ORIGEM"};
+        }
+        else 
+            return new String[]{"IDLOCRESAT", "DSLOCRESAT", "COUUFRESAT", "N_CURHANS", "D_SUBHANS", "I_CURHANS",
             "TOTAL_NOT", "DT_DPBINI", "DT_DPBFIN", "DT_DMBINI", "DT_DMBFIN", "ORIGEM"};
     }
 
@@ -611,6 +626,14 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         hashColunas.put("IDLOCRESAT", new ColunasDbf(7));
         hashColunas.put("DSLOCRESAT", new ColunasDbf(30));
         hashColunas.put("COUUFRESAT", new ColunasDbf(2));
+        if(isPorRegiao()){
+            hashColunas.put("NOME_CIR", new ColunasDbf(30));
+            hashColunas.put("COD_CIR", new ColunasDbf(7));
+        }
+        else if(isPorRegional()){
+            hashColunas.put("REGIONAL", new ColunasDbf(30));
+            hashColunas.put("ID_REGION", new ColunasDbf(7));
+        }
         hashColunas.put("N_CURHANS", new ColunasDbf(10, 0));
         hashColunas.put("D_SUBHANS", new ColunasDbf(4, 0));
         hashColunas.put("I_CURHANS", new ColunasDbf(4, 2));
@@ -630,33 +653,65 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             Object rowData[] = new Object[colunas.size()];
             Agravo agravo = (Agravo) bean.get(i);
             if (agravo.getCodMunicipio() != null && !agravo.getCodMunicipio().equals("")) {
-                if (agravo.getNomeMunicipio().equals("BRASIL")) {
-                    rowData[0] = null;
-                    rowData[2] = null;
-                } else {
-                    if (agravo.getCodMunicipio() != null) {
-                        rowData[0] = agravo.getCodMunicipio();
-                        rowData[2] = agravo.getCodMunicipio().substring(0, 2);
-                    } else {
-                        rowData[0] = "";
-                        rowData[2] = "";
-                    }
-                }
-                rowData[1] = agravo.getNomeMunicipio();
-                rowData[3] = Double.parseDouble(agravo.getNumerador().replace(",", "."));
-                rowData[5] = Double.parseDouble(agravo.getTaxa().replace(",", "."));
-                rowData[4] = Double.parseDouble(agravo.getDenominador().replace(",", "."));
-                rowData[6] = Double.parseDouble(agravo.getDenominador().replace(",", "."));
-                rowData[7] = getDtPbInicial();
-                rowData[8] = getDtPbFinal();
-                rowData[9] = getDtMbInicial();
-                rowData[10] = getDtMbFinal();
-                rowData[11] = "HANSENIASE-SINANNET";
+                rowData = adicionarInformacoesDbf(agravo, rowData);
 
                 writer.addRecord(rowData);
+                System.out.println(agravo.getNomeMunicipio() + " - "+ agravo.getRegiaoSaude() + " - " + agravo.getRegional());
             }
         }
         return writer;
+    }
+
+    private Object[] adicionarInformacoesDbf(Agravo agravo, Object[] rowData) throws NumberFormatException {
+        
+        if (agravo.getNomeMunicipio().equals("BRASIL")) {
+                rowData[0] = null;
+                rowData[2] = null;
+            } else {
+                if (agravo.getCodMunicipio() != null) {
+                    rowData[0] = agravo.getCodMunicipio();
+                    rowData[2] = agravo.getCodMunicipio().substring(0, 2);
+                } else {
+                    rowData[0] = "";
+                    rowData[2] = "";
+                }
+            }
+            rowData[1] = agravo.getNomeMunicipio();
+        
+        if(isPorRegional() || isPorRegiao()){
+            
+            if(isPorRegional()){
+                rowData[3] = agravo.getRegional();
+                rowData[4] = agravo.getCodRegional();
+            }
+            else{
+                rowData[3] = agravo.getRegiaoSaude();
+                rowData[4] = agravo.getCodRegiaoSaude();
+            }
+            rowData[5] = Double.parseDouble(agravo.getNumerador().replace(",", "."));
+            rowData[7] = Double.parseDouble(agravo.getTaxa().replace(",", "."));
+            rowData[6] = Double.parseDouble(agravo.getDenominador().replace(",", "."));
+            rowData[8] = Double.parseDouble(agravo.getDenominador().replace(",", "."));
+            rowData[9] = getDtPbInicial();
+            rowData[10] = getDtPbFinal();
+            rowData[11] = getDtMbInicial();
+            rowData[12] = getDtMbFinal();
+            rowData[13] = "HANSENIASE-SINANNET";
+        }
+        else{
+            
+            rowData[3] = Double.parseDouble(agravo.getNumerador().replace(",", "."));
+            rowData[5] = Double.parseDouble(agravo.getTaxa().replace(",", "."));
+            rowData[4] = Double.parseDouble(agravo.getDenominador().replace(",", "."));
+            rowData[6] = Double.parseDouble(agravo.getDenominador().replace(",", "."));
+            rowData[7] = getDtPbInicial();
+            rowData[8] = getDtPbFinal();
+            rowData[9] = getDtMbInicial();
+            rowData[10] = getDtMbFinal();
+            rowData[11] = "HANSENIASE-SINANNET";
+            
+        }  
+        return rowData;
     }
 
     @Override
@@ -728,4 +783,20 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         HanseniaseCoorteCuraPactuacao.dtMbFinal = dtMbFinal;
     }
 
+    public boolean isPorRegiao() {
+        return porRegiao;
+    }
+
+    public void setPorRegiao(boolean porRegiao) {
+        this.porRegiao = porRegiao;
+    }
+
+    public boolean isPorRegional() {
+        return porRegional;
+    }
+
+    public void setPorRegional(boolean porRegional) {
+        this.porRegional = porRegional;
+    }
+        
 }
