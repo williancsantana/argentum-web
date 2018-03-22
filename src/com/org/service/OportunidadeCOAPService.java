@@ -570,13 +570,47 @@ public class OportunidadeCOAPService {
         this.prepareDataToDBFCOAP(lista, fields, 9);
     }
    
- 
+   public void gerarDBFAgravoCOAPCampos(List<OportunidadeAgravoCOAP> lista) throws IOException{
+       
+        CampoDBF field;
+        DBFField fields[] = new DBFField[9];
+
+        field = new CampoDBF("UF", "String", 2, 0);
+        fields[0] = field;
+        
+        field = new CampoDBF("COD_CIR", "String", 5, 0);
+        fields[1] = field;
+
+        field = new CampoDBF("REGIAO", "String", 80, 0);
+        fields[2] = field;
+        
+        field = new CampoDBF("COD_CID", "String", 6, 0);
+        fields[3] = field;
+
+        field = new CampoDBF("AGRAVO", "String", 80, 0);
+        fields[4] = field;
+        
+        field = new CampoDBF("AUSEN_CASO", "String", 1, 0);
+        fields[5] = field;        
+        
+        field = new CampoDBF("NUMERADOR", "String", 12, 0);
+        fields[6] = field;
+        
+        field = new CampoDBF("DENOMINAD", "String", 12, 0);
+        fields[7] = field;
+        
+        field = new CampoDBF("RESULTADO", "String", 12, 0);
+        fields[8] = field;
+        
+        this.prepareDataToDBFCOAP(lista, fields, 9);
+   }
    
       private void prepareDataToDBFCOAP(List<OportunidadeAgravoCOAP> lista, DBFField fields[], int countFields) throws IOException{
           
         DBFWriter writer = new DBFWriter();
+        Integer  somatorioOportuno = 0;
         Double oportuno;
-        Double total;
+        Double total, somatorioTotal = 0.0;
         writer.setFields(fields);
         lista = SinanUtil.removeMunicipiosIgnorados(lista);
         for (OportunidadeAgravoCOAP item : lista) {
@@ -595,7 +629,9 @@ public class OportunidadeCOAPService {
             }
             
             rowData[6] = item.getQtdOportuno().toString();
+            somatorioOportuno += item.getQtdOportuno();
             rowData[7] = item.getTotal().toString();
+            somatorioTotal += item.getTotal().doubleValue();
             
             if(item.getQtdOportuno() > 0 && item.getTotal() > 0){
                 oportuno = new Double(item.getQtdOportuno()).doubleValue();
@@ -612,7 +648,15 @@ public class OportunidadeCOAPService {
              * 
              */
             writer.addRecord(rowData); 
-        }
+        }        
+        //Adicionar linha com total
+        Object rowData[] =  new Object[countFields];
+        rowData[2] = "TOTAL";
+        rowData[6] = String.valueOf(somatorioOportuno);
+        rowData[7] = String.valueOf(somatorioTotal);
+        rowData[8] = String.valueOf(SinanUtil.converterDoubleUmaCasaDecimal((somatorioOportuno/somatorioTotal)*100));
+        writer.addRecord(rowData);
+        
         SinanUtil.setNomeArquivoDBF();
         SinanUtil.gerarDBF(writer);
    }

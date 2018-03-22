@@ -575,6 +575,7 @@ public class OportunidadePQAVSService {
       private void prepareDataToDBFPQAVS(List<OportunidadeAgravoPQAVS> lista, DBFField fields[], int countFields) throws IOException{
           
         DBFWriter writer = new DBFWriter();
+        Integer somaOportuno = 0, somaTotal = 0;
         Double oportuno;
         Double total;
         writer.setFields(fields);
@@ -595,8 +596,9 @@ public class OportunidadePQAVSService {
             }
             
             rowData[6] = item.getQtdOportuno().toString();
-            
+            somaOportuno += item.getQtdOportuno();
             rowData[7] = item.getTotal().toString();
+            somaTotal += item.getTotal();
             
             if(item.getQtdOportuno() > 0 && item.getTotal() > 0){
                 oportuno = new Double(item.getQtdOportuno()).doubleValue();
@@ -614,6 +616,13 @@ public class OportunidadePQAVSService {
              */
             writer.addRecord(rowData); 
         }
+        Object rowData[] =  new Object[countFields];
+        rowData[2] = "TOTAL";
+        rowData[6] = String.valueOf(somaOportuno);
+        rowData[7] = String.valueOf(somaTotal);
+        rowData[8] = String.valueOf(SinanUtil.converterDoubleUmaCasaDecimal(((somaOportuno.doubleValue())/somaTotal)*100));
+        writer.addRecord(rowData); 
+        
         SinanUtil.setNomeArquivoDBF();
         SinanUtil.gerarDBF(writer);
    }

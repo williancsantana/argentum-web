@@ -630,10 +630,15 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
         
         field = new CampoDBF("COD_CIR", "String", 5, 0);
         fields[1] = field;
-
-        field = new CampoDBF("REGIAO", "String", 80, 0);
-        fields[2] = field;
         
+        if((Boolean) parametros.get("parDesagregacao").equals("UF subdividida por Regionais de Saúde")){
+            field = new CampoDBF("REGIONAL", "String", 80, 0);
+            fields[2] = field;
+        }
+        else{
+            field = new CampoDBF("REGIAO", "String", 80, 0);
+            fields[2] = field;
+        }
         
         if((Boolean)parametros.get("parDiscriminarPorAgravo")){
             field = new CampoDBF("CID10", "String", 6, 0);
@@ -677,7 +682,8 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
           
         DBFWriter writer = new DBFWriter();
         Double oportuno;
-        Double total;
+        Integer somaOportuno = 0;
+        Double total, somaTotal = 0.0;
         writer.setFields(fields);
         lista = SinanUtil.removeMunicipiosIgnoradosPQAVS(lista);
         lista = calculaTotal(lista);
@@ -686,7 +692,12 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
             Object rowData[] =  new Object[countFields];
             rowData[0] = item.getUf();
             rowData[1] = item.getCodRegiaoSaude();
-            rowData[2] = item.getRegiaoSaude();
+            if(item.temRegionalSaude()){                
+                rowData[2] = item.getRegionalSaude();
+            }
+            else{
+                rowData[2] = item.getRegiaoSaude();
+            }
             rowData[3] = item.getCodAgravo();
             rowData[4] = item.getNmAgravo();
             
@@ -697,8 +708,9 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
             }
             
             rowData[6] = item.getQtdOportuno().toString();
+            somaOportuno += item.getQtdOportuno();
             rowData[7] = item.getTotal().toString();
-            
+            somaTotal += item.getTotal();
             if(item.getQtdOportuno() > 0 && item.getTotal() > 0){
                 oportuno = new Double(item.getQtdOportuno()).doubleValue();
                 total = new Double(item.getTotal()).doubleValue();
@@ -729,6 +741,14 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
              */
             writer.addRecord(rowData); 
         }
+//        Object rowData[] =  new Object[countFields];
+//        rowData[2] = "TOTAL";
+//        rowData[6] = String.valueOf(somaOportuno);
+//        rowData[7] = String.valueOf(somaTotal);
+//        rowData[8] = String.valueOf(SinanUtil.converterDoubleUmaCasaDecimal((somaOportuno/somaTotal)*100));
+//        writer.addRecord(rowData);
+//      
+    
         SinanUtil.setNomeArquivoDBF();
         SinanUtil.gerarDBF(writer);
    }

@@ -572,7 +572,10 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                     oportunidadeCOAPService.gerarRelatorioCOAP(listaRegiaoSaude, parametros, 0);
                     if (parametros.get("exportarDBF").equals(true)) {
                         beans.remove(beans.size() - 1);
-                        oportunidadeCOAPService.gerarDBFCOAPDefineCampos(beans);
+                        if(parametros.get("parDiscriminarPorAgravo").equals(true))
+                            oportunidadeCOAPService.gerarDBFAgravoCOAPCampos(beans);
+                        else
+                            oportunidadeCOAPService.gerarDBFCOAPDefineCampos(beans);
                         // CHAMAR EXPORTAR PASSA beans como parâmetro
                     }
 //                    List<OportunidadeAgravoCOAP> listaTDN = new ArrayList<OportunidadeAgravoCOAP>();
@@ -1051,6 +1054,9 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         } else {
             viewer.setVisible(true);
         }
+        
+        System.out.println(relatorio+" - "+agravo.getCaminhoJasper());
+        
         return null;
     }
 
