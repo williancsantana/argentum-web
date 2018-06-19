@@ -26,6 +26,7 @@ import com.org.service.OportunidadePQAVSService;
 import com.org.service.OportunidadePQAVSServicePactuacao;
 import com.org.service.RecebimentoLoteService;
 import com.org.service.SemEpidPQAVSService;
+import com.org.util.ArquivoUtils;
 import com.org.util.SinanUtil;
 import com.org.view.AidsTaxaCrianca;
 import com.org.view.Completitude;
@@ -63,6 +64,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.EventListener;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -496,6 +498,12 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                         parametros.put("QTDE_REG_MUNIC_AGR", "Quantidade");
                         listaRegiaoSaude = oportunidadePQAVSService.converterMapaRegiaoSaudeEmLista(oportunidadePQAVSService.agruparRegionalSaude(beans), parametros);
                         oportunidadePQAVSService.gerarRelatorioPQAVS(listaRegiaoSaude, parametros, 0);
+                        if (parametros.get("exportarDBF").equals(true)) {
+                                beans.remove(beans.size() - 1);
+                                oportunidadePQAVSService.gerarDBFPQAVSDefineCampos(beans, parametros);
+                                // CHAMAR EXPORTAR PASSA beans como parâmetro
+                                // ADEQUAR AS COLUNAS CONFORME DESAGREGAÇÃO
+                        }
                     }
                 } else {
                     parametros.put("TITULO_COLUNA", "                Agravo");
@@ -589,7 +597,8 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 
                 }
             } else {
-
+                System.out.println("---- Antes de gerar o PDF ---------------------------------");
+                percorreExibeBeans();
                 jrds = new JRBeanArrayDataSource(beans.toArray());
                 URL arquivo;
                 if (parametros.get("parJasper") == null) {
@@ -611,7 +620,8 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                         parametros.put("parArquivos", "");
                     }
                 }
-
+//                System.out.println("---- Antes de gerar o PDF ---------------------------------");
+//                percorreEExibeBeans();
                 impressao = JasperFillManager.fillReport(arquivo.openStream(), parametros, jrds);
                 viewer = new JasperViewer(impressao, false);
                 if (this.isTemListagem()) {
@@ -621,6 +631,16 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 
         } catch (Exception exception) {
             exception.printStackTrace();
+        }
+    }
+
+    private void percorreExibeBeans() {
+        Iterator it = beans.iterator();
+        String linha;
+        while(it.hasNext()){
+            Agravo ag = (Agravo) it.next();
+            linha = ag.getNomeAgravo() + " - " + ag.getNomeMunicipio() + " - " + ag.getNumerador() + " - " + ag.getDenominador();
+            System.out.println(linha);
         }
     }
 
@@ -1041,6 +1061,8 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 //                oportunidade = (com.org.model.classes.agravos.Oportunidade) agravo;
 //                new DBF().beanToDbf(agravo.getColunas(), oportunidade.getListExportacao(), agravo);
 //            } else {
+            System.out.println("--------------------- Antes de exportar para DBF --------------------------------------");
+            percorreExibeBeans();
             new DBF().beanToDbf(agravo.getColunas(), beans, agravo);
 //            }
 
@@ -1080,9 +1102,9 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         String[] grupos = {
             "Selecione um Grupo",
             "PQAVS a partir de 2017",
-            "Pactuação Interfederativa 2017 a 2021",
-            "Pactuações Anteriores",
-            "Outros relatórios"
+            "Pactuação Interfederativa 2017 a 2021"
+//            "Pactuações Anteriores",
+//            "Outros relatórios"
         };
         return grupos;
     }
@@ -1332,7 +1354,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 try {
                     utilDbf.mapearPosicoes(reader);
                     while ((rowObjects = reader.nextRecord()) != null) {
-                        if (regional.equals(utilDbf.getString(rowObjects, "NM_REGIONA"))) {
+                        if (regional.equals(utilDbf.getString(rowObjects, "NM_REGIONA"))  && uf.equals(utilDbf.getString(rowObjects, "SG_UF"))) {
                             return utilDbf.getString(rowObjects, "ID_REGIONA");
                         }
                     }
@@ -1387,7 +1409,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 try {
                     utilDbf.mapearPosicoes(reader);
                     while ((rowObjects = reader.nextRecord()) != null) {
-                        if (regional.equals(utilDbf.getString(rowObjects, "NM_REGIAO"))) {
+                        if (regional.equals(utilDbf.getString(rowObjects, "NM_REGIAO")) && uf.equals(utilDbf.getString(rowObjects, "SG_UF"))) {
                             return utilDbf.getString(rowObjects, "ID_REGIAO");
                         }
                     }

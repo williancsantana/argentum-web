@@ -6,10 +6,7 @@ package com.org.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Date;
 
@@ -51,6 +48,22 @@ public class ArquivoUtils {
         }
         catch(Exception exception){
             exception.printStackTrace();
+        }
+    }
+    
+    public static void gerarArquivo(String content){
+        String separador = File.separator;
+        String data = SinanDateUtil.dateToString(new Date(), "dd/MM/YYYY HH:mm:ss");
+        data = data.replace("/","-").replace(":", "-");
+        File pastaAtual = new File("");
+        File arquivoDestino = new File(pastaAtual.getAbsolutePath()+separador+"Arquivos Gerados"+separador+"Arquivo "+data+".txt");
+        arquivoDestino.getParentFile().mkdirs();
+        try{
+            BufferedWriter bf = new BufferedWriter(new FileWriter(arquivoDestino));
+            bf.write(content);
+            bf.close();
+        }catch(Exception e){
+            gerarLogErro(e);        
         }
     }
 }

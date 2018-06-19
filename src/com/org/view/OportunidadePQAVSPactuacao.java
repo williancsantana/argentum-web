@@ -119,10 +119,10 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         cbAgravo.addItem("TODOS");
         
 
-        //if (!cbDesagregacao.getSelectedItem().equals("Discriminar por Agravo")) {
-            if (!chkDiscriminarAgravo.isSelected()) {
+        if (!cbDesagregacao.getSelectedItem().equals("Discriminar por Agravo")) {
+        //    if (!chkDiscriminarAgravo.isSelected()) {
                 
-            } else {
+        } else {
                 
                 cbAgravo.addItem("ANTRAZ PNEUMONICO");
                 cbAgravo.addItem("ARENAVIRUS");
@@ -132,7 +132,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
                 cbAgravo.addItem("EBOLA");
                 // cbAgravo.addItem("EVENTOS ADVERSOS GRAVES OU OBITOS POS-VACINACAO");
                 cbAgravo.addItem("FEBRE AMARELA");
-                cbAgravo.addItem("FEBRE DE CHIKUNGUNYA");
+                cbAgravo.addItem("FEBRE DE CHIKUNGUNYA (ÓBITOS SUSPEITOS)");
                 cbAgravo.addItem("FEBRE DO NILO OCIDENTAL");
                 cbAgravo.addItem("FEBRE MACULOSA E OUTRAS RIQUETISIOSES");
                 cbAgravo.addItem("FEBRE PURPURICA BRASILEIRA");
@@ -141,9 +141,9 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
                 cbAgravo.addItem("LASSA");
                 cbAgravo.addItem("MALARIA NA REGIAO EXTRA AMAZONICA");
                 cbAgravo.addItem("MARBURG");
-                cbAgravo.addItem("PARALISIA FLACIDA AGUDA");
+                cbAgravo.addItem("PARALISIA FLACIDA AGUDA / POLIOMIELITE POLIOVÍRUS SELVAGEM");
                 cbAgravo.addItem("PESTE");
-                cbAgravo.addItem("ZIKA");
+                cbAgravo.addItem("ZIKA (ÓBITOS SUSPEITOS)");
                 cbAgravo.addItem("RAIVA HUMANA");
                 cbAgravo.addItem("RUBEOLA");
                 cbAgravo.addItem("SARAMPO");
@@ -193,7 +193,6 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         cbAgravo = new javax.swing.JComboBox();
         cbDesagregacao = new javax.swing.JComboBox();
         lblDesagregacao = new javax.swing.JLabel();
-        chkDiscriminarAgravo = new javax.swing.JCheckBox();
 
         setPreferredSize(new java.awt.Dimension(800, 373));
 
@@ -397,7 +396,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
             }
         });
 
-        cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "UF subdividida por Regiões de Saúde", "UF subdividida por Regionais de Saúde", "Somente municípios" }));
+        cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione --", "UF subdividida por Regiões de Saúde", "UF subdividida por Regionais de Saúde", "Somente municípios", "Discriminar por Agravo" }));
         cbDesagregacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbDesagregacaoActionPerformed(evt);
@@ -406,13 +405,6 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
 
         lblDesagregacao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblDesagregacao.setText("Desagregação:"); // NOI18N
-
-        chkDiscriminarAgravo.setText("Discriminar por agravo");
-        chkDiscriminarAgravo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkDiscriminarAgravoActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -440,10 +432,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
                                     .addComponent(cbUf, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cbMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cbRegional, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(chkDiscriminarAgravo)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(chkExportarDbf))))
+                                    .addComponent(chkExportarDbf)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(panelOportunidade, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -474,9 +463,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
                     .addComponent(jLabel4)
                     .addComponent(cbMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(chkDiscriminarAgravo)
-                    .addComponent(chkExportarDbf))
+                .addComponent(chkExportarDbf)
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -624,16 +611,16 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
          * criado um checkbox para que o usuário selecione caso queira
          * discriminar por agravo
          */
-        if (chkDiscriminarAgravo.isSelected()){
-            parametros.put("parDiscriminarPorAgravo", true);
-        }else{
-            parametros.put("parDiscriminarPorAgravo", false);
-        }
-/*        if (cbDesagregacao.getSelectedItem().equals("Discriminar por Agravo")) {
+//        if (chkDiscriminarAgravo.isSelected()){
+//            parametros.put("parDiscriminarPorAgravo", true);
+//        }else{
+//            parametros.put("parDiscriminarPorAgravo", false);
+//        }
+        if (cbDesagregacao.getSelectedItem().equals("Discriminar por Agravo")) {
             parametros.put("parDiscriminarPorAgravo", true);
         } else {
             parametros.put("parDiscriminarPorAgravo", false);
-        }*/
+        }
 
         /**
          *
@@ -727,7 +714,7 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         modelo = new DefaultComboBoxModel(this.session.retornaMunicipios(this.cbUf.getSelectedItem().toString()));
         this.cbMunicipio.setModel(modelo);
 //        }
-        //iniciaCombo(cbAgravo);        // TODO add your handling code here:
+        iniciaCombo(cbAgravo);        // TODO add your handling code here:
         this.chkExportarDbf.setSelected(false);
         /*
         if(this.cbDesagregacao.getSelectedIndex() != 2){
@@ -740,12 +727,6 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
     private void cbAgravoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAgravoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbAgravoActionPerformed
-
-    private void chkDiscriminarAgravoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkDiscriminarAgravoActionPerformed
-        // TODO add your handling code here:
-            iniciaCombo(cbAgravo);
-
-    }//GEN-LAST:event_chkDiscriminarAgravoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox anoAvaliadoOportunidade;
@@ -760,7 +741,6 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
     private javax.swing.JComboBox cbMunicipio;
     private javax.swing.JComboBox cbRegional;
     private javax.swing.JComboBox cbUf;
-    private javax.swing.JCheckBox chkDiscriminarAgravo;
     private javax.swing.JCheckBox chkExportarDbf;
     private com.toedter.calendar.JDateChooser dtAvaliacaoOportunidade;
     private com.toedter.calendar.JDateChooser dtFimAvaliacao;

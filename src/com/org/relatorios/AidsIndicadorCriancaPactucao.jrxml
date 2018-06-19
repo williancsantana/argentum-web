@@ -72,7 +72,7 @@
 				<textField>
 					<reportElement x="0" y="30" width="254" height="20"/>
 					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$P{parNenhum}?"Regional de residência":"Município de residência"]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[($P{parNenhum} && $P{parIsRegiao})? "Região de Saúde" : ($P{parNenhum} && !$P{parIsRegiao})?"Regional de residência":"Município de residência"]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>

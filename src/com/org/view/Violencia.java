@@ -418,7 +418,8 @@ public class Violencia extends javax.swing.JPanel {
         parametros.put("parVariosArquivos", "sim");
         parametros.put("parIsRegiao", false);
         parametros.put("parIsRegional", false);
-        parametros.put("parNenhum", false);//parametro para listar ou não os municípios
+        if(!cbMunicipio.getSelectedItem().toString().equals("NENHUM"))
+            parametros.put("parNenhum", false);//parametro para listar ou não os municípios
         parametros.put("parDesagregacao", cbDesagregacao.getSelectedItem().toString());
         parametros.put("parSgUf", cbUf.getSelectedItem().toString());
         parametros.put("parRegionalSaude", "");
@@ -442,6 +443,7 @@ public class Violencia extends javax.swing.JPanel {
             parametros.put("municipioEspecifico", "TODOS");
         } else if (cbMunicipio.getSelectedItem().toString().equals("NENHUM")) {
             parametros.put("municipioEspecifico", "NENHUM");
+            parametros.put("parNenhum",true);
         } else {
             parametros.put("municipioEspecifico", cbMunicipio.getSelectedItem().toString());
         }
