@@ -1079,6 +1079,7 @@ public class Agravo {
         //busca municipios dessa regional
         DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
         Object[] rowObjects1;
+        String sg_uf = "";
 
         Boolean sgUF = false;
         Boolean reg = false;
@@ -1093,10 +1094,12 @@ public class Agravo {
             double TotalRegistros = Double.parseDouble(String.valueOf(readerMunicipio.getRecordCount()));
             while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
                 if (utilDbf.getString(rowObjects1, "SG_UF") != null && sgUfResidencia != "TODAS") {
-                    sgUF = (utilDbf.getString(rowObjects1, "SG_UF").equals(sgUfResidencia));
+                    sg_uf = utilDbf.getString(rowObjects1, "SG_UF");
+                    sgUF = (sg_uf.equals(sgUfResidencia));
                 }
                 if (regiao.equals("true")) {
                     if (utilDbf.getString(rowObjects1, "ID_REGIAO") != null) {
+                        
                         reg = utilDbf.getString(rowObjects1, "ID_REGIAO").equals(codRegiao);
                     }
                 } else {
@@ -1126,7 +1129,8 @@ public class Agravo {
                 }
 
                 if (temReg || somenteMunicipios || (sgUF && codRegiao.length() == 0) || (reg && !(codRegiao.length() == 0))) {
-                    if (!utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
+                    if (sg_uf.equals(sgUfResidencia) && !utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
+                        //System.out.println(sg_uf);
                         if (!temMunicipio || MunicipioIgual) {
                             Agravo agravoDbf = new Agravo();
                             agravoDbf.setCodMunicipio(utilDbf.getString(rowObjects1, "ID_MUNICIP"));
@@ -2077,7 +2081,10 @@ public class Agravo {
     }
 
     public String getNumerador() {
-        return numerador;
+        if(numerador == null)
+            return "0";
+        else
+            return numerador;
     }
 
     public void setNumerador(String numerador) {
@@ -2683,6 +2690,128 @@ public class Agravo {
 
     public void setDenominadorInt(Integer denominadorInt) {
         this.denominadorInt = denominadorInt;
+    }
+    
+    public String getCodIbgeUF(String sigla_uf){
+        switch(sigla_uf){
+            case "RO":
+                return "11";
+            case "AC":
+                return "12";
+            case "AM":
+                return "13";
+            case "RR":
+                return "14";
+            case "PA":
+                return "15";
+            case "AP":
+                return "16";
+            case "TO":
+                return "17";
+            case "MA":
+                return "21";
+            case "PI":
+                return "22";
+            case "CE":
+                return "23";
+            case "RN":
+                return "24";
+            case "PB":
+                return "25";
+            case "PE":
+                return "26";
+            case "AL":
+                return "27";
+            case "SE":
+                return "28";
+            case "BA":
+                return "29";
+            case "MG":
+                return "31";
+            case "ES":
+                return "32";
+            case "RJ":
+                return "33";
+            case "SP":
+                return "35";
+            case "PR":
+                return "41";
+            case "SC":
+                return "42";
+            case "RS":
+                return "43";
+            case "MS":
+                return "50";
+            case "MT":
+                return "51";
+            case "GO":
+                return "52";
+            case "DF":
+                return "53";
+            default:
+                return "";
+        }
+    }
+    
+    public String getUFCodIbge(String cod_ibge){
+        switch(cod_ibge){
+            case "11":
+                return "RO";
+            case "12":
+                return "AC";
+            case "13":
+                return "AM";
+            case "14":
+                return "RR";
+            case "15":
+                return "PA";
+            case "16":
+                return "AP";
+            case "17":
+                return "TO";
+            case "21":
+                return "MA";
+            case "22":
+                return "PI";
+            case "23":
+                return "CE";
+            case "24":
+                return "RN";
+            case "25":
+                return "PB";
+            case "26":
+                return "PE";
+            case "27":
+                return "AL";
+            case "28":
+                return "SE";
+            case "29":
+                return "BA";
+            case "31":
+                return "MG";
+            case "32":
+                return "ES";
+            case "33":
+                return "RJ";
+            case "35":
+                return "SP";
+            case "41":
+                return "PR";
+            case "42":
+                return "SC";
+            case "43":
+                return "RS";
+            case "50":
+                return "MS";
+            case "51":
+                return "MT";
+            case "52":
+                return "GO";
+            case "53":
+                return "DF";
+            default:
+                return "";
+        }
     }
 
 }

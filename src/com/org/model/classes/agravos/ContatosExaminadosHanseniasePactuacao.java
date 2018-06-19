@@ -250,12 +250,14 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
         String dataFim = (String) parametros.get("parDataFim");
         //loop para ler os arquivos selecionados
         String[] arquivos = parametros.get("parArquivos").toString().split("\\|\\|");
+        String arquivoExportacao = "";
         for (int k = 0; k < arquivos.length; k++) {
             int i = 1;
             try {
                 reader = Util.retornaObjetoDbfCaminhoArquivo(arquivos[k].substring(0, arquivos[k].length() - 4), Configuracao.getPropriedade("caminho"));
                 utilDbf.mapearPosicoes(reader);
                 double TotalRegistros = Double.parseDouble(String.valueOf(reader.getRecordCount()));
+                arquivoExportacao = "NU_NOTIFIC;SG_UF_NOT;ID_MUNICIP;NM_MUNICIP;REG;DT_NOTIFIC;CS_RACA\n";
                 while ((rowObjects = reader.nextRecord()) != null) {
                     //cálculo da taxa estadual
                     //verifica a uf de residencia
@@ -302,10 +304,22 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
         Collections.sort(this.getBeans(), chain);
         //calcular o total
         if ((Boolean) parametros.get("parIsRegiao")) {
-            this.getBeans().add(adicionaTotal(municipioBean, codRegiao));
+//            this.getBeans().add(adicionaTotal(municipioBean, codRegiao));
+            this.getBeans().add(this.adicionaTotal(parametros));
         } else {
-            this.getBeans().add(adicionaTotal(municipioBean, codRegional));
+//            this.getBeans().add(adicionaTotal(municipioBean, codRegional));
+            this.getBeans().add(this.adicionaTotal(parametros));
         }
+    }
+    
+    
+    private Agravo adicionaTotal(Map parametros){
+        Agravo ag = new Agravo();
+        ag.setNumerador((String) String.valueOf(parametros.get("numeradorTotal")));
+        ag.setDenominador((String) String.valueOf(parametros.get("denominadorTotal")));
+        ag.setNomeMunicipio("TOTAL");
+        
+        return ag;
     }
 
     private void calculaMunicipios(DBFReader reader, Map parametros) throws ParseException {
@@ -397,9 +411,11 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
 
         //calcular o total
         if ((Boolean) parametros.get("parIsRegiao")) {
-            this.getBeans().add(adicionaTotal(municipioBean, codRegiao));
+//            this.getBeans().add(adicionaTotal(municipioBean, codRegiao));
+            this.getBeans().add(this.adicionaTotal(parametros));
         } else {
-            this.getBeans().add(adicionaTotal(municipioBean, codRegional));
+//            this.getBeans().add(adicionaTotal(municipioBean, codRegional));
+            this.getBeans().add(this.adicionaTotal(parametros));
         }
     }
 
@@ -469,7 +485,8 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
                 new BeanComparator("nomeMunicipio")));
         Collections.sort(this.getBeans(), chain);
         //calcular o total
-        this.getBeans().add(adicionaTotal(municipioBean, ""));
+//        this.getBeans().add(adicionaTotal(municipioBean, ""));
+        this.getBeans().add(this.adicionaTotal(parametros));
     }
 
     @Override

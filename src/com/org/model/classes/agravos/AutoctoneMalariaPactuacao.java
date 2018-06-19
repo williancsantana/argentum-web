@@ -466,6 +466,7 @@ public class AutoctoneMalariaPactuacao extends Agravo {
 
                 if (agravo.getRegional() != null && agravo.getRegional() != null) {
                     if (!agravo.getRegional().isEmpty()) {
+                        rowData[0] = SinanUtil.siglaUFToIDUF(agravo.getUf());
                         rowData[3] = agravo.getCodRegional();
                         rowData[4] = agravo.getRegional();
                     } else if (!agravo.getRegiaoSaude().isEmpty()) {

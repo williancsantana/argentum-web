@@ -9,6 +9,7 @@ import com.org.model.classes.ColunasDbf;
 import com.org.negocio.Configuracao;
 import com.org.negocio.Util;
 import com.org.util.SinanDateUtil;
+import com.org.util.SinanUtil;
 import com.org.view.Master;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -681,6 +682,7 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
         if(isPorRegional() || isPorRegiao()){
             
             if(isPorRegional()){
+                rowData[2] = SinanUtil.siglaUFToIDUF(agravo.getUf());
                 rowData[3] = agravo.getRegional();
                 rowData[4] = agravo.getCodRegional();
             }
