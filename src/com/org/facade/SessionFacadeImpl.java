@@ -223,7 +223,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                 parametros.put("parSgUf", uf);
                 parametros.put("parUf", String.valueOf(getCodigoUf(uf)));
                 if (parametros.get("parRegiaoSaude") != null && parametros.get("parRegiaoSaude") != "") {
-                    parametros.put("parCodRegiaoSaude", getCodRegiaoSaude(parametros.get("parRegiaoSaude").toString()));
+                    parametros.put("parCodRegiaoSaude", getCodRegiaoSaude(parametros.get("parRegiaoSaude").toString(), uf));
                     parametros.put("parNomeRegiao", getRegional());
                 }
                 if (municipio.equals("TODOS") || municipio.equals("-- Selecione --")) {
@@ -1449,7 +1449,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         return config;
     }
 
-    public String getCodRegiaoSaude(String regiaoSaude) throws SQLException {
+    public String getCodRegiaoSaude(String regiaoSaude, String UF) throws SQLException {
         if (regiaoSaude == null) {
             return "";
         }
@@ -1463,7 +1463,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             try {
                 utilDbf.mapearPosicoes(reader);
                 while ((rowObjects = reader.nextRecord()) != null) {
-                    if (regiaoSaude.equals(utilDbf.getString(rowObjects, "NM_REGIAO"))) {
+                    if (regiaoSaude.equals(utilDbf.getString(rowObjects, "NM_REGIAO")) && UF.equals(utilDbf.getString(rowObjects, "SG_UF"))) {
                         return utilDbf.getString(rowObjects, "ID_REGIAO");
                     }
                 }
