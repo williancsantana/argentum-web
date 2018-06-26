@@ -516,7 +516,7 @@ public class ContatosExaminadosTuberculosePactuacao extends Agravo {
                 rowData[7] = String.format("%.1f", percentual);
             }
 
-            rowData[8] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
+            rowData[8] = String.valueOf(preencheAno(getDataInicio(), getDataFim()).intValue());
             rowData[9] = getDataInicio();
             rowData[10] = getDataFim();
             rowData[11] = "TUBERCULOSE-SINANNET";
