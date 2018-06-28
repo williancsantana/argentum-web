@@ -457,6 +457,7 @@ public class SemanaEpidemiologicaPactuacao extends javax.swing.JPanel {
         filtro.addInicioNome("INFLR");
         filtro.addInicioNome("INFLS");
         filtro.addInicioNome("INFLT");
+        filtro.addInicioNome("INFLU");
 
         //fileopen.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileopen.addChoosableFileFilter(filtro);
