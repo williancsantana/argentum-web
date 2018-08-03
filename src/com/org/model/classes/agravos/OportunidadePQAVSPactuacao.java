@@ -139,7 +139,7 @@ public class OportunidadePQAVSPactuacao extends Agravo {
         getAgravosValidos().add("A984");  //EBOLA
 //        getAgravosValidos().add("Y59");   //EVENTOS ADVERSOS GRAVES OU OBITOS POS-VACINACAO
         getAgravosValidos().add("A959");  //FEBRE AMARELA
-        getAgravosValidos().add("A920");  //FEBRE DE CHIKUNGUNYA
+        getAgravosValidos().add("A920");  //FEBRE DE CHIKUNGUNYA (OBITOS)
         getAgravosValidos().add("A923");  //FEBRE DO NILO OCIDENTAL
         getAgravosValidos().add("A779");  //FEBRE MACULOSA E OUTRAS RIQUETISIOSES
         getAgravosValidos().add("A484");  //FEBRE PURPURICA BRASILEIRA
@@ -149,7 +149,7 @@ public class OportunidadePQAVSPactuacao extends Agravo {
         getAgravosValidos().add("B54");   //MALARIA NA REGIAO EXTRA AMAZONICA
         getAgravosValidos().add("A983");  //MARBURG
         getAgravosValidos().add("A809");  //PARALISIA FLACIDA AGUDA
-        getAgravosValidos().add("A928");  //ZIKA
+        getAgravosValidos().add("A928");  //ZIKA (OBITOS)
         getAgravosValidos().add("A209");  //PESTE
         getAgravosValidos().add("A829");  //RAIVA HUMANA
         getAgravosValidos().add("B092");  //RUBEOLA
@@ -534,7 +534,7 @@ public class OportunidadePQAVSPactuacao extends Agravo {
             retorno = "FEBRE AMARELA";
         }
         if (codAgravo.equals("A920")) {
-            retorno = "FEBRE DE CHIKUNGUNYA";
+            retorno = "FEBRE DE CHIKUNGUNYA (OBITOS)";
         }
         if (codAgravo.equals("A923")) {
             retorno = "FEBRE DO NILO OCIDENTAL";
@@ -588,7 +588,7 @@ public class OportunidadePQAVSPactuacao extends Agravo {
             retorno = "HANTAVIROSE";
         }
         if (codAgravo.equals("A928")) {
-            retorno = "ZIKA";
+            retorno = "ZIKA (OBITOS)";
         }
 
         return retorno;
@@ -1082,7 +1082,6 @@ public class OportunidadePQAVSPactuacao extends Agravo {
             } catch (DBFException ex) {
                 Master.mensagem("Erro:\n" + ex);
             }
-            System.out.println("");
         }
         //CALCULA A TAXA PARA TODOS OS MUNICIPIOS
         List<OportunidadeAgravoPQAVS> beans = new ArrayList();
@@ -1404,7 +1403,6 @@ public class OportunidadePQAVSPactuacao extends Agravo {
                    //getBarraStatus().setString((int) percentual + "%");
                     getBarraStatus().setValue((int) percentual);
                     i++;
-                    //System.out.println(i);
                 }
 
             } catch (DBFException ex) {
@@ -2208,7 +2206,7 @@ public class OportunidadePQAVSPactuacao extends Agravo {
         if (nomeAgravo.equals("FEBRE AMARELA")) {
             retorno = "A959";
         }
-        if (nomeAgravo.equals("FEBRE DE CHIKUNGUNYA")) {
+        if (nomeAgravo.equals("FEBRE DE CHIKUNGUNYA (OBITOS)")) {
             retorno = "A920";
         }
         if (nomeAgravo.equals("FEBRE DO NILO OCIDENTAL")) {
@@ -2262,7 +2260,7 @@ public class OportunidadePQAVSPactuacao extends Agravo {
         if (nomeAgravo.equals("HANTAVIROSE")) {
             retorno = "A988";
         }
-        if (nomeAgravo.equals("ZIKA")) {
+        if (nomeAgravo.equals("ZIKA (OBITOS)")) {
             retorno = "A928";
         }
 

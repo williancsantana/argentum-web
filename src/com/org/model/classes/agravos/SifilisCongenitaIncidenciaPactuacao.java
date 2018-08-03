@@ -461,7 +461,7 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
                 rowData[4] = null;
 
             } else {
-                rowData[4] = agravo.getCodMunicipio().substring(0, 2);
+                rowData[4] = agravo.getCodIbgeUF(agravo.getUf());
                 rowData[0] = agravo.getCodMunicipio();
 
                 if (agravo.getRegional() != null && agravo.getRegional() != null) {

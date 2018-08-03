@@ -597,8 +597,6 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 
                 }
             } else {
-                System.out.println("---- Antes de gerar o PDF ---------------------------------");
-                percorreExibeBeans();
                 jrds = new JRBeanArrayDataSource(beans.toArray());
                 URL arquivo;
                 if (parametros.get("parJasper") == null) {
@@ -620,8 +618,6 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                         parametros.put("parArquivos", "");
                     }
                 }
-//                System.out.println("---- Antes de gerar o PDF ---------------------------------");
-//                percorreEExibeBeans();
                 impressao = JasperFillManager.fillReport(arquivo.openStream(), parametros, jrds);
                 viewer = new JasperViewer(impressao, false);
                 if (this.isTemListagem()) {
@@ -633,25 +629,11 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
             exception.printStackTrace();
         }
     }
-
-    private void percorreExibeBeans() {
-        Iterator it = beans.iterator();
-        String linha;
-        while(it.hasNext()){
-            Agravo ag = (Agravo) it.next();
-            linha = ag.getNomeAgravo() + " - " + ag.getNomeMunicipio() + " - " + ag.getNumerador() + " - " + ag.getDenominador();
-            System.out.println(linha);
-        }
-    }
-
+    
     private void gerarRelatorioListagem(List listagem) throws IOException, JRException {
         parametros.put("parTitulo1", "Listagem de casos de doenças de notificação compulsória não encerrados ou inconclusivos");
         JRDataSource jrdsListagem = new JRBeanArrayDataSource(listagem.toArray());
         URL arquivoListagem = getClass().getResource("/com/org/relatorios/listagemOportunidade.jasper");
-        System.out.println(agravo.getNomeMunicipio());
-        for(Object o: parametros.entrySet()){
-            System.out.println(o);
-        }
         JasperPrint imprimirListagem = JasperFillManager.fillReport(arquivoListagem.openStream(), parametros, jrdsListagem);
         JasperViewer viewerListagem = new JasperViewer(imprimirListagem, false);
         viewerListagem.setVisible(true);
@@ -1061,8 +1043,6 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 //                oportunidade = (com.org.model.classes.agravos.Oportunidade) agravo;
 //                new DBF().beanToDbf(agravo.getColunas(), oportunidade.getListExportacao(), agravo);
 //            } else {
-            System.out.println("--------------------- Antes de exportar para DBF --------------------------------------");
-            percorreExibeBeans();
             new DBF().beanToDbf(agravo.getColunas(), beans, agravo);
 //            }
 
@@ -1102,9 +1082,9 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
         String[] grupos = {
             "Selecione um Grupo",
             "PQAVS a partir de 2017",
-            "Pactuação Interfederativa 2017 a 2021"
+            "Pactuação Interfederativa 2017 a 2021",
 //            "Pactuações Anteriores",
-//            "Outros relatórios"
+            "Outros relatórios"
         };
         return grupos;
     }
@@ -1250,13 +1230,13 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
 
             if (grupo.equals("Outros relatórios")) {
                 relatorios = new String[]{"Selecione o Relatório",
-                    "Análise de Completitude",
-                    "Proporção de doenças exantemáticas investigados oportuna e adequadamente",
-                    "Proporção de doenças exantemáticas investigados oportunamente (PAVS 2010/2011)",
-                    "Taxa de notificação de casos de PFA em menores de 15 anos (PAVS 2010/2011)",
-                    "Listagem de notificações de prováveis faltosos e abandono do tratamento de hanseníase",
-                    "Regularidade na alimentação do Sinan",
-                    "Número de semanas epidemiológicas com informação"
+//                    "Análise de Completitude",
+//                    "Proporção de doenças exantemáticas investigados oportuna e adequadamente",
+//                    "Proporção de doenças exantemáticas investigados oportunamente (PAVS 2010/2011)",
+//                    "Taxa de notificação de casos de PFA em menores de 15 anos (PAVS 2010/2011)",
+//                    "Listagem de notificações de prováveis faltosos e abandono do tratamento de hanseníase",
+                    "Regularidade na alimentação do Sinan"
+//                    "Número de semanas epidemiológicas com informação"
 
                 };
             }

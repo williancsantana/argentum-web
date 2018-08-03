@@ -154,20 +154,6 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
 
             if (isBetweenDates(dtDiagnostico, dataInicio, dataFim)) {
 
-                if (municipioResidencia != null) {
-                    if (municipioResidencia.getCodMunicipio().equals("312770")) {
-                        System.out.println(utilDbf.getString(rowObjects, "NU_NOTIFIC") + " "
-                                + utilDbf.getString(rowObjects, "MODOENTR") + " "
-                                + utilDbf.getString(rowObjects, "CLASSATUAL") + " "
-                                + utilDbf.getString(rowObjects, "ESQ_ATU_N") + " "
-                                + utilDbf.getString(rowObjects, "TPALTA_N") + " "
-                                + dataInicio + " " + dataFim + " "
-                                + utilDbf.getString(rowObjects, "CONTREG") + " "
-                                + utilDbf.getString(rowObjects, "CONTEXAM")
-                        );
-                    }
-                }
-
                 if (utilDbf.getString(rowObjects, "CONTREG") != null) {
                     if (!utilDbf.getString(rowObjects, "CONTREG").isEmpty()) {
 
@@ -579,7 +565,7 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
                 rowData[4] = null;
 
             } else {
-                rowData[0] = agravo.getCodMunicipio().substring(0, 2);
+                rowData[0] = agravo.getCodIbgeUF(agravo.getUf());
                 rowData[1] = agravo.getCodMunicipio();
 
                 if (agravo.getRegional() != null && agravo.getRegional() != null) {

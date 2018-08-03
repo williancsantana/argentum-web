@@ -163,23 +163,28 @@ public class AutoctoneMalariaPactuacao extends Agravo {
                     //cálculo da taxa estadual
                     //verifica a uf de residencia
                     if (utilDbf.getString(rowObjects, "COUFINF") != null) {
-                        //   try {
-                        //verifica se existe a referencia do municipio no bean
-                        if ((Boolean) parametros.get("parIsRegiao")) {
-                            regiaoResidencia = regiaoBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
-                            if (regiaoResidencia != null) {
+                        regiaoResidencia = regiaoBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
+                        if(regiaoResidencia != null){
+                            if((Boolean) parametros.get("parIsRegiao")){
                                 municipioResidencia = municipiosBeans.get(regiaoResidencia.getCodRegiaoSaude());
                             }
-                        } else {
-                            regiaoResidencia = regiaoBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
-                            if (regiaoResidencia != null) {
+                            else{
                                 municipioResidencia = municipiosBeans.get(regiaoResidencia.getCodRegional());
                             }
+                            calculaIndicador(rowObjects, parametros);
                         }
-                        //   } catch (SQLException ex) {
-                        //       Logger.getLogger(AutoctoneMalariaPactuacao.class.getName()).log(Level.SEVERE, null, ex);
-                        //   }
-                        calculaIndicador(rowObjects, parametros);
+//                        if ((Boolean) parametros.get("parIsRegiao")) {
+//                            //regiaoResidencia = regiaoBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
+//                            if (regiaoResidencia != null) {
+//                                municipioResidencia = municipiosBeans.get(regiaoResidencia.getCodRegiaoSaude());
+//                            }
+//                        } else {
+//                            //regiaoResidencia = regiaoBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
+//                            if (regiaoResidencia != null) {
+//                                municipioResidencia = municipiosBeans.get(regiaoResidencia.getCodRegional());
+//                            }
+//                        }
+                        //calculaIndicador(rowObjects, parametros);
                         //verifica se tem o parametro de municipio de residencia
                         //Critérios
                     }
@@ -461,7 +466,7 @@ public class AutoctoneMalariaPactuacao extends Agravo {
                 rowData[4] = null;
 
             } else {
-                rowData[0] = agravo.getCodMunicipio().substring(0, 2);
+                rowData[0] = agravo.getCodIbgeUF(agravo.getUf());
                 rowData[1] = agravo.getCodMunicipio();
 
                 if (agravo.getRegional() != null && agravo.getRegional() != null) {

@@ -239,7 +239,6 @@ public class Regularidade extends Agravo {
                         getBarraStatus().setStringPainted(true);
                         getBarraStatus().setString("Processando: "+arquivos[k].toString() + ", período: "+ arraySemanas[y].toString()+"  ("+(int) percentual+"%)");
                         i++;
-                        System.out.println(i);
                     }
                 } catch (DBFException e) {
                     Master.mensagem("Erro: " + e);
@@ -357,6 +356,10 @@ public class Regularidade extends Agravo {
         parametrosRegularidade.put("UF", parametros.get("parSgUf"));
         parametrosRegularidade.put("REGIONAL", parametros.get("parRegional"));
         parametrosRegularidade.put("MUNICIPIO", "TODOS");
+        parametrosRegularidade.put("parIsRegiao",(Boolean) parametros.get("parIsRegiao"));
+        parametrosRegularidade.put("parIsRegional",(Boolean) parametros.get("parIsRegional"));
+        parametrosRegularidade.put("parDesagregacao", (String) parametros.get("parDesagregacao"));
+        parametrosRegularidade.put("parIsRegional",(Boolean) parametros.get("parIsRegional"));
 
         if(parametros.get("tipoRelatorio").equals("analitico")){
             regiaoRegularidadeService.gerarRelatorioRegularidade(beans, parametrosRegularidade, countFields, parametros.get("isDBF").toString());
@@ -472,7 +475,6 @@ public class Regularidade extends Agravo {
                         float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistrosInt)) * 100;
                         getBarraStatus().setValue((int) percentual);
                         i++;
-                        System.out.println(i);
                     }
                 } catch (DBFException e) {
                     Master.mensagem("Erro: " + e);
@@ -654,22 +656,25 @@ public class Regularidade extends Agravo {
         DBFUtil utilDbf = new DBFUtil();
         HashMap<String, Municipio> municipios = new HashMap<String, Municipio>();
         String nmMunicipio, idMunicipio, sgUfPar;
+        String region, regiao;
         if (regional.length() > 0) {
             //busca municipios dessa regional
-            DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
+            DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");            
             try {
                 utilDbf.mapearPosicoes(readerMunicipio);
                 while ((rowObjects = readerMunicipio.nextRecord()) != null) {
                     nmMunicipio = utilDbf.getString(rowObjects, "NM_MUNICIP");
                     idMunicipio = utilDbf.getString(rowObjects, "ID_MUNICIP");
                     sgUfPar = utilDbf.getString(rowObjects, "SG_UF");
+                    region = utilDbf.getString(rowObjects, "ID_REGIONA");
+                    regiao = utilDbf.getString(rowObjects, "ID_REGIAO");
                     if (regional.equals(utilDbf.getString(rowObjects, "ID_REGIONA"))) {
                         if (!nmMunicipio.startsWith("IGNORADO") && !nmMunicipio.startsWith("MUNICIPIO") && nmMunicipio.lastIndexOf("TRANSF.") == -1 && nmMunicipio.lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
                             if ((sgUfPar.equals("DF") && idMunicipio.equals("530010") && nmMunicipio.equals("BRASILIA")) || !sgUfPar.equals("DF")) {
                                 if(!codMunicipio.equals("") && codMunicipio != null && idMunicipio.equals(codMunicipio)){
-                                    municipios.put(idMunicipio, new Municipio(nmMunicipio, idMunicipio, sgUfPar));
+                                    municipios.put(idMunicipio, new Municipio(nmMunicipio, idMunicipio, sgUfPar, region, regiao));
                                }else if(codMunicipio.equals("") || codMunicipio == null){
-                                   municipios.put(idMunicipio, new Municipio(nmMunicipio, idMunicipio, sgUfPar));
+                                   municipios.put(idMunicipio, new Municipio(nmMunicipio, idMunicipio, sgUfPar, region, regiao));
                                }
                             }
                         }
@@ -685,13 +690,15 @@ public class Regularidade extends Agravo {
                     nmMunicipio = utilDbf.getString(rowObjects, "NM_MUNICIP");
                     idMunicipio = utilDbf.getString(rowObjects, "ID_MUNICIP");
                     sgUfPar = utilDbf.getString(rowObjects, "SG_UF");
+                    region = utilDbf.getString(rowObjects, "ID_REGIONA");
+                    regiao = utilDbf.getString(rowObjects, "ID_REGIAO");
                     if (sgUf.equals(sgUfPar) || UF == 0) {
                         if (!nmMunicipio.startsWith("IGNORADO") && !nmMunicipio.startsWith("MUNICIPIO") && nmMunicipio.lastIndexOf("TRANSF.") == -1 && nmMunicipio.lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
                             if ((sgUfPar.equals("DF") && idMunicipio.equals("530010") && nmMunicipio.equals("BRASILIA")) || !sgUfPar.equals("DF")) {
                                if(!codMunicipio.equals("") && codMunicipio != null && idMunicipio.equals(codMunicipio)){
-                                    municipios.put(idMunicipio, new Municipio(nmMunicipio, idMunicipio, sgUfPar));
+                                    municipios.put(idMunicipio, new Municipio(nmMunicipio, idMunicipio, sgUfPar, region, regiao));
                                }else if(codMunicipio.equals("") || codMunicipio == null){
-                                   municipios.put(idMunicipio, new Municipio(nmMunicipio, idMunicipio, sgUfPar));
+                                   municipios.put(idMunicipio, new Municipio(nmMunicipio, idMunicipio, sgUfPar, region, regiao));
                                }
                             }
                         }

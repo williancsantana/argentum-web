@@ -8,6 +8,7 @@ import com.linuxense.javadbf.DBFField;
 import com.linuxense.javadbf.DBFWriter;
 import com.org.beans.CampoDBF;
 import com.org.beans.RegiaoRegularidade;
+import com.org.model.classes.Agravo;
 import com.org.model.classes.Municipio;
 import com.org.model.classes.UF;
 import com.org.util.Report;
@@ -15,13 +16,19 @@ import com.org.util.SinanDateUtil;
 import com.org.util.SinanUtil;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections.comparators.ComparatorChain;
 
 /**
  *
@@ -39,7 +46,21 @@ public class RegiaoRegularidadeService {
      * @autor Taidson
      */
     public void gerarRelatorioRegularidade(List<Municipio> listaMunicipio, Map parametros, int countFields, String isDBF) throws IOException{
-        List<RegiaoRegularidade> listaRegiaoRegularidade = agruparPorRegiao(listaMunicipio);
+        boolean porRegiao, porRegional;
+        List<RegiaoRegularidade> listaRegiaoRegularidade = null;
+        porRegiao = (Boolean) parametros.get("parIsRegiao");
+        porRegional = (Boolean) parametros.get("parIsRegional");
+        
+        if(porRegiao){//Por regiões de saúde
+            listaRegiaoRegularidade = agruparPorRegiaoSaude(listaMunicipio, (String) parametros.get("UF"));
+        }
+        else if(porRegional){// Por regionais de saúde
+            listaRegiaoRegularidade = agruparPorRegionalSaude(listaMunicipio, (String) parametros.get("UF"));
+        }
+        else{// Somente municípios
+            listaRegiaoRegularidade = agruparSomenteMunicipios(listaMunicipio);
+        }        
+        //List<RegiaoRegularidade> listaRegiaoRegularidade = agruparPorRegiao(listaMunicipio);        
         Report report = new Report();
         JRDataSource jrds = new JRBeanCollectionDataSource(listaRegiaoRegularidade);
         parametros.put("TITULO", "Municípios Irregulares na Alimentação do Sinan");
@@ -50,7 +71,107 @@ public class RegiaoRegularidadeService {
         
     }
     
-
+    private List<RegiaoRegularidade> agruparSomenteMunicipios(List<Municipio> listaMunicipio){
+        List<RegiaoRegularidade> listaRetorno = new ArrayList();
+        RegiaoRegularidade regiao = new RegiaoRegularidade();
+        regiao.setNome("Brasil");
+        ComparatorChain chain = new ComparatorChain(Arrays.asList(new BeanComparator("sgUF"), new BeanComparator("nmMunicipio")));
+        Collections.sort(listaMunicipio, chain);
+        regiao.setListaMunicipio(listaMunicipio);
+        listaRetorno.add(regiao);
+        return listaRetorno;
+    }
+    
+    private List<RegiaoRegularidade> agruparPorRegiaoSaude(List<Municipio> listaMunicipio, String uf){
+        List<RegiaoRegularidade> listaRegiaoRegularidade = new ArrayList();
+        Map<String, String> listaRegioes = SinanUtil.retornaListaRegioes(uf);
+        Map<String, List<Municipio>> regiaoEMunicipios = new HashMap();
+        Set<String> setRegioes = new HashSet(listaRegioes.values());
+        List<Municipio> listaMunicipioRegiao;
+        RegiaoRegularidade regiao;
+        
+        Iterator<String> itRegioes = setRegioes.iterator();
+        while(itRegioes.hasNext()){
+            String reg = itRegioes.next();
+            listaMunicipioRegiao = new ArrayList();
+            regiaoEMunicipios.put(reg, listaMunicipioRegiao);
+        }
+        
+        //verificar se as listas estao preenchidas, e depois acessar municipio por municipio
+        //verificar se um determinado municipio se encaixa em uma regiao de saúde
+        
+        if(!SinanUtil.isListEmpty(listaMunicipio)){
+            for (Municipio item : listaMunicipio) {
+                String regiaoLine = listaRegioes.get(item.getCodRegiaoSaude());
+                if(regiaoLine != null){
+                    regiaoEMunicipios.get(regiaoLine).add(item);
+                }                
+            }
+        }        
+        //iterar sobre as listas de municípios com as regiões e converter de map para list
+        itRegioes = setRegioes.iterator();
+        while(itRegioes.hasNext()){
+            String cursor = itRegioes.next();
+            List<Municipio> m = regiaoEMunicipios.get(cursor);//Pega o primeiro municipio para poder pegar a UF            
+            if(!SinanUtil.isListEmpty(m)){
+                regiao = new RegiaoRegularidade();
+                regiao.setNome(m.get(0).getSgUF() + " - " + cursor);
+                regiao.setListaMunicipio(m);
+                listaRegiaoRegularidade.add(regiao);
+            }
+            //Faltando ordenar por UF - nome região
+            ComparatorChain chain = new ComparatorChain(Arrays.asList(new BeanComparator("nome")));
+            Collections.sort(listaRegiaoRegularidade, chain);
+        }        
+        
+        return listaRegiaoRegularidade;
+   }
+    
+    private List<RegiaoRegularidade> agruparPorRegionalSaude(List<Municipio> listaMunicipio, String uf){
+        List<RegiaoRegularidade> listaRegiaoRegularidade = new ArrayList();
+        Map<String, String> listaRegionais = SinanUtil.retornaListaRegionais(uf);
+        Map<String, List<Municipio>> regiaoEMunicipios = new HashMap();
+        Set<String> setRegionais = new HashSet(listaRegionais.values());
+        List<Municipio> listaMunicipioRegional;
+        RegiaoRegularidade regiao;
+        
+        Iterator<String> itRegioes = setRegionais.iterator();
+        while(itRegioes.hasNext()){
+            String reg = itRegioes.next();
+            listaMunicipioRegional = new ArrayList();
+            regiaoEMunicipios.put(reg, listaMunicipioRegional);
+        }
+        
+        //verificar se as listas estao preenchidas, e depois acessar municipio por municipio
+        //verificar se um determinado municipio se encaixa em uma regiao de saúde
+        
+        if(!SinanUtil.isListEmpty(listaMunicipio)){
+            for (Municipio item : listaMunicipio) {
+                String regiaoLine = listaRegionais.get(item.getCodRegionalSaude());
+                if(regiaoLine != null){
+                    regiaoEMunicipios.get(regiaoLine).add(item);
+                }                
+            }
+        }        
+        //iterar sobre as listas de municípios com as regiões e converter de map para list
+        itRegioes = setRegionais.iterator();
+        while(itRegioes.hasNext()){
+            String cursor = itRegioes.next();
+            List<Municipio> m = regiaoEMunicipios.get(cursor);//Pega o primeiro municipio para poder pegar a UF            
+            if(!SinanUtil.isListEmpty(m)){
+                regiao = new RegiaoRegularidade();
+                regiao.setNome(m.get(0).getSgUF() + " - " + cursor);
+                regiao.setListaMunicipio(m);
+                listaRegiaoRegularidade.add(regiao);
+            }
+            //Faltando ordenar por UF - nome região
+            ComparatorChain chain = new ComparatorChain(Arrays.asList(new BeanComparator("nome")));
+            Collections.sort(listaRegiaoRegularidade, chain);
+        }        
+        
+        return listaRegiaoRegularidade;
+   } 
+    
     /**
      * Método responsável por gerar relatório de regularidade na alimentação do Sinan de forma sintética.
      * Apresenta por região e estado os dados dos municípios irregulares.

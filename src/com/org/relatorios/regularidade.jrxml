@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="76"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="periodo1" class="java.lang.String"/>
 	<parameter name="periodo2" class="java.lang.String"/>
@@ -41,6 +41,8 @@
 	<parameter name="ARQUIVO7" class="java.lang.String"/>
 	<parameter name="ARQUIVO8" class="java.lang.String"/>
 	<parameter name="ARQUIVO9" class="java.lang.String"/>
+	<parameter name="parDesagregacao" class="java.lang.String"/>
+	<parameter name="parIsRegional" class="java.lang.Boolean"/>
 	<field name="nome" class="java.lang.String"/>
 	<field name="listaMunicipio" class="java.util.ArrayList"/>
 	<background>
@@ -89,7 +91,7 @@
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[Regional de notificação:]]></text>
+				<text><![CDATA[Desagregação:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="15" y="86" width="100" height="14"/>
@@ -442,11 +444,11 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{UF}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="104" y="70" width="120" height="14"/>
+				<reportElement x="84" y="70" width="203" height="14"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{REGIONAL}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{parDesagregacao}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="107" y="86" width="120" height="14"/>
@@ -501,11 +503,11 @@
 	<detail>
 		<band height="88" splitType="Stretch">
 			<textField>
-				<reportElement x="3" y="3" width="164" height="14"/>
+				<reportElement x="3" y="3" width="328" height="14"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Região: " + $F{nome}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[($P{parIsRegional}? "Regional:" : "Região: ") + $F{nome}]]></textFieldExpression>
 			</textField>
 			<subreport>
 				<reportElement x="0" y="38" width="802" height="50"/>

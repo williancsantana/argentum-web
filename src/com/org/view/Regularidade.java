@@ -156,7 +156,7 @@ public class Regularidade extends javax.swing.JPanel {
         btCalcular = new javax.swing.JButton();
         cbUf = new javax.swing.JComboBox();
         chkExportarDbf = new javax.swing.JCheckBox();
-        jLabel3 = new javax.swing.JLabel();
+        lblRegional = new javax.swing.JLabel();
         cbMunicipio = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         cbRegional = new javax.swing.JComboBox();
@@ -166,6 +166,8 @@ public class Regularidade extends javax.swing.JPanel {
         rbRegSintetico = new javax.swing.JRadioButton();
         rbRegAnaliticoSintetico = new javax.swing.JRadioButton();
         prbStatusGeral = new javax.swing.JProgressBar();
+        lblDesagregacao = new javax.swing.JLabel();
+        cbDesagregacao = new javax.swing.JComboBox<>();
 
         panelMunicipioSemNotificacao.setBorder(javax.swing.BorderFactory.createTitledBorder("Arquivos DBF selecionados"));
 
@@ -187,9 +189,9 @@ public class Regularidade extends javax.swing.JPanel {
             }
         });
 
-        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel26.setForeground(java.awt.Color.red);
-        jLabel26.setText("Selecione os seguintes arquivos DBF: Notificação Individual, Negativa, Surto e Epizootia");
+        jLabel26.setText("Selecione os seguintes arquivos DBF: Notificação Individual, Negativa, Surto, Tracoma e Epizootia");
 
         cbAnoInicialMunicipio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008" }));
         cbAnoInicialMunicipio.addActionListener(new java.awt.event.ActionListener() {
@@ -240,40 +242,45 @@ public class Regularidade extends javax.swing.JPanel {
         panelMunicipioSemNotificacao.setLayout(panelMunicipioSemNotificacaoLayout);
         panelMunicipioSemNotificacaoLayout.setHorizontalGroup(
             panelMunicipioSemNotificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMunicipioSemNotificacaoLayout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
+            .addGroup(panelMunicipioSemNotificacaoLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(panelMunicipioSemNotificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel26)
-                    .addComponent(lblArquivosSelecionados, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelMunicipioSemNotificacaoLayout.createSequentialGroup()
-                        .addComponent(btnSelecionarArquivos)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnLimparSelecao))
-                    .addGroup(panelMunicipioSemNotificacaoLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMunicipioSemNotificacaoLayout.createSequentialGroup()
+                        .addGap(0, 22, Short.MAX_VALUE)
                         .addGroup(panelMunicipioSemNotificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblArquivosSelecionados, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelMunicipioSemNotificacaoLayout.createSequentialGroup()
-                                .addGroup(panelMunicipioSemNotificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnSelecionarArquivos)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLimparSelecao))
+                            .addGroup(panelMunicipioSemNotificacaoLayout.createSequentialGroup()
+                                .addGroup(panelMunicipioSemNotificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelMunicipioSemNotificacaoLayout.createSequentialGroup()
-                                        .addComponent(jLabel29)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cbAnoFinalMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel30)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(spSemanaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(panelMunicipioSemNotificacaoLayout.createSequentialGroup()
-                                        .addComponent(jLabel27)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cbAnoInicialMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel28)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(spSemanaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMunicipioSemNotificacaoLayout.createSequentialGroup()
-                                .addComponent(btnInserirPeriodo)
-                                .addGap(75, 75, 75)))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGroup(panelMunicipioSemNotificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(panelMunicipioSemNotificacaoLayout.createSequentialGroup()
+                                                .addComponent(jLabel29)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(cbAnoFinalMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jLabel30)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(spSemanaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(panelMunicipioSemNotificacaoLayout.createSequentialGroup()
+                                                .addComponent(jLabel27)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(cbAnoInicialMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jLabel28)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(spSemanaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMunicipioSemNotificacaoLayout.createSequentialGroup()
+                                        .addComponent(btnInserirPeriodo)
+                                        .addGap(75, 75, 75)))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(panelMunicipioSemNotificacaoLayout.createSequentialGroup()
+                        .addComponent(jLabel26)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         panelMunicipioSemNotificacaoLayout.setVerticalGroup(
             panelMunicipioSemNotificacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,12 +307,11 @@ public class Regularidade extends javax.swing.JPanel {
                             .addComponent(jLabel30)
                             .addComponent(spSemanaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnInserirPeriodo)
-                        .addContainerGap())
+                        .addComponent(btnInserirPeriodo))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMunicipioSemNotificacaoLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         btLimpar.setText("Limpar");
@@ -330,8 +336,8 @@ public class Regularidade extends javax.swing.JPanel {
 
         chkExportarDbf.setText("Salvar resultado em DBF");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel3.setText("Regional:"); // NOI18N
+        lblRegional.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblRegional.setText("Regional:"); // NOI18N
 
         cbMunicipio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -339,7 +345,7 @@ public class Regularidade extends javax.swing.JPanel {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setText("Município:"); // NOI18N
 
         cbRegional.addActionListener(new java.awt.event.ActionListener() {
@@ -348,7 +354,7 @@ public class Regularidade extends javax.swing.JPanel {
             }
         });
 
-        lblUF.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblUF.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblUF.setText("UF de Notificação:"); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de relatório"));
@@ -390,6 +396,16 @@ public class Regularidade extends javax.swing.JPanel {
                 .addComponent(rbRegAnaliticoSintetico))
         );
 
+        lblDesagregacao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblDesagregacao.setText("Desagregação:");
+
+        cbDesagregacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Selecione --", "UF subdividida por Regiões de Saúde", "UF subdividida por Regionais de Saúde", "Somente municípios" }));
+        cbDesagregacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbDesagregacaoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -401,14 +417,16 @@ public class Regularidade extends javax.swing.JPanel {
                         .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblUF)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(lblRegional)
+                            .addComponent(jLabel4)
+                            .addComponent(lblDesagregacao))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cbMunicipio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cbRegional, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cbUf, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(chkExportarDbf))
+                            .addComponent(cbUf, 0, 229, Short.MAX_VALUE)
+                            .addComponent(chkExportarDbf)
+                            .addComponent(cbDesagregacao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(panelMunicipioSemNotificacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -426,22 +444,26 @@ public class Regularidade extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblUF)
                             .addComponent(cbUf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblDesagregacao)
+                            .addComponent(cbDesagregacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbRegional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
+                            .addComponent(lblRegional))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(cbMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chkExportarDbf))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
+                        .addComponent(chkExportarDbf)))
+                .addGap(27, 27, 27)
                 .addComponent(panelMunicipioSemNotificacao, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -468,10 +490,10 @@ public class Regularidade extends javax.swing.JPanel {
         filtro.addInicioNome("EPIZO");
         filtro.addInicioNome("NSURT");
         filtro.addInicioNome("DENGO");
-
+        filtro.addInicioNome("TRACO");
         //        fileopen.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileopen.addChoosableFileFilter(filtro);
-fileopen.setFileFilter(filtro);
+        fileopen.setFileFilter(filtro);
 
         File file2 = new File(new Configuracao().getCaminho());
         fileopen.setCurrentDirectory(file2);
@@ -497,8 +519,8 @@ fileopen.setFileFilter(filtro);
         //individual, negativa, surto ou epizootia
         arquivos = lblArquivosSelecionados.getText().split("\\|\\|");
         if (arquivos != null) {
-            if (arquivos.length < 4) {
-                Master.mensagem("É necessário selecionar 4 bases: Notificação Individual, Notificação Negativa, Surto e epizootia");
+            if (arquivos.length < 5) {
+                Master.mensagem("É necessário selecionar 5 bases: Notificação Individual, Notificação Negativa, Surto, Tracoma e Epizootia");
             }
         }
     }//GEN-LAST:event_btnSelecionarArquivosActionPerformed
@@ -563,6 +585,8 @@ fileopen.setFileFilter(filtro);
         parametros.put("parSemanaFinal", this.spSemanaFinal.getValue().toString());
         parametros.put("parConfig", "");
         parametros.put("parRodape", "");
+        parametros.put("parIsRegiao",false);
+        parametros.put("parIsRegional",false);
         parametros.put("parTitulo1", "Municípios que não notificaram no Sinan");
         parametros.put("parDataHoje", new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()));
         if (this.cbUf.getSelectedItem().toString().equals("Brasil")) {
@@ -570,6 +594,18 @@ fileopen.setFileFilter(filtro);
         }else{
             parametros.put("parSgUf", this.cbUf.getSelectedItem().toString());
         }
+        
+        parametros.put("parDesagregacao",cbDesagregacao.getSelectedItem().toString());
+        
+        if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")) {
+            parametros.put("parIsRegiao", true);
+            parametros.put("parRegiaoSaude", cbRegional.getSelectedItem().toString());
+        } else if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regionais de Saúde")) {
+            parametros.put("parRegionalSaude", cbRegional.getSelectedItem().toString());
+            parametros.put("parIsRegional", true);
+            session.setRegional(cbRegional.getSelectedItem().toString());
+        }
+        
         if(this.cbRegional.getSelectedItem().toString().equals("-- Selecione --")){
             parametros.put("parRegional", "TODAS");
         }else{
@@ -684,6 +720,31 @@ fileopen.setFileFilter(filtro);
         // TODO add your handling code here:
     }//GEN-LAST:event_rbRegAnaliticoActionPerformed
 
+    private void cbDesagregacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDesagregacaoActionPerformed
+        // TODO add your handling code here:
+        ComboBoxModel modelo;
+
+        if (this.cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
+            lblRegional.setVisible(false);
+            cbRegional.setVisible(false);
+        } else if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regiões de Saúde")) {
+            lblRegional.setText("Região de Saúde:");
+            lblRegional.setVisible(true);
+            cbRegional.setVisible(true);
+            modelo = new DefaultComboBoxModel(this.session.retornaRegioes(this.cbUf.getSelectedItem().toString()));
+            this.cbRegional.setModel(modelo);
+        } else if (this.cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regionais de Saúde")) {
+            lblRegional.setText("Regional:");
+            lblRegional.setVisible(true);
+            cbRegional.setVisible(true);
+            modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));
+            this.cbRegional.setModel(modelo);
+        }
+
+        modelo = new DefaultComboBoxModel(this.session.retornaMunicipios(this.cbUf.getSelectedItem().toString()));
+        this.cbMunicipio.setModel(modelo);
+    }//GEN-LAST:event_cbDesagregacaoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCalcular;
@@ -694,6 +755,7 @@ fileopen.setFileFilter(filtro);
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox cbAnoFinalMunicipio;
     private javax.swing.JComboBox cbAnoInicialMunicipio;
+    private javax.swing.JComboBox<String> cbDesagregacao;
     private javax.swing.JComboBox cbMunicipio;
     private javax.swing.JComboBox cbRegional;
     private javax.swing.JComboBox cbUf;
@@ -702,12 +764,13 @@ fileopen.setFileFilter(filtro);
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblArquivosSelecionados;
+    private javax.swing.JLabel lblDesagregacao;
+    private javax.swing.JLabel lblRegional;
     private javax.swing.JLabel lblUF;
     private javax.swing.JPanel panelMunicipioSemNotificacao;
     private javax.swing.JProgressBar prbStatus;

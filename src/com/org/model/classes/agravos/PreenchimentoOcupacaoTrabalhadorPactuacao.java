@@ -154,16 +154,25 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
         String sgUfResidencia = (String) parametros.get("parSgUf");
         String codRegional = (String) parametros.get("parCodRegional");
         String codRegiao = (String) parametros.get("parCodRegiaoSaude");
+        Map<String, Agravo> regBeans = new HashMap<String, Agravo>();
         parametros.put("numeradorTotal", 0);
         parametros.put("denominadorTotal", 0);
-
+        String idMunicipio;
+        if (parametros.get("parMunicipio") != null) {
+            idMunicipio = (String) parametros.get("parMunicipio");
+        } else {
+            idMunicipio = "TODOS";
+        }
         if (codRegional == null) {
             codRegional = "";
         }
+        
         if ((Boolean) parametros.get("parIsRegiao")) {
             municipiosBeans = populaRegiaoBeans(sgUfResidencia, codRegiao);
+            regBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, idMunicipio, parametros.get("parIsRegiao").toString());
         } else {
             municipiosBeans = populaRegionalBeans(sgUfResidencia, codRegional);
+            regBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, idMunicipio, parametros.get("parIsRegiao").toString());
         }
         //municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
         //inicia o calculo
@@ -185,15 +194,23 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
                     if (utilDbf.getString(rowObjects, "SG_UF_NOT") != null) {
                         try {
                             //verifica se existe a referencia do municipio no bean
-                            if ((Boolean) parametros.get("parIsRegiao")) {
-                                municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
-                            } else {
-                                municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
+                            Agravo ag = null;
+                            ag = regBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
+                            if(ag != null){
+                                if ((Boolean) parametros.get("parIsRegiao")) {
+                                    municipioResidencia = municipiosBeans.get(ag.getCodRegiaoSaude());
+                                    //municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
+                                } else {
+                                    municipioResidencia = municipiosBeans.get(ag.getCodRegional());
+                                    //municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "ID_MUNICIP")));
+                                }
+                                calculaIndicador(rowObjects, parametros);
                             }
-                        } catch (SQLException ex) {
+                            
+                        } catch (Exception ex) {
                             Logger.getLogger(AutoctoneMalariaPactuacao.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        calculaIndicador(rowObjects, parametros);
+                        //calculaIndicador(rowObjects, parametros);
                         //verifica se tem o parametro de municipio de residencia
                         //Critérios
                     }
@@ -534,7 +551,7 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
                 rowData[4] = null;
 
             } else {
-                rowData[0] = agravo.getCodMunicipio().substring(0, 2);
+                rowData[0] = agravo.getCodIbgeUF(agravo.getUf());
                 rowData[1] = agravo.getCodMunicipio();
 
                 if (agravo.getRegional() != null && agravo.getRegional() != null) {

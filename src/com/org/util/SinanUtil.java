@@ -10,11 +10,14 @@ import com.linuxense.javadbf.DBFWriter;
 import com.org.bd.DBFUtil;
 import com.org.beans.Completitude;
 import com.org.facade.SessionFacadeImpl;
+import com.org.model.classes.Agravo;
 import com.org.model.classes.Municipio;
 import com.org.model.classes.agravos.oportunidade.OportunidadeAgravoCOAP;
 import com.org.model.classes.agravos.oportunidade.OportunidadeAgravoPQAVS;
 import com.org.negocio.Configuracao;
 import com.org.negocio.FiltroArquivo;
+import com.org.negocio.Util;
+import com.org.view.Master;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,8 +30,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -928,4 +935,74 @@ public class SinanUtil {
             return true;
         return false;     
     }
+    
+    public static Map<String, String> retornaListaRegioes(String uf){
+        Map<String, String> listaRegioes = new HashMap<>();
+        DBFUtil utilDbf = new DBFUtil();
+        Boolean temReg = false;
+        DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("REGIAO", "dbf\\");
+        Object[] rowObjects1;
+
+        try {
+            utilDbf.mapearPosicoes(readerMunicipio);
+            while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
+
+                if (uf.equals("TODAS") || uf.equals("Brasil") || uf.equals("TODOS")) {
+                    if (utilDbf.getString(rowObjects1, "ID_REGIAO") != null) {
+                        temReg = true;
+                    }
+                }
+                if (temReg || (uf.equals(utilDbf.getString(rowObjects1, "SG_UF")))) {                    
+                    listaRegioes.put(utilDbf.getString(rowObjects1, "ID_REGIAO"),(utilDbf.getString(rowObjects1, "NM_REGIAO")));
+                }
+            }
+        } catch (DBFException e) {
+            Master.mensagem("Erro ao carregar municipios:\n" + e);
+        }
+        
+        Set<String> regKeys = listaRegioes.keySet();
+        Map<String, String> listaRegioesRetorno = new HashMap();
+        Iterator<String> it = regKeys.iterator();
+        while(it.hasNext()){
+            String key = it.next();
+            listaRegioesRetorno.put(key, listaRegioes.get(key));
+        }        
+        
+        return listaRegioesRetorno;
+    }
+    
+    public static Map<String, String> retornaListaRegionais(String uf){
+        Map<String, String> listaRegionais = new HashMap<>();
+        DBFUtil utilDbf = new DBFUtil();
+        Boolean temReg = false;
+        DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("REGIONET", "dbf\\");
+        Object[] rowObjects1;
+
+        try {
+            utilDbf.mapearPosicoes(readerMunicipio);
+            while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
+
+                if (uf.equals("TODAS") || uf.equals("Brasil") || uf.equals("TODOS")) {
+                    if (utilDbf.getString(rowObjects1, "ID_REGIONA") != null) {
+                        temReg = true;
+                    }
+                }
+                if (temReg || (utilDbf.getString(rowObjects1, "SG_UF").equals(uf))) {                    
+                    listaRegionais.put(utilDbf.getString(rowObjects1, "ID_REGIONA"),(utilDbf.getString(rowObjects1, "NM_REGIONA")));
+                }
+            }
+        } catch (DBFException e) {
+            Master.mensagem("Erro ao carregar municipios:\n" + e);
+        }
+        
+        Set<String> regKeys = listaRegionais.keySet();
+        Map<String, String> listaRegionaisRetorno = new HashMap();
+        Iterator<String> it = regKeys.iterator();
+        while(it.hasNext()){
+            String key = it.next();
+            listaRegionaisRetorno.put(key, listaRegionais.get(key));
+        }        
+        return listaRegionaisRetorno;
+    }
+    
 }

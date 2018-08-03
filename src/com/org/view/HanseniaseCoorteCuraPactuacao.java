@@ -447,6 +447,7 @@ public class HanseniaseCoorteCuraPactuacao extends javax.swing.JPanel {
             parametros.put("municipioEspecifico", "TODOS");
         } else if (cbMunicipio.getSelectedItem().toString().equals("NENHUM")) {
             parametros.put("municipioEspecifico", "NENHUM");
+            parametros.put("parNenhum", true);
         } else {
             parametros.put("municipioEspecifico", cbMunicipio.getSelectedItem().toString());
         }

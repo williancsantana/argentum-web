@@ -7,6 +7,7 @@ package com.org.util;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Date;
 
@@ -42,9 +43,8 @@ public class ArquivoUtils {
         File log = new File(logDir.getAbsolutePath()+separador+"logs"+separador+ano+separador+mes+separador+dia+separador+"log "+data+".txt");
         log.getParentFile().mkdirs();//Método para criar a estrutura de diretórios e evitar o FileNotFoundException
         try{
-            //PrintStream ps = new PrintStream(log);         
-            PrintWriter pw = new PrintWriter(new FileWriter(log));
-            e.printStackTrace(pw);
+            PrintStream ps = new PrintStream(log);
+            e.printStackTrace(ps);
         }
         catch(Exception exception){
             exception.printStackTrace();
@@ -52,6 +52,7 @@ public class ArquivoUtils {
     }
     
     public static void gerarArquivo(String content){
+        BufferedWriter bf = null;
         String separador = File.separator;
         String data = SinanDateUtil.dateToString(new Date(), "dd/MM/YYYY HH:mm:ss");
         data = data.replace("/","-").replace(":", "-");
@@ -59,11 +60,17 @@ public class ArquivoUtils {
         File arquivoDestino = new File(pastaAtual.getAbsolutePath()+separador+"Arquivos Gerados"+separador+"Arquivo "+data+".txt");
         arquivoDestino.getParentFile().mkdirs();
         try{
-            BufferedWriter bf = new BufferedWriter(new FileWriter(arquivoDestino));
-            bf.write(content);
-            bf.close();
+            bf = new BufferedWriter(new FileWriter(arquivoDestino));
+            bf.write(content);            
         }catch(Exception e){
             gerarLogErro(e);        
+        } finally{
+            try{
+                bf.close();
+            }
+            catch(Exception e){
+                gerarLogErro(e);
+            }
         }
     }
 }

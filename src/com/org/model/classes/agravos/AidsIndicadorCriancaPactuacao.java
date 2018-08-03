@@ -453,7 +453,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
                 rowData[4] = null;
 
             } else {
-                rowData[0] = agravo.getCodMunicipio().substring(0, 2);
+                rowData[0] = agravo.getCodIbgeUF(agravo.getUf());
                 rowData[1] = agravo.getCodMunicipio();
 
                 if (agravo.getRegional() != null && agravo.getRegional() != null) {

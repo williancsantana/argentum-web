@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="52"/>
 	<parameter name="parNomeMunicipio" class="java.lang.String">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
@@ -85,7 +85,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="117" splitType="Stretch">
+		<band height="126" splitType="Stretch">
 			<staticText>
 				<reportElement x="220" y="0" width="282" height="22" forecolor="#000000"/>
 				<textElement>
@@ -120,7 +120,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parTitulo1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="337" y="39" width="219" height="58"/>
+				<reportElement x="337" y="39" width="219" height="53"/>
 				<box leftPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -132,7 +132,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA["Data da Avaliação:"+$P{parDataAvaliacao}+"      Ano de Avaliação:"+$P{parAnoAvaliacao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1" y="97" width="555" height="20"/>
+				<reportElement x="1" y="93" width="555" height="33"/>
 				<box topPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -144,7 +144,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA["Registros selecionados com data de notificação nos seguintes períodos:"+$P{parPeriodo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1" y="39" width="337" height="58"/>
+				<reportElement x="1" y="39" width="337" height="53"/>
 				<box leftPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -160,14 +160,14 @@
 	<columnHeader>
 		<band height="35" splitType="Stretch">
 			<textField>
-				<reportElement x="435" y="1" width="120" height="33"/>
+				<reportElement x="435" y="5" width="120" height="29"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["  Cod. Município Notificação"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="128" height="34"/>
+				<reportElement x="0" y="5" width="128" height="29"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -177,21 +177,21 @@
 				<reportElement x="0" y="34" width="555" height="1"/>
 			</line>
 			<textField>
-				<reportElement x="300" y="1" width="135" height="33"/>
+				<reportElement x="300" y="5" width="135" height="29"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["Cod. Unidade Notificação"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="128" y="1" width="81" height="33"/>
+				<reportElement x="128" y="5" width="81" height="29"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["  N° Notificação"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="209" y="1" width="90" height="33"/>
+				<reportElement x="209" y="5" width="90" height="29"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>

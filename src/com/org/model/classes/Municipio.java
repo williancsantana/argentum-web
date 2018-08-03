@@ -47,9 +47,11 @@ public class Municipio {
     private UF uf;
     private String nmRegiao;
     private HashMap<String,Semana> semanas;
+    private String codRegiaoSaude;
+    private String codRegionalSaude;
     
 
-    public Municipio(String nome, String codigo, String siglaUf) {
+    public Municipio(String nome, String codigo, String siglaUf, String regional, String regiao) {
         this.nmMunicipio = nome;
         this.codMunicipio = codigo;
         this.uf = new UF();
@@ -59,6 +61,8 @@ public class Municipio {
         this.nmRegiao = this.uf.getRegiao().getNmRegiao();
         this.sgUF = siglaUf;
         this.semanas = new HashMap<String,Semana>();
+        this.codRegionalSaude = regional;
+        this.codRegiaoSaude = regiao;
     }
 
     public Municipio() {
@@ -375,5 +379,22 @@ public class Municipio {
     public void setIrregular(boolean irregular) {
         this.irregular = irregular;
     }
+
+    public String getCodRegiaoSaude() {
+        return codRegiaoSaude;
+    }
+
+    public void setCodRegiaoSaude(String regiaoSaude) {
+        this.codRegiaoSaude = regiaoSaude;
+    }
+
+    public String getCodRegionalSaude() {
+        return codRegionalSaude;
+    }
+
+    public void setCodRegionalSaude(String regionalSaude) {
+        this.codRegionalSaude = regionalSaude;
+    }
+    
     
 }

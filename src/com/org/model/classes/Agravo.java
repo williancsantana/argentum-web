@@ -1129,7 +1129,7 @@ public class Agravo {
                 }
 
                 if (temReg || somenteMunicipios || (sgUF && codRegiao.length() == 0) || (reg && !(codRegiao.length() == 0))) {
-                    if (sg_uf.equals(sgUfResidencia) && !utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
+                    if ((sg_uf.equals(sgUfResidencia) || sgUfResidencia.equals("TODAS") ) && !utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
                         //System.out.println(sg_uf);
                         if (!temMunicipio || MunicipioIgual) {
                             Agravo agravoDbf = new Agravo();

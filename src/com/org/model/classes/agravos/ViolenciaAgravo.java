@@ -92,7 +92,6 @@ public class ViolenciaAgravo extends Agravo {
             String codRegiao = (String) parametros.get("parCodRegiaoSaude");
             HashMap<String, Agravo> municipioBeans = new HashMap<String, Agravo>();
             Agravo municipioResidencia = null;
-            //System.out.println(ufResidencia + " - "+ sgUfResidencia);
 
             Object[] rowObjects;
             Date dataNotificacao;
@@ -157,15 +156,11 @@ public class ViolenciaAgravo extends Agravo {
 //                                municipioResidencia = municipioBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
                                 if (municipioResidencia != null) {
                                     regNotificacao = regiaoBeans.get(municipioResidencia.getCodRegiaoSaude());
-//                                    System.out.println(municipioResidencia.getNomeMunicipio()  + " - " + municipioResidencia.getCodMunicipio() + " - " 
-//                                            + regNotificacao.getNomeMunicipio() + " - " + regNotificacao.getNumerador() + " - "  
-//                                            + regNotificacao.getDenominador());
                                 }
                             } else {
 //                                municipioResidencia = municipioBeans.get(utilDbf.getString(rowObjects, "ID_MUNICIP"));
                                 if (municipioResidencia != null) {
                                     regNotificacao = regiaoBeans.get(municipioResidencia.getCodRegional());
-//                                    System.out.println(regNotificacao.getNomeMunicipio() + " - " + regNotificacao.getNumerador() + " - " + regNotificacao.getDenominador());
                                 }
                             }
                             dataNotificacao = utilDbf.getDate(rowObjects, "DT_NOTIFIC");
@@ -177,20 +172,10 @@ public class ViolenciaAgravo extends Agravo {
 
                             if (ufResidencia.equals(sgUfNot) && regNotificacao != null && isBetweenDates(dataNotificacao, dataInicio, dataFim)) {
                                 if (raca >= BRANCO && raca <= INDIGENA) {
-                                    //System.out.println(SinanUtil.idUFToSiglaUF(sgUfNot));
                                     numeradorMunicipio = Integer.parseInt(regNotificacao.getNumerador());
                                     numeradorMunicipio++;
                                     regNotificacao.setNumerador(String.valueOf(numeradorMunicipio));
                                     numeradorEstadual++;
-                                    //"SG_UF_NOT;ID_MUNICIP;NM_MUNICIP;REG;DT_NOTIFIC\n"
-                                    arquivoExportacao += nuNotific + ";"
-                                            + sgUfNot + ";"
-                                            + idMunicip + ";"
-                                            + nomeMunicipio + ";"
-                                            + regNotificacao.getNomeMunicipio() + ";"
-                                            + SinanDateUtil.toString(dataNotificacao) + ";"
-                                            + raca + ";"
-                                            + "\n";
                                 }
                                 denominadorMunicipio = Integer.parseInt(regNotificacao.getDenominador());
                                 denominadorMunicipio++;
@@ -207,7 +192,7 @@ public class ViolenciaAgravo extends Agravo {
                     Master.mensagem("Erro:\n" + ex);
                 }
             }
-            ArquivoUtils.gerarArquivo(arquivoExportacao);
+            //ArquivoUtils.gerarArquivo(arquivoExportacao);
             setTaxaEstadual("");
             //CALCULA A TAXA PARA TODOS OS MUNICIPIOS
             this.setBeans(new ArrayList());
@@ -657,7 +642,6 @@ public class ViolenciaAgravo extends Agravo {
             }
             rowData = preencherCamposDbf(agravo, rowData, numeradorTotal, denominadorTotal, taxaFormatada);
             writer.addRecord(rowData);
-            //System.out.println(agravo.getNomeMunicipio() + " - " + agravo.getRegiaoSaude() + " - " + agravo.getRegional());
         }
         return writer;
     }
@@ -676,13 +660,11 @@ public class ViolenciaAgravo extends Agravo {
                 rowData[2] = agravo.getCodMunicipio().substring(0, 2);
 
                 if(isPorRegional()){
-                    System.out.println("");
                     rowData[2] = SinanUtil.siglaUFToIDUF(this.getUf());
                     rowData[3] = agravo.getRegional();
                     rowData[4] =  agravo.getCodRegional();
                 }
                 else if(isPorRegiao()){
-                    System.out.print(agravo.getCodRegiaoSaude() + " " + agravo.getRegiaoSaude() + "\t");
                     rowData[3] = agravo.getRegiaoSaude();
                     rowData[4] =  agravo.getCodRegiaoSaude();
                 }
