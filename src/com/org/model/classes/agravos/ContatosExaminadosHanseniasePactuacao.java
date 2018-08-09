@@ -217,14 +217,33 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
         String codRegiao = (String) parametros.get("parCodRegiaoSaude");
         parametros.put("numeradorTotal", 0);
         parametros.put("denominadorTotal", 0);
-
+        HashMap<String, Agravo> regiaoBeans = new HashMap<String, Agravo>();
+        Agravo municipioRes = null;
+        
         if (codRegional == null) {
             codRegional = "";
         }
+        if (codRegiao == null) {
+                codRegiao = "";
+        }
+
+        String idMunicipio;
+        if (parametros.get("parMunicipio") != null) {
+            if (parametros.get("parMunicipio").toString().isEmpty()) {
+                idMunicipio = "TODOS";
+            } else {
+                idMunicipio = (String) parametros.get("parMunicipio");
+            }
+        } else {
+            idMunicipio = "TODOS";
+        }
+        
         if ((Boolean) parametros.get("parIsRegiao")) {
             municipiosBeans = populaRegiaoBeans(sgUfResidencia, codRegiao);
+            regiaoBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, idMunicipio, parametros.get("parIsRegiao").toString());
         } else {
             municipiosBeans = populaRegionalBeans(sgUfResidencia, codRegional);
+            regiaoBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, idMunicipio, parametros.get("parIsRegiao").toString());
         }
         //municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
         //inicia o calculo
@@ -249,15 +268,22 @@ public class ContatosExaminadosHanseniasePactuacao extends Agravo {
                     //verifica a uf de residencia
                     try {
                         //verifica se existe a referencia do municipio no bean
-                        if ((Boolean) parametros.get("parIsRegiao")) {
-                            municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "MUNIRESAT")));
-                        } else {
-                            municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "MUNIRESAT")));
+                        municipioRes = regiaoBeans.get(utilDbf.getString(rowObjects, "MUNIRESAT"));
+                        if(municipioRes != null){
+                            if ((Boolean) parametros.get("parIsRegiao")) {
+                                //municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "MUNIRESAT")));
+                                municipioResidencia = municipiosBeans.get(municipioRes.getCodRegiaoSaude());
+                            } else {
+//                                municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "MUNIRESAT")));
+                                municipioResidencia = municipiosBeans.get(municipioRes.getCodRegional());
+                            }
+                            calculaIndicador(rowObjects, parametros);
                         }
-                    } catch (SQLException ex) {
+                        
+                    } catch (Exception ex) {
                         Logger.getLogger(ContatosExaminadosHanseniasePactuacao.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    calculaIndicador(rowObjects, parametros);
+//                    calculaIndicador(rowObjects, parametros);
                     //verifica se tem o parametro de municipio de residencia
                     //Critérios
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;

@@ -45,6 +45,7 @@ public class ViolenciaAgravo extends Agravo {
     private final int INDIGENA = 5;
     private boolean porRegiao;
     private boolean porRegional;
+    private boolean semMunicipio;
 
     public ViolenciaAgravo(boolean isDbf) {
         this.setDBF(isDbf);
@@ -170,7 +171,7 @@ public class ViolenciaAgravo extends Agravo {
                             //      municipioNotificacao.setTaxa("0");
                             //  }
 
-                            if (ufResidencia.equals(sgUfNot) && regNotificacao != null && isBetweenDates(dataNotificacao, dataInicio, dataFim)) {
+                            if ((ufResidencia.equals(sgUfNot) || ufResidencia.equals("TODOS") || ufResidencia.equals("TODAS") || ufResidencia.equalsIgnoreCase("Brasil"))&& regNotificacao != null && isBetweenDates(dataNotificacao, dataInicio, dataFim)) {
                                 if (raca >= BRANCO && raca <= INDIGENA) {
                                     numeradorMunicipio = Integer.parseInt(regNotificacao.getNumerador());
                                     numeradorMunicipio++;
@@ -462,6 +463,7 @@ public class ViolenciaAgravo extends Agravo {
             setPorRegional(true);
         //filtro municipios = TODOS e 7UF selecionado algum estado
         if ((isRegionalSelecionada || isRegiaoSelecionada) && municipioEspecifico == "NENHUM") {
+            setSemMunicipio(true);
             calculaRegiao(reader, parametros);
         } else if (municipios.equals("sim")) {
             calculaMunicipios(reader, parametros);
@@ -660,7 +662,7 @@ public class ViolenciaAgravo extends Agravo {
                 rowData[2] = agravo.getCodMunicipio().substring(0, 2);
 
                 if(isPorRegional()){
-                    rowData[2] = SinanUtil.siglaUFToIDUF(this.getUf());
+                    rowData[2] = SinanUtil.siglaUFToIDUF(agravo.getUf());
                     rowData[3] = agravo.getRegional();
                     rowData[4] =  agravo.getCodRegional();
                 }
@@ -724,6 +726,14 @@ public class ViolenciaAgravo extends Agravo {
 
     public void setPorRegional(boolean porRegional) {
         this.porRegional = porRegional;
+    }
+
+    public boolean isSemMunicipio() {
+        return semMunicipio;
+    }
+
+    public void setSemMunicipio(boolean semMunicipio) {
+        this.semMunicipio = semMunicipio;
     }
     
     

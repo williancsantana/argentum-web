@@ -12,6 +12,7 @@ import com.org.model.classes.Agravo;
 import com.org.model.classes.ColunasDbf;
 import com.org.negocio.Configuracao;
 import com.org.negocio.Util;
+import com.org.util.ArquivoUtils;
 import com.org.util.SinanUtil;
 import com.org.view.Master;
 import java.io.IOException;
@@ -165,6 +166,9 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
         }
         if (codRegional == null) {
             codRegional = "";
+        }
+        if (codRegiao == null) {
+            codRegiao = "";
         }
         
         if ((Boolean) parametros.get("parIsRegiao")) {
@@ -487,6 +491,7 @@ public class PreenchimentoOcupacaoTrabalhadorPactuacao extends Agravo {
             }
         } catch (ParseException ex) {
             System.out.println(ex);
+            ArquivoUtils.gerarLogErro(ex);
 
         }
     }

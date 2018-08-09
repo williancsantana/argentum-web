@@ -135,14 +135,27 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
         String codRegional = (String) parametros.get("parCodRegional");
         String codRegiao = (String) parametros.get("parCodRegiaoSaude");
         parametros.put("numeradorTotal", 0);
-
+        Map<String, Agravo> regBeans = new HashMap<String, Agravo>();
+        String idMunicipio;
+        Agravo municipio = null;
+        if (parametros.get("parMunicipio") != null) {
+            idMunicipio = (String) parametros.get("parMunicipio");
+        } else {
+            idMunicipio = "TODOS";
+        }
         if (codRegional == null) {
             codRegional = "";
         }
+        if (codRegiao == null) {
+            codRegiao = "";
+        }
+        
         if ((Boolean) parametros.get("parIsRegiao")) {
             municipiosBeans = populaRegiaoBeans(sgUfResidencia, codRegiao);
+            regBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, idMunicipio, parametros.get("parIsRegiao").toString());
         } else {
             municipiosBeans = populaRegionalBeans(sgUfResidencia, codRegional);
+            regBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, idMunicipio, parametros.get("parIsRegiao").toString());
         }
         //municipiosBeans = populaMunicipiosBeans(sgUfResidencia, codRegional);
         //inicia o calculo
@@ -165,15 +178,22 @@ public class SifilisCongenitaIncidenciaPactuacao extends Agravo {
                     //verifica a uf de residencia
                     try {
                         //verifica se existe a referencia do municipio no bean
-                        if ((Boolean) parametros.get("parIsRegiao")) {
-                            municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "ID_MN_RESI")));
-                        } else {
-                            municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "ID_MN_RESI")));
+                        municipio = regBeans.get(utilDbf.getString(rowObjects, "ID_MN_RESI"));
+                        if(municipio != null){
+                            if ((Boolean) parametros.get("parIsRegiao")) {
+//                                municipioResidencia = municipiosBeans.get(buscaIdRegiaoSaude(utilDbf.getString(rowObjects, "ID_MN_RESI")));
+                                municipioResidencia = municipiosBeans.get(municipio.getCodRegiaoSaude());
+                            } else {
+//                                municipioResidencia = municipiosBeans.get(buscaIdRegionalSaude(utilDbf.getString(rowObjects, "ID_MN_RESI")));
+                                municipioResidencia = municipiosBeans.get(municipio.getCodRegional());
+                            }
+                            calculaIndicador(rowObjects, parametros);
                         }
-                    } catch (SQLException ex) {
+                        
+                    } catch (ParseException ex) {
                         Logger.getLogger(SifilisCongenitaIncidenciaPactuacao.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    calculaIndicador(rowObjects, parametros);
+//                    calculaIndicador(rowObjects, parametros);
                     //verifica se tem o parametro de municipio de residencia
                     //Critérios
                     float percentual = Float.parseFloat(String.valueOf(i)) / Float.parseFloat(String.valueOf(TotalRegistros)) * 100;

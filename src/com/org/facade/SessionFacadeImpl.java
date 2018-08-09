@@ -618,8 +618,10 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                         parametros.put("parArquivos", "");
                     }
                 }
-                impressao = JasperFillManager.fillReport(arquivo.openStream(), parametros, jrds);
-                viewer = new JasperViewer(impressao, false);
+                if (!relatorio.equals("Regularidade")) {
+                    impressao = JasperFillManager.fillReport(arquivo.openStream(), parametros, jrds);
+                    viewer = new JasperViewer(impressao, false);
+                }                
                 if (this.isTemListagem()) {
                     gerarRelatorioListagem(agravo.getListagemCasos());
                 }

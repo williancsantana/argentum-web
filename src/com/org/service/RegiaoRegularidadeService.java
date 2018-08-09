@@ -14,6 +14,7 @@ import com.org.model.classes.UF;
 import com.org.util.Report;
 import com.org.util.SinanDateUtil;
 import com.org.util.SinanUtil;
+import com.org.view.Master;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,23 +59,37 @@ public class RegiaoRegularidadeService {
             listaRegiaoRegularidade = agruparPorRegionalSaude(listaMunicipio, (String) parametros.get("UF"));
         }
         else{// Somente municípios
-            listaRegiaoRegularidade = agruparSomenteMunicipios(listaMunicipio);
+            listaRegiaoRegularidade = agruparSomenteMunicipios(listaMunicipio, (String) parametros.get("UF"));
         }        
         //List<RegiaoRegularidade> listaRegiaoRegularidade = agruparPorRegiao(listaMunicipio);        
         Report report = new Report();
-        JRDataSource jrds = new JRBeanCollectionDataSource(listaRegiaoRegularidade);
-        parametros.put("TITULO", "Municípios Irregulares na Alimentação do Sinan");
-        report.adionarParametrosPadrao(parametros);
-        report.gerarRelatorio(jrds, parametros, "regularidade.jasper", Boolean.TRUE);
-        if(Boolean.parseBoolean(isDBF))
-            this.gerarDBFRegularidade(listaRegiaoRegularidade, parametros, countFields);
+        
+        if(listaRegiaoRegularidade.size() > 0){
+            if(listaRegiaoRegularidade.get(0).getListaMunicipio().size() > 0){
+                JRDataSource jrds = new JRBeanCollectionDataSource(listaRegiaoRegularidade);
+                parametros.put("TITULO", "Municípios Irregulares na Alimentação do Sinan");
+                report.adionarParametrosPadrao(parametros);
+                report.gerarRelatorio(jrds, parametros, "regularidade.jasper", Boolean.TRUE);
+                if(Boolean.parseBoolean(isDBF))
+                    this.gerarDBFRegularidade(listaRegiaoRegularidade, parametros, countFields);
+            }
+            else
+                Master.mensagem("Não existem municípios irregulares.");
+            
+        }
+        else{
+            Master.mensagem("Não existem municípios irregulares.");
+        }
         
     }
     
-    private List<RegiaoRegularidade> agruparSomenteMunicipios(List<Municipio> listaMunicipio){
+    private List<RegiaoRegularidade> agruparSomenteMunicipios(List<Municipio> listaMunicipio, String UF){
         List<RegiaoRegularidade> listaRetorno = new ArrayList();
         RegiaoRegularidade regiao = new RegiaoRegularidade();
-        regiao.setNome("Brasil");
+        if(UF.equals("Brasil") || UF.equals("TODAS") || UF.equals("TODOS"))
+            regiao.setNome("Brasil");
+        else
+            regiao.setNome(UF);
         ComparatorChain chain = new ComparatorChain(Arrays.asList(new BeanComparator("sgUF"), new BeanComparator("nmMunicipio")));
         Collections.sort(listaMunicipio, chain);
         regiao.setListaMunicipio(listaMunicipio);
@@ -189,10 +204,16 @@ public class RegiaoRegularidadeService {
         calculaBrasil(listaRegiaoRegularidade, parametros, calculaBrasil);
         calculaRegiao(listaRegiaoRegularidade);
         Report report = new Report();
-        JRDataSource jrds = new JRBeanCollectionDataSource(listaRegiaoRegularidade);
-        parametros.put("TITULO", "Municípios Irregulares na Alimentação do Sinan");
-        report.adionarParametrosPadrao(parametros);
-        report.gerarRelatorio(jrds, parametros, "regularidade2.jasper", Boolean.TRUE);
+        if(!SinanUtil.isListEmpty(listaRegiaoRegularidade)){
+            JRDataSource jrds = new JRBeanCollectionDataSource(listaRegiaoRegularidade);
+            parametros.put("TITULO", "Municípios Irregulares na Alimentação do Sinan");
+            report.adionarParametrosPadrao(parametros);
+            report.gerarRelatorio(jrds, parametros, "regularidade2.jasper", Boolean.TRUE);
+        }
+        else{
+            Master.mensagem("Não existem municípios irregulares.");
+        }
+        
         
     }
     

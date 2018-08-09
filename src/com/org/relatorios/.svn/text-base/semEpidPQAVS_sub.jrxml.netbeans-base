@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="oportunidadePQAVS_sub" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="93f30037-01f4-4a21-964e-b4acfd099e59">
-	<property name="ireport.zoom" value="1.6105100000000008"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="oportunidadePQAVS_sub" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="2.1435888100000016"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<field name="nmAgravo" class="java.lang.String"/>
 	<field name="qtdOportuno" class="java.lang.Integer"/>
 	<field name="total" class="java.lang.Integer"/>
+	<field name="resultado" class="java.lang.Double"/>
 	<variable name="LINHA" class="java.lang.Integer" calculation="Count"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -13,37 +14,30 @@
 	<detail>
 		<band height="12" splitType="Stretch">
 			<rectangle>
-				<reportElement uuid="e120b2f9-351e-4b4f-86eb-1f3115694fbc" x="0" y="0" width="555" height="11" forecolor="#D3D3D3" backcolor="#D3D3D3">
+				<reportElement x="0" y="0" width="555" height="11" forecolor="#D3D3D3" backcolor="#D3D3D3">
 					<printWhenExpression><![CDATA[new Boolean(!((($V{REPORT_COUNT}.intValue()) % 2) == 0))]]></printWhenExpression>
 				</reportElement>
 			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="626fd0a4-b74a-42bb-9636-bc32b4898b79" x="48" y="0" width="189" height="12"/>
+				<reportElement x="48" y="0" width="189" height="12"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nmAgravo}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nmAgravo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="c4300c6d-17de-46c2-b9a0-5308fe98b34d" x="396" y="0" width="35" height="12"/>
-				<textElement>
+				<reportElement x="415" y="0" width="33" height="12"/>
+				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{qtdOportuno}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{total}.toString()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="d823cedb-749e-47e3-b1db-709c15e28367" x="519" y="0" width="33" height="12"/>
-				<textElement>
+				<reportElement x="469" y="0" width="32" height="11"/>
+				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.0;-###0.0">
-				<reportElement uuid="fb96834f-8b06-419b-9e0a-4d8263224732" x="429" y="0" width="46" height="12"/>
-				<textElement>
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{qtdOportuno} > 0 ? new Float(($F{qtdOportuno}.floatValue()/$F{total}.floatValue())*100) :0]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{resultado}.toString()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -40,6 +40,7 @@ public class Report {
                 JOptionPane.showMessageDialog(new JFrame(), "Erro ao gerar relatório.", 
                         "Relatório", JOptionPane.INFORMATION_MESSAGE);
                 e.printStackTrace();
+                ArquivoUtils.gerarLogErro(e);
             }
         }else{
             this.gerarRelatorio(jrds, parametros, jasper);
@@ -63,6 +64,7 @@ public class Report {
             JOptionPane.showMessageDialog(new JFrame(), "Erro ao gerar relatório.", 
                 "Relatório", JOptionPane.INFORMATION_MESSAGE);
             e.printStackTrace();
+            ArquivoUtils.gerarLogErro(e);
         }
         
     }

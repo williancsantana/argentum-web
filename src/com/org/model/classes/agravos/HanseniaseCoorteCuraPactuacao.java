@@ -127,6 +127,9 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             if (codRegional == null) {
                 codRegional = "";
             }
+            if(codRegiao == null){
+                codRegiao = "";
+            }
             if ((Boolean) parametros.get("parIsRegiao")) {
                 municipiosBeans = populaRegiaoBeans(sgUfResidencia, codRegiao);
                 regBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, idMunicipio, parametros.get("parIsRegiao").toString());
@@ -315,7 +318,9 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             if (codRegional == null) {
                 codRegional = "";
             }
-            
+            if(codRegiao == null){
+                codRegiao = "";
+            }
             if (parametros.get("parMunicipio") != null) {
                 idMunicipio = (String) parametros.get("parMunicipio");
             } else {
