@@ -266,6 +266,9 @@ public class ViolenciaAgravo extends Agravo {
 
             DBFUtil utilDbf = new DBFUtil();
 
+            if(codRegiao == null){
+                codRegiao = "";
+            }
             if (codRegional == null) {
                 codRegional = "";
             }
@@ -278,9 +281,9 @@ public class ViolenciaAgravo extends Agravo {
             if (parametros.get("parDesagregacao").equals("Somente municípios")) {
                 municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, "", idMunicipio, "false");
             } else if ((Boolean) parametros.get("parIsRegiao")) {
-                municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, parametros.get("parIsRegiao").toString());
+                municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, idMunicipio, parametros.get("parIsRegiao").toString());
             } else {
-                municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, parametros.get("parIsRegiao").toString());
+                municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, idMunicipio, parametros.get("parIsRegiao").toString());
             }
 
             //inicia o calculo

@@ -332,9 +332,9 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             }
             else{
                 if ((Boolean) parametros.get("parIsRegiao")) {
-                    municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, parametros.get("parIsRegiao").toString());
+                    municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegiao, idMunicipio, parametros.get("parIsRegiao").toString());
                 } else {
-                    municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, parametros.get("parIsRegiao").toString());
+                    municipiosBeans = populaMunicipiosBeansMAL(sgUfResidencia, codRegional, idMunicipio, parametros.get("parIsRegiao").toString());
                 }
             }            
             
@@ -354,6 +354,8 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
                             municipioResidencia = municipiosBeans.get(utilDbf.getString(rowObjects, "MUNIRESAT"));
                             if (municipioResidencia != null) {
                                 municipioResidencia.setTaxa("0");
+                                if(somenteMunicipios)
+                                    municipioResidencia.setCodRegional("");
                             }
 
                             modoEntrada = utilDbf.getString(rowObjects, "MODOENTR", 1);
@@ -400,8 +402,12 @@ public class HanseniaseCoorteCuraPactuacao extends Agravo {
             }
             getBarraStatus().setString(null);
             ComparatorChain chain;
-
-            if ((Boolean) parametros.get("parIsRegiao")) {
+            if(somenteMunicipios){
+                chain = new ComparatorChain(Arrays.asList(
+                        new BeanComparator("uf"),
+                        new BeanComparator("nomeMunicipio")));
+            }
+            else if ((Boolean) parametros.get("parIsRegiao")) {
                 chain = new ComparatorChain(Arrays.asList(
                         new BeanComparator("uf"),
                         new BeanComparator("regiaoSaude"),

@@ -56,7 +56,7 @@
 		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
 	</variable>
 	<group name="Regiao">
-		<groupExpression><![CDATA[$P{parNenhum}?$F{uf}:$P{parIsRegiao}?$F{codRegiaoSaude}:$F{codRegional}]]></groupExpression>
+		<groupExpression><![CDATA[$P{parDesagregacao}.equals("Somente municípios")?$F{uf}:$P{parNenhum}?$F{uf}:$P{parIsRegiao}?$F{codRegiaoSaude}:$F{codRegional}}]]></groupExpression>
 		<groupHeader>
 			<band height="50">
 				<printWhenExpression><![CDATA[!$F{nomeMunicipio}.equals("TOTAL")]]></printWhenExpression>
@@ -71,7 +71,7 @@
 				<textField isBlankWhenNull="true">
 					<reportElement x="99" y="0" width="220" height="20"/>
 					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$P{parNenhum}?"":$P{parIsRegiao}?$F{regiaoSaude}:$F{regional}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$P{parDesagregacao}.equals("Somente municípios")?"":$P{parNenhum}?"":$P{parIsRegiao}?$F{regiaoSaude}:$F{regional}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="341" y="25" width="67" height="20"/>

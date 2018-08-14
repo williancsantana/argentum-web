@@ -1129,7 +1129,10 @@ public class Agravo {
                 }
 
                 if (temReg || somenteMunicipios || (sgUF && codRegiao.length() == 0) || (reg && !(codRegiao.length() == 0))) {
-                    if ((sg_uf.equals(sgUfResidencia) || sgUfResidencia.equals("TODAS") ) && !utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
+                    if ((sg_uf.equals(sgUfResidencia) || sgUfResidencia.equals("TODAS") ) 
+                            && !utilDbf.getString(rowObjects1, "NM_MUNICIP").startsWith("IGNORADO") 
+                            && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("TRANSF.") == -1 
+                            && utilDbf.getString(rowObjects1, "NM_MUNICIP").lastIndexOf("ATUAL BENTO GONCALVES") == -1) {
                         //System.out.println(sg_uf);
                         if (!temMunicipio || MunicipioIgual) {
                             Agravo agravoDbf = new Agravo();
@@ -1523,6 +1526,9 @@ public class Agravo {
         } catch (DBFException e) {
             Master.mensagem("Erro ao carregar municipios:\n" + e);
         }
+        Agravo ag = inserirBrasilia();
+        regiao.put(ag.getCodMunicipio(), ag.getNomeMunicipio());
+        RegBeans.put(ag.getCodMunicipio(), ag);
         regiao = sortHashMapByValues(regiao, false);
         Set<String> RegKeys = regiao.keySet();
         HashMap<String, Agravo> regBeansRetorno = new HashMap<String, Agravo>();
@@ -1532,6 +1538,20 @@ public class Agravo {
             regBeansRetorno.put(key, RegBeans.get(key));
         }
         return regBeansRetorno;
+    }
+
+    private Agravo inserirBrasilia() {
+        Agravo ag = new Agravo();
+        ag.setNomeMunicipio("BRASILIA");
+        ag.setUf("DF");
+        ag.setCodMunicipio("530010");
+        ag.setNumerador("0");
+        ag.setDenominador("0");
+        ag.setNumeradorInt(0);
+        ag.setDenominadorInt(0);
+        
+        
+        return ag;
     }
 
     public HashMap<String, Agravo> populaRegionalBeans(String SG_UF, String id_Regiao) {
