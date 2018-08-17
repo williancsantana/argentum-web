@@ -16,6 +16,7 @@ import com.org.model.classes.Semana;
 import com.org.model.classes.UF;
 import com.org.negocio.Util;
 import com.org.service.RegiaoRegularidadeService;
+import com.org.util.ArquivoUtils;
 import com.org.util.SinanUtil;
 import com.org.view.Master;
 import java.io.FileWriter;
@@ -384,6 +385,7 @@ public class Regularidade extends Agravo {
                 calculaGtSinan(reader, parametros);
             } catch (IOException ex) {
                 Logger.getLogger(Regularidade.class.getName()).log(Level.SEVERE, null, ex);
+                ArquivoUtils.gerarLogErro(ex);
             }
         } else {
             //montar array com valores possíveis

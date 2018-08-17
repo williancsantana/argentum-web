@@ -469,7 +469,7 @@ public class AidsIndicadorCriancaPactuacao extends Agravo {
             rowData[2] = agravo.getNomeMunicipio();
             rowData[5] = agravo.getNumerador();
 
-            rowData[6] = String.valueOf(preencheAno(getDataInicio(), getDataFim()));
+            rowData[6] = String.valueOf(preencheAno(getDataInicio(), getDataFim())).substring(0,4);
             rowData[7] = getDataInicio();
             rowData[8] = getDataFim();
             rowData[9] = "AIDSC-SINANNET";

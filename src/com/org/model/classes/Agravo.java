@@ -1502,7 +1502,7 @@ public class Agravo {
                     reg = utilDbf.getString(rowObjects1, "ID_REGIAO").equals(id_Regiao);
                 }
 
-                if (SG_UF.equals("TODAS")) {
+                if (SG_UF.equals("TODAS")  || SG_UF.equalsIgnoreCase("Brasil") || SG_UF.equals("BR")) {
                     if (utilDbf.getString(rowObjects1, "ID_REGIAO") != null) {
                         temReg = true;
                     }
@@ -1568,7 +1568,7 @@ public class Agravo {
             utilDbf.mapearPosicoes(readerMunicipio);
             while ((rowObjects1 = readerMunicipio.nextRecord()) != null) {
 
-                if (SG_UF.equals("TODAS")) {
+                if (SG_UF.equals("TODAS") || SG_UF.equalsIgnoreCase("Brasil") || SG_UF.equals("BR")) {
                     if (utilDbf.getString(rowObjects1, "ID_REGIONA") != null) {
                         temReg = true;
                     }

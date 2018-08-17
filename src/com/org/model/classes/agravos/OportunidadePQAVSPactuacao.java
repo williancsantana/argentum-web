@@ -430,6 +430,8 @@ public class OportunidadePQAVSPactuacao extends Agravo {
 
         } else {
             //busca municipios dessa regional
+            regiaoBeans = utilReg.populaRegiaoBeans(uf, "");
+            regionalBeans = utilReg.populaRegionalBeans(uf, "");
             DBFReader readerMunicipio = Util.retornaObjetoDbfCaminhoArquivo("MUNICNET", "dbf\\");
             Object[] rowObjects1;
             try {
@@ -1295,6 +1297,18 @@ public class OportunidadePQAVSPactuacao extends Agravo {
                                 } else {
                                     int cf = Integer.parseInt(evolucao);
                                     if (cf < 2 || cf > 4) {
+                                        continuaCalculo = false;
+                                    }
+                                }
+                            }
+                            
+                            if (agravo.equals("A928")) {
+                                String evolucao = utilDbf.getString(rowObjects, "EVOLUCAO", 1);
+                                if (evolucao == null) {
+                                    continuaCalculo = false;
+                                } else {
+                                    int cf = Integer.parseInt(evolucao);
+                                    if (cf < 2 || cf > 3) {
                                         continuaCalculo = false;
                                     }
                                 }
