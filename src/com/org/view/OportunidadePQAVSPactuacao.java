@@ -644,12 +644,19 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         parametros.put("parDesagregacao", cbDesagregacao.getSelectedItem().toString());
 
         parametros.put("parIsRegiao", true);
+        parametros.put("parIsRegional", false);
+        parametros.put("parSomenteMunicipios", false);
+        if(cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")){
+            parametros.put("parSomenteMunicipios", true);
+            parametros.put("parIsRegiao", false);
+        }
         if (cbDesagregacao.getSelectedItem().toString().equals("UF subdividida por Regionais de Saúde")) {
             //parametros.put("parRegionalSaude", cbRegional.getSelectedItem().toString());
             session.setRegional(cbRegional.getSelectedItem().toString());
             parametros.put("parRegionalSaude", cbRegional.getSelectedItem().toString());
 
             parametros.put("parIsRegiao", false);
+            parametros.put("parIsRegional", true);
         } else {
             parametros.put("parRegiaoSaude", cbRegional.getSelectedItem().toString());
             parametros.put("parRegiaoSaude", cbRegional.getSelectedItem().toString());
@@ -703,7 +710,11 @@ public class OportunidadePQAVSPactuacao extends javax.swing.JPanel {
         } else if (this.cbDesagregacao.getSelectedItem().toString().equals("Somente municípios")) {
             cbRegional.removeAllItems();
             cbRegional.addItem("TODAS");
-        } else {
+        } else if(cbDesagregacao.getSelectedItem().equals("Discriminar por Agravo")){
+            cbRegional.removeAllItems();
+            cbRegional.addItem("TODAS");
+        }        
+        else {
             modelo = new DefaultComboBoxModel(this.session.retornaRegionais(this.cbUf.getSelectedItem().toString()));
             this.cbRegional.setModel(modelo);
 

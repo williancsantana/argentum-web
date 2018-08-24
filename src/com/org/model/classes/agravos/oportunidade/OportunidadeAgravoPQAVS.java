@@ -53,7 +53,7 @@ public class OportunidadeAgravoPQAVS  extends Agravo{
     }
 
     public void setRegionalSaude(String regionalSaude) {
-        this.regionalSaude = regionalSaude;
+        this.regionalSaude = (regionalSaude != null)?regionalSaude:"";
     }
     
     

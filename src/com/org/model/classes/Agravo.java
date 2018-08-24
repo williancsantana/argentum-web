@@ -172,6 +172,7 @@ public class Agravo {
         agravoBean.setCodMunicipio(codRegiao);
         agravoBean.setNumerador("0");
         agravoBean.setDenominador("0");
+        agravoBean.setUf("");
         for (Iterator<Agravo> it = municipioBean.iterator(); it.hasNext();) {
             Agravo agravoUF = it.next();
             agravoBean.setNumerador(String.valueOf(Integer.parseInt(agravoUF.getNumerador()) + Integer.parseInt(agravoBean.getNumerador())));
@@ -1507,7 +1508,7 @@ public class Agravo {
                         temReg = true;
                     }
                 }
-
+                String ufNot = utilDbf.getString(rowObjects1, "SG_UF");
                 if (temReg || (sgUF && id_Regiao.isEmpty()) || (reg && !id_Regiao.isEmpty())) {
                     Agravo agravoDbf = new Agravo();
                     agravoDbf.init("");
@@ -1526,9 +1527,6 @@ public class Agravo {
         } catch (DBFException e) {
             Master.mensagem("Erro ao carregar municipios:\n" + e);
         }
-        Agravo ag = inserirBrasilia();
-        regiao.put(ag.getCodMunicipio(), ag.getNomeMunicipio());
-        RegBeans.put(ag.getCodMunicipio(), ag);
         regiao = sortHashMapByValues(regiao, false);
         Set<String> RegKeys = regiao.keySet();
         HashMap<String, Agravo> regBeansRetorno = new HashMap<String, Agravo>();
@@ -1538,20 +1536,6 @@ public class Agravo {
             regBeansRetorno.put(key, RegBeans.get(key));
         }
         return regBeansRetorno;
-    }
-
-    private Agravo inserirBrasilia() {
-        Agravo ag = new Agravo();
-        ag.setNomeMunicipio("BRASILIA");
-        ag.setUf("DF");
-        ag.setCodMunicipio("530010");
-        ag.setNumerador("0");
-        ag.setDenominador("0");
-        ag.setNumeradorInt(0);
-        ag.setDenominadorInt(0);
-        
-        
-        return ag;
     }
 
     public HashMap<String, Agravo> populaRegionalBeans(String SG_UF, String id_Regiao) {

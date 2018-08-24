@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -376,9 +377,11 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
                 if(mapaRegiaoSaude.containsKey(bean.getCodRegionalSaude())){
                     listaMunicipios = mapaRegiaoSaude.get(bean.getCodRegionalSaude());
                 }
-                listaMunicipios.add(bean);
-                SinanUtil.ordenaLista(listaMunicipios, "nmAgravo");
-                mapaRegiaoSaude.put(bean.getCodRegionalSaude(), listaMunicipios); //concatenando com o parâmetro +bean.getUf()
+                if(bean.getCodRegionalSaude() != null){
+                    listaMunicipios.add(bean);
+                    SinanUtil.ordenaLista(listaMunicipios, "nmAgravo");
+                    mapaRegiaoSaude.put(bean.getCodRegionalSaude(), listaMunicipios); //concatenando com o parâmetro +bean.getUf()
+                }
             }
         }
         return mapaRegiaoSaude;
@@ -456,7 +459,9 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
                 count++;
                 Entry thisEntry = (Entry) entries.next();
                 SinanUtil.ordenaLista(mapaRegiaoSaude.get(thisEntry.getKey()), "nmAgravo");
-                regiaoSaude = new RegiaoSaudePQAVS(thisEntry.getKey().toString(), this.regionalSaudeNome(thisEntry.getKey().toString()), mapaRegiaoSaude.get(thisEntry.getKey())); //colocar um método para retornar o nome da regiao de acordo com o parâmetro thisEntry.getKey().toString() que será modificado para código da regiao
+                regiaoSaude = new RegiaoSaudePQAVS(thisEntry.getKey().toString(), 
+                                this.regionalSaudeNome(thisEntry.getKey().toString()), 
+                                mapaRegiaoSaude.get(thisEntry.getKey())); //colocar um método para retornar o nome da regiao de acordo com o parâmetro thisEntry.getKey().toString() que será modificado para código da regiao
                 listaRegiaoSaude.add(regiaoSaude);
 //                if(count >= 9) break;
             }
@@ -623,59 +628,67 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
    public void gerarDBFPQAVSDefineCampos(List<OportunidadeAgravoPQAVS> lista, Map parametros) throws IOException{
        
         CampoDBF field;
-        DBFField fields[] = new DBFField[12];
-
+        int numCol = 0;
+        Boolean naoPedeMunicipios = (Boolean) parametros.get("parDiscriminarPorAgravo") || (Boolean) parametros.get("parSomenteMunicipios") || (Boolean) parametros.get("parNenhum"); 
+        numCol = (naoPedeMunicipios)?10:12;
+        DBFField fields[] = new DBFField[numCol];
+        int i = 0;
         field = new CampoDBF("COUFRES", "String", 2, 0);
-        fields[0] = field;
+        fields[i] = field;
         
-        field = new CampoDBF("COD_CIR", "String", 5, 0);
-        fields[1] = field;
+        // ---------- MUDAR ESSA LINHA ------------------------
         
-        if((Boolean) parametros.get("parDesagregacao").equals("UF subdividida por Regionais de Saúde")){
-            field = new CampoDBF("REGIONAL", "String", 80, 0);
-            fields[2] = field;
-        }
-        else{
-            field = new CampoDBF("REGIAO", "String", 80, 0);
-            fields[2] = field;
-        }
+        if(!(Boolean) parametros.get("parSomenteMunicipios") && !(Boolean) parametros.get("parDiscriminarPorAgravo")){
+            if((Boolean) parametros.get("parIsRegional")){
+                field = new CampoDBF("ID_REGION", "String", 5, 0);
+                fields[++i] = field;
+                field = new CampoDBF("REGIONAL", "String", 80, 0);
+                fields[++i] = field;
+            }
+            else if((Boolean) parametros.get("parIsRegiao")){
+                field = new CampoDBF("COD_CIR", "String", 5, 0);
+                fields[++i] = field;
+                field = new CampoDBF("REGIAO", "String", 80, 0);
+                fields[++i] = field;
+            }
+        }        
         
         if((Boolean)parametros.get("parDiscriminarPorAgravo")){
             field = new CampoDBF("CID10", "String", 6, 0);
-            fields[3] = field;
+            fields[++i] = field;
             
             field = new CampoDBF("AGRAVO", "String", 80, 0);
-            fields[4] = field;
-        }else{
+            fields[++i] = field;
+        }else if(!(Boolean) parametros.get("parNenhum")){
             field = new CampoDBF("COD_IBGE", "String", 6, 0);
-            fields[3] = field;
+            fields[++i] = field;
             
             field = new CampoDBF("MUNICIPIO", "String", 80, 0);
-            fields[4] = field;
+            fields[++i] = field;
         }
         
         field = new CampoDBF("AUSEN_CASO", "String", 1, 0);
-        fields[5] = field;        
+        fields[++i] = field;        
         
         field = new CampoDBF("NUMERADOR", "String", 12, 0);
-        fields[6] = field;
+        fields[++i] = field;
         
         field = new CampoDBF("DENOMINAD", "String", 12, 0);
-        fields[7] = field;
+        fields[++i] = field;
         
         field = new CampoDBF("RESULTADO", "String", 12, 0);
-        fields[8] = field;
+        fields[++i] = field;
         
         field = new CampoDBF("ANO_NOTI", "String", 4, 0);
-        fields[9] = field;
+        fields[++i] = field;
         
         field = new CampoDBF("DT_NOTIN", "String", 12, 0);
-        fields[10] = field;
+        fields[++i] = field;
         
         field = new CampoDBF("DT_NOTIFI", "String", 12, 0);
-        fields[11] = field;
+        fields[++i] = field;
         
-        this.prepareDataToDBFPQAVS(lista, fields, parametros, 12);
+        this.prepareDataToDBFPQAVS(lista, fields, parametros, numCol);
     }
    
       private void prepareDataToDBFPQAVS(List<OportunidadeAgravoPQAVS> lista, DBFField fields[], Map parametros, int countFields) throws IOException{
@@ -684,42 +697,65 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
         Double oportuno;
         Integer somaOportuno = 0;
         Double total, somaTotal = 0.0;
+        String sgUf = (String) parametros.get("parSgUf");
+        String codUf = SinanUtil.siglaUFToIDUF(sgUf);
         writer.setFields(fields);
         lista = SinanUtil.removeMunicipiosIgnoradosPQAVS(lista);
         lista = calculaTotal(lista);
+        int i = 0;
+        Set set = parametros.entrySet();
+        Iterator it = set.iterator();
+        while(it.hasNext()){
+            Object o = it.next();
+            System.out.println(o);
+        }
+        
         for (OportunidadeAgravoPQAVS item : lista) {
             
             Object rowData[] =  new Object[countFields];
-            rowData[0] = item.getUf();
-            rowData[1] = item.getCodRegiaoSaude();
-            if(item.temRegionalSaude()){                
-                rowData[2] = item.getRegionalSaude();
+            if(!(Boolean)parametros.get("parDiscriminarPorAgravo")){
+                rowData[i] = item.getUf();
             }
             else{
-                rowData[2] = item.getRegiaoSaude();
+                rowData[i] = codUf;
             }
-            rowData[3] = item.getCodAgravo();
-            rowData[4] = item.getNmAgravo();
+            //Se não for somente municípios ou discriminar por agravo
+            if(!(Boolean) parametros.get("parDiscriminarPorAgravo") && !(Boolean) parametros.get("parSomenteMunicipios")){
+                if((Boolean) parametros.get("parIsRegional")){                
+                    rowData[++i] = item.getCodRegionalSaude();
+                    rowData[++i] = item.getRegionalSaude();
+                }
+                else if((Boolean) parametros.get("parIsRegiao")){
+                    rowData[++i] = item.getCodRegiaoSaude();
+                    rowData[++i] = item.getRegiaoSaude();
+                }
+            }
+            
+            if(!(Boolean) parametros.get("parNenhum")){
+                rowData[++i] = item.getCodAgravo();
+                rowData[++i] = item.getNmAgravo();
+            }
+            
             
             if(item.getTotal() == 0){
-                rowData[5] = "X";
+                rowData[++i] = "X";
             }else{
-                 rowData[5] = "";
+                 rowData[++i] = "";
             }
             
-            rowData[6] = item.getQtdOportuno().toString();
+            rowData[++i] = item.getQtdOportuno().toString();
             somaOportuno += item.getQtdOportuno();
-            rowData[7] = item.getTotal().toString();
+            rowData[++i] = item.getTotal().toString();
             somaTotal += item.getTotal();
             if(item.getQtdOportuno() > 0 && item.getTotal() > 0){
                 oportuno = new Double(item.getQtdOportuno()).doubleValue();
                 total = new Double(item.getTotal()).doubleValue();
                 
-                rowData[8] = String.valueOf(SinanUtil.converterDoubleUmaCasaDecimal((oportuno/total)*100));
+                rowData[++i] = String.valueOf(SinanUtil.converterDoubleUmaCasaDecimal((oportuno/total)*100));
                 
                 SinanUtil.imprimirConsole("Resultado sem converter"+(oportuno/total)*100);
             }else{
-                rowData[8] = "0";
+                rowData[++i] = "0";
             }
             
             String dt_notin = "01/01/" + parametros.get("parAnoPeriodoAvaliacao").toString();
@@ -729,9 +765,9 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
                 dt_notifi = alteraDataParaPadrao(parametros.get("parDataFim60").toString());
             }
             
-            rowData[9] = String.valueOf(preencheAno(dt_notin, dt_notifi));
-            rowData[10] = dt_notin;
-            rowData[11] = dt_notifi;
+            rowData[++i] = String.valueOf(preencheAno(dt_notin, dt_notifi));
+            rowData[++i] = dt_notin;
+            rowData[++i] = dt_notifi;
                 /*
             if(item.getQtdOportuno() > 0)
                 rowData[6] = String.valueOf(SinanUtil.converterDoubleUmaCasaDecimal(new Double((item.getQtdOportuno()/ item.getTotal())*100).doubleValue())) ;
@@ -740,14 +776,8 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
              * 
              */
             writer.addRecord(rowData); 
+            i = 0;
         }
-//        Object rowData[] =  new Object[countFields];
-//        rowData[2] = "TOTAL";
-//        rowData[6] = String.valueOf(somaOportuno);
-//        rowData[7] = String.valueOf(somaTotal);
-//        rowData[8] = String.valueOf(SinanUtil.converterDoubleUmaCasaDecimal((somaOportuno/somaTotal)*100));
-//        writer.addRecord(rowData);
-//      
     
         SinanUtil.setNomeArquivoDBF();
         SinanUtil.gerarDBF(writer);

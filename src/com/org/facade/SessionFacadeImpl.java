@@ -470,8 +470,8 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
                                     for (RegiaoSaudePQAVS regiao : item.getLista()) {
                                         bean = new OportunidadeAgravoPQAVS();
                                         bean.setUf(regiao.getUf());
-                                        bean.setCodRegiaoSaude(regiao.getCodRegiaoSaude());
-                                        bean.setRegiaoSaude(regiao.getNmAgravo());// VERIFICAR ESTE TRECHO
+                                        bean.setCodRegionalSaude(regiao.getCodRegiaoSaude());
+                                        bean.setRegionalSaude(regiao.getNmAgravo());// VERIFICAR ESTE TRECHO
                                         bean.setNmAgravo("");
                                         bean.setQtdOportuno(regiao.getQtdOportuno());
                                         bean.setTotal(regiao.getTotal());
