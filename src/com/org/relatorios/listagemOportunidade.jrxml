@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="52"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="parNomeMunicipio" class="java.lang.String">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
@@ -11,6 +11,7 @@
 	</parameter>
 	<parameter name="parConfig" class="java.lang.String"/>
 	<parameter name="parPeriodo" class="java.lang.String"/>
+	<parameter name="parPeriodo60" class="java.lang.String"/>
 	<parameter name="parTipo" class="java.lang.String"/>
 	<parameter name="parDataInicio" class="java.lang.String">
 		<defaultValueExpression><![CDATA["2007-01-01"]]></defaultValueExpression>
@@ -115,7 +116,7 @@
 			<textField>
 				<reportElement x="6" y="22" width="546" height="16"/>
 				<textElement>
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parTitulo1}]]></textFieldExpression>
 			</textField>
@@ -129,7 +130,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA["Data da Avaliação:"+$P{parDataAvaliacao}+"      Ano de Avaliação:"+$P{parAnoAvaliacao}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["Data da Avaliação:"+$P{parDataAvaliacao}+"   \n   Ano de Avaliação:"+$P{parAnoAvaliacao}+" \n Período: "+$P{parPeriodo60}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="1" y="93" width="555" height="33"/>
@@ -141,7 +142,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA["Registros selecionados com data de notificação nos seguintes períodos:"+$P{parPeriodo}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["Registros selecionados com data de notificação nos seguintes períodos:"+$P{parPeriodo60}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="1" y="39" width="337" height="53"/>
@@ -258,12 +259,12 @@
 			<staticText>
 				<reportElement x="3" y="3" width="115" height="20"/>
 				<textElement/>
-				<text><![CDATA[Relatório obtido no dia ]]></text>
+				<text><![CDATA[Relatório obtido no dia $P{parDataAvaliacao}]]></text>
 			</staticText>
-			<textField>
-				<reportElement isPrintRepeatedValues="false" x="116" y="3" width="242" height="20" forecolor="#000000"/>
+			<textField pattern="">
+				<reportElement isPrintRepeatedValues="false" x="116" y="3" width="242" height="25" forecolor="#000000"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{parDataAtual}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{parDataAvaliacao}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

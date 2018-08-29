@@ -633,7 +633,7 @@ public class SessionFacadeImpl extends SwingWorker<Void, Agravo> implements Sess
     }
     
     private void gerarRelatorioListagem(List listagem) throws IOException, JRException {
-        parametros.put("parTitulo1", "Listagem de casos de doenças de notificação compulsória não encerrados ou inconclusivos");
+        parametros.put("parTitulo1", "Listagem de casos de doenças de notificação compulsória imediata não encerrados ou inconclusivos");
         JRDataSource jrdsListagem = new JRBeanArrayDataSource(listagem.toArray());
         URL arquivoListagem = getClass().getResource("/com/org/relatorios/listagemOportunidade.jasper");
         JasperPrint imprimirListagem = JasperFillManager.fillReport(arquivoListagem.openStream(), parametros, jrdsListagem);
