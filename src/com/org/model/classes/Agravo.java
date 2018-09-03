@@ -1893,11 +1893,11 @@ public class Agravo {
         String ano = null;
         String[] arrayInicio = dataInicio.split("/");
         String[] arrayFim = dataFim.split("/");
-        if (arrayInicio[0].equals("01") && arrayInicio[1].equals("01") && arrayFim[0].equals("31") && arrayFim[1].equals("12")) {
+//        if (arrayInicio[0].equals("01") && arrayInicio[1].equals("01") && arrayFim[0].equals("31") && arrayFim[1].equals("12")) {
             if (arrayFim[2].equals(arrayInicio[2])) {
                 ano = arrayInicio[2];
             }
-        }
+//        }
         if (ano != null) {
             return Double.parseDouble(ano);
         }

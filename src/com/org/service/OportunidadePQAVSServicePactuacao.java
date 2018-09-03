@@ -703,12 +703,12 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
         lista = SinanUtil.removeMunicipiosIgnoradosPQAVS(lista);
         lista = calculaTotal(lista);
         int i = 0;
-        Set set = parametros.entrySet();
-        Iterator it = set.iterator();
-        while(it.hasNext()){
-            Object o = it.next();
-            System.out.println(o);
-        }
+//        Set set = parametros.entrySet();
+//        Iterator it = set.iterator();
+//        while(it.hasNext()){
+//            Object o = it.next();
+//            System.out.println(o);
+//        }
         
         for (OportunidadeAgravoPQAVS item : lista) {
             
@@ -757,15 +757,15 @@ public class OportunidadePQAVSServicePactuacao extends Agravo{
             }else{
                 rowData[++i] = "0";
             }
-            
-            String dt_notin = "01/01/" + parametros.get("parAnoPeriodoAvaliacao").toString();
-            String dt_notifi = "31/12/" + parametros.get("parAnoPeriodoAvaliacao").toString();
+            String dt_notin, dt_notifi;
+            dt_notin = "01/01/" + parametros.get("parAnoPeriodoAvaliacao").toString();
+            dt_notifi = "31/12/" + parametros.get("parAnoPeriodoAvaliacao").toString();
             if(parametros.get("parAnoPeriodoAvaliacao").toString().length() > 4){
                 dt_notin = alteraDataParaPadrao(parametros.get("parDataInicio").toString());
                 dt_notifi = alteraDataParaPadrao(parametros.get("parDataFim60").toString());
             }
             
-            rowData[++i] = String.valueOf(preencheAno(dt_notin, dt_notifi));
+            rowData[++i] = String.valueOf(preencheAno(dt_notin, dt_notifi).intValue());
             rowData[++i] = dt_notin;
             rowData[++i] = dt_notifi;
                 /*

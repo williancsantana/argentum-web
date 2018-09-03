@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="3"/>
+	<property name="ireport.x" value="174"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Java\\sinan_relatorios\\src\\com\\org\\relatorios\\"]]></defaultValueExpression>
 	</parameter>
@@ -199,7 +199,7 @@
 				<text><![CDATA[Município de notificação:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="316" y="50" width="1" height="56"/>
+				<reportElement x="305" y="50" width="1" height="56"/>
 			</line>
 			<textField>
 				<reportElement x="160" y="78" width="153" height="14"/>
@@ -209,14 +209,14 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parRegiaoSaude} == "" ? $P{parRegionalSaude}: $P{parRegiaoSaude}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="322" y="66" width="128" height="14"/>
+				<reportElement x="430" y="53" width="128" height="14"/>
 				<textElement>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parAnoPeriodoAvaliacao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="321" y="80" width="222" height="26"/>
+				<reportElement x="311" y="80" width="222" height="26"/>
 				<textElement>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
@@ -255,7 +255,7 @@
 				<text><![CDATA[Proporção de notificações de violência interpessoal e autoprovocada com o campo raça/cor preenchido com informação válida.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="321" y="53" width="129" height="14"/>
+				<reportElement x="311" y="53" width="119" height="14"/>
 				<textElement>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
@@ -267,6 +267,20 @@
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{parDesagregacao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="311" y="66" width="94" height="14"/>
+				<textElement>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Data de avaliação:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="405" y="66" width="77" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

@@ -559,11 +559,10 @@ public class SinanDateUtil {
      Retorna o intervalo de datas entre duas semanas. Utiliza a API Joda-Time.
      */
     public static String getIntervaloDatas(Integer ano, Integer semanaInicial, Integer semanaFinal){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(ano, 0, 0);
         String intervaloDatas = "";
-        DateTime dataInicial = new DateTime(calendar.getTime()).plusWeeks(semanaInicial).minusDays(6);//Pega o primeiro dia da semana Inicial do intervalo
-        DateTime dataFinal = new DateTime(calendar.getTime()).plusWeeks(semanaFinal);
+        DateTime dateTime = new DateTime();
+        DateTime dataInicial = dateTime.minusWeeks(dateTime.getWeekOfWeekyear()).plusWeeks(semanaInicial).weekOfWeekyear().roundFloorCopy().minusDays(1);
+        DateTime dataFinal = dateTime.minusWeeks(dateTime.getWeekOfWeekyear()).plusWeeks(semanaFinal).weekOfWeekyear().roundCeilingCopy().minusDays(2);
         intervaloDatas = dateToString(dataInicial.toDate(), "dd/MM/YYYY") + " a " + dateToString(dataFinal.toDate(),"dd/MM/YYYY");
         
         return intervaloDatas;
